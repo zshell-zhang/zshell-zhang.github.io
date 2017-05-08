@@ -5,9 +5,9 @@
   <subtitle>兰之猗猗，扬扬其香。不采而佩，于兰何伤？</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://zshell-zhang.github.io/"/>
+  <link href="http://zshell.cc/"/>
   <updated>2018-04-07T10:08:56.222Z</updated>
-  <id>https://zshell-zhang.github.io/</id>
+  <id>http://zshell.cc/</id>
   
   <author>
     <name>zshell.zhang</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>chattr / lsattr 使用总结</title>
-    <link href="https://zshell-zhang.github.io/2018/04/06/linux-disk--chattr_lsattr%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/"/>
-    <id>https://zshell-zhang.github.io/2018/04/06/linux-disk--chattr_lsattr使用总结/</id>
+    <link href="http://zshell.cc/2018/04/06/linux-disk--chattr_lsattr%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/"/>
+    <id>http://zshell.cc/2018/04/06/linux-disk--chattr_lsattr使用总结/</id>
     <published>2018-04-06T13:23:22.000Z</published>
     <updated>2018-04-07T10:08:56.222Z</updated>
     
@@ -33,21 +33,21 @@
     
     </summary>
     
-      <category term="linux" scheme="https://zshell-zhang.github.io/categories/linux/"/>
+      <category term="linux" scheme="http://zshell.cc/categories/linux/"/>
     
-      <category term="disk" scheme="https://zshell-zhang.github.io/categories/linux/disk/"/>
+      <category term="disk" scheme="http://zshell.cc/categories/linux/disk/"/>
     
     
-      <category term="linux:disk" scheme="https://zshell-zhang.github.io/tags/linux-disk/"/>
+      <category term="linux:disk" scheme="http://zshell.cc/tags/linux-disk/"/>
     
-      <category term="系统安全" scheme="https://zshell-zhang.github.io/tags/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/"/>
+      <category term="系统安全" scheme="http://zshell.cc/tags/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   
   <entry>
     <title>elasticsearch 6.x 升级调研报告</title>
-    <link href="https://zshell-zhang.github.io/2018/03/24/elasticsearch--elasticsearch6.x%E5%8D%87%E7%BA%A7%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/"/>
-    <id>https://zshell-zhang.github.io/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/</id>
+    <link href="http://zshell.cc/2018/03/24/elasticsearch--elasticsearch6.x%E5%8D%87%E7%BA%A7%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/"/>
+    <id>http://zshell.cc/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/</id>
     <published>2018-03-24T14:11:48.000Z</published>
     <updated>2018-04-07T10:01:40.155Z</updated>
     
@@ -61,19 +61,19 @@
     
     </summary>
     
-      <category term="elasticsearch" scheme="https://zshell-zhang.github.io/categories/elasticsearch/"/>
+      <category term="elasticsearch" scheme="http://zshell.cc/categories/elasticsearch/"/>
     
     
-      <category term="elasticsearch" scheme="https://zshell-zhang.github.io/tags/elasticsearch/"/>
+      <category term="elasticsearch" scheme="http://zshell.cc/tags/elasticsearch/"/>
     
-      <category term="httpcomponents" scheme="https://zshell-zhang.github.io/tags/httpcomponents/"/>
+      <category term="httpcomponents" scheme="http://zshell.cc/tags/httpcomponents/"/>
     
   </entry>
   
   <entry>
     <title>python module 使用总结: 定时调度器</title>
-    <link href="https://zshell-zhang.github.io/2018/02/23/python-module--python_module_%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93_%E5%AE%9A%E6%97%B6%E8%B0%83%E5%BA%A6%E5%99%A8/"/>
-    <id>https://zshell-zhang.github.io/2018/02/23/python-module--python_module_使用总结_定时调度器/</id>
+    <link href="http://zshell.cc/2018/02/23/python-module--python_module_%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93_%E5%AE%9A%E6%97%B6%E8%B0%83%E5%BA%A6%E5%99%A8/"/>
+    <id>http://zshell.cc/2018/02/23/python-module--python_module_使用总结_定时调度器/</id>
     <published>2018-02-23T15:23:21.000Z</published>
     <updated>2018-03-24T07:08:34.770Z</updated>
     
@@ -92,21 +92,21 @@
     
     </summary>
     
-      <category term="python" scheme="https://zshell-zhang.github.io/categories/python/"/>
+      <category term="python" scheme="http://zshell.cc/categories/python/"/>
     
-      <category term="module" scheme="https://zshell-zhang.github.io/categories/python/module/"/>
+      <category term="module" scheme="http://zshell.cc/categories/python/module/"/>
     
     
-      <category term="python" scheme="https://zshell-zhang.github.io/tags/python/"/>
+      <category term="python:module" scheme="http://zshell.cc/tags/python-module/"/>
     
-      <category term="python:module" scheme="https://zshell-zhang.github.io/tags/python-module/"/>
+      <category term="python" scheme="http://zshell.cc/tags/python/"/>
     
   </entry>
   
   <entry>
     <title>一个 dev 的拙劣前端笔记: 使用 jQuery ajax 上传文件</title>
-    <link href="https://zshell-zhang.github.io/2018/02/03/web--%E4%B8%80%E4%B8%AAdev%E7%9A%84%E6%8B%99%E5%8A%A3%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0_%E4%BD%BF%E7%94%A8jQuery_ajax%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/"/>
-    <id>https://zshell-zhang.github.io/2018/02/03/web--一个dev的拙劣前端笔记_使用jQuery_ajax上传文件/</id>
+    <link href="http://zshell.cc/2018/02/03/web--%E4%B8%80%E4%B8%AAdev%E7%9A%84%E6%8B%99%E5%8A%A3%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0_%E4%BD%BF%E7%94%A8jQuery_ajax%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/"/>
+    <id>http://zshell.cc/2018/02/03/web--一个dev的拙劣前端笔记_使用jQuery_ajax上传文件/</id>
     <published>2018-02-03T13:48:08.000Z</published>
     <updated>2018-02-07T15:43:29.215Z</updated>
     
@@ -120,21 +120,21 @@
     
     </summary>
     
-      <category term="web" scheme="https://zshell-zhang.github.io/categories/web/"/>
+      <category term="web" scheme="http://zshell.cc/categories/web/"/>
     
     
-      <category term="ajax" scheme="https://zshell-zhang.github.io/tags/ajax/"/>
+      <category term="ajax" scheme="http://zshell.cc/tags/ajax/"/>
     
-      <category term="jQuery" scheme="https://zshell-zhang.github.io/tags/jQuery/"/>
+      <category term="jQuery" scheme="http://zshell.cc/tags/jQuery/"/>
     
-      <category term="文件上传" scheme="https://zshell-zhang.github.io/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"/>
+      <category term="文件上传" scheme="http://zshell.cc/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"/>
     
   </entry>
   
   <entry>
     <title>logrotate 配置与运维</title>
-    <link href="https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%BF%90%E7%BB%B4/"/>
-    <id>https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate配置与运维/</id>
+    <link href="http://zshell.cc/2018/01/15/linux-varlog--logrotate%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%BF%90%E7%BB%B4/"/>
+    <id>http://zshell.cc/2018/01/15/linux-varlog--logrotate配置与运维/</id>
     <published>2018-01-14T16:23:27.000Z</published>
     <updated>2018-01-27T14:53:07.577Z</updated>
     
@@ -154,19 +154,19 @@
     
     </summary>
     
-      <category term="linux" scheme="https://zshell-zhang.github.io/categories/linux/"/>
+      <category term="linux" scheme="http://zshell.cc/categories/linux/"/>
     
-      <category term="varlog" scheme="https://zshell-zhang.github.io/categories/linux/varlog/"/>
+      <category term="varlog" scheme="http://zshell.cc/categories/linux/varlog/"/>
     
     
-      <category term="linux:varlog" scheme="https://zshell-zhang.github.io/tags/linux-varlog/"/>
+      <category term="linux:varlog" scheme="http://zshell.cc/tags/linux-varlog/"/>
     
   </entry>
   
   <entry>
     <title>财富先锋 2017 年各股池成绩单</title>
-    <link href="https://zshell-zhang.github.io/2017/12/31/%E8%AF%81%E5%88%B8-%E8%B4%A2%E5%AF%8C%E5%85%88%E9%94%8B--%E8%B4%A2%E5%AF%8C%E5%85%88%E9%94%8B2017%E5%B9%B4%E5%90%84%E8%82%A1%E6%B1%A0%E6%88%90%E7%BB%A9%E5%8D%95/"/>
-    <id>https://zshell-zhang.github.io/2017/12/31/证券-财富先锋--财富先锋2017年各股池成绩单/</id>
+    <link href="http://zshell.cc/2017/12/31/%E8%AF%81%E5%88%B8-%E8%B4%A2%E5%AF%8C%E5%85%88%E9%94%8B--%E8%B4%A2%E5%AF%8C%E5%85%88%E9%94%8B2017%E5%B9%B4%E5%90%84%E8%82%A1%E6%B1%A0%E6%88%90%E7%BB%A9%E5%8D%95/"/>
+    <id>http://zshell.cc/2017/12/31/证券-财富先锋--财富先锋2017年各股池成绩单/</id>
     <published>2017-12-31T14:00:00.000Z</published>
     <updated>2018-01-27T14:53:07.581Z</updated>
     
@@ -180,19 +180,19 @@
     
     </summary>
     
-      <category term="证券" scheme="https://zshell-zhang.github.io/categories/%E8%AF%81%E5%88%B8/"/>
+      <category term="证券" scheme="http://zshell.cc/categories/%E8%AF%81%E5%88%B8/"/>
     
-      <category term="财富先锋" scheme="https://zshell-zhang.github.io/categories/%E8%AF%81%E5%88%B8/%E8%B4%A2%E5%AF%8C%E5%85%88%E9%94%8B/"/>
+      <category term="财富先锋" scheme="http://zshell.cc/categories/%E8%AF%81%E5%88%B8/%E8%B4%A2%E5%AF%8C%E5%85%88%E9%94%8B/"/>
     
     
-      <category term="证券:财富先锋" scheme="https://zshell-zhang.github.io/tags/%E8%AF%81%E5%88%B8-%E8%B4%A2%E5%AF%8C%E5%85%88%E9%94%8B/"/>
+      <category term="证券:财富先锋" scheme="http://zshell.cc/tags/%E8%AF%81%E5%88%B8-%E8%B4%A2%E5%AF%8C%E5%85%88%E9%94%8B/"/>
     
   </entry>
   
   <entry>
     <title>nginx module 使用总结: ngx_http_gzip_module</title>
-    <link href="https://zshell-zhang.github.io/2017/12/21/nginx-module--nginx_module_%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93_ngx_http_gzip_module/"/>
-    <id>https://zshell-zhang.github.io/2017/12/21/nginx-module--nginx_module_使用总结_ngx_http_gzip_module/</id>
+    <link href="http://zshell.cc/2017/12/21/nginx-module--nginx_module_%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93_ngx_http_gzip_module/"/>
+    <id>http://zshell.cc/2017/12/21/nginx-module--nginx_module_使用总结_ngx_http_gzip_module/</id>
     <published>2017-12-21T07:13:33.000Z</published>
     <updated>2018-03-26T03:43:48.842Z</updated>
     
@@ -208,21 +208,49 @@
     
     </summary>
     
-      <category term="nginx" scheme="https://zshell-zhang.github.io/categories/nginx/"/>
+      <category term="nginx" scheme="http://zshell.cc/categories/nginx/"/>
     
-      <category term="module" scheme="https://zshell-zhang.github.io/categories/nginx/module/"/>
+      <category term="module" scheme="http://zshell.cc/categories/nginx/module/"/>
     
     
-      <category term="nginx" scheme="https://zshell-zhang.github.io/tags/nginx/"/>
+      <category term="nginx" scheme="http://zshell.cc/tags/nginx/"/>
     
-      <category term="nginx:module" scheme="https://zshell-zhang.github.io/tags/nginx-module/"/>
+      <category term="nginx:module" scheme="http://zshell.cc/tags/nginx-module/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>sysvinit_systemd命令使用与对比</title>
+    <link href="http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8%E4%B8%8E%E5%AF%B9%E6%AF%94/"/>
+    <id>http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/</id>
+    <published>2017-11-12T09:18:06.000Z</published>
+    <updated>2018-04-22T09:29:08.918Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>当用户空间引导程序 systemV init 被 systemd 所取代, centos 7 下操纵与查看 daemon service 的命令也随之而改变;<br>不过, 由于 systemd 的庞大复杂, 命令选项繁多, 本文对 systemd 的整理主要集中于与 sysvinit 所提供的功能重合度最高的 systemctl 命令;</p></blockquote><a id="more"></a><hr><h2 id="传统的-sysvinit-相关命令"><a href="#传统的-sysvinit-相关命令" class="headerlink" title="传统的 sysvinit 相关命令"></a><strong>传统的 sysvinit 相关命令</strong></h2><p>与传统的 systemV init 引导程序相匹配的 daemon service 操纵命令主要是 service 与 chkconfig/ntsysv;<br>其中:<br>service 命令用于 启, 停, 查看 具体的 daemon service;<br>chkconfig 命令用于 修改, 查看 具体 daemon service 的 runlevel 及启停信息;<br>ntsysv 命令提供了一个 GUI 界面用于操纵各个 runlevel 上各 daemon service 的启停;</p><h3 id="service-的使用方式"><a href="#service-的使用方式" class="headerlink" title="service 的使用方式"></a><strong>service 的使用方式</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动, 停止, 重启, 查看</span></span><br><span class="line">sudo service ntpd start</span><br><span class="line">sudo service ntpd stop</span><br><span class="line">sudo service ntpd restart</span><br><span class="line">sudo service ntpd status</span><br></pre></td></tr></table></figure><h3 id="chkconfig-的使用方式"><a href="#chkconfig-的使用方式" class="headerlink" title="chkconfig 的使用方式"></a><strong>chkconfig 的使用方式</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列举所有的 daemon service 在各个 runlevel 上的启停状态</span></span><br><span class="line">sudo chkconfig --list</span><br><span class="line"><span class="comment"># 列举指定的 daemon service 在各个 runlevel 上的启停状态</span></span><br><span class="line">&gt; sudo chkconfig --list ntpd</span><br><span class="line">ntpd           0:on1:on2:on3:on4:on5:on6:off</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加一个 daemon service</span></span><br><span class="line">sudo chkconfig --add mysqld</span><br><span class="line"><span class="comment"># 在默认的 2, 3, 4, 5 四个 runlevel 上自动启动 mysqld</span></span><br><span class="line">sudo chkconfig mysqld on</span><br><span class="line"><span class="comment"># 在指定的 3, 5 两个 runlevel 上自动启动 mysqld</span></span><br><span class="line">sudo chkconfig --level 35 mysqld on</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除一个 daemon service</span></span><br><span class="line">sudo chkconfig --del rngd</span><br></pre></td></tr></table></figure><h3 id="ntsysv-的使用方式"><a href="#ntsysv-的使用方式" class="headerlink" title="ntsysv 的使用方式"></a><strong>ntsysv 的使用方式</strong></h3><p>ntsysv 在 centos 7 之前的各发行版本上都默认安装, 不过从 centos 7 之后, 该命令的 GUI 形式已经不再默认提供, 只提供了 chkconfig 命令用于兼容照顾老的 systemV init 方式;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认情况下 ntsysv 配置的是当前 user session 所在的 runlevel</span></span><br><span class="line">sudo ntsysv</span><br><span class="line"><span class="comment"># 配置 runlevel = 5 的 daemon service</span></span><br><span class="line">sudo ntsysv --level 5</span><br></pre></td></tr></table></figure></p><h2 id="主流的-systemd-相关命令"><a href="#主流的-systemd-相关命令" class="headerlink" title="主流的 systemd 相关命令"></a><strong>主流的 systemd 相关命令</strong></h2><p>systemd 相比 sysvinit 就要复杂多了, 同时也比 sysvinit 强大多了;<br>systemd 相比 sysvinit 更强大的其中一个重要点是, systemd 不仅仅管理系统中的各进程, 它管理 linux 系统中的所有资源, 并把不同的资源称为 unit:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">service unit: 系统服务</span><br><span class="line">target unit: 多个 unit 构成的一个组</span><br><span class="line">device unit: 硬件设备</span><br><span class="line">mount unit: 文件系统的挂载点</span><br><span class="line">automount unit: 自动挂载点</span><br><span class="line">path unit: 文件或路径</span><br><span class="line">scope unit: 不是由 systemd 启动的外部进程</span><br><span class="line">slice unit: 进程组</span><br><span class="line">snapshot unit: systemd 快照, 可以切回某个快照</span><br><span class="line">socket unit: 进程间通信的 socket</span><br><span class="line">swap unit: swap 文件</span><br><span class="line">timer unit: 定时器</span><br></pre></td></tr></table></figure></p><p>其中, <strong>service unit</strong> 在 12 类 unit 中是最主要的一类, 也是日常操作中最频繁接触的一类, 当然也是与传统的 sysvinit 可以直接比较的对象;<br>&nbsp;<br>systemd 主要涉及到的命令有: <code>systemctl</code>, <code>hostnamectl</code>, <code>localectl</code>, <code>timedatectl</code>, <code>loginctl</code>, <code>journalctl</code> 等, 其中:</p><ul><li><code>systemctl</code> 是最重要的命令, 最核心的操作都与此命令有关, 比如启停服务, 管理各 unit 等;</li><li><code>hostnamectl</code> 用于管理主机信息等;</li><li><code>localectl</code> 用于本地化设置管理;</li><li><code>timedatectl</code> 用于时区管理;</li><li><code>loginctl</code> 用于管理当前登录的用户;</li><li><code>journalctl</code> 用于管理 systemd 与各 unit 的输出日志, 用于辅助其余命令查看状态与日志;</li></ul><p>&nbsp;<br>本主要整理与 systemctl 有关的内容, 其余的如 timedatectl, journalctl 请参见另一篇文章: <a href="">sysvinit / systemd 日志系统的使用与对比</a>;</p><h3 id="systemctl-的常用命令列表"><a href="#systemctl-的常用命令列表" class="headerlink" title="systemctl 的常用命令列表"></a><strong>systemctl 的常用命令列表</strong></h3><p>systemctl 的使用场景十分广泛, 从大的角度来说, 可以分为 <strong>系统管理</strong> 和 <strong>unit 管理</strong> 两大类;<br>系统管理类的命令如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 重启系统</span></span><br><span class="line">sudo systemctl reboot</span><br><span class="line"><span class="comment"># 关闭系统, 切断电源</span></span><br><span class="line">sudo systemctl poweroff</span><br><span class="line"><span class="comment"># CPU 停止工作</span></span><br><span class="line">sudo systemctl halt</span><br><span class="line"><span class="comment"># 暂停系统</span></span><br><span class="line">sudo systemctl <span class="built_in">suspend</span></span><br><span class="line"><span class="comment"># 让系统进入冬眠状态</span></span><br><span class="line">sudo systemctl hibernate</span><br><span class="line"><span class="comment"># 让系统进入交互式休眠状态</span></span><br><span class="line">sudo systemctl hybrid-sleep</span><br><span class="line"><span class="comment"># 启动进入救援状态 (单用户状态, runlevel = 1)</span></span><br><span class="line">sudo systemctl rescue</span><br></pre></td></tr></table></figure></p><p>unit 管理类 的命令种类繁多, 大致可以再细分为两小类: <strong>查看管理类</strong> 与 <strong>操纵动作类</strong>;<br><strong>查看管理类仅仅是统计与查看, 并不改变 unit 的状态:</strong><br>(1) 从整体角度管理 units<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认列出正在运行的 unit</span></span><br><span class="line">sudo systemctl list-units</span><br><span class="line"><span class="comment"># 列出所有 unit, 包括没有找到配置文件的或者启动失败的</span></span><br><span class="line">sudo systemctl list-units --all</span><br><span class="line"><span class="comment"># 列出所有没有运行的 unit</span></span><br><span class="line">sudo systemctl list-units --all --state=inactive</span><br><span class="line"><span class="comment"># 列出所有加载失败的 unit</span></span><br><span class="line">sudo systemctl list-units --failed</span><br><span class="line"><span class="comment"># 列出所有正在运行的, 类型为 service 的 unit; -t: --type</span></span><br><span class="line">sudo systemctl list-units --<span class="built_in">type</span>=service</span><br></pre></td></tr></table></figure></p><p>(2) 管理具体的某个 unit<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示某个 unit 的状态</span></span><br><span class="line">sudo systemctl status rsyslog.service</span><br><span class="line"><span class="comment"># 显示某个 unit 是否正在运行</span></span><br><span class="line">sudo systemctl is-active rsyslog.service</span><br><span class="line"><span class="comment"># 显示某个 unit 是否处于启动失败状态</span></span><br><span class="line">sudo systemctl is-failed rsyslog.service</span><br><span class="line"><span class="comment"># 显示某个 unit 服务是否建立了启动链接</span></span><br><span class="line">sudo systemctl is-enabled rsyslog.service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示某个 unit 的启动是否依赖其他 unit 的启动, --all 展开所有 target unit 下的每一个详细 unit</span></span><br><span class="line">sudo systemctl list-dependencies --all rsyslog.service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示某个 unit 的所有底层参数</span></span><br><span class="line">sudo systemctl show rsyslog.service</span><br><span class="line"><span class="comment"># 显示某个 unit 的指定属性的值</span></span><br><span class="line">sudo systemctl show -p CPUShares rsyslog.service</span><br></pre></td></tr></table></figure></p><p><strong>操纵动作类, 主要是针对 service unit:</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置为开机启动</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> nginx.service</span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line">sudo systemctl start nginx.service</span><br><span class="line"><span class="comment"># 停止</span></span><br><span class="line">sudo systemctl stop nginx.service</span><br><span class="line"><span class="comment"># 重启</span></span><br><span class="line">sudo systemctl restart nginx.service</span><br><span class="line"><span class="comment"># 杀死一个服务的所有子进程</span></span><br><span class="line">sudo systemctl <span class="built_in">kill</span> nginx.service</span><br><span class="line"><span class="comment"># 重新加载一个服务的配置文件</span></span><br><span class="line">sudo systemctl reload nginx.service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置某个 unit 的指定属性</span></span><br><span class="line">sudo systemctl <span class="built_in">set</span>-property nginx.service CPUShares=500</span><br></pre></td></tr></table></figure></p><h3 id="systemctl-的状态与诊断"><a href="#systemctl-的状态与诊断" class="headerlink" title="systemctl 的状态与诊断"></a><strong>systemctl 的状态与诊断</strong></h3><p>使用 systemctl status 输出服务详情状态:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Loaded:   该 unit 配置文件的位置以及是否开机启动</span></span><br><span class="line"><span class="comment"># Active:   运行状态</span></span><br><span class="line"><span class="comment"># Main PID: 父进程 pid</span></span><br><span class="line"><span class="comment"># CGroup:   所有的子进程列表</span></span><br><span class="line"><span class="comment"># 最后是 service 的日志</span></span><br><span class="line">&gt; sudo systemctl status rsyslog.service</span><br><span class="line"></span><br><span class="line">● rsyslog.service - System Logging Service</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/rsyslog.service; enabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since Wed 2017-07-19 16:01:19 CST; 6 months 10 days ago</span><br><span class="line"> Main PID: 504 (rsyslogd)</span><br><span class="line">   CGroup: /system.slice/rsyslog.service</span><br><span class="line">           └─504 /usr/sbin/rsyslogd -n</span><br><span class="line"></span><br><span class="line">Jul 19 16:01:19 localhost.localdomain systemd[1]: Starting System Logging Service...</span><br><span class="line">Jul 19 16:01:19 localhost.localdomain systemd[1]: Started System Logging Service.</span><br></pre></td></tr></table></figure></p><p>使用 journalctl 查看日志:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定查看某个 unit 的日志</span></span><br><span class="line">sudo journalctl -u nagios</span><br><span class="line"><span class="comment"># 指定时间范围 --since=  --until=</span></span><br><span class="line">sudo journalctl -u nagios -S <span class="string">"2017-04-19 09:00:00"</span></span><br><span class="line">sudo journalctl -u nagios -S <span class="string">"2 days ago"</span></span><br><span class="line">sudo journalctl -u nagios -U <span class="string">"2017-12-31 23:59:59"</span></span><br><span class="line"><span class="comment"># 指定某次启动后的所有日志</span></span><br><span class="line">sudo journalctl -u nagios -b [-0] <span class="comment"># 当前启动后</span></span><br><span class="line">sudo journalctl -u nagios -b  -1  <span class="comment"># 上次启动后</span></span><br><span class="line">sudo journalctl -u nagios -b  -2  <span class="comment"># 继续往上追溯</span></span><br></pre></td></tr></table></figure></p><p>关于 journalctl 的详细内容, 请参见另外一篇文章: <a href="">sysvinit / systemd 日志系统的使用与对比</a>;</p><h2 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h2><ul><li><a href="">sysvinit/systemd/upstart 初始化过程梳理</a></li><li><a href="">systemd 的配置文件整理</a></li><li><a href="">sysvinit / systemd 日志系统的使用与对比</a></li></ul><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2><ul><li><a href="https://www.cnblogs.com/panjun-Donet/archive/2010/08/10/1796873.html" target="_blank" rel="noopener">Linux下chkconfig命令详解</a></li><li><a href="http://man.linuxde.net/ntsysv" target="_blank" rel="noopener">ntsysv命令</a></li><li><a href="https://zhangzifan.com/centos-systemctl.html" target="_blank" rel="noopener">CentOS 7 启动, 重启, chkconfig 等命令已经合并为 systemctl</a></li><li><a href="http://blog.csdn.net/catoop/article/details/47318225" target="_blank" rel="noopener">RHEL 7 中 systemctl 的用法 (替代service 和 chkconfig)</a></li><li><a href="http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html" target="_blank" rel="noopener">Systemd 入门教程: 命令篇</a></li><li><a href="https://linux.cn/article-5926-1.html" target="_blank" rel="noopener">systemctl 命令完全指南</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;当用户空间引导程序 systemV init 被 systemd 所取代, centos 7 下操纵与查看 daemon service 的命令也随之而改变;&lt;br&gt;不过, 由于 systemd 的庞大复杂, 命令选项繁多, 本文对 systemd 的整理主要集中于与 sysvinit 所提供的功能重合度最高的 systemctl 命令;&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="linux" scheme="http://zshell.cc/categories/linux/"/>
+    
+      <category term="init" scheme="http://zshell.cc/categories/linux/init/"/>
+    
+    
+      <category term="linux:init" scheme="http://zshell.cc/tags/linux-init/"/>
+    
+      <category term="systemd" scheme="http://zshell.cc/tags/systemd/"/>
     
   </entry>
   
   <entry>
     <title>bash 结束死循环的方法</title>
-    <link href="https://zshell-zhang.github.io/2017/11/05/linux-shell--bash%E7%BB%93%E6%9D%9F%E6%AD%BB%E5%BE%AA%E7%8E%AF%E7%9A%84%E6%96%B9%E6%B3%95/"/>
-    <id>https://zshell-zhang.github.io/2017/11/05/linux-shell--bash结束死循环的方法/</id>
+    <link href="http://zshell.cc/2017/11/05/linux-shell--bash%E7%BB%93%E6%9D%9F%E6%AD%BB%E5%BE%AA%E7%8E%AF%E7%9A%84%E6%96%B9%E6%B3%95/"/>
+    <id>http://zshell.cc/2017/11/05/linux-shell--bash结束死循环的方法/</id>
     <published>2017-11-04T16:00:00.000Z</published>
     <updated>2018-01-02T15:41:21.515Z</updated>
     
@@ -236,19 +264,19 @@
     
     </summary>
     
-      <category term="linux" scheme="https://zshell-zhang.github.io/categories/linux/"/>
+      <category term="linux" scheme="http://zshell.cc/categories/linux/"/>
     
-      <category term="shell" scheme="https://zshell-zhang.github.io/categories/linux/shell/"/>
+      <category term="shell" scheme="http://zshell.cc/categories/linux/shell/"/>
     
     
-      <category term="linux:shell" scheme="https://zshell-zhang.github.io/tags/linux-shell/"/>
+      <category term="linux:shell" scheme="http://zshell.cc/tags/linux-shell/"/>
     
   </entry>
   
   <entry>
     <title>ulimit 调参与优化</title>
-    <link href="https://zshell-zhang.github.io/2017/10/28/linux-conf--ulimit%E8%B0%83%E5%8F%82%E4%B8%8E%E4%BC%98%E5%8C%96/"/>
-    <id>https://zshell-zhang.github.io/2017/10/28/linux-conf--ulimit调参与优化/</id>
+    <link href="http://zshell.cc/2017/10/28/linux-conf--ulimit%E8%B0%83%E5%8F%82%E4%B8%8E%E4%BC%98%E5%8C%96/"/>
+    <id>http://zshell.cc/2017/10/28/linux-conf--ulimit调参与优化/</id>
     <published>2017-10-28T15:23:05.000Z</published>
     <updated>2018-01-27T14:53:07.553Z</updated>
     
@@ -262,19 +290,19 @@
     
     </summary>
     
-      <category term="linux" scheme="https://zshell-zhang.github.io/categories/linux/"/>
+      <category term="linux" scheme="http://zshell.cc/categories/linux/"/>
     
-      <category term="conf" scheme="https://zshell-zhang.github.io/categories/linux/conf/"/>
+      <category term="conf" scheme="http://zshell.cc/categories/linux/conf/"/>
     
     
-      <category term="linux:conf" scheme="https://zshell-zhang.github.io/tags/linux-conf/"/>
+      <category term="linux:conf" scheme="http://zshell.cc/tags/linux-conf/"/>
     
   </entry>
   
   <entry>
     <title>bash 数组与映射</title>
-    <link href="https://zshell-zhang.github.io/2017/10/22/linux-shell--bash%E6%95%B0%E7%BB%84%E4%B8%8E%E6%98%A0%E5%B0%84/"/>
-    <id>https://zshell-zhang.github.io/2017/10/22/linux-shell--bash数组与映射/</id>
+    <link href="http://zshell.cc/2017/10/22/linux-shell--bash%E6%95%B0%E7%BB%84%E4%B8%8E%E6%98%A0%E5%B0%84/"/>
+    <id>http://zshell.cc/2017/10/22/linux-shell--bash数组与映射/</id>
     <published>2017-10-22T15:32:19.000Z</published>
     <updated>2018-01-03T15:18:11.226Z</updated>
     
@@ -288,19 +316,19 @@
     
     </summary>
     
-      <category term="linux" scheme="https://zshell-zhang.github.io/categories/linux/"/>
+      <category term="linux" scheme="http://zshell.cc/categories/linux/"/>
     
-      <category term="shell" scheme="https://zshell-zhang.github.io/categories/linux/shell/"/>
+      <category term="shell" scheme="http://zshell.cc/categories/linux/shell/"/>
     
     
-      <category term="linux:shell" scheme="https://zshell-zhang.github.io/tags/linux-shell/"/>
+      <category term="linux:shell" scheme="http://zshell.cc/tags/linux-shell/"/>
     
   </entry>
   
   <entry>
     <title>rsyncd 配置与运维</title>
-    <link href="https://zshell-zhang.github.io/2017/10/14/rsync--rsyncd%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%BF%90%E8%A1%8C/"/>
-    <id>https://zshell-zhang.github.io/2017/10/14/rsync--rsyncd配置与运行/</id>
+    <link href="http://zshell.cc/2017/10/14/rsync--rsyncd%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%BF%90%E8%A1%8C/"/>
+    <id>http://zshell.cc/2017/10/14/rsync--rsyncd配置与运行/</id>
     <published>2017-10-14T15:20:21.000Z</published>
     <updated>2018-01-27T14:53:07.577Z</updated>
     
@@ -314,17 +342,17 @@
     
     </summary>
     
-      <category term="rsync" scheme="https://zshell-zhang.github.io/categories/rsync/"/>
+      <category term="rsync" scheme="http://zshell.cc/categories/rsync/"/>
     
     
-      <category term="rsync" scheme="https://zshell-zhang.github.io/tags/rsync/"/>
+      <category term="rsync" scheme="http://zshell.cc/tags/rsync/"/>
     
   </entry>
   
   <entry>
     <title>python module 使用总结: MySQLdb</title>
-    <link href="https://zshell-zhang.github.io/2017/08/01/python-module--python_module_%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93_MySQLdb/"/>
-    <id>https://zshell-zhang.github.io/2017/08/01/python-module--python_module_使用总结_MySQLdb/</id>
+    <link href="http://zshell.cc/2017/08/01/python-module--python_module_%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93_MySQLdb/"/>
+    <id>http://zshell.cc/2017/08/01/python-module--python_module_使用总结_MySQLdb/</id>
     <published>2017-08-01T15:06:08.000Z</published>
     <updated>2018-03-24T07:08:03.418Z</updated>
     
@@ -338,21 +366,21 @@
     
     </summary>
     
-      <category term="python" scheme="https://zshell-zhang.github.io/categories/python/"/>
+      <category term="python" scheme="http://zshell.cc/categories/python/"/>
     
-      <category term="module" scheme="https://zshell-zhang.github.io/categories/python/module/"/>
+      <category term="module" scheme="http://zshell.cc/categories/python/module/"/>
     
     
-      <category term="python" scheme="https://zshell-zhang.github.io/tags/python/"/>
+      <category term="python:module" scheme="http://zshell.cc/tags/python-module/"/>
     
-      <category term="python:module" scheme="https://zshell-zhang.github.io/tags/python-module/"/>
+      <category term="python" scheme="http://zshell.cc/tags/python/"/>
     
   </entry>
   
   <entry>
     <title>saltstack cheat sheet</title>
-    <link href="https://zshell-zhang.github.io/2017/05/13/saltstack--saltstack_cheat_sheet/"/>
-    <id>https://zshell-zhang.github.io/2017/05/13/saltstack--saltstack_cheat_sheet/</id>
+    <link href="http://zshell.cc/2017/05/13/saltstack--saltstack_cheat_sheet/"/>
+    <id>http://zshell.cc/2017/05/13/saltstack--saltstack_cheat_sheet/</id>
     <published>2017-05-13T13:42:21.000Z</published>
     <updated>2018-01-27T14:53:07.577Z</updated>
     
@@ -366,21 +394,21 @@
     
     </summary>
     
-      <category term="saltstack" scheme="https://zshell-zhang.github.io/categories/saltstack/"/>
+      <category term="saltstack" scheme="http://zshell.cc/categories/saltstack/"/>
     
     
-      <category term="cheat sheet" scheme="https://zshell-zhang.github.io/tags/cheat-sheet/"/>
+      <category term="cheat sheet" scheme="http://zshell.cc/tags/cheat-sheet/"/>
     
-      <category term="saltstack" scheme="https://zshell-zhang.github.io/tags/saltstack/"/>
+      <category term="saltstack" scheme="http://zshell.cc/tags/saltstack/"/>
     
-      <category term="运维自动化" scheme="https://zshell-zhang.github.io/tags/%E8%BF%90%E7%BB%B4%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
+      <category term="运维自动化" scheme="http://zshell.cc/tags/%E8%BF%90%E7%BB%B4%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
     
   </entry>
   
   <entry>
     <title>du / df 使用及其区别</title>
-    <link href="https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%85%B6%E5%8C%BA%E5%88%AB/"/>
-    <id>https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/</id>
+    <link href="http://zshell.cc/2017/04/07/linux-disk--du_df%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%85%B6%E5%8C%BA%E5%88%AB/"/>
+    <id>http://zshell.cc/2017/04/07/linux-disk--du_df使用及其区别/</id>
     <published>2017-04-07T14:58:04.000Z</published>
     <updated>2018-04-06T13:22:05.098Z</updated>
     
@@ -394,19 +422,19 @@
     
     </summary>
     
-      <category term="linux" scheme="https://zshell-zhang.github.io/categories/linux/"/>
+      <category term="linux" scheme="http://zshell.cc/categories/linux/"/>
     
-      <category term="disk" scheme="https://zshell-zhang.github.io/categories/linux/disk/"/>
+      <category term="disk" scheme="http://zshell.cc/categories/linux/disk/"/>
     
     
-      <category term="linux:disk" scheme="https://zshell-zhang.github.io/tags/linux-disk/"/>
+      <category term="linux:disk" scheme="http://zshell.cc/tags/linux-disk/"/>
     
   </entry>
   
   <entry>
     <title>linux signals 总体认识</title>
-    <link href="https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals%E6%80%BB%E4%BD%93%E8%AE%A4%E8%AF%86/"/>
-    <id>https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/</id>
+    <link href="http://zshell.cc/2017/04/05/linux-process--linux_signals%E6%80%BB%E4%BD%93%E8%AE%A4%E8%AF%86/"/>
+    <id>http://zshell.cc/2017/04/05/linux-process--linux_signals总体认识/</id>
     <published>2017-04-05T15:24:22.000Z</published>
     <updated>2018-01-20T12:10:14.216Z</updated>
     
@@ -420,19 +448,19 @@
     
     </summary>
     
-      <category term="linux" scheme="https://zshell-zhang.github.io/categories/linux/"/>
+      <category term="linux" scheme="http://zshell.cc/categories/linux/"/>
     
-      <category term="process" scheme="https://zshell-zhang.github.io/categories/linux/process/"/>
+      <category term="process" scheme="http://zshell.cc/categories/linux/process/"/>
     
     
-      <category term="linux:process" scheme="https://zshell-zhang.github.io/tags/linux-process/"/>
+      <category term="linux:process" scheme="http://zshell.cc/tags/linux-process/"/>
     
   </entry>
   
   <entry>
     <title>python 模块导入: 相关基础知识梳理</title>
-    <link href="https://zshell-zhang.github.io/2017/03/12/python--python%E6%A8%A1%E5%9D%97%E5%AF%BC%E5%85%A5_%E7%9B%B8%E5%85%B3%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/"/>
-    <id>https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/</id>
+    <link href="http://zshell.cc/2017/03/12/python--python%E6%A8%A1%E5%9D%97%E5%AF%BC%E5%85%A5_%E7%9B%B8%E5%85%B3%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/"/>
+    <id>http://zshell.cc/2017/03/12/python--python模块导入_相关基础知识梳理/</id>
     <published>2017-03-12T13:35:04.000Z</published>
     <updated>2018-02-25T01:47:57.445Z</updated>
     
@@ -446,17 +474,17 @@
     
     </summary>
     
-      <category term="python" scheme="https://zshell-zhang.github.io/categories/python/"/>
+      <category term="python" scheme="http://zshell.cc/categories/python/"/>
     
     
-      <category term="python:module" scheme="https://zshell-zhang.github.io/tags/python-module/"/>
+      <category term="python:module" scheme="http://zshell.cc/tags/python-module/"/>
     
   </entry>
   
   <entry>
     <title>http status code 典型问题总结</title>
-    <link href="https://zshell-zhang.github.io/2017/03/06/web--http_status_code_%E5%85%B8%E5%9E%8B%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/"/>
-    <id>https://zshell-zhang.github.io/2017/03/06/web--http_status_code_典型问题总结/</id>
+    <link href="http://zshell.cc/2017/03/06/web--http_status_code_%E5%85%B8%E5%9E%8B%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/"/>
+    <id>http://zshell.cc/2017/03/06/web--http_status_code_典型问题总结/</id>
     <published>2017-03-06T15:27:25.000Z</published>
     <updated>2018-03-26T15:40:25.706Z</updated>
     
@@ -470,23 +498,23 @@
     
     </summary>
     
-      <category term="web" scheme="https://zshell-zhang.github.io/categories/web/"/>
+      <category term="web" scheme="http://zshell.cc/categories/web/"/>
     
     
-      <category term="http" scheme="https://zshell-zhang.github.io/tags/http/"/>
+      <category term="http" scheme="http://zshell.cc/tags/http/"/>
     
-      <category term="tomcat" scheme="https://zshell-zhang.github.io/tags/tomcat/"/>
+      <category term="tomcat" scheme="http://zshell.cc/tags/tomcat/"/>
     
-      <category term="spring" scheme="https://zshell-zhang.github.io/tags/spring/"/>
+      <category term="spring" scheme="http://zshell.cc/tags/spring/"/>
     
-      <category term="spring-mvc" scheme="https://zshell-zhang.github.io/tags/spring-mvc/"/>
+      <category term="spring-mvc" scheme="http://zshell.cc/tags/spring-mvc/"/>
     
   </entry>
   
   <entry>
     <title>lsof 札记</title>
-    <link href="https://zshell-zhang.github.io/2017/01/06/linux-other--lsof%E6%9C%AD%E8%AE%B0/"/>
-    <id>https://zshell-zhang.github.io/2017/01/06/linux-other--lsof札记/</id>
+    <link href="http://zshell.cc/2017/01/06/linux-other--lsof%E6%9C%AD%E8%AE%B0/"/>
+    <id>http://zshell.cc/2017/01/06/linux-other--lsof札记/</id>
     <published>2017-01-06T07:17:04.000Z</published>
     <updated>2018-01-20T13:26:42.069Z</updated>
     
@@ -500,21 +528,21 @@
     
     </summary>
     
-      <category term="linux" scheme="https://zshell-zhang.github.io/categories/linux/"/>
+      <category term="linux" scheme="http://zshell.cc/categories/linux/"/>
     
-      <category term="other" scheme="https://zshell-zhang.github.io/categories/linux/other/"/>
+      <category term="other" scheme="http://zshell.cc/categories/linux/other/"/>
     
     
-      <category term="linux:net" scheme="https://zshell-zhang.github.io/tags/linux-net/"/>
+      <category term="linux:disk" scheme="http://zshell.cc/tags/linux-disk/"/>
     
-      <category term="linux:disk" scheme="https://zshell-zhang.github.io/tags/linux-disk/"/>
+      <category term="linux:net" scheme="http://zshell.cc/tags/linux-net/"/>
     
   </entry>
   
   <entry>
     <title>maven-assembly-plugin 使用总结</title>
-    <link href="https://zshell-zhang.github.io/2016/11/19/tools-maven--assembly_plugin/"/>
-    <id>https://zshell-zhang.github.io/2016/11/19/tools-maven--assembly_plugin/</id>
+    <link href="http://zshell.cc/2016/11/19/tools-maven--assembly_plugin/"/>
+    <id>http://zshell.cc/2016/11/19/tools-maven--assembly_plugin/</id>
     <published>2016-11-19T15:42:40.000Z</published>
     <updated>2018-01-20T13:20:30.547Z</updated>
     
@@ -528,38 +556,12 @@
     
     </summary>
     
-      <category term="tools" scheme="https://zshell-zhang.github.io/categories/tools/"/>
+      <category term="tools" scheme="http://zshell.cc/categories/tools/"/>
     
-      <category term="maven" scheme="https://zshell-zhang.github.io/categories/tools/maven/"/>
-    
-    
-      <category term="mvn:plugins" scheme="https://zshell-zhang.github.io/tags/mvn-plugins/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>cli 控制字符</title>
-    <link href="https://zshell-zhang.github.io/2016/11/17/linux-other--cli%E6%8E%A7%E5%88%B6%E5%AD%97%E7%AC%A6/"/>
-    <id>https://zshell-zhang.github.io/2016/11/17/linux-other--cli控制字符/</id>
-    <published>2016-11-17T13:11:33.000Z</published>
-    <updated>2018-01-07T13:13:21.679Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>cli 控制字符是终端操作中非常实用, 也极其频繁使用的快捷键; 使用得好可以加快敲命令的速度, 提升敲命令的准确性, 为工作带来极大便利; 同时, 这也是我们对 linux 爱不释手, 难以回到 windows 的原因之一;<br>另外, 很多 cli 控制字符本质上是向 linux 或进程发送特定的信号, 关于 linux 信号的介绍, 本站有另外一篇文章: <a href="https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals%E6%80%BB%E4%BD%93%E8%AE%A4%E8%AF%86/">linux signals 总体认识</a>;<br>本文总结一些常用的 cli 控制字符的使用及技巧;</p></blockquote><a id="more"></a><hr><h3 id="简单的-cli-控制字符"><a href="#简单的-cli-控制字符" class="headerlink" title="简单的 cli 控制字符"></a><strong>简单的 cli 控制字符</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 发送 SIGINT 中断信号</span></span><br><span class="line">ctrl + c</span><br><span class="line"><span class="comment"># 清屏</span></span><br><span class="line">ctrl + l</span><br><span class="line"><span class="comment"># reverse-i-search 搜索历史命令</span></span><br><span class="line">ctrl + r</span><br><span class="line"><span class="comment"># 从机器上 logout</span></span><br><span class="line">ctrl + d</span><br><span class="line"><span class="comment"># 暂停控制台标准输出 / 恢复控制台标准输出</span></span><br><span class="line">ctrl + s / ctrl + q</span><br><span class="line"><span class="comment"># 发送 SIGQUIT 信号给前台进程, 并生成 core dump</span></span><br><span class="line">ctrl + /</span><br><span class="line"><span class="comment"># 向前删除到第一个空格</span></span><br><span class="line">ctrl + w</span><br><span class="line"><span class="comment"># 向后删除到第一个空格</span></span><br><span class="line"> alt + d</span><br><span class="line"><span class="comment"># 向后删除所有的内容</span></span><br><span class="line">ctrl + k</span><br><span class="line"><span class="comment"># 撤销上一步操作</span></span><br><span class="line">ctrl + ?</span><br><span class="line"><span class="comment"># 光标快速跃进</span></span><br><span class="line">ctrl + 方向键</span><br><span class="line"><span class="comment"># 补全命令/文件</span></span><br><span class="line">tab</span><br></pre></td></tr></table></figure><h3 id="与其他命令组合的-cli-控制字符"><a href="#与其他命令组合的-cli-控制字符" class="headerlink" title="与其他命令组合的 cli 控制字符 "></a><strong>与其他命令组合的 cli 控制字符 </strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 发送 SIGTSTP 信号, 挂起前台进程</span></span><br><span class="line">ctrl + z</span><br><span class="line"><span class="comment"># ctrl + z 的输出</span></span><br><span class="line">[1]+  Stopped                 sudo vim /etc/profile</span><br></pre></td></tr></table></figure><p>此时该前台进程被挂起, 操作系统将不会调度任何 cpu time 给此进程;<br>接下来可以有以下配套操作:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看后台任务</span></span><br><span class="line">&gt; <span class="built_in">jobs</span></span><br><span class="line">[1]+  Stopped                 sudo vim /etc/profile</span><br><span class="line"><span class="comment"># 查看后台任务的 pid</span></span><br><span class="line"><span class="built_in">jobs</span> -p</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将后台作业 1 恢复到前台</span></span><br><span class="line"><span class="built_in">fg</span> 1</span><br><span class="line"><span class="built_in">fg</span> %1</span><br><span class="line"><span class="comment"># 将后台作业 1 恢复到后台</span></span><br><span class="line"><span class="built_in">bg</span> 1</span><br><span class="line"><span class="built_in">bg</span> %1</span><br></pre></td></tr></table></figure></p><p>要杀死被挂起的后台任务有一些麻烦, 因为该任务处于 suspend 状态, 无法主动响应 SIGTERM, SIGINT 等相对柔和的信号, 但可以被 SIGKILL 这种强力的信号直接杀死:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">kill</span> -9 %1</span><br><span class="line"><span class="built_in">kill</span> -9 `<span class="built_in">jobs</span> -p`</span><br></pre></td></tr></table></figure></p><p>还有一种比较讨巧的方法是结合 fg/bg 等唤醒后台任务的命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当任务被唤醒, 将接收到 SIGTERM 信号并终止</span></span><br><span class="line"><span class="built_in">kill</span> %1 &amp;&amp; <span class="built_in">fg</span></span><br><span class="line"><span class="built_in">kill</span> %1 &amp;&amp; <span class="built_in">bg</span></span><br><span class="line"><span class="built_in">kill</span> `<span class="built_in">jobs</span> -p` &amp;&amp; <span class="built_in">bg</span></span><br><span class="line"><span class="built_in">kill</span> `<span class="built_in">jobs</span> -p` &amp;&amp; <span class="built_in">fg</span></span><br></pre></td></tr></table></figure></p><h3 id="控制字符的管理与设置"><a href="#控制字符的管理与设置" class="headerlink" title="控制字符的管理与设置"></a><strong>控制字符的管理与设置</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打印所有控制字符的设置 (--all)</span></span><br><span class="line">&gt; stty -a</span><br><span class="line">speed 38400 baud; rows 60; columns 211; line = 0;</span><br><span class="line">intr = ^C; quit = ^\; erase = ^?; <span class="built_in">kill</span> = ^U; eof = ^D; eol = &lt;undef&gt;; eol2 = &lt;undef&gt;; swtch = &lt;undef&gt;; start = ^Q; stop = ^S; susp = ^Z; rprnt = ^R; werase = ^W; lnext = ^V; flush = ^O; min = 1; time = 0;</span><br><span class="line">-parenb -parodd cs8 -hupcl -cstopb cread -clocal -crtscts -cdtrdsr</span><br><span class="line">-ignbrk -brkint -ignpar -parmrk -inpck -istrip -inlcr -igncr icrnl ixon -ixoff -iuclc -ixany -imaxbel -iutf8</span><br><span class="line">opost -olcuc -ocrnl onlcr -onocr -onlret -ofill -ofdel nl0 cr0 tab0 bs0 vt0 ff0</span><br><span class="line">isig icanon iexten <span class="built_in">echo</span> echoe echok -echonl -noflsh -xcase -tostop -echoprt echoctl echoke</span><br></pre></td></tr></table></figure><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h3><ul><li><a href="http://www.thegeekstuff.com/2010/05/unix-background-job/" target="_blank" rel="noopener">Bg, Fg, &amp;, Ctrl-Z – 5 Examples to Manage Unix Background Jobs</a></li><li><a href="http://blog.csdn.net/mylizh/article/details/38385739" target="_blank" rel="noopener">Linux中 ctrl-c, ctrl-z, ctrl-d 区别</a></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;cli 控制字符是终端操作中非常实用, 也极其频繁使用的快捷键; 使用得好可以加快敲命令的速度, 提升敲命令的准确性, 为工作带来极大便利; 同时, 这也是我们对 linux 爱不释手, 难以回到 windows 的原因之一;&lt;br&gt;另外, 很多 cli 控制字符本质上是向 linux 或进程发送特定的信号, 关于 linux 信号的介绍, 本站有另外一篇文章: &lt;a href=&quot;https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals%E6%80%BB%E4%BD%93%E8%AE%A4%E8%AF%86/&quot;&gt;linux signals 总体认识&lt;/a&gt;;&lt;br&gt;本文总结一些常用的 cli 控制字符的使用及技巧;&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="linux" scheme="https://zshell-zhang.github.io/categories/linux/"/>
-    
-      <category term="other" scheme="https://zshell-zhang.github.io/categories/linux/other/"/>
+      <category term="maven" scheme="http://zshell.cc/categories/tools/maven/"/>
     
     
-      <category term="cheat sheet" scheme="https://zshell-zhang.github.io/tags/cheat-sheet/"/>
+      <category term="mvn:plugins" scheme="http://zshell.cc/tags/mvn-plugins/"/>
     
   </entry>
   

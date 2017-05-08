@@ -12,6 +12,8 @@
     <meta charset="utf-8">
     
     
+    <link rel="canonical" href="http://zshell.cc/2018/04/06/linux-disk--chattr_lsattr使用总结/">
+    
     
     <title>chattr / lsattr 使用总结 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,7 +26,7 @@
 <meta name="keywords" content="linux:disk,系统安全">
 <meta property="og:type" content="article">
 <meta property="og:title" content="chattr &#x2F; lsattr 使用总结">
-<meta property="og:url" content="https://zshell-zhang.github.io/2018/04/06/linux-disk--chattr_lsattr使用总结/index.html">
+<meta property="og:url" content="http://zshell.cc/2018/04/06/linux-disk--chattr_lsattr使用总结/index.html">
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="对于在机器上操作的人来说, 如果有 sudo 权限, 那 chattr 根本就不是事, 这也不是 chattr 的意义所在;对 chattr 来说, 其所要阻止的, 是那些有意无意想要修改机器上重要文件的程序, 从而保证机器上重要的文件不会因非人为因素而遭到非预期的操作;">
 <meta property="og:locale" content="zh-CN">
@@ -217,12 +219,12 @@
         
 
         
-        <strong>本文链接:</strong> <a href="/2018/04/06/linux-disk--chattr_lsattr使用总结/" rel="external">https://zshell-zhang.github.io/2018/04/06/linux-disk--chattr_lsattr使用总结</a> <br/> 感谢您的阅读与支持！
+        <strong>本文链接:</strong> <a href="/2018/04/06/linux-disk--chattr_lsattr使用总结/" rel="external">http://zshell.cc/2018/04/06/linux-disk--chattr_lsattr使用总结</a> <br/> 感谢您的阅读与支持！
         
     </div>
     
     <footer>
-        <a href="https://zshell-zhang.github.io">
+        <a href="http://zshell.cc">
             <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
             zshell.zhang
         </a>
@@ -248,7 +250,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2018/04/06/linux-disk--chattr_lsattr使用总结/&title=《chattr / lsattr 使用总结》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2018/04/06/linux-disk--chattr_lsattr使用总结/&title=《chattr / lsattr 使用总结》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -258,23 +260,23 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2018/04/06/linux-disk--chattr_lsattr使用总结/&title=《chattr / lsattr 使用总结》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2018/04/06/linux-disk--chattr_lsattr使用总结/&title=《chattr / lsattr 使用总结》 — 希尔的博客&source=
 对于在机器上操作的人来说, 如果有 sudo 权限, 那 chattr 根本就不是事, 这也不是 chattr 的意义所在;对 chattr 来说, 其..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2018/04/06/linux-disk--chattr_lsattr使用总结/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2018/04/06/linux-disk--chattr_lsattr使用总结/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《chattr / lsattr 使用总结》 — 希尔的博客&url=https://zshell-zhang.github.io/2018/04/06/linux-disk--chattr_lsattr使用总结/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《chattr / lsattr 使用总结》 — 希尔的博客&url=http://zshell.cc/2018/04/06/linux-disk--chattr_lsattr使用总结/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2018/04/06/linux-disk--chattr_lsattr使用总结/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2018/04/06/linux-disk--chattr_lsattr使用总结/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -409,7 +411,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2018/04/06/linux-disk--chattr_lsattr使用总结/&title=《chattr / lsattr 使用总结》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2018/04/06/linux-disk--chattr_lsattr使用总结/&title=《chattr / lsattr 使用总结》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -419,23 +421,23 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2018/04/06/linux-disk--chattr_lsattr使用总结/&title=《chattr / lsattr 使用总结》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2018/04/06/linux-disk--chattr_lsattr使用总结/&title=《chattr / lsattr 使用总结》 — 希尔的博客&source=
 对于在机器上操作的人来说, 如果有 sudo 权限, 那 chattr 根本就不是事, 这也不是 chattr 的意义所在;对 chattr 来说, 其..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2018/04/06/linux-disk--chattr_lsattr使用总结/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2018/04/06/linux-disk--chattr_lsattr使用总结/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《chattr / lsattr 使用总结》 — 希尔的博客&url=https://zshell-zhang.github.io/2018/04/06/linux-disk--chattr_lsattr使用总结/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《chattr / lsattr 使用总结》 — 希尔的博客&url=http://zshell.cc/2018/04/06/linux-disk--chattr_lsattr使用总结/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2018/04/06/linux-disk--chattr_lsattr使用总结/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2018/04/06/linux-disk--chattr_lsattr使用总结/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -446,7 +448,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACtklEQVR42u3awW7cMAwE0Pz/T6fXAlsnM6S0TYvnU7BYe/V0MJkRPz7i6/O36/WT1+v13vyZT/c+PefAhYeHh7dY+tNCv/786ZnJsvInzDYXDw8P7x6vXWJLffpm8uR8y/Dw8PD+Rd6sJCTtMh4eHt7/yvu6Wc9LSFtO8PDw8N7Pax/9+M9/ECjs2+UrWQseHh5ezMtPkX7O31fO9/Dw8PDWp+p5Q9xGFe0vDleLh4eHd4HXRqhFBDBqsvdDV3h4eHjv4c0a6E3wmm9TPnpVbDceHh7egte6Z6/v9pOkpa4TFDw8PLxDvFPgWSTRFphZhIGHh4d3lpf/fHK61BaJ/HfzLf6Y7S4eHh7eiJe8jmeHW+3WbMa/ovM9PDw8vAUvuSF5BbdDBnnznawqKg94eHh4h3izw/vZjyWlZdZeP34fDw8P7xqvHZxqI+B8g/K2Pto4PDw8vAu89t/7/OWet92zxrpo5fHw8PCO8mbLbV/obWu+GTgoKgYeHh7emrcJZ/djAbNA5BskHh4e3jXerIHeH1PNmuxiK/Hw8PAu8/JX9mzpbUayiYDx8PDw3s+bDQTMBgjacYF8bXh4eHg3eMlrehYWJE1zMmqQjyx8E+bi4eHhHeK1TfNsaGB2hNY233/YODw8PLwLvFkbvRmTOjViVZcWPDw8vKO8/YjAvnVuC1JRnPDw8PAu8/IM4xTjbAhSZ9V4eHh4a14eK7QRxtk4Iz9yw8PDwzvL+yyv9rgrvysPZ4syhoeHh3eBtzmeP3tsdnYjhvUEDw8PL+a1xSAPMvLv5KWlHfzCw8PDu8dLDrraQah6KYfyFTw8PLyfxmuXmE9+5SMFdUuNh4eH91d5Zwek2nC2jkLw8PDwrvHaIGBWNpIGehYHF0NXeHh4eGvecFarHKvKg4w2zjhw4eHh4aXr+QWGULtgFDnc6gAAAABJRU5ErkJggg==" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACrElEQVR42u3a0U7DQAwEwP7/T5dXJNRkbZ8hSJOnCkJyk0o5s/brFR/vb8fPn1z/9vr86vHaOPDw8PAGS0+We32b/G/z61QfFh4eHt7v8D7d4NTn5AElv83XjIeHh/cc3vWrfFLZXt8dDw8P77/zklsWFhGX5nh4eHjP4SX//Ccv7qRczgPf/I4HshY8PDy8hS7Scz6v9Pfw8PDwxl316xdutQ1W/fmBIQM8PDy8BV4vGsiL4zxWmMfEH6+Gh4eHt8DrnZqHqr34tTeUUCi+8fDw8Aa8XiM/iWirG0MVGX1jeHh4eEd5x/aQ4Jq983ttMDw8PLw9Xg7rFc2Tsa38Ed98AXh4eHgLvGqAmzeoqgFEr4webWZ4eHh4LV4yFpBHCZNANn/1F0YZ8PDw8I7yqgFrXnxXRw3mBffHrAUPDw9vgZcPDVQX2iuvo3C2t+Ph4eHhHeLlC5rcLI8qjhXoeHh4eGu8yUt8ErDmEW15jmwyhIaHh4cX86rsvAiutsfmkQceHh7eNq/aoOo1w+YPJR9uuPmPAQ8PD2/Ay1tW+au8OrmQxA29Ah0PDw9vg7fRrDo79jqKj/Hw8PCWedUWVP6iz4/q9oOHh4f3V7zeZtB79feijXzNhRgXDw8Pr8XLX9Z5udxbykY0jIeHh7fHyyPXvPDtPbKbVlZxtgoPDw/vd3j5LRNYdaG9ragwWYaHh4e3xuvFu/OgoYo80OXDw8PDK/LexaPXPEvOrG4Y0TXx8PDwFni9PlF1VKsa3a40uvDw8PCO8vKB0fkGkG88STMs2hLw8PDw1njVzlHSvO8Vzac2MDw8PLwn8/KBgzzmmJfpeHh4eM/hJcFENfxNrlAt+vHw8PC2efmlqzfrnZkX2TflOx4eHt4CbxIT9AYO5o20sxEGHh4eXry2LwADAyckeBNSAAAAAElFTkSuQmCC" alt="微信分享二维码">
 </div>
 
 

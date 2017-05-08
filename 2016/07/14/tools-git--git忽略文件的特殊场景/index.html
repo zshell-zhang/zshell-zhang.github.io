@@ -12,6 +12,8 @@
     <meta charset="utf-8">
     
     
+    <link rel="canonical" href="http://zshell.cc/2016/07/14/tools-git--git忽略文件的特殊场景/">
+    
     
     <title>git 忽略文件的特殊场景 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,7 +26,7 @@
 <meta name="keywords" content="tools:git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git 忽略文件的特殊场景">
-<meta property="og:url" content="https://zshell-zhang.github.io/2016/07/14/tools-git--git忽略文件的特殊场景/index.html">
+<meta property="og:url" content="http://zshell.cc/2016/07/14/tools-git--git忽略文件的特殊场景/index.html">
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="git 忽略文件, 其实有两种场景: 永久忽略 与 临时忽略;使用 .gitignore 在最刚开始时永久忽略指定文件是最常见的处理, 但是偶尔也会遇到特殊情况:1.一时疏忽, 将本该忽略的文件提交追踪了;2.需要临时忽略某指定文件, 一段时间后再继续追踪;本文将讨论以上两种情况下的 git 处理;">
 <meta property="og:locale" content="zh-CN">
@@ -208,12 +210,12 @@
         
 
         
-        <strong>本文链接:</strong> <a href="/2016/07/14/tools-git--git忽略文件的特殊场景/" rel="external">https://zshell-zhang.github.io/2016/07/14/tools-git--git忽略文件的特殊场景</a> <br/> 感谢您的阅读与支持！
+        <strong>本文链接:</strong> <a href="/2016/07/14/tools-git--git忽略文件的特殊场景/" rel="external">http://zshell.cc/2016/07/14/tools-git--git忽略文件的特殊场景</a> <br/> 感谢您的阅读与支持！
         
     </div>
     
     <footer>
-        <a href="https://zshell-zhang.github.io">
+        <a href="http://zshell.cc">
             <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
             zshell.zhang
         </a>
@@ -239,7 +241,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2016/07/14/tools-git--git忽略文件的特殊场景/&title=《git 忽略文件的特殊场景》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2016/07/14/tools-git--git忽略文件的特殊场景/&title=《git 忽略文件的特殊场景》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -249,23 +251,23 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2016/07/14/tools-git--git忽略文件的特殊场景/&title=《git 忽略文件的特殊场景》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2016/07/14/tools-git--git忽略文件的特殊场景/&title=《git 忽略文件的特殊场景》 — 希尔的博客&source=
 git 忽略文件, 其实有两种场景: 永久忽略 与 临时忽略;使用 .gitignore 在最刚开始时永久忽略指定文件是最常见的处理, 但是偶尔也会遇到..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2016/07/14/tools-git--git忽略文件的特殊场景/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2016/07/14/tools-git--git忽略文件的特殊场景/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《git 忽略文件的特殊场景》 — 希尔的博客&url=https://zshell-zhang.github.io/2016/07/14/tools-git--git忽略文件的特殊场景/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《git 忽略文件的特殊场景》 — 希尔的博客&url=http://zshell.cc/2016/07/14/tools-git--git忽略文件的特殊场景/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2016/07/14/tools-git--git忽略文件的特殊场景/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2016/07/14/tools-git--git忽略文件的特殊场景/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -400,7 +402,7 @@ git 忽略文件, 其实有两种场景: 永久忽略 与 临时忽略;使用 .g
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2016/07/14/tools-git--git忽略文件的特殊场景/&title=《git 忽略文件的特殊场景》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2016/07/14/tools-git--git忽略文件的特殊场景/&title=《git 忽略文件的特殊场景》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -410,23 +412,23 @@ git 忽略文件, 其实有两种场景: 永久忽略 与 临时忽略;使用 .g
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2016/07/14/tools-git--git忽略文件的特殊场景/&title=《git 忽略文件的特殊场景》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2016/07/14/tools-git--git忽略文件的特殊场景/&title=《git 忽略文件的特殊场景》 — 希尔的博客&source=
 git 忽略文件, 其实有两种场景: 永久忽略 与 临时忽略;使用 .gitignore 在最刚开始时永久忽略指定文件是最常见的处理, 但是偶尔也会遇到..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2016/07/14/tools-git--git忽略文件的特殊场景/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2016/07/14/tools-git--git忽略文件的特殊场景/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《git 忽略文件的特殊场景》 — 希尔的博客&url=https://zshell-zhang.github.io/2016/07/14/tools-git--git忽略文件的特殊场景/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《git 忽略文件的特殊场景》 — 希尔的博客&url=http://zshell.cc/2016/07/14/tools-git--git忽略文件的特殊场景/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2016/07/14/tools-git--git忽略文件的特殊场景/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2016/07/14/tools-git--git忽略文件的特殊场景/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -437,7 +439,7 @@ git 忽略文件, 其实有两种场景: 永久忽略 与 临时忽略;使用 .g
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACxElEQVR42u3awY7bMAwE0Pz/T7dATwW28c6Q0jaH59MibWw9BxCFIV+v+Pr15/r776/X87fe/evXOzx//rpx4eHh4Y2W/rzolvf83a/3efdJ+4r/8V08PDy8a7zkdu2um5eQ/M75mvHw8PA+gfdcBp7Lw+zFPZcQPDw8vM/nvfv/M3z7gvDw8PA+jZccYTeBRb7Ft/c5lrXg4eHhbdOAukj85N/X+3t4eHh4o676LJBtF5Q/pV4bHh4e3gVeHhYk8UESN2xIs+fi4eHh3eO1Ta/n8HQYuZYlJHoiHh4e3lFevuG2m/WsAdY22+rfDQ8PD2/NawOCAyNQwULbNtswk8bDw8Mb8WbFYL+IPKhN4oy35QcPDw/vAi/Z1tsy0B7T2wLzjH/7G+Lh4eEd4uWANiDYHJ3bg3id++Lh4eGdmQQ4Nvw02/SLOhaflvHw8PB+ntcel/MS0matm0M8Hh4e3g3eJj7IB7CSrb99ZVEEjIeHh3eNN5s4yIOD9gg+G0r4puLh4eHhHeLlm299To8LQ9voqosWHh4e3iHebFgqaervD8f73hYeHh7eDd4+GsgXlyy6jS2K6oeHh4d3lJc36dsooX19s89XnT08PDy8Ba9taM1GAfYl4dVeeHh4eEd57TDTLAjYDB/ko2DfzETg4eHhHeIlm/tmDCvHz17l8DfEw8PDW/NObcF53NAOWu2jEDw8PLyzvFkE0B6L90FGspLhkRoPDw9vwcs36zxB3bygzXPx8PDwbvB+lVf+rWS7z+85HCDAw8PDu8Dbb/QtrC0b+dH82PQEHh4eXsBr49d8m54tOo+JoxYaHh4e3jVeGyjsD8TDTl07IoaHh4f3MbxZo2vzrNmoFh4eHt7/5Z2Kd/OW2ywCxsPDw/sZXnvYTY6/bZwxa3oVJ248PDy8Q7xZA+w5nsg/z9tjV4YG8PDw8Dreb1xx+T7FsswuAAAAAElFTkSuQmCC" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACs0lEQVR42u3aQW4CMRAEQP7/6UTKKYcYuj024VB7QoR4XYtkD+15POLr6+fae+f3tfrr3hyOXXh4eHhbU19dz4dOJp2Plt8rmTMeHh7ebV4yXHKbZGNIXucjvLDg4eHh/Ssvge0V0JNHjIeHh/fJvHzJflHmbk0XDw8P79N4SRjxfNHPg4P8kbUPEQ8PD+89vPbw6RNeXzzfw8PDwxucqt9YppOjr3b85X3x8PDwLvD2mp/mhXhyJPY8big2DDw8PLyjvPyIqy1wJ60Ge3HGH6/x8PDwLvDyH/nzkDdf6JMxi8M2PDw8vKO89t/yzSM/JMvL63qjwsPDw7vGm0euyTuTrWUvW8DDw8P7L14bzrbTOlVkL7MWPDw8vAu8JEht21LbibbbUvRo8PDw8C7w9krhPJxtW6bmD255AIaHh4d3gbcXNExu3wa4mw1beHh4eEd5edNAGy60m0ELixoR8PDw8C7wJvHrXqmdj9w+3OV98fDw8C7wJs1S+YT2wtz2jnh4eHjv5+UTygPfeSGezPbFtoSHh4d3lNeWsG1UUSzf5cONZoWHh4d3lJd8dBLOzjeP0Ws8PDy8C7x80pNtI28gOFWs198JHh4e3piXNBMkJXJ+MJYfp9UtBXh4eHhv4eULcX6oP2fnAe5mSY2Hh4fX3XHU/HQqvCimW84EDw8P7yyvPaRvj6/aYPdUuIyHh4d3m3djLc3HOXUti2k8PDy8Q7yv8trDt6V8G3AstyI8PDy8C7y9BXd0kB+PsBeO5Md4eHh4eBPeXsD6fFlP2qdutBfUrQN4eHh4A15bHOdbQr6gT6KK5efx8PDwPoB3KsJIqG1AfGBjwMPDwzvK2yugJxFG/ggOlNR4eHh4F8KIyTI9DzuS1qtHkmHg4eHhjXmTn/qnyuK2EG+/ADw8PLxDvG+UjO9kk+//LQAAAABJRU5ErkJggg==" alt="微信分享二维码">
 </div>
 
 

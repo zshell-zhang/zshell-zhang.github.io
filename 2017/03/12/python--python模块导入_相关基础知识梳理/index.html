@@ -12,6 +12,8 @@
     <meta charset="utf-8">
     
     
+    <link rel="canonical" href="http://zshell.cc/2017/03/12/python--python模块导入_相关基础知识梳理/">
+    
     
     <title>python 模块导入: 相关基础知识梳理 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,7 +26,7 @@
 <meta name="keywords" content="python:module">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python 模块导入: 相关基础知识梳理">
-<meta property="og:url" content="https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/index.html">
+<meta property="og:url" content="http://zshell.cc/2017/03/12/python--python模块导入_相关基础知识梳理/index.html">
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="python 有一个关键字和 java 一样: import, 其功能也类似: 在代码中引入其他的依赖(模块)以使用;不过, 不像 java 那么单纯, python 还要区分为 import module 和 import names 两大类; 作为一个 python 新手, 这些使用上的区别有时会令人感到迷惑;python 包和 java 包在概念上也有类似之处, 不过 python 的 _">
 <meta property="og:locale" content="zh-CN">
@@ -265,12 +267,12 @@
         
 
         
-        <strong>本文链接:</strong> <a href="/2017/03/12/python--python模块导入_相关基础知识梳理/" rel="external">https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理</a> <br/> 感谢您的阅读与支持！
+        <strong>本文链接:</strong> <a href="/2017/03/12/python--python模块导入_相关基础知识梳理/" rel="external">http://zshell.cc/2017/03/12/python--python模块导入_相关基础知识梳理</a> <br/> 感谢您的阅读与支持！
         
     </div>
     
     <footer>
-        <a href="https://zshell-zhang.github.io">
+        <a href="http://zshell.cc">
             <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
             zshell.zhang
         </a>
@@ -296,7 +298,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/&title=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/03/12/python--python模块导入_相关基础知识梳理/&title=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -306,23 +308,23 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/&title=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/03/12/python--python模块导入_相关基础知识梳理/&title=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&source=
 python 有一个关键字和 java 一样: import, 其功能也类似: 在代码中引入其他的依赖(模块)以使用;不过, 不像 java 那么单纯,..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/03/12/python--python模块导入_相关基础知识梳理/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&url=http://zshell.cc/2017/03/12/python--python模块导入_相关基础知识梳理/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/03/12/python--python模块导入_相关基础知识梳理/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -464,7 +466,7 @@ python 有一个关键字和 java 一样: import, 其功能也类似: 在代码�
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/&title=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/03/12/python--python模块导入_相关基础知识梳理/&title=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -474,23 +476,23 @@ python 有一个关键字和 java 一样: import, 其功能也类似: 在代码�
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/&title=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/03/12/python--python模块导入_相关基础知识梳理/&title=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&source=
 python 有一个关键字和 java 一样: import, 其功能也类似: 在代码中引入其他的依赖(模块)以使用;不过, 不像 java 那么单纯,..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/03/12/python--python模块导入_相关基础知识梳理/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&url=http://zshell.cc/2017/03/12/python--python模块导入_相关基础知识梳理/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/03/12/python--python模块导入_相关基础知识梳理/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -501,7 +503,7 @@ python 有一个关键字和 java 一样: import, 其功能也类似: 在代码�
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADOklEQVR42u3aQW4bMRAEQP//0xsgJwOGN93DVSBStSdDlmgWdRhPD7++4uf6+3z/+ftz/577V/I1f+7n5/sffrCxsbE3YV+3T7LF2WeT/eR7zi3Y2NjYp7KTopWXt3yL7fr3n00s2NjY2J/MnhWn/CBma2JjY2NjtwWsbUXaFZI2qS202NjY2J/AToKhtiFZKW+zNuYlWRo2Njb227Nng973/Pnl821sbGzsN2Nfo6eNn/IGox0tDPePjY2NfRA7bzPur9TctwrJp/K25/71orBhY2NjH8deuYKTb6Xd+lODil8LGDY2NvZB7ByQR/x5GcuPIw/9/7EyNjY29hHsWVOxEtDPjjgpqPnIGRsbG/s8dltI1oP72aHPGqRfKzY2Njb2Eew2M8+D/gTQNhX5ynmxxMbGxt6dPSstbSGZjXtbfPHlYWNjYx/Eno1O8zi+bWlWGpI2eMLGxsY+g91uNA/iVxgr8dMwS8PGxsbelp20ENfoWW9p2muas68NGxsbe3f2LNBp35MUlfUDfeAbxsbGxt6QvRL3FP/ulxvK46FZ/ISNjY19EnslxFm/4tM2HkudVtt1YWNjY2/CbstMfkFn1irkg+RZ2SvaEmxsbOxN2MnAtY3p86PMD3F20efXNbGxsbEPYs8KWBIzzUKrNkhK3vlY3cbGxsZ+Y/Z6YJRvMY/yZyWqKG/Y2NjYR7Db2Kgd0+bx03pxKo4MGxsb+2j2q0taexDtcDcqk9jY2NgHsWdXbdrAvV3nun3y4W5xQQcbGxt7W3Y7pm1XuIKnDafar7Co29jY2NgbsttrNElrkV/WWRk25K1ONBXBxsbG3py9cvmmjezz3+avt9ESNjY29tnslWIzGxLkrUu7t6KAYWNjYx/Bbi/fJO1BEjY9m9u3FmxsbOzd2Vf55C1BHgO1V3Ye+C02Njb2QexZAcgL28olnrY5mTVU2NjY2GewZ1dq8s8mh7LOrr9PbGxs7OPYbUGaXdz5/38lmodgY2Njfxh7vfzkA+Y8hGrXwcbGxv5M9vAPxA3MDJYUv6UCho2Njb0Juw1uXgFr24+81GFjY2OfzV7P0vOxax4MzVqaF863sbGxsd+R/QeCfsq+vDJW2AAAAABJRU5ErkJggg==" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsElEQVR42u3ay2oDMQwF0P7/T6fQVaFkciVZmVDOrEqZh48XtnLlr6/4evxcf//z+7q+M3kq/8rhCw8PD6819GfXs0FfvyeHVacyHzMeHh7eNu/6M/mrk2lKtoR8PC8seHh4eLfykv8kJXI0LDw8PLx/wasy8kHk38LDw8P7HF6vFJ6HBdX3LGYteHh4eDGv2gD7hL8X+3t4eHh4g676sWW31QA7EBzj4eHhLfCqLai8vE7unMQThQ0DDw8Pb41Xbe3nscU1oHp0oPwtPDw8vAXevCmVF8p5qZ230KIx4OHh4R3i5e2lammbN7qqB7NGhwbw8PDwxrzrkPTAbtMKICYxR+FkBB4eHt6YV+2595bsavSQhxcvCms8PDy8Q7zqQl89UpAP5dR5MTw8PLz38JIQIQ9b80gib2L1nsLDw8Pb4CUv6gW4eUhRDTIOnIzAw8PDG/Oq28C8XK7Gtb2DCHh4eHh7vPlS3iud88MK13e+mA48PDy8o7wklp0HrHk7LS+v8fDw8O7iRT/gg0Q0L6N7y31vJHh4eHh7vN6hq14wkSQi1aNdeHh4ePfy8ti0GkD02l294wV4eHh427w8RKhi8mmqbi3VicbDw8M7y8tb+PMGVbXgzgvoKGXBw8PDO8TLW0294CCZjrwBdn1/hMTDw8M7yssL6GRwG9tGXmrj4eHh7fGSxTqfoery3QuIC1Q8PDy8ZV4yrN4v/eTwQd4Sa5bReHh4eGPeo3jljGr7aiNKxsPDw9vg5dfk4d42UA18m+kLHh4eXotXLXl7C32V1Guq4eHh4b2TN2lu5RHGXln89Fk8PDy8D+DlG0lCLTe0qm05PDw8vFt51ZB38uZkQ4qmDA8PD2+Nly/0vcNSvVK7evQqOhmBh4eHN+bNG2CPhSsv68tFNh4eHl6f9w0HEErfSDJumAAAAABJRU5ErkJggg==" alt="微信分享二维码">
 </div>
 
 

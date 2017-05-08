@@ -12,6 +12,8 @@
     <meta charset="utf-8">
     
     
+    <link rel="canonical" href="http://zshell.cc/2017/11/05/linux-shell--bash结束死循环的方法/">
+    
     
     <title>bash 结束死循环的方法 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,7 +26,7 @@
 <meta name="keywords" content="linux:shell">
 <meta property="og:type" content="article">
 <meta property="og:title" content="bash 结束死循环的方法">
-<meta property="og:url" content="https://zshell-zhang.github.io/2017/11/05/linux-shell--bash结束死循环的方法/index.html">
+<meta property="og:url" content="http://zshell.cc/2017/11/05/linux-shell--bash结束死循环的方法/index.html">
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="linux 中有很多实用的工具, 采用了这样一种工作方式:定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;类似的工具包括 ioutil, jmap 等;本文整理了实现上述逻辑的一些典型方法;">
 <meta property="og:locale" content="zh-CN">
@@ -217,12 +219,12 @@
         
 
         
-        <strong>本文链接:</strong> <a href="/2017/11/05/linux-shell--bash结束死循环的方法/" rel="external">https://zshell-zhang.github.io/2017/11/05/linux-shell--bash结束死循环的方法</a> <br/> 感谢您的阅读与支持！
+        <strong>本文链接:</strong> <a href="/2017/11/05/linux-shell--bash结束死循环的方法/" rel="external">http://zshell.cc/2017/11/05/linux-shell--bash结束死循环的方法</a> <br/> 感谢您的阅读与支持！
         
     </div>
     
     <footer>
-        <a href="https://zshell-zhang.github.io">
+        <a href="http://zshell.cc">
             <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
             zshell.zhang
         </a>
@@ -248,7 +250,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/11/05/linux-shell--bash结束死循环的方法/&title=《bash 结束死循环的方法》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/11/05/linux-shell--bash结束死循环的方法/&title=《bash 结束死循环的方法》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -258,23 +260,23 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/11/05/linux-shell--bash结束死循环的方法/&title=《bash 结束死循环的方法》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/11/05/linux-shell--bash结束死循环的方法/&title=《bash 结束死循环的方法》 — 希尔的博客&source=
 linux 中有很多实用的工具, 采用了这样一种工作方式:定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGI..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/11/05/linux-shell--bash结束死循环的方法/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/11/05/linux-shell--bash结束死循环的方法/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《bash 结束死循环的方法》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/11/05/linux-shell--bash结束死循环的方法/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《bash 结束死循环的方法》 — 希尔的博客&url=http://zshell.cc/2017/11/05/linux-shell--bash结束死循环的方法/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/11/05/linux-shell--bash结束死循环的方法/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/11/05/linux-shell--bash结束死循环的方法/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -297,9 +299,9 @@ linux 中有很多实用的工具, 采用了这样一种工作方式:定时执�
 <nav class="post-nav flex-row flex-justify-between">
   
     <div class="waves-block waves-effect prev">
-      <a href="/2017/12/21/nginx-module--nginx_module_使用总结_ngx_http_gzip_module/" id="post-prev" class="post-nav-link">
+      <a href="/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/" id="post-prev" class="post-nav-link">
         <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">nginx module 使用总结: ngx_http_gzip_module</h4>
+        <h4 class="title">sysvinit_systemd命令使用与对比</h4>
       </a>
     </div>
   
@@ -416,7 +418,7 @@ linux 中有很多实用的工具, 采用了这样一种工作方式:定时执�
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/11/05/linux-shell--bash结束死循环的方法/&title=《bash 结束死循环的方法》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/11/05/linux-shell--bash结束死循环的方法/&title=《bash 结束死循环的方法》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -426,23 +428,23 @@ linux 中有很多实用的工具, 采用了这样一种工作方式:定时执�
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/11/05/linux-shell--bash结束死循环的方法/&title=《bash 结束死循环的方法》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/11/05/linux-shell--bash结束死循环的方法/&title=《bash 结束死循环的方法》 — 希尔的博客&source=
 linux 中有很多实用的工具, 采用了这样一种工作方式:定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGI..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/11/05/linux-shell--bash结束死循环的方法/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/11/05/linux-shell--bash结束死循环的方法/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《bash 结束死循环的方法》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/11/05/linux-shell--bash结束死循环的方法/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《bash 结束死循环的方法》 — 希尔的博客&url=http://zshell.cc/2017/11/05/linux-shell--bash结束死循环的方法/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/11/05/linux-shell--bash结束死循环的方法/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/11/05/linux-shell--bash结束死循环的方法/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -453,7 +455,7 @@ linux 中有很多实用的工具, 采用了这样一种工作方式:定时执�
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvklEQVR42u3a3U4DQQgGUN//pWvilUZ3+wGD1eTslWn374zJQIG3t/h4fByf//7+ydVVV98mz0o+P3Dg4eHhtV796khe9Oqqq6W5X6b78/N3xsPDw9vm5cEgYSfLke/k99Qnd8bDw8N7Ka+X+CZLkAcePDw8vP/I66W5SWEiDyd4eHh4f4GXFCOSjT4/f0JaqbXg4eHhdXbmQgPstX+v9/fw8PDwWl31JEjkZYvqVt5L1r/cEw8PD2+Blzec8h24Gk6qKXi5kIGHh4d3lJds03k5YN7WSkq0eTkYDw8Pb4OXjwXkzafqFt9L4vPlxsPDw9vg5UlqfvHkzPlT8PDw8H6H19uIey2ream3XLDAw8PDO8SrFiPytPt+00++rRZ5C/09PDw8vAGvWiStpr/J+dU22+EuHx4eHl6L12vqVwu78/s0xw7w8PDwFnjVpleOKbf540/yJB4PDw9vg5ekxb1bV4exkgBQvhYPDw9vgZf81J8PVFXbadXwU457eHh4eC1eUmDNG06nSrTzAQU8PDy8bd58VDQvQCRLUL3b5f3x8PDw1njzsYBq8Ci3r26/vXwKHh4e3gIvb/ZXt/VTRYdjM2V4eHh4h3h5ajtv/JdbVsXGWFRrwcPDwxvz7oNBnv6eKh/0kuknT8HDw8Nb482Hnx7x0RtKSP4NP1yLh4eHd5SXT2ZVxwLyl+gl7oViBB4eHt4ar1rxPfVC86W5fDoeHh7eAq9XMK0OBBzu0U2WEg8PD2/MexSPXutr0gZLQsKTmTI8PDy8o7xqmjtJrCcNtvuFwMPDw/t9XhIMTp2Th4RjZQg8PDy8NV7++EnZN2+bNSPY9zfEw8PDeykvHx3okc4m9Hh4eHh/k1cdNq0ikzBTnsbFw8PDO8SrFhpOVYvz8m6e4uPh4eFt86o/76sFhcn9JyOzeHh4eAu8d4sEaG1D9wRZAAAAAElFTkSuQmCC" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACrElEQVR42u3awW4bIBAEUP//T6fXSpXtmV2wU+lxqlKCeUQKZHYfj3j8PBl//++z+ckK+fc+bgw8PDy8Q1t//QGvN5qvmezq3/nJ+nh4eHi3ec8+IJ+z2kRMaveDh4eH9xt4+S/0nJofEx4eHt7/yJt9JT+g9pLAw8PD+xZvFhzMZrZP7Q9lLXh4eHiTFR750t/995X6Hh4eHt66qt7GCnnI2zYfzAYeHh7eDd6paKBtmUoaqmZNV3h4eHi3eXmA2zZXtYeSF71yJB4eHt4nedF9EpTQNtFGcrjDyh4eHh7egpcAkqdwO6dtEcibGJ4i8fDw8A7x2raqPGBtf+nPjmZ4/+Dh4eEteMmiSQwxC3w3eyt2i4eHh3eBlwes7ZM6f9HPWhDqMAIPDw/vKG/fBJCs0wbB+YHWVxEeHh7eId7mGZ03EyQzb7Qm4OHh4e15s5J8HuMmBzdbP0Li4eHhXeMV/QWj8GIW6c5gw94uPDw8vBFvVnBqmxLay2N16Hh4eHgXeLN2gVlomxf+90f5NJLAw8PDW/N+yjGLD/IC2z4Ufpq14OHh4V3g5QWwWW1tEyskn/LmMY2Hh4d3jbd/HD8WY7MCHh4e3md4ySWRR7Gz1qhZPFFfTnh4eHhHebOncB4Q5Ji2CBcFHHh4eHgf57VP2NcXxuYp38YTeHh4eJ/ntZHrpvy/mT+8GPDw8PDWvKT0lSPbOGPW4BWFyHh4eHhHeZumq3ZOfeqLp/aBnjI8PDy8+ZrR83pWoDr1vQcGHh4eXsnbl7XygGBfPGsbF/Dw8PDu8doiU/7IbgPZ4bO4bbrCw8PD+yAvj3pnL9tZyPsmzMXDw8P7Kq/d+qkGguGaeHh4eNd4s6LXqaaBTXHrzY8BDw8P7wJv+Ed+GSjkx5djDtf38PDw8N6PP4j4u2A6K3HDAAAAAElFTkSuQmCC" alt="微信分享二维码">
 </div>
 
 

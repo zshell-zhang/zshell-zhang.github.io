@@ -12,6 +12,8 @@
     <meta charset="utf-8">
     
     
+    <link rel="canonical" href="http://zshell.cc/2017/10/28/linux-conf--ulimit调参与优化/">
+    
     
     <title>ulimit 调参与优化 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,7 +26,7 @@
 <meta name="keywords" content="linux:conf">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ulimit 调参与优化">
-<meta property="og:url" content="https://zshell-zhang.github.io/2017/10/28/linux-conf--ulimit调参与优化/index.html">
+<meta property="og:url" content="http://zshell.cc/2017/10/28/linux-conf--ulimit调参与优化/index.html">
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="ulimit 未正确设置是很多线上故障的根源:Too many open files;java.lang.OutOfMemoryError: unable to create new native thread;对于生产环境来说, ulimit 的调参优化至关重要;本文详细介绍并梳理一下与 ulimit 相关的林林总总;">
 <meta property="og:locale" content="zh-CN">
@@ -240,12 +242,12 @@
         
 
         
-        <strong>本文链接:</strong> <a href="/2017/10/28/linux-conf--ulimit调参与优化/" rel="external">https://zshell-zhang.github.io/2017/10/28/linux-conf--ulimit调参与优化</a> <br/> 感谢您的阅读与支持！
+        <strong>本文链接:</strong> <a href="/2017/10/28/linux-conf--ulimit调参与优化/" rel="external">http://zshell.cc/2017/10/28/linux-conf--ulimit调参与优化</a> <br/> 感谢您的阅读与支持！
         
     </div>
     
     <footer>
-        <a href="https://zshell-zhang.github.io">
+        <a href="http://zshell.cc">
             <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
             zshell.zhang
         </a>
@@ -271,7 +273,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/10/28/linux-conf--ulimit调参与优化/&title=《ulimit 调参与优化》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/10/28/linux-conf--ulimit调参与优化/&title=《ulimit 调参与优化》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -281,23 +283,23 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/10/28/linux-conf--ulimit调参与优化/&title=《ulimit 调参与优化》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/10/28/linux-conf--ulimit调参与优化/&title=《ulimit 调参与优化》 — 希尔的博客&source=
 ulimit 未正确设置是很多线上故障的根源:Too many open files;java.lang.OutOfMemoryError: unabl..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/10/28/linux-conf--ulimit调参与优化/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/10/28/linux-conf--ulimit调参与优化/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ulimit 调参与优化》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/10/28/linux-conf--ulimit调参与优化/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ulimit 调参与优化》 — 希尔的博客&url=http://zshell.cc/2017/10/28/linux-conf--ulimit调参与优化/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/10/28/linux-conf--ulimit调参与优化/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/10/28/linux-conf--ulimit调参与优化/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -439,7 +441,7 @@ ulimit 未正确设置是很多线上故障的根源:Too many open files;java.la
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/10/28/linux-conf--ulimit调参与优化/&title=《ulimit 调参与优化》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/10/28/linux-conf--ulimit调参与优化/&title=《ulimit 调参与优化》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -449,23 +451,23 @@ ulimit 未正确设置是很多线上故障的根源:Too many open files;java.la
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/10/28/linux-conf--ulimit调参与优化/&title=《ulimit 调参与优化》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/10/28/linux-conf--ulimit调参与优化/&title=《ulimit 调参与优化》 — 希尔的博客&source=
 ulimit 未正确设置是很多线上故障的根源:Too many open files;java.lang.OutOfMemoryError: unabl..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/10/28/linux-conf--ulimit调参与优化/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/10/28/linux-conf--ulimit调参与优化/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ulimit 调参与优化》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/10/28/linux-conf--ulimit调参与优化/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ulimit 调参与优化》 — 希尔的博客&url=http://zshell.cc/2017/10/28/linux-conf--ulimit调参与优化/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/10/28/linux-conf--ulimit调参与优化/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/10/28/linux-conf--ulimit调参与优化/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -476,7 +478,7 @@ ulimit 未正确设置是很多线上故障的根源:Too many open files;java.la
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACrklEQVR42u3aQY7bMAwF0N7/0tNtgWmc/0mpGRTPqyA2LD0tJJrkr1/x9fXH9f3/77+fn3n1tucRn59fXXh4eHiLqb8a/vmf5O6rKSaLkizTyyXDw8PDu8ZLNvTN3edRkom2hxAeHh7ez+E9D98GzZs54OHh4f1PvM0b2rfh4eHhfYqXJBdm6dokPbHBH8u14OHh4cW8vIr0c35fqe/h4eHhravqm0NiP+KB2eLh4eFd4OVTzFsB8mnNymN1cxgeHh7eUd4snXoq4btvQXjzfjw8PLxrvBvJiM0Wn7cmFJPGw8PDO8rLC0ttSD0rTeXFszd38fDw8C7w2raATXi9Cb7zEesJ4eHh4ZW8dqvNJzfbymflt6i+h4eHh3eZt9nWZ+xkOerECh4eHt6HeO0SbA6AZHGLsBsPDw/vAm/WUJU3UeVB+WyBoqQGHh4e3gVeW45K8LND4uyTeHh4eDd4s4LTqa18Ayu+GPDw8PAu8JICVdIQ0GJmAXHRdIWHh4d3gTc7Hk7F7DlmVorDw8PDu8drt/g8mM4Tr7NGrvz4wcPDwzvFmzU/bZq0NkW1On2Mh4eH9094p8r2s3B5VqOrcy14eHh4h3ht01WbOGgXYnNU/CWkxsPDwzvEa0tK+xB8s5SzUhweHh7ePd6sYF9v0/E724JZkZnGw8PDO8QbtjSVaYI8dG6TwlHTFR4eHt5R3j6lO2svaJO2+bLi4eHh3eB9lVe+oc/6v9oR39zFw8PDu8CbBcfFmTNqmZq1LBw4SfDw8PBiXr6VJ1PJ0wTJKO2xEX0x4OHh4R3ibSpH+4Ts7BAaNl3h4eHhfZSXD5a8Yb9Ab+p7eHh4eB/ibRK17eQ2iWY8PDy827xZQiFPIuTh8j6Ux8PDw7vN23zwz0r4z0vQHi2nm9Dw8PDwHq7fti1K36MgefYAAAAASUVORK5CYII=" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKElEQVR42u3aQU7DMBAFUO5/6SKxQoKkf2ZSSuznVUUqN8+Lj+2Zj494PL7Gz798H0dPj+ZJPl88MDAwbst4nI5zRjLD0WzJbyWzYWBg7MM4D9mrojMJ7iR8MTAwMM6DL9/M5Yx8+TAwMDB6gZufK88X5c3/NzAwMP49o3rsTEK5Gtb5cRcDA2M3RrUw8JefX1jfwMDAuAnj0Rrz0Jz8+i+zYWBgLM0439JdFcRJTiZPn8yJgYGxNCMvKFZft1fOzGc+/A4GBsZyjCRw5+XMargncVyeGgMD47aMauBWIzUpHkwOxhgYGGszJs1e+fax2opRbdrAwMDYh5Fj8ricXKgV2j4wMDCWZuRbut7LTQqfycUcBgbGPox3YZKnyeEZAwNjT0ZeXKxu/uaNFE8WEQMDY2nGeRTmBYPeS88bOzAwMHZgTAqNSZGgVyooFx4wMDCWZiRReG1hstfegYGBsRvjquv46l/y4mVU2sTAwFiakV+lJT+TfzN/Wti8YmBgbMCoXmxNypC9A2qhGICBgbEoo3cQzbeV1cAtLzQGBsbSjMmdVW8hXt4zgoGBsRBj3lqRH4N7h+RoZgwMjKUZ+cgbLObxmlzAYWBg7MZIQja/pi+vULyHxcDAwOht+JJNZL4cOe+wOQwDAwMjuJ6rljOrJdJCCRMDA2NLRq8YkAd0b+EwMDD2YeRtXr0Xmn/ngoTGwMC4LaNXGBht41pNYNX5MTAwlmB8AnzRslC6BFyrAAAAAElFTkSuQmCC" alt="微信分享二维码">
 </div>
 
 

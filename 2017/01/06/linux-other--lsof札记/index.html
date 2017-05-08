@@ -12,6 +12,8 @@
     <meta charset="utf-8">
     
     
+    <link rel="canonical" href="http://zshell.cc/2017/01/06/linux-other--lsof札记/">
+    
     
     <title>lsof 札记 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -19,12 +21,12 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="linux:net,linux:disk">
+    <meta name="keywords" content="linux:disk,linux:net">
     <meta name="description" content="第一次接触到 lsof 命令, 是因为偶然间发现 netstat 命令已经落伍了(与此同时, 还发现了 ss 命令, 详见另一篇文章: netstat/ss 使用对比 );使用之后, 发现 lsof 被人称为 神器, 还是有一定道理的; 在任何资源都被抽象为 文件 的 linux 中, 一个面向 文件 的管理工具, 自然辖域辽阔, 神通广大, 再加上与其他命令的巧妙组合, 更如虎添翼, 在工作实">
-<meta name="keywords" content="linux:net,linux:disk">
+<meta name="keywords" content="linux:disk,linux:net">
 <meta property="og:type" content="article">
 <meta property="og:title" content="lsof 札记">
-<meta property="og:url" content="https://zshell-zhang.github.io/2017/01/06/linux-other--lsof札记/index.html">
+<meta property="og:url" content="http://zshell.cc/2017/01/06/linux-other--lsof札记/index.html">
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="第一次接触到 lsof 命令, 是因为偶然间发现 netstat 命令已经落伍了(与此同时, 还发现了 ss 命令, 详见另一篇文章: netstat/ss 使用对比 );使用之后, 发现 lsof 被人称为 神器, 还是有一定道理的; 在任何资源都被抽象为 文件 的 linux 中, 一个面向 文件 的管理工具, 自然辖域辽阔, 神通广大, 再加上与其他命令的巧妙组合, 更如虎添翼, 在工作实">
 <meta property="og:locale" content="zh-CN">
@@ -226,12 +228,12 @@
         
 
         
-        <strong>本文链接:</strong> <a href="/2017/01/06/linux-other--lsof札记/" rel="external">https://zshell-zhang.github.io/2017/01/06/linux-other--lsof札记</a> <br/> 感谢您的阅读与支持！
+        <strong>本文链接:</strong> <a href="/2017/01/06/linux-other--lsof札记/" rel="external">http://zshell.cc/2017/01/06/linux-other--lsof札记</a> <br/> 感谢您的阅读与支持！
         
     </div>
     
     <footer>
-        <a href="https://zshell-zhang.github.io">
+        <a href="http://zshell.cc">
             <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
             zshell.zhang
         </a>
@@ -257,7 +259,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/01/06/linux-other--lsof札记/&title=《lsof 札记》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/01/06/linux-other--lsof札记/&title=《lsof 札记》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -267,23 +269,23 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/01/06/linux-other--lsof札记/&title=《lsof 札记》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/01/06/linux-other--lsof札记/&title=《lsof 札记》 — 希尔的博客&source=
 第一次接触到 lsof 命令, 是因为偶然间发现 netstat 命令已经落伍了(与此同时, 还发现了 ss 命令, 详见另一篇文章: netstat/..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/01/06/linux-other--lsof札记/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/01/06/linux-other--lsof札记/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《lsof 札记》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/01/06/linux-other--lsof札记/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《lsof 札记》 — 希尔的博客&url=http://zshell.cc/2017/01/06/linux-other--lsof札记/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/01/06/linux-other--lsof札记/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/01/06/linux-other--lsof札记/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -425,7 +427,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/01/06/linux-other--lsof札记/&title=《lsof 札记》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/01/06/linux-other--lsof札记/&title=《lsof 札记》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -435,23 +437,23 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/01/06/linux-other--lsof札记/&title=《lsof 札记》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/01/06/linux-other--lsof札记/&title=《lsof 札记》 — 希尔的博客&source=
 第一次接触到 lsof 命令, 是因为偶然间发现 netstat 命令已经落伍了(与此同时, 还发现了 ss 命令, 详见另一篇文章: netstat/..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/01/06/linux-other--lsof札记/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/01/06/linux-other--lsof札记/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《lsof 札记》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/01/06/linux-other--lsof札记/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《lsof 札记》 — 希尔的博客&url=http://zshell.cc/2017/01/06/linux-other--lsof札记/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/01/06/linux-other--lsof札记/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/01/06/linux-other--lsof札记/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -462,7 +464,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACrklEQVR42u3aS27jQAwFQN//0sl2gInl90i1YwTVK8OflkqLJk3y8YjX1z8r+fT/1/lK9rx54eHh4S1uPb9YvsP1LV7v+eyd5Fp4eHh4p3nXF2gP5eRW9t9MHgoeHh7eJ/BmKfLskeHh4eH9JV6eWL9/Bzw8PLz38NoiQlsUmJU53lprwcPDw4t5s+LC774+0t/Dw8PDW3fVZ4XX6+M+fz8JLS/uFg8PD+8Ary2nJmnrNXU/lFAPh+Hh4eEd5m2O45yaj1hdP4ikzYaHh4d3Ly+5ubbxPxvhmhWCX4QKPDw8vGO8WdupbW7NEve8OLL6r4CHh4e3uErefMpT6vzcvmsfPDw8vPfwkrpFWyDYB5K2/RZNluHh4eGteW07qi1MbEYNZql//Z8ADw8PL+bNjt02yd4Ej/xvAB4eHt7n8GbNs3Z0YFPmePoo8fDw8A7wZqWBJITkN90OKOQJOh4eHt4J3qxYsC/Rbr5ZDGDh4eHhHeO1Se1dba1Z2l0g8fDw8I7xNg2wHL9PxG+rteDh4eEteEm6nG/UftreaB5g8PDw8M7xkibWbDxrFkhmwaYYusLDw8Nb89ojeEZ6xCtpfeVFEDw8PLwTvE062xYg2rGD/LE+LVXg4eHhHeDlLaWE1Da3kgDTtsqi8ICHh4d3E2924fySmyJI21or4hIeHh7emtcGgLYNthkmaB86Hh4e3mleS92Xa5NfbQrBeHh4eCd4X+W6ayAg33mWG/8wdIWHh4d3E292lM+KF+95PVx4eHh4Ja8NBpuJprZ8PCtVFIk1Hh4e3oJ34kAfJrijoPWiJIGHh4f3q7zk4M5z2raQUafXeHh4eB/ASw79zUhW+2hehB88PDy8Y7y2ZbUpIhSlhGDs4AUSDw8P7wBvOKsVH+WzBv8mnODh4eEd430DjuH5PmsO2YoAAAAASUVORK5CYII=" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLklEQVR42u3ay06FQBAFQP//p69bjRHP6RmNDMWKkCtQLNp+vb3Fx+vD8d2V6+tff/P1/Lsr2w4MDIzbMl6XxzUjuXNyh+vz63fDwMB4DiMPi3kw3RUho6dgYGBgXP4mCaZR0Cyfi4GBgdG+Vl6griegGBgYz2S0LzcLo/k9f7EWx8DAuCEjLzj//vxX5hsYGBi3YrzKIw+g12E0GR4Ub4WBgXE0ox1GJssW+ZCgKFCD98HAwDibsb4ekReibVJ4He43b3lgYGD8Y0ZrzZPFlSI2b89hYGA8gbGyHrFrkDBbC8PAwHgCo03+kkxsfZ2ibfNhYGCczWiXJ1bAs/8G+d9iYGCcysgb/W0xOVvzascPn1JDDAyMQxl5gtg20eo2WRk/h3kuBgbGDRltc79tvc2GBHVxi4GBcTRjJY1Lys6VIWW7KIaBgXE2Y9dqVxJedy1q1B1EDAyMmzNmqd7sO+1qtGFgYDyHkYS59RnpypAgGlFgYGAczcgrwfUG2cpQoQ3EGBgY5zFaXxJY2xZ/WzAXGS4GBsZBjDbgtqsSSTnafkoMDAyMNuC2d6tz1VnAxcDAuDnjVR4rrf9ZahiFewwMjKMZbZibPXhlvjrcGcHAwDiOka8+tMXqbJFitt6BgYHxBEYb+PLFiL1p3w95LgYGBkYcHNuBwbbsFQMDAyNo6+eJXT7sjJJLDAyMBzBmq1qzUjb/KPWyBQYGxqGMWd6VB9PZq+RhFwMD42jGO0x/GQZ63QfgAAAAAElFTkSuQmCC" alt="微信分享二维码">
 </div>
 
 

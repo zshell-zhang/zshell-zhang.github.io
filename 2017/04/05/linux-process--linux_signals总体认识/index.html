@@ -12,6 +12,8 @@
     <meta charset="utf-8">
     
     
+    <link rel="canonical" href="http://zshell.cc/2017/04/05/linux-process--linux_signals总体认识/">
+    
     
     <title>linux signals 总体认识 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,7 +26,7 @@
 <meta name="keywords" content="linux:process">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux signals 总体认识">
-<meta property="og:url" content="https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/index.html">
+<meta property="og:url" content="http://zshell.cc/2017/04/05/linux-process--linux_signals总体认识/index.html">
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;本文正是想对 linux 世界中林林总总的">
 <meta property="og:locale" content="zh-CN">
@@ -233,12 +235,12 @@
         
 
         
-        <strong>本文链接:</strong> <a href="/2017/04/05/linux-process--linux_signals总体认识/" rel="external">https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识</a> <br/> 感谢您的阅读与支持！
+        <strong>本文链接:</strong> <a href="/2017/04/05/linux-process--linux_signals总体认识/" rel="external">http://zshell.cc/2017/04/05/linux-process--linux_signals总体认识</a> <br/> 感谢您的阅读与支持！
         
     </div>
     
     <footer>
-        <a href="https://zshell-zhang.github.io">
+        <a href="http://zshell.cc">
             <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
             zshell.zhang
         </a>
@@ -264,7 +266,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/&title=《linux signals 总体认识》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/04/05/linux-process--linux_signals总体认识/&title=《linux signals 总体认识》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -274,23 +276,23 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/&title=《linux signals 总体认识》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/04/05/linux-process--linux_signals总体认识/&title=《linux signals 总体认识》 — 希尔的博客&source=
 linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SI..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/04/05/linux-process--linux_signals总体认识/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《linux signals 总体认识》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《linux signals 总体认识》 — 希尔的博客&url=http://zshell.cc/2017/04/05/linux-process--linux_signals总体认识/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/04/05/linux-process--linux_signals总体认识/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -432,7 +434,7 @@ linux 的信号系统其实是一个非常重要的概念, 进程间通信的常
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/&title=《linux signals 总体认识》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/04/05/linux-process--linux_signals总体认识/&title=《linux signals 总体认识》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -442,23 +444,23 @@ linux 的信号系统其实是一个非常重要的概念, 进程间通信的常
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/&title=《linux signals 总体认识》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/04/05/linux-process--linux_signals总体认识/&title=《linux signals 总体认识》 — 希尔的博客&source=
 linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SI..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/04/05/linux-process--linux_signals总体认识/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《linux signals 总体认识》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《linux signals 总体认识》 — 希尔的博客&url=http://zshell.cc/2017/04/05/linux-process--linux_signals总体认识/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/04/05/linux-process--linux_signals总体认识/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -469,7 +471,7 @@ linux 的信号系统其实是一个非常重要的概念, 进程间通信的常
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACu0lEQVR42u3a0U7DMAwFUP7/p8crCNpdxzYq0ukT2tqlp0iJe52Pj/h4fTl+fn71ydVVV9/eX3v1OwMHHh4eXuPWfx5X59yTEl7+4JL7uRwLDw8Pb413NfD9AnAGSB5H/hDfWPDw8PAewLtfPKoFd1IP4+Hh4f13Xj9KyEfEw8PDezIvCSOS6Tt5BNVPksVpIGvBw8PDi3l5F+k5f6/09/Dw8PDaXfVkwq0uJPeTfnWsN3eLh4eHt8CrxqlnmH4sm5fLeHh4eH/JSyKAZDE42z6Vn1kdEQ8PD2+WdxbOnk3l+caspOwuJyh4eHh4Q7zZgZPpuzrWQJCBh4eHt8BLbjEpr6uTeD5iZwHDw8PDm+Ul8WsSPVSXgaTsPjvnl/4eHh4e3iivEz1MbTJIFoCB1Q8PDw9vlHcftnZaYmfFdEIt4PHw8PAWeMlEnPxoflWekeTBcYGKh4eH1+BVB6hGD/nknjfPCoEFHh4e3hqvE+bm030ev46tdXh4eHhrvE7k2m+JJYV4Hh9/uxYPDw9vgZe3sqbSjmouMrBI4OHh4a3xzrY0Va/tX1VefvDw8PBGedWX/36RXX181VZZ+c0ADw8Pr8jL207VCT2PFVrbp5ItX3h4eHijvBww2xjLH0QeWPzyCR4eHt4CL7kgQVZL5Or21vwfEC0teHh4eG1e9VbyiXivGVYo3/Hw8PCWeZ1COT8nn9yTCPjNb+Lh4eGt8apTed6aOiumz47LlBoPDw9viPcqHtUCN2+enS0Yb77Fw8PDW+BN7T6ohg79jQjDiwoeHh5ekZe//OfFdL7BNNnA2opI8PDw8NZ4/Si22tA6a4OVIxI8PDy8x/OS261GGGdNODw8PLyn8c4K5fzR9HtYeHh4eNu8s4ZWdeJOAt+p2BcPDw9vj1d94c9JnQb/2aaEgb1aeHh4eHe8TwwSnHHQE2ujAAAAAElFTkSuQmCC" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACp0lEQVR42u3aQY7bMAwF0Nz/0inQVRe1+kmKkxR4XgWeRNbzQtR86vWKr/fv68/P5zuT0fLvXLvw8PDwWlN/upIHPE3uPOZ5Juf7hfHx8PDw1ni3ikF1+X4aOZlP8qLx8PDwPsvLF+vJQn9+Ih4eHt7/yEu2tuftdXmKeHh4eF/JS8KIagibx6/5sxazFjw8PLxOjnr58Xuf1/t7eHh4eK2ueq9IJFve+SGDaLZ4eHh4C7xeWNA7OtALf6ub8ug/Bjw8PLwBL49fq1PptcF6ocPjCHh4eHgLvEkkkRSGfDOdH+HqHVbAw8PDu8XLl+beizgv8ZNfleseHh4e3gLvWvW4dCDgwtEEPDw8vGXe+U6viVUtDL1o+PGveHh4eGu83hCTdlcvKSlvyvHw8PCWefPmVsLIg4/ewa+/hBF4eHh4V3l5fDAJMnrlpNd4w8PDw9vmTQ5dVYtKFdaMbvHw8PCWeXlJmLevqhvuXuz7+H08PDy8S7x86GSbmwSsG42uf2QteHh4eFd5SZs/b2X1Jp3HxNVWHB4eHt4eb74E5yUhD217rwAPDw/vJ3lJ0yuZbn5ctbAhLs4NDw8Pb483X9aj9xe/pkJDCw8PD+9DvPxLvZB33tbqMfDw8PC2eZNAtvqrn2yM4eHh4W3west0XjbOr+8dXHnTq/kfAx4eHt6AdzeAyKdYvYOHh4f3Wd68rVV9BXnhed298PDw8C7x3sWrFzckT6wWm2hDj4eHh7fAm5eNSTAxjzx6BxHw8PDw5rykGMwjid7I1WMHj/09PDw8vAVeMnSvtX/rfh5e4OHh4X0Pb06ab6zzbTceHh7e9/CqR6yq35kfwBoVBjw8PLyYV40M8oC11+ufb+7x8PDw9njzBlje+qoGwfkxr9FRLTw8PLyU9wvndyvwqoP4dgAAAABJRU5ErkJggg==" alt="微信分享二维码">
 </div>
 
 

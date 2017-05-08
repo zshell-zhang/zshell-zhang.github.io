@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/">
+    
+    
+    <title>sysvinit_systemd命令使用与对比 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="linux:init,systemd">
+    <meta name="description" content="当用户空间引导程序 systemV init 被 systemd 所取代, centos 7 下操纵与查看 daemon service 的命令也随之而改变;不过, 由于 systemd 的庞大复杂, 命令选项繁多, 本文对 systemd 的整理主要集中于与 sysvinit 所提供的功能重合度最高的 systemctl 命令;">
+<meta name="keywords" content="linux:init,systemd">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sysvinit_systemd命令使用与对比">
+<meta property="og:url" content="http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="当用户空间引导程序 systemV init 被 systemd 所取代, centos 7 下操纵与查看 daemon service 的命令也随之而改变;不过, 由于 systemd 的庞大复杂, 命令选项繁多, 本文对 systemd 的整理主要集中于与 sysvinit 所提供的功能重合度最高的 systemctl 命令;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-04-22T09:29:08.918Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="sysvinit_systemd命令使用与对比">
+<meta name="twitter:description" content="当用户空间引导程序 systemV init 被 systemd 所取代, centos 7 下操纵与查看 daemon service 的命令也随之而改变;不过, 由于 systemd 的庞大复杂, 命令选项繁多, 本文对 systemd 的整理主要集中于与 sysvinit 所提供的功能重合度最高的 systemctl 命令;">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <script src="/js/leancloud-revision.js"></script>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshell.zhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ZhangZhi1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">sysvinit_systemd命令使用与对比</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">sysvinit_systemd命令使用与对比</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-11-12T09:18:06.000Z" itemprop="datePublished" class="page-time">
+  2017-11-12
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/init/">init</a></li></ul></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#传统的-sysvinit-相关命令"><span class="post-toc-number">1.</span> <span class="post-toc-text">传统的 sysvinit 相关命令</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#service-的使用方式"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">service 的使用方式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#chkconfig-的使用方式"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">chkconfig 的使用方式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ntsysv-的使用方式"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">ntsysv 的使用方式</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#主流的-systemd-相关命令"><span class="post-toc-number">2.</span> <span class="post-toc-text">主流的 systemd 相关命令</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#systemctl-的常用命令列表"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">systemctl 的常用命令列表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#systemctl-的状态与诊断"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">systemctl 的状态与诊断</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#站内相关文章"><span class="post-toc-number">3.</span> <span class="post-toc-text">站内相关文章</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">4.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-linux-init--sysvinit_systemd命令使用与对比"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">sysvinit_systemd命令使用与对比</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-11-12 17:18:06" datetime="2017-11-12T09:18:06.000Z"  itemprop="datePublished">2017-11-12</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/init/">init</a></li></ul></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>当用户空间引导程序 systemV init 被 systemd 所取代, centos 7 下操纵与查看 daemon service 的命令也随之而改变;<br>不过, 由于 systemd 的庞大复杂, 命令选项繁多, 本文对 systemd 的整理主要集中于与 sysvinit 所提供的功能重合度最高的 systemctl 命令;</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<h2 id="传统的-sysvinit-相关命令"><a href="#传统的-sysvinit-相关命令" class="headerlink" title="传统的 sysvinit 相关命令"></a><strong>传统的 sysvinit 相关命令</strong></h2><p>与传统的 systemV init 引导程序相匹配的 daemon service 操纵命令主要是 service 与 chkconfig/ntsysv;<br>其中:<br>service 命令用于 启, 停, 查看 具体的 daemon service;<br>chkconfig 命令用于 修改, 查看 具体 daemon service 的 runlevel 及启停信息;<br>ntsysv 命令提供了一个 GUI 界面用于操纵各个 runlevel 上各 daemon service 的启停;</p>
+<h3 id="service-的使用方式"><a href="#service-的使用方式" class="headerlink" title="service 的使用方式"></a><strong>service 的使用方式</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动, 停止, 重启, 查看</span></span><br><span class="line">sudo service ntpd start</span><br><span class="line">sudo service ntpd stop</span><br><span class="line">sudo service ntpd restart</span><br><span class="line">sudo service ntpd status</span><br></pre></td></tr></table></figure>
+<h3 id="chkconfig-的使用方式"><a href="#chkconfig-的使用方式" class="headerlink" title="chkconfig 的使用方式"></a><strong>chkconfig 的使用方式</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列举所有的 daemon service 在各个 runlevel 上的启停状态</span></span><br><span class="line">sudo chkconfig --list</span><br><span class="line"><span class="comment"># 列举指定的 daemon service 在各个 runlevel 上的启停状态</span></span><br><span class="line">&gt; sudo chkconfig --list ntpd</span><br><span class="line">ntpd           	0:on	1:on	2:on	3:on	4:on	5:on	6:off</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加一个 daemon service</span></span><br><span class="line">sudo chkconfig --add mysqld</span><br><span class="line"><span class="comment"># 在默认的 2, 3, 4, 5 四个 runlevel 上自动启动 mysqld</span></span><br><span class="line">sudo chkconfig mysqld on</span><br><span class="line"><span class="comment"># 在指定的 3, 5 两个 runlevel 上自动启动 mysqld</span></span><br><span class="line">sudo chkconfig --level 35 mysqld on</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除一个 daemon service</span></span><br><span class="line">sudo chkconfig --del rngd</span><br></pre></td></tr></table></figure>
+<h3 id="ntsysv-的使用方式"><a href="#ntsysv-的使用方式" class="headerlink" title="ntsysv 的使用方式"></a><strong>ntsysv 的使用方式</strong></h3><p>ntsysv 在 centos 7 之前的各发行版本上都默认安装, 不过从 centos 7 之后, 该命令的 GUI 形式已经不再默认提供, 只提供了 chkconfig 命令用于兼容照顾老的 systemV init 方式;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认情况下 ntsysv 配置的是当前 user session 所在的 runlevel</span></span><br><span class="line">sudo ntsysv</span><br><span class="line"><span class="comment"># 配置 runlevel = 5 的 daemon service</span></span><br><span class="line">sudo ntsysv --level 5</span><br></pre></td></tr></table></figure></p>
+<h2 id="主流的-systemd-相关命令"><a href="#主流的-systemd-相关命令" class="headerlink" title="主流的 systemd 相关命令"></a><strong>主流的 systemd 相关命令</strong></h2><p>systemd 相比 sysvinit 就要复杂多了, 同时也比 sysvinit 强大多了;<br>systemd 相比 sysvinit 更强大的其中一个重要点是, systemd 不仅仅管理系统中的各进程, 它管理 linux 系统中的所有资源, 并把不同的资源称为 unit:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">service unit: 系统服务</span><br><span class="line">target unit: 多个 unit 构成的一个组</span><br><span class="line">device unit: 硬件设备</span><br><span class="line">mount unit: 文件系统的挂载点</span><br><span class="line">automount unit: 自动挂载点</span><br><span class="line">path unit: 文件或路径</span><br><span class="line">scope unit: 不是由 systemd 启动的外部进程</span><br><span class="line">slice unit: 进程组</span><br><span class="line">snapshot unit: systemd 快照, 可以切回某个快照</span><br><span class="line">socket unit: 进程间通信的 socket</span><br><span class="line">swap unit: swap 文件</span><br><span class="line">timer unit: 定时器</span><br></pre></td></tr></table></figure></p>
+<p>其中, <strong>service unit</strong> 在 12 类 unit 中是最主要的一类, 也是日常操作中最频繁接触的一类, 当然也是与传统的 sysvinit 可以直接比较的对象;<br>&nbsp;<br>systemd 主要涉及到的命令有: <code>systemctl</code>, <code>hostnamectl</code>, <code>localectl</code>, <code>timedatectl</code>, <code>loginctl</code>, <code>journalctl</code> 等, 其中:</p>
+<ul>
+<li><code>systemctl</code> 是最重要的命令, 最核心的操作都与此命令有关, 比如启停服务, 管理各 unit 等;</li>
+<li><code>hostnamectl</code> 用于管理主机信息等;</li>
+<li><code>localectl</code> 用于本地化设置管理;</li>
+<li><code>timedatectl</code> 用于时区管理;</li>
+<li><code>loginctl</code> 用于管理当前登录的用户;</li>
+<li><code>journalctl</code> 用于管理 systemd 与各 unit 的输出日志, 用于辅助其余命令查看状态与日志;</li>
+</ul>
+<p>&nbsp;<br>本主要整理与 systemctl 有关的内容, 其余的如 timedatectl, journalctl 请参见另一篇文章: <a href="">sysvinit / systemd 日志系统的使用与对比</a>;</p>
+<h3 id="systemctl-的常用命令列表"><a href="#systemctl-的常用命令列表" class="headerlink" title="systemctl 的常用命令列表"></a><strong>systemctl 的常用命令列表</strong></h3><p>systemctl 的使用场景十分广泛, 从大的角度来说, 可以分为 <strong>系统管理</strong> 和 <strong>unit 管理</strong> 两大类;<br>系统管理类的命令如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 重启系统</span></span><br><span class="line">sudo systemctl reboot</span><br><span class="line"><span class="comment"># 关闭系统, 切断电源</span></span><br><span class="line">sudo systemctl poweroff</span><br><span class="line"><span class="comment"># CPU 停止工作</span></span><br><span class="line">sudo systemctl halt</span><br><span class="line"><span class="comment"># 暂停系统</span></span><br><span class="line">sudo systemctl <span class="built_in">suspend</span></span><br><span class="line"><span class="comment"># 让系统进入冬眠状态</span></span><br><span class="line">sudo systemctl hibernate</span><br><span class="line"><span class="comment"># 让系统进入交互式休眠状态</span></span><br><span class="line">sudo systemctl hybrid-sleep</span><br><span class="line"><span class="comment"># 启动进入救援状态 (单用户状态, runlevel = 1)</span></span><br><span class="line">sudo systemctl rescue</span><br></pre></td></tr></table></figure></p>
+<p>unit 管理类 的命令种类繁多, 大致可以再细分为两小类: <strong>查看管理类</strong> 与 <strong>操纵动作类</strong>;<br><strong>查看管理类仅仅是统计与查看, 并不改变 unit 的状态:</strong><br>(1) 从整体角度管理 units<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认列出正在运行的 unit</span></span><br><span class="line">sudo systemctl list-units</span><br><span class="line"><span class="comment"># 列出所有 unit, 包括没有找到配置文件的或者启动失败的</span></span><br><span class="line">sudo systemctl list-units --all</span><br><span class="line"><span class="comment"># 列出所有没有运行的 unit</span></span><br><span class="line">sudo systemctl list-units --all --state=inactive</span><br><span class="line"><span class="comment"># 列出所有加载失败的 unit</span></span><br><span class="line">sudo systemctl list-units --failed</span><br><span class="line"><span class="comment"># 列出所有正在运行的, 类型为 service 的 unit; -t: --type</span></span><br><span class="line">sudo systemctl list-units --<span class="built_in">type</span>=service</span><br></pre></td></tr></table></figure></p>
+<p>(2) 管理具体的某个 unit<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示某个 unit 的状态</span></span><br><span class="line">sudo systemctl status rsyslog.service</span><br><span class="line"><span class="comment"># 显示某个 unit 是否正在运行</span></span><br><span class="line">sudo systemctl is-active rsyslog.service</span><br><span class="line"><span class="comment"># 显示某个 unit 是否处于启动失败状态</span></span><br><span class="line">sudo systemctl is-failed rsyslog.service</span><br><span class="line"><span class="comment"># 显示某个 unit 服务是否建立了启动链接</span></span><br><span class="line">sudo systemctl is-enabled rsyslog.service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示某个 unit 的启动是否依赖其他 unit 的启动, --all 展开所有 target unit 下的每一个详细 unit</span></span><br><span class="line">sudo systemctl list-dependencies --all rsyslog.service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示某个 unit 的所有底层参数</span></span><br><span class="line">sudo systemctl show rsyslog.service</span><br><span class="line"><span class="comment"># 显示某个 unit 的指定属性的值</span></span><br><span class="line">sudo systemctl show -p CPUShares rsyslog.service</span><br></pre></td></tr></table></figure></p>
+<p><strong>操纵动作类, 主要是针对 service unit:</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置为开机启动</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> nginx.service</span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line">sudo systemctl start nginx.service</span><br><span class="line"><span class="comment"># 停止</span></span><br><span class="line">sudo systemctl stop nginx.service</span><br><span class="line"><span class="comment"># 重启</span></span><br><span class="line">sudo systemctl restart nginx.service</span><br><span class="line"><span class="comment"># 杀死一个服务的所有子进程</span></span><br><span class="line">sudo systemctl <span class="built_in">kill</span> nginx.service</span><br><span class="line"><span class="comment"># 重新加载一个服务的配置文件</span></span><br><span class="line">sudo systemctl reload nginx.service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置某个 unit 的指定属性</span></span><br><span class="line">sudo systemctl <span class="built_in">set</span>-property nginx.service CPUShares=500</span><br></pre></td></tr></table></figure></p>
+<h3 id="systemctl-的状态与诊断"><a href="#systemctl-的状态与诊断" class="headerlink" title="systemctl 的状态与诊断"></a><strong>systemctl 的状态与诊断</strong></h3><p>使用 systemctl status 输出服务详情状态:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Loaded:   该 unit 配置文件的位置以及是否开机启动</span></span><br><span class="line"><span class="comment"># Active:   运行状态</span></span><br><span class="line"><span class="comment"># Main PID: 父进程 pid</span></span><br><span class="line"><span class="comment"># CGroup:   所有的子进程列表</span></span><br><span class="line"><span class="comment"># 最后是 service 的日志</span></span><br><span class="line">&gt; sudo systemctl status rsyslog.service</span><br><span class="line"></span><br><span class="line">● rsyslog.service - System Logging Service</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/rsyslog.service; enabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since Wed 2017-07-19 16:01:19 CST; 6 months 10 days ago</span><br><span class="line"> Main PID: 504 (rsyslogd)</span><br><span class="line">   CGroup: /system.slice/rsyslog.service</span><br><span class="line">           └─504 /usr/sbin/rsyslogd -n</span><br><span class="line"></span><br><span class="line">Jul 19 16:01:19 localhost.localdomain systemd[1]: Starting System Logging Service...</span><br><span class="line">Jul 19 16:01:19 localhost.localdomain systemd[1]: Started System Logging Service.</span><br></pre></td></tr></table></figure></p>
+<p>使用 journalctl 查看日志:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定查看某个 unit 的日志</span></span><br><span class="line">sudo journalctl -u nagios</span><br><span class="line"><span class="comment"># 指定时间范围 --since=  --until=</span></span><br><span class="line">sudo journalctl -u nagios -S <span class="string">"2017-04-19 09:00:00"</span></span><br><span class="line">sudo journalctl -u nagios -S <span class="string">"2 days ago"</span></span><br><span class="line">sudo journalctl -u nagios -U <span class="string">"2017-12-31 23:59:59"</span></span><br><span class="line"><span class="comment"># 指定某次启动后的所有日志</span></span><br><span class="line">sudo journalctl -u nagios -b [-0] <span class="comment"># 当前启动后</span></span><br><span class="line">sudo journalctl -u nagios -b  -1  <span class="comment"># 上次启动后</span></span><br><span class="line">sudo journalctl -u nagios -b  -2  <span class="comment"># 继续往上追溯</span></span><br></pre></td></tr></table></figure></p>
+<p>关于 journalctl 的详细内容, 请参见另外一篇文章: <a href="">sysvinit / systemd 日志系统的使用与对比</a>;</p>
+<h2 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h2><ul>
+<li><a href="">sysvinit/systemd/upstart 初始化过程梳理</a></li>
+<li><a href="">systemd 的配置文件整理</a></li>
+<li><a href="">sysvinit / systemd 日志系统的使用与对比</a></li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2><ul>
+<li><a href="https://www.cnblogs.com/panjun-Donet/archive/2010/08/10/1796873.html" target="_blank" rel="noopener">Linux下chkconfig命令详解</a></li>
+<li><a href="http://man.linuxde.net/ntsysv" target="_blank" rel="noopener">ntsysv命令</a></li>
+<li><a href="https://zhangzifan.com/centos-systemctl.html" target="_blank" rel="noopener">CentOS 7 启动, 重启, chkconfig 等命令已经合并为 systemctl</a></li>
+<li><a href="http://blog.csdn.net/catoop/article/details/47318225" target="_blank" rel="noopener">RHEL 7 中 systemctl 的用法 (替代service 和 chkconfig)</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html" target="_blank" rel="noopener">Systemd 入门教程: 命令篇</a></li>
+<li><a href="https://linux.cn/article-5926-1.html" target="_blank" rel="noopener">systemctl 命令完全指南</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/" rel="external">http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="http://zshell.cc">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
+            zshell.zhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-init/">linux:init</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/systemd/">systemd</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&title=《sysvinit_systemd命令使用与对比》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&title=《sysvinit_systemd命令使用与对比》 — 希尔的博客&source=
+当用户空间引导程序 systemV init 被 systemd 所取代, centos 7 下操纵与查看 daemon service 的命令也随之而..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《sysvinit_systemd命令使用与对比》 — 希尔的博客&url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/12/21/nginx-module--nginx_module_使用总结_ngx_http_gzip_module/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">nginx module 使用总结: ngx_http_gzip_module</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/11/05/linux-shell--bash结束死循环的方法/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">bash 结束死循环的方法</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "fMh2JHgkPnDtARiQapOg8Jrk-gzGzoHsz",
+            appKey: "UPNXLDUkngDnuhfC9XQPgF6n",
+            avatar: "mm",
+            placeholder: "您的评论, 吾愿洗耳恭听!",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshell.zhang &copy; 2016 - 2017</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&title=《sysvinit_systemd命令使用与对比》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&title=《sysvinit_systemd命令使用与对比》 — 希尔的博客&source=
+当用户空间引导程序 systemV init 被 systemd 所取代, centos 7 下操纵与查看 daemon service 的命令也随之而..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《sysvinit_systemd命令使用与对比》 — 希尔的博客&url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvElEQVR42u3aS27DMAwFwNz/0u62QCvnkZRSFxivgvysUQBJeeTrFV/Xtyt/fvXOn9fqs/fv3Hbh4eHhDYa++rrVM71XV1NwP3H37OUU4OHh4R3jrW7QG0p1WU+2imQ8eHh4eM/kXcHV+4bkYI2Hh4f3H3nVG+QRRvVIjYeHh/e3vN4S38tOq5vEh7IWPDw8vJiXV5Ge8/hIfQ8PDw9vXFWvhgXJkbq6oF+DCw8PD+8Er3dEvi9Zzb8t2ZwKpTg8PDy8rbx59JBHGHlxa37IxsPDwzvHy5f4akNAXhKrHsfvJzf6BfDw8PDGvOqSXZ2U/PaTloLoLnh4eHhjXr6U58foybA2V/bw8PDwDvDyUtMoJ97apvChzjI8PDy829aBfHDJqz120qaQxxavJL3Aw8PDG/DyQCGPU/NtJieVj+Z4eHh4x3jzJoATZ/w87HhT2cPDw8PbyquWlCYH7l6snDQTvDle4+Hh4W3lzf/85wt69S6FBLpX38PDw8Mb8PJltzcdebSRHLILeDw8PLxjvHxYk2LYfFLKWx0eHh7eYd6kAFYNXvPwIg+Xf3mMh4eHd4DXa5zqwaoNBNWNIdo88PDw8Dbxqn/yq4WxSbmrN/XLxAUPDw9vEy//wDxyzYfVa7pqlsfw8PDwBrwrvnphbj41+YZUCDjw8PDwNvHyaCD56ipyEgQXfjE8PDy8A7xqYWkS3VYLXTlvW+sVHh4eXsDrLeLVOKPXNFAtfeHh4eGd413Fa7Il5LnIrm0GDw8P7wTvXJk/3x6SEGRUx8PDw8M7wMs3g3wo1aLa3mYFPDw8vM/w8gU9v31+mK5Gt4UIAw8PD+8xvDx47S3xeZvCm5ACDw8P7wG8fDPY1QqQRMPbjtR4eHh4Ma9X9JrHr5OJKGwMeHh4eFt58yJWHi7k7682CoyCDDw8PLyU9wUGOVS5z8wILQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

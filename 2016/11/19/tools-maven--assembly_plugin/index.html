@@ -12,6 +12,8 @@
     <meta charset="utf-8">
     
     
+    <link rel="canonical" href="http://zshell.cc/2016/11/19/tools-maven--assembly_plugin/">
+    
     
     <title>maven-assembly-plugin 使用总结 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,7 +26,7 @@
 <meta name="keywords" content="mvn:plugins">
 <meta property="og:type" content="article">
 <meta property="og:title" content="maven-assembly-plugin 使用总结">
-<meta property="og:url" content="https://zshell-zhang.github.io/2016/11/19/tools-maven--assembly_plugin/index.html">
+<meta property="og:url" content="http://zshell.cc/2016/11/19/tools-maven--assembly_plugin/index.html">
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="本文在 Apache Maven 的官方文档上, 结合自己的一些项目经历: 在 Apache Spark 中使用 springframework 的一次实践, 总结了一些 assembly 插件的使用方式和一些注意事项, 以作备忘;另外, 由于 assembly 的 核心配置文件中可配置项种类繁多, 为了体现直观性, 文本直接在一段 ‘丰富而典型’ 的配置文件 case 上, 以注释的形式作为每">
 <meta property="og:locale" content="zh-CN">
@@ -229,12 +231,12 @@
         
 
         
-        <strong>本文链接:</strong> <a href="/2016/11/19/tools-maven--assembly_plugin/" rel="external">https://zshell-zhang.github.io/2016/11/19/tools-maven--assembly_plugin</a> <br/> 感谢您的阅读与支持！
+        <strong>本文链接:</strong> <a href="/2016/11/19/tools-maven--assembly_plugin/" rel="external">http://zshell.cc/2016/11/19/tools-maven--assembly_plugin</a> <br/> 感谢您的阅读与支持！
         
     </div>
     
     <footer>
-        <a href="https://zshell-zhang.github.io">
+        <a href="http://zshell.cc">
             <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
             zshell.zhang
         </a>
@@ -260,7 +262,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2016/11/19/tools-maven--assembly_plugin/&title=《maven-assembly-plugin 使用总结》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2016/11/19/tools-maven--assembly_plugin/&title=《maven-assembly-plugin 使用总结》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -270,23 +272,23 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2016/11/19/tools-maven--assembly_plugin/&title=《maven-assembly-plugin 使用总结》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2016/11/19/tools-maven--assembly_plugin/&title=《maven-assembly-plugin 使用总结》 — 希尔的博客&source=
 本文在 Apache Maven 的官方文档上, 结合自己的一些项目经历: 在 Apache Spark 中使用 springframework 的一次..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2016/11/19/tools-maven--assembly_plugin/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2016/11/19/tools-maven--assembly_plugin/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《maven-assembly-plugin 使用总结》 — 希尔的博客&url=https://zshell-zhang.github.io/2016/11/19/tools-maven--assembly_plugin/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《maven-assembly-plugin 使用总结》 — 希尔的博客&url=http://zshell.cc/2016/11/19/tools-maven--assembly_plugin/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2016/11/19/tools-maven--assembly_plugin/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2016/11/19/tools-maven--assembly_plugin/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -428,7 +430,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2016/11/19/tools-maven--assembly_plugin/&title=《maven-assembly-plugin 使用总结》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2016/11/19/tools-maven--assembly_plugin/&title=《maven-assembly-plugin 使用总结》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -438,23 +440,23 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2016/11/19/tools-maven--assembly_plugin/&title=《maven-assembly-plugin 使用总结》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2016/11/19/tools-maven--assembly_plugin/&title=《maven-assembly-plugin 使用总结》 — 希尔的博客&source=
 本文在 Apache Maven 的官方文档上, 结合自己的一些项目经历: 在 Apache Spark 中使用 springframework 的一次..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2016/11/19/tools-maven--assembly_plugin/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2016/11/19/tools-maven--assembly_plugin/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《maven-assembly-plugin 使用总结》 — 希尔的博客&url=https://zshell-zhang.github.io/2016/11/19/tools-maven--assembly_plugin/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《maven-assembly-plugin 使用总结》 — 希尔的博客&url=http://zshell.cc/2016/11/19/tools-maven--assembly_plugin/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2016/11/19/tools-maven--assembly_plugin/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2016/11/19/tools-maven--assembly_plugin/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -465,7 +467,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACrUlEQVR42u3aS25bMRAEQN//0gqQbSCpe4aUHKDeyhDeh8UFOe7hz098Pf5ez355PLnyZ/99TzKGYxceHh7eaOjJEPOhJ/fn3509i4eHh3eb93oh3vD2K/lr6hsLHh4e3ld57QL9mppM1uxOPDw8vP+Fl/yShxT5ePDw8PC+xdtHscnS38bEH81a8PDw8GJe2wD7DX9f7O/h4eHhLbrqeZQwC3nzwvoxuvDw8PBu8NqwIBloXmrnBw7aXaDup+Hh4eEd5b3+WAJoG2DJt/LAFw8PD+8Grw0dNgez8onYPIWHh4f3SV6+6LebwSywaMv6IvDFw8PDG/HyQrmNKuqjUeWBgHqXw8PDwzvKa8OIvGjOA9yz0cab/h4eHh7empcXxPviexPC1kU2Hh4e3gXe2TCiPWSwWvSD6BkPDw/vHm92RGDD29+fjBYPDw/vBi+HJc2q2WTNCveoKMfDw8P7CK8NZ0+FFDm7mG48PDy8a7zXocCpYwT7YjrffvDw8PBu89qjTknjan+cqy33i30PDw8P7yhvFjTMNpgbBToeHh7ebd6+WZUs0/mWkL9t2DzDw8PDO8RLQodkuT81NbPGWH0yAg8PD2/NOxvCthFw+1Qxcjw8PLxrvPwVmwij3RLygwVPR4WHh4d3lNe2mvLCd89ONoA3mwoeHh7eZd6s4M63h7w4bicuSlnw8PDwDvHa/9xnJfgm1Jg13vDw8PDu8R7l1S7NbRSbbAlFcY+Hh4d3gXe7tZ8Pty2mi5QaDw8P7wKvbd63Ee0mIM7H8HSi8fDw8K7x8uI4L3ZnpfBqB3uWVePh4eF9ibcPDtqIIR/hgY0BDw8P7xqvPWjVtv/zsUUHufDw8PCu8fIw4lTLv22SzaYVDw8P7wZvNojXr94cycqndRNY4OHh4Y14fwBCC32CuvB6IgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACO0lEQVR42u3a0W7jIBAF0P7/T6evK7Um94LTleHwFDkx4TjSZGDm6yser3/G+N2fn/x5V/7uzQMDA+OxjNdwXDHaK1czj2H5DBgYGCcwriJYEiKT6+Mwmgfry+sYGBgYQYgcL2JuiRgYGBgrAfdNoja1Mf4P/xsYGBiPYuRHZgkg39AmIfvmvTgGBsYDGXlw/PvXH6lvYGBgPIrxKscKLykJTK4KAwNja0Ye4JJksW2YWAm4GBgY5zDGwe7eAkA7z7j8+eZ3wMDA2IiRN0O0n2zvXSlOYGBgnMNot5RzhclxAM1LmEWmiYGBsRFjPYyuP462ODr5v4GBgfEoRtvWkC8lf0BzG+BoCgwMjO0Y+QF9Gyjzh5UwfpkZAwPjAMZKupZvaNttcFIYwMDAOIGRTDTXftHmbHPtYsU5IgYGxmMZK40RbYmxfV08VgwMjK0ZbQq4ctyfb2Lb8ioGBsYJjLY80DZ1tcWG/KANAwPjHMbc4tpFJMli3mxR94NgYGA8nJFPPddU8Ylmi6hzBAMDYztGXoxsN71tkM3TvjflAQwMjO0Y7SFa/gV3bYMxMDAw2uOt9YOwufAapYYYGBgbMV7laI/s24JBm1ZiYGCcwGhTvcmDsDK85kufrHVgYGA8kJEH2fWEMl9cnoxiYGCcw5gLfHk7RRtM29ViYGBgjMNi/pUr2evNARcDA2NrRp20BXflLWiXDxEDA+MARlsMyA/uk9aNtqUDAwPjNMbc1vETIXg9YcXAwNiO8Q3hC0up6inwwAAAAABJRU5ErkJggg==" alt="微信分享二维码">
 </div>
 
 

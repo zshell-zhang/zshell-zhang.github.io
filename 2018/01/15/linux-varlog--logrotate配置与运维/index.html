@@ -12,6 +12,8 @@
     <meta charset="utf-8">
     
     
+    <link rel="canonical" href="http://zshell.cc/2018/01/15/linux-varlog--logrotate配置与运维/">
+    
     
     <title>logrotate 配置与运维 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,7 +26,7 @@
 <meta name="keywords" content="linux:varlog">
 <meta property="og:type" content="article">
 <meta property="og:title" content="logrotate 配置与运维">
-<meta property="og:url" content="https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate配置与运维/index.html">
+<meta property="og:url" content="http://zshell.cc/2018/01/15/linux-varlog--logrotate配置与运维/index.html">
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="本文主要讨论以下几个方面:  logrotate 的关键配置文件和配置项语法; logrotate 的使用与运维技巧; logrotate 的运行原理; 特殊场景下 logrotate 的代替方案;">
 <meta property="og:locale" content="zh-CN">
@@ -245,12 +247,12 @@
         
 
         
-        <strong>本文链接:</strong> <a href="/2018/01/15/linux-varlog--logrotate配置与运维/" rel="external">https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate配置与运维</a> <br/> 感谢您的阅读与支持！
+        <strong>本文链接:</strong> <a href="/2018/01/15/linux-varlog--logrotate配置与运维/" rel="external">http://zshell.cc/2018/01/15/linux-varlog--logrotate配置与运维</a> <br/> 感谢您的阅读与支持！
         
     </div>
     
     <footer>
-        <a href="https://zshell-zhang.github.io">
+        <a href="http://zshell.cc">
             <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
             zshell.zhang
         </a>
@@ -276,7 +278,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate配置与运维/&title=《logrotate 配置与运维》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2018/01/15/linux-varlog--logrotate配置与运维/&title=《logrotate 配置与运维》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -286,7 +288,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate配置与运维/&title=《logrotate 配置与运维》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2018/01/15/linux-varlog--logrotate配置与运维/&title=《logrotate 配置与运维》 — 希尔的博客&source=
 本文主要讨论以下几个方面:
 
 logrotate 的关键配置文件和配置项语法;
@@ -296,17 +298,17 @@ logrotate 的运行原理;..." data-title=" QQ">
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate配置与运维/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2018/01/15/linux-varlog--logrotate配置与运维/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《logrotate 配置与运维》 — 希尔的博客&url=https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate配置与运维/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《logrotate 配置与运维》 — 希尔的博客&url=http://zshell.cc/2018/01/15/linux-varlog--logrotate配置与运维/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate配置与运维/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2018/01/15/linux-varlog--logrotate配置与运维/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -448,7 +450,7 @@ logrotate 的运行原理;..." data-title=" QQ">
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate配置与运维/&title=《logrotate 配置与运维》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2018/01/15/linux-varlog--logrotate配置与运维/&title=《logrotate 配置与运维》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -458,7 +460,7 @@ logrotate 的运行原理;..." data-title=" QQ">
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate配置与运维/&title=《logrotate 配置与运维》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2018/01/15/linux-varlog--logrotate配置与运维/&title=《logrotate 配置与运维》 — 希尔的博客&source=
 本文主要讨论以下几个方面:
 
 logrotate 的关键配置文件和配置项语法;
@@ -468,17 +470,17 @@ logrotate 的运行原理;..." data-title=" QQ">
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate配置与运维/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2018/01/15/linux-varlog--logrotate配置与运维/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《logrotate 配置与运维》 — 希尔的博客&url=https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate配置与运维/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《logrotate 配置与运维》 — 希尔的博客&url=http://zshell.cc/2018/01/15/linux-varlog--logrotate配置与运维/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate配置与运维/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2018/01/15/linux-varlog--logrotate配置与运维/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -489,7 +491,7 @@ logrotate 的运行原理;..." data-title=" QQ">
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACs0lEQVR42u3aQXLjMAwEwPz/09lrqlK2Zghw40Pr5JJpkc2DCAP4+oqv7x/Xzzu/v31///2Vz7h84eHh4Q2Wniw0+e3vMe9nf/852dBXs+Ph4eHd47UTJ0t5mDg+PBL8y/t4eHh4H8NL2EmsO18DHh4e3ufzkl/dCNDx8PDwPo2XPzpP7OaHR3KcXM+14OHh4cW8Sfj7V5+v1Pfw8PDwxlX1eRI2Gf/+/mi1eHh4eBd4bTjbjszLZu12FOvEw8PDW+W16YazIlaeVmhHPqQ28PDw8K7x2hTtWYL1rHiWP7M4zfDw8PAGvDYIbmFnBbC2saCu7+Hh4eENeO0iJu/hpEFqHtYXVTs8PDy8I16SUEjSBG0xLNnW9pipjwc8PDy8o/FbjQJ5wmJeHsu3Gw8PD+8Gr03FnpW78lJWnrCo2xrw8PDw/iMvT9eepSry42TUiICHh4e3ysthbbq2PUjOwu6HNePh4eGt8rYwu00GeUhd9ETg4eHhrfLyO20/1zw1nI9/CKbx8PDwlnhtG9bCBAP8QrsYHh4e3hLv7A9/Hhy3IXW+kmideHh4eKu83SRs3nrVFrrydMnyQ/Hw8PDe8kYtTWVQnqRl8w16OPHw8PDwVnnt1TZIzVO3bTKiPcbw8PDwJrz8z3/7Is6fkLz08/F4eHh493jJoHlR/+wIyUPnqKaHh4eHt8or0qNHW3N2/CRz4eHh4X0CbyuJsJW2GKVL8PDw8FZ53+XVJlLb/q+zBq+X3+Lh4eFd4LUv3CQUzpMINz6Pmgbw8PDwYl5bmmpbo/K2gLPj5GFGPDw8vGu8yRLbo2K3F+zhOXh4eHgfwGsbAvLEwVYqJMoE4+Hh4X0kLy/55xuRbwEeHh7ebd6kZNWG2mfh++Hz8fDw8C7w2j/880Mi2aZ8xrX6Hh4eHt4z7x82POQpzAcbkgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACtElEQVR42u3awW7CQAwEUP7/p9tzRRNm1rsoh8cJQRryqBSbsV+v+PHz9rg/8v351bvv50yO2fzAw8PDG1/61UcmryRfSvtK/u4/XwEeHh7eMd7kFn//en5bvz/y/nouX8fDw8N7AG/eXidnaIsQHh4e3vN5SVOeN9BJkcDDw8N7Gi+5xLVAtj3yCn88a8HDw8OLefkU6TnPj8z38PDw8MZT9fZ2PznzrjP8ORseHh7eAV5+w23b7rbNnYcXl0fi4eHhbeVNQod2ySCPOVrk5Tnx8PDwDvDaAVh+6snF3X819ToXHh4e3jHe2gW1pSI/59rgLZrv4eHh4Q14+XipbbXX1gjW4ozLd/Hw8PAO8Nr5e75Imgevu+Ldxc/Fw8PDK3mTAVVbYCaBQtvEN1kFHh4eXsertwziwjCJjPN4NxqA4eHh4W3ltbfadt1qHjq0y154eHh43+TlhWEe5uYFaTJmw8PDw/smL7+sJLTNg4NJgdn2mwAPDw8v5rWAteWAeb5axLt4eHh4B3j54H+tMCSRwd4VhMv/IR4eHt4m3tp+Vv5XeUS7tjTw4evAw8PDO8zLF5jWCkDeoE/C38U9BTw8PLxNvPa2ni8TzJe36t8KeHh4eFt5xRpT0ArnR84XERZ3yvDw8PAGvLYh3jWdn4QdSWnBw8PD+w5vbViVjPPXRmJtyFv02nh4eHibeHmb2wbBbTs+KTYfWmo8PDy8rbxJa5sUhnbENYkwouqBh4eHt8RbW5mat8ITRl4w8PDw8E7wJoP5PJ5oFwjy1vy164GHh4dX8nYVgzkyXyYoWnA8PDy8Y7w6w1i6rHYMNiljeHh4eM/hzWOLFjaKmPHw8PAexsvPk0cJu0ZoeHh4eKd5yR/npSJvjtfwxWAMDw8P7wBvPuBPgoZ2eDaPJPDw8PAO8H4BGcQr8IJkqioAAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 

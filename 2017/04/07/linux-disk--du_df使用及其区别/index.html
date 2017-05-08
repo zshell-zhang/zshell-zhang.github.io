@@ -12,6 +12,8 @@
     <meta charset="utf-8">
     
     
+    <link rel="canonical" href="http://zshell.cc/2017/04/07/linux-disk--du_df使用及其区别/">
+    
     
     <title>du / df 使用及其区别 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,7 +26,7 @@
 <meta name="keywords" content="linux:disk">
 <meta property="og:type" content="article">
 <meta property="og:title" content="du &#x2F; df 使用及其区别">
-<meta property="og:url" content="https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/index.html">
+<meta property="og:url" content="http://zshell.cc/2017/04/07/linux-disk--du_df使用及其区别/index.html">
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="本文主要是整理 磁盘使用量 相关的命令, 如 du, df 等;接着, 一般性得总结这两个命令在实际工作中的应用;然后再以 du, df 命令的区别为例, 讨论命令背后的逻辑, 工作中存在的问题, 最后引申出问题解决的工具: lsof;">
 <meta property="og:locale" content="zh-CN">
@@ -227,12 +229,12 @@
         
 
         
-        <strong>本文链接:</strong> <a href="/2017/04/07/linux-disk--du_df使用及其区别/" rel="external">https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别</a> <br/> 感谢您的阅读与支持！
+        <strong>本文链接:</strong> <a href="/2017/04/07/linux-disk--du_df使用及其区别/" rel="external">http://zshell.cc/2017/04/07/linux-disk--du_df使用及其区别</a> <br/> 感谢您的阅读与支持！
         
     </div>
     
     <footer>
-        <a href="https://zshell-zhang.github.io">
+        <a href="http://zshell.cc">
             <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
             zshell.zhang
         </a>
@@ -258,7 +260,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/&title=《du / df 使用及其区别》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/04/07/linux-disk--du_df使用及其区别/&title=《du / df 使用及其区别》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -268,23 +270,23 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/&title=《du / df 使用及其区别》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/04/07/linux-disk--du_df使用及其区别/&title=《du / df 使用及其区别》 — 希尔的博客&source=
 本文主要是整理 磁盘使用量 相关的命令, 如 du, df 等;接着, 一般性得总结这两个命令在实际工作中的应用;然后再以 du, df 命令的区别为例..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/04/07/linux-disk--du_df使用及其区别/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《du / df 使用及其区别》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《du / df 使用及其区别》 — 希尔的博客&url=http://zshell.cc/2017/04/07/linux-disk--du_df使用及其区别/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/04/07/linux-disk--du_df使用及其区别/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -426,7 +428,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/&title=《du / df 使用及其区别》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/04/07/linux-disk--du_df使用及其区别/&title=《du / df 使用及其区别》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -436,23 +438,23 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/&title=《du / df 使用及其区别》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/04/07/linux-disk--du_df使用及其区别/&title=《du / df 使用及其区别》 — 希尔的博客&source=
 本文主要是整理 磁盘使用量 相关的命令, 如 du, df 等;接着, 一般性得总结这两个命令在实际工作中的应用;然后再以 du, df 命令的区别为例..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/04/07/linux-disk--du_df使用及其区别/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《du / df 使用及其区别》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《du / df 使用及其区别》 — 希尔的博客&url=http://zshell.cc/2017/04/07/linux-disk--du_df使用及其区别/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/04/07/linux-disk--du_df使用及其区别/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -463,7 +465,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACrklEQVR42u3aQXKDMAwF0Nz/0um2HQp8STbNdB6rTAK2HwtLkfx6xdf723X85vj92VNnz17fcxx58YWHh4c3WPr1oid3Hmesfs7Xg4eHh/cM72xHPbunurlXA0n+Um4seHh4eB/AS5Ld0206mDe5Hw8PD+//8aojJMEGDw8P79N4+dDXz1bvT0JIknwvqLXg4eHh9cd5Vbf45z9v6e/h4eHhjbvqqwqv81maq8XDw8PbwMs33EmLa20KXl4nHh4e3lJevpR8s05GqJZ0e8/i4eHh7eBNMPnRq1746R1HKEQ2PDw8vAFvUmjo1VF7jbFyGQIPDw9vAy/ffK8xeTBIXmU1GJz+ioeHh/dHvHm7a5LlVtfzSxkXDw8Pbxuv12Ra1cqa/HpTusXDw8N7kJdsynk5OB+5l6bj4eHhPcPLF50XUnvUXkMuCm94eHh4S3mTptTkiEAvrU9aYj/GxMPDw9vGq27KSfq7qhycz3LzjwEPDw9vM2+yHfeKGr20/gaJh4eHt4GXD7EqLe7Nch0kyrPj4eHhjXn5Rl8tpCZJeTVgVMMSHh4e3pO8akhYVaLNw0C0Ejw8PLxtvFUF3Mmv1ZdbLubi4eHhjXlJkpqn15Pvey20m9eEh4eHt4HXa/9PmlWTAm4ye+EYAR4eHt6AV/2rnx8RKL/jOGkuvGg8PDy8bbxVh6vytDhfen6AYNTfw8PDw2vxJqlzXoqtjt8r7OLh4eHt4L2LV77QaoE4L84WisJ4eHh4G3i99vwkCuWY+bN4eHh4+3i9rTwPJL3DAYVywzUYDw8PbxuvWmKYpON5obZcWcHDw8P7eF6yuEkgqYaB6DQZHh4e3uO8ajk1KQTvCD94eHh4u3nVgkK1iJAfQajec4PEw8PD28Cb/+GfhI3JQYFVh7Tw8PDwYt4XgLJK37hgq48AAAAASUVORK5CYII=" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACtElEQVR42u3aQW7jMBAEQP3/05vzIpHcPSRjByidjCCWWTQgjnvmuuLr37fr+T/vXrfX9/deJy48PDy85aU/f8Ad4BmZv/eOlG8WHh4e3u/w2kf8+jGQkJL1vLDg4eHhfQwvf3DXj/L4bnh4eHh/i3f33uEiRiU1Hh4e3nt5SRiRP/Tb42Q94NiQteDh4eF1FWzURfqc10f6e3h4eHjLXfW2GZaX6XeF+PqowX/3wcPDwzvAW4kG2hBhbyhcrBMPDw9vKy9v5K9EuivBboK8/RQ8PDy8w7x8Ec8ldYtM7pYcNtfs+8HDw8ObVKFXsri2aM4X0Y4IzEYK8PDw8Hbx2iGA9iDJt2npO5nlInh4eHgLQwNt2bqr5d9uStskw8PDwzvByxv8eQDRtr6SUj4v9IfzC3h4eHgxL4kMZoFCW9O2QUYxBIaHh4d3gDdjzIaldo0O1FEFHh4e3gFePhyQt6Nmx8O5TcTDw8PbxVsvmltM8kDf1oTDw8PDO8BL2l1t5JovK9mUg2EuHh4eXvmX9oPbkanZX2ZHyA/3xMPDwzvGawPTNixoA9xZGf1i6AoPDw9vK28WxRZt+9GW5QNYL2bK8PDw8LbyivJ0ofWVX8kd8iEDPDw8vNO8HNY279s2WFu4R+U7Hh4e3gHeLKKdhbnJ65X74OHh4Z3mJeMCLT4fyUq2rL1b0bvDw8PDW+a1B0DdlIoXOgsmot8KeHh4eId5eVW+t67PQ+E6wMXDw8Nb4M0e/bPjpC6Fl48NPDw8vBO8tqk/G4pqj4q8WMfDw8N7F289YkiK45VPabcYDw8P73d4K52jvD22FMiunGl4eHh4H8+bHT9JHJyX6Xh4eHifw3sXfjiYhYeHh3eMl9/6GZkvqy2mZyEyHh4e3gle+4t+JYZoG2ntqNaGwAIPDw/v6foCGTZK34gINuQAAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 

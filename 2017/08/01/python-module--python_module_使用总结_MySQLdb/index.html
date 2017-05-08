@@ -12,6 +12,8 @@
     <meta charset="utf-8">
     
     
+    <link rel="canonical" href="http://zshell.cc/2017/08/01/python-module--python_module_使用总结_MySQLdb/">
+    
     
     <title>python module 使用总结: MySQLdb | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -19,12 +21,12 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="python,python:module">
+    <meta name="keywords" content="python:module,python">
     <meta name="description" content="MySQLdb 模块是 python 与 mysql 交互的较为底层的接口, 不过它依然是在更为底层的 _mysql 模块之上又作了一层包装;_mysql 才是真正的直接面向 mysql 原生 C 接口的简单适配层, 而 MySQLdb 则在 _mysql 之上作了更多的关于类型转换等抽象包装;考虑到 MySQLdb 模块与一些 python ORM 框架的关系, MySQLdb 与 pytho">
-<meta name="keywords" content="python,python:module">
+<meta name="keywords" content="python:module,python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python module 使用总结: MySQLdb">
-<meta property="og:url" content="https://zshell-zhang.github.io/2017/08/01/python-module--python_module_使用总结_MySQLdb/index.html">
+<meta property="og:url" content="http://zshell.cc/2017/08/01/python-module--python_module_使用总结_MySQLdb/index.html">
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="MySQLdb 模块是 python 与 mysql 交互的较为底层的接口, 不过它依然是在更为底层的 _mysql 模块之上又作了一层包装;_mysql 才是真正的直接面向 mysql 原生 C 接口的简单适配层, 而 MySQLdb 则在 _mysql 之上作了更多的关于类型转换等抽象包装;考虑到 MySQLdb 模块与一些 python ORM 框架的关系, MySQLdb 与 pytho">
 <meta property="og:locale" content="zh-CN">
@@ -223,12 +225,12 @@
         
 
         
-        <strong>本文链接:</strong> <a href="/2017/08/01/python-module--python_module_使用总结_MySQLdb/" rel="external">https://zshell-zhang.github.io/2017/08/01/python-module--python_module_使用总结_MySQLdb</a> <br/> 感谢您的阅读与支持！
+        <strong>本文链接:</strong> <a href="/2017/08/01/python-module--python_module_使用总结_MySQLdb/" rel="external">http://zshell.cc/2017/08/01/python-module--python_module_使用总结_MySQLdb</a> <br/> 感谢您的阅读与支持！
         
     </div>
     
     <footer>
-        <a href="https://zshell-zhang.github.io">
+        <a href="http://zshell.cc">
             <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
             zshell.zhang
         </a>
@@ -254,7 +256,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_使用总结_MySQLdb/&title=《python module 使用总结: MySQLdb》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/08/01/python-module--python_module_使用总结_MySQLdb/&title=《python module 使用总结: MySQLdb》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -264,23 +266,23 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_使用总结_MySQLdb/&title=《python module 使用总结: MySQLdb》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/08/01/python-module--python_module_使用总结_MySQLdb/&title=《python module 使用总结: MySQLdb》 — 希尔的博客&source=
 MySQLdb 模块是 python 与 mysql 交互的较为底层的接口, 不过它依然是在更为底层的 _mysql 模块之上又作了一层包装;_mysq..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_使用总结_MySQLdb/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/08/01/python-module--python_module_使用总结_MySQLdb/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《python module 使用总结: MySQLdb》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_使用总结_MySQLdb/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《python module 使用总结: MySQLdb》 — 希尔的博客&url=http://zshell.cc/2017/08/01/python-module--python_module_使用总结_MySQLdb/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_使用总结_MySQLdb/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/08/01/python-module--python_module_使用总结_MySQLdb/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -422,7 +424,7 @@ MySQLdb 模块是 python 与 mysql 交互的较为底层的接口, 不过它依�
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_使用总结_MySQLdb/&title=《python module 使用总结: MySQLdb》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/08/01/python-module--python_module_使用总结_MySQLdb/&title=《python module 使用总结: MySQLdb》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -432,23 +434,23 @@ MySQLdb 模块是 python 与 mysql 交互的较为底层的接口, 不过它依�
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_使用总结_MySQLdb/&title=《python module 使用总结: MySQLdb》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/08/01/python-module--python_module_使用总结_MySQLdb/&title=《python module 使用总结: MySQLdb》 — 希尔的博客&source=
 MySQLdb 模块是 python 与 mysql 交互的较为底层的接口, 不过它依然是在更为底层的 _mysql 模块之上又作了一层包装;_mysq..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_使用总结_MySQLdb/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/08/01/python-module--python_module_使用总结_MySQLdb/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《python module 使用总结: MySQLdb》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_使用总结_MySQLdb/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《python module 使用总结: MySQLdb》 — 希尔的博客&url=http://zshell.cc/2017/08/01/python-module--python_module_使用总结_MySQLdb/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_使用总结_MySQLdb/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/08/01/python-module--python_module_使用总结_MySQLdb/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -459,7 +461,7 @@ MySQLdb 模块是 python 与 mysql 交互的较为底层的接口, 不过它依�
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADLUlEQVR42u3ay24qQQwE0Pz/T3O3kbiQKnuQoDmziobH9GkWjl398xNft7vr9/37v+8/O7v/6D3J91xwYWNjY38I+/b0at/zfJvuX32+nudPT5778FnY2NjYx7HzQtIWjNvourbgYWNjY2M/KhJ5yXn+xOfflr8TGxsbG3sz3GkZyaJnTQs2Njb2d7KvHRjNhkFJecuL62WzNGxsbOy3Z88K0nv+/ZJ8GxsbG/uN2a8Y2efFZhYzX6DAxsbGPoidF4DkH/q82di8mg+S/lg/NjY29hHsdjRz7bGe9pBlXjL/WA82Njb2QezZcZk2fM3vt+FEW+qwsbGxz2NvYt32cGQ+MNpsaLTd2NjY2AexN7B2lJ9Q84NB7cqHvzk2Njb2R7H3LUcOThbdPrc+voONjY19BHtWMGYjpPbgzn5zH97BxsbGPoidtxZ51JpXznzE39adaLuxsbGxj2C3g/jZACgPd/MB1iYMxsbGxj6PnTOSEDcpY21InDch0bOwsbGxj2NvRv/tNhUd0ssCZmxsbOyz2VcNlfKAoS1gm5CgSDmwsbGxP4QdvRyUk7axGQ6DRn3Ew89iY2NjH81Oxv2zAtNGv/lK2mKJjY2NfQY7H+60A51rj+BsWpr/rBAbGxv7UHY+lM8XnQfAs60ZRgXY2NjYh7I3h2yKkLUsV/mIqmiKsLGxsQ9iz0ZIs4M1+1C5HSpFoyVsbGzsD2fnw6B8KZsy04YHsyYKGxsb+zz27GG38tqTZod1sLGxsb+BnR+12Yxy8qhgFusWG42NjY19ELsNBtoG4KpSl29osVpsbGzsQ9l7ZHvQZ1OuclGRcmNjY2N/LLsd2bSf2ofKeYnCxsbG/k52Xh5aZN7Y5Md6ZpEDNjY29nnszbgnb1pu66uNnItfCRsbG/vD2bMSNTtS0zYMsxi4bX6wsbGxz2BvikceCeQjpNn25QEzNjY29qns9kxLHrjutyAZP61madjY2Nhfyd4c60nKZL5NeWODjY2NjZ0HtG3LkcQPszL2kgKGjY2N/ZbsZFltc3JVuzL7nj9+MGxsbOyD2JswdbNlbeTQtjGX5dvY2NjY78v+B3/OupbHDvSVAAAAAElFTkSuQmCC" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACtUlEQVR42u3aUW7jMAwE0N7/0t0DpElnKCrNAs9fQeLYejYgCkN9fcXH98Px+tfHcx7Pf/z8eLVn/1o+8PDw8I6H/niDHPB6WMm9niFn18HDw8O7x0um7/zMvCS0jzUfMx4eHt7n8F4Poj2//R4PDw/v/+W1OUBSYNrx4OHh4f0tL5nK86GfRxJboQYeHh7eDV4+xX/O5yv9PTw8PLzjrno7cbff7xaDH8aJh4eHd4E3u81JUNvecWFhjYeHh7fKyxl5UJs/gnbJ3uLx8PDw7vHaMPSkSOwGwQutLzw8PLySN4sMZsvuWSjclpxfXg8eHh7eEi+ZyreKRztvz9py9c4vPDw8vJKXI2c5cTvFz8KOhXeIh4eHF/Dyib6diIcr+uCOr0l4eHh47+HNWlCzRXDb1po1w37YOoCHh4e3ymun6XxJnQ93VjyKrQN4eHh4S7y8KTVr57dnzq4QPQ48PDy8Jd5s21O+mSCPettQI3pveHh4eG/h5b+2AUEeN7SRxNNv8PDw8C7w1qbgUWHI210n4S8eHh7eDV4eMZxM63kEfFJgnr43PDw8vGu82ed26dwGFkksMmx94eHh4Y14+dI2KSH5cjnfoJAv+qOtYHh4eHgHvNkC9zyGmN2lne3x8PDwbvNOwoi8kZa0sta2fOHh4eFd4OWhQ9uqn8UKsw0ExTvEw8PDO+a1mFlJyIOG9pENW194eHh4B7y8ZdVeuk2Ri4x5VKjw8PDwtnjf5ZEvgpNfW2RdivDw8PAu8NrJ95wxe6Dni3s8PDy8XV4+rHbybUPbk2bY06vh4eHhXeMlAW4Ca+tPMdCyaOHh4eF9Aq/dsLWVNOdL7V82EODh4eG9nTdra80Wx+clBw8PD+82bxa/ttsOkrvnS+0oAsbDw8O7wNsqHvmi/DwgXuvs4eHh4XW8fzKX5Cmi/F9lAAAAAElFTkSuQmCC" alt="微信分享二维码">
 </div>
 
 

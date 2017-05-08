@@ -12,6 +12,8 @@
     <meta charset="utf-8">
     
     
+    <link rel="canonical" href="http://zshell.cc/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/">
+    
     
     <title>elasticsearch 6.x 升级调研报告 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,7 +26,7 @@
 <meta name="keywords" content="elasticsearch,httpcomponents">
 <meta property="og:type" content="article">
 <meta property="og:title" content="elasticsearch 6.x 升级调研报告">
-<meta property="og:url" content="https://zshell-zhang.github.io/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/index.html">
+<meta property="og:url" content="http://zshell.cc/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/index.html">
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="关于 elasticsearch, 吐槽最多的就是其前后版本的兼容性问题; 在任何一个上规模的系统体系里, 要将部署在生产环境中的 elasticsearch 提升一个 major 版本是一件非常有挑战性的事情; 为了迎接这一挑战, 作者所在部门专门抽调人力资源作前期调研, 故为此文以记之;在这篇文章中, 我将从 client 端, 索引创建, query dsl, search api, pl">
 <meta property="og:locale" content="zh-CN">
@@ -338,12 +340,12 @@
         
 
         
-        <strong>本文链接:</strong> <a href="/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/" rel="external">https://zshell-zhang.github.io/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告</a> <br/> 感谢您的阅读与支持！
+        <strong>本文链接:</strong> <a href="/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/" rel="external">http://zshell.cc/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告</a> <br/> 感谢您的阅读与支持！
         
     </div>
     
     <footer>
-        <a href="https://zshell-zhang.github.io">
+        <a href="http://zshell.cc">
             <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
             zshell.zhang
         </a>
@@ -369,7 +371,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/&title=《elasticsearch 6.x 升级调研报告》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/&title=《elasticsearch 6.x 升级调研报告》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -379,23 +381,23 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/&title=《elasticsearch 6.x 升级调研报告》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/&title=《elasticsearch 6.x 升级调研报告》 — 希尔的博客&source=
 关于 elasticsearch, 吐槽最多的就是其前后版本的兼容性问题; 在任何一个上规模的系统体系里, 要将部署在生产环境中的 elasticsea..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《elasticsearch 6.x 升级调研报告》 — 希尔的博客&url=https://zshell-zhang.github.io/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《elasticsearch 6.x 升级调研报告》 — 希尔的博客&url=http://zshell.cc/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -537,7 +539,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/&title=《elasticsearch 6.x 升级调研报告》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/&title=《elasticsearch 6.x 升级调研报告》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -547,23 +549,23 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/&title=《elasticsearch 6.x 升级调研报告》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/&title=《elasticsearch 6.x 升级调研报告》 — 希尔的博客&source=
 关于 elasticsearch, 吐槽最多的就是其前后版本的兼容性问题; 在任何一个上规模的系统体系里, 要将部署在生产环境中的 elasticsea..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《elasticsearch 6.x 升级调研报告》 — 希尔的博客&url=https://zshell-zhang.github.io/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《elasticsearch 6.x 升级调研报告》 — 希尔的博客&url=http://zshell.cc/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -574,7 +576,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADJ0lEQVR42u3aQXLbMBAEQP//08o1h1CeWVBV4qZ5SjmWiEYOE8zi5yd+XhfP33+bfPbqJ+9/8/1b3r/96MHGxsZ+CPv19kmWfgXIl9tuSrLO9yvExsbG3seeLSt/ZR5XySbeEHLY2NjY/z273Y73sFko5ocibGxsbOz865KgSqIojytsbGxs7LysyUcF59+Zb+XHuzRsbGzsr2fnU9Hv//NH5tvY2NjYX8x+lc/JUaSt+89j8vIbsLGxsRex8wCYVfYnA9rZbxbrx8bGxl7BziMqr3vao0K+ce3B4/Kz2NjY2IvYd9VMbWXfVvn50SUJXWxsbOyt7DyKTsaxM1jCGEYpNjY29gr27ECSX8GZhVC7qnYLsLGxsfexzyuhkzhJAuxkPXXnhI2Njf0Q9ucC42QkkI8KhsUTNjY29iJ2e2zIRwJ5cJ6ME/IAvmzRsLGxsR/OPqmEckYShHlkng8YsLGxsTex22q+HR7MKq3Z1tQFEzY2NvYK9iw28vpp9q68Nmqj7h+5jY2Njf1w9iw2XvHzUz5tXA1bNGxsbOxF7HawOhsStN95Dv7lJ9jY2NiL2PmyWnzUZsXXbto3RlGKjY2NvYJ9PgY4GTC0g+QkzKLqChsbG3sde1bfv8onD8XkIlF+lSc6gWFjY2M/nH1SJ7VD1naQ0H5PFMnY2NjYi9j5ASOvh04u9ySD2+QaUPQPho2Njb2Cfe/otC2VZoD8ak5xZQcbGxv7sezkxXeVSu0xZrY19fAAGxsbex07KfTzmj6pmVrG7DpRcXLCxsbGfiC7/S9+vri8uD/ZyuG2YmNjY69jt6GVD4Dv2sRZsF0GMzY2NvZS9mwk0JZHeaE/i6goxrCxsbHXsfOYmS0rP07Mhgf50QgbGxt7E3s2ps2vy8wCbxao9WAAGxsbewU7f04u37QHhpP66eZNwcbGxn4Iuw2tZNHnl3tm212EJTY2NvY69rBkH6Vl8m35pufBho2NjY2dLyIvntrxwHmIYmNjY2O3pNmYYbaVeShiY2Nj72PnBVA7DMg/lQ+bbzjAYGNjYy9inwxT792yth76XOBhY2NjP4T9B1ASct7ApoQ6AAAAAElFTkSuQmCC" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACuklEQVR42u3a0YobMQwF0Pz/T6fQp0LbydW1RVo48xSyyYyOF2xF0usVX++f12vhev9yPT9xLwY8PDy8kwf8fv3tM88hPr9+DjR5bhIzHh4e3jave8zzJt4tRM6LDjA8PDy8r/K6ZLdbpvywwcPDw/u/eFP2h/S3igcPDw/vW7ykGDENtKuy5kt8udaCh4eHF/OmDbB/4fVifw8PDw/voKs+LaFOW195y62MFg8PD2+Bd9JkurUEeejd8BYeHh7eBi/ZiPMb5cF1gwjTsS08PDy8u7yufXWr3ZUsZd4e+8N98PDw8NZ4SRAbA1jTvHc8vIWHh4e3wEs29PMe07TFNU3rP8SJh4eHt8DLj4HpEuTtrq7UOwbj4eHhHfPy9lWe2uYljPwYyP8/eHh4eNu86eO78kQe6HSkIIoZDw8P7yqv28SnafH5Z8pv4eHh4S3wpht91+DPU/BukOvDffDw8PDWePlYQFeAmJaD86Pi6BcDHh4eXsU7CX36mJPvdoVjPDw8vD1eV3g9+dV/Em5eYsbDw8O7y5s2+/MScL5MeYNtPL6Ah4eHt8bLx6GS5HtQYI3bctO/4uHh4W3zkq02HzXIN+6cXQ4r4OHh4a3xToaxutb+ySDC4H08PDy8Bd7JyFRXbhjXj+NicX544OHh4Z3wppv4dNRg2v7vUnw8PDy8b/Gmbf6uzHqrKBwdNnh4eHgLvC5t7T7flR66FDz6xYCHh4dX8d7Dq2tNdXWR7mD4kFLj4eHhHfO6k+Rku8/T9+S5144TPDw8vCGvKwQ8b+75ITEdWZgeJ3h4eHh7vC6UvDGWnEjjGYdkmfDw8PC+ypu2yvKFyAvKSYSv7ozCw8PDW+OdYPI7Jyl79D4eHh7eGi8vRuSp87S821Wgo5QaDw8P7yrvpAGWz3NNyxBJkaIcFMDDw8PreT8Af1CccX9AWk4AAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 
