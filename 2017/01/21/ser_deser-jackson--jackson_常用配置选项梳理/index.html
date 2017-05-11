@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://zshell.cc/2017/01/21/ser_deser-jackson--jackson_常用配置选项梳理/">
+    
+    
+    <title>jackson 常用配置选项梳理 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="jackson,json">
+    <meta name="description" content="jackson 有各种各样的配置选项 (Feature), 涵盖了包括 json 语法解析, 语句生成, 序列化 / 反序列化特征, 字段类型处理 等不同层面, 对初学者而言, 很容易造成困惑;本文基于 jackson 2.8.x, 着手整理常用的 jackson 配置选项, 并给出一个便捷的工具类, 以友好的方式整合 jackson 的常用配置项;">
+<meta name="keywords" content="jackson,json">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jackson 常用配置选项梳理">
+<meta property="og:url" content="http://zshell.cc/2017/01/21/ser_deser-jackson--jackson_常用配置选项梳理/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="jackson 有各种各样的配置选项 (Feature), 涵盖了包括 json 语法解析, 语句生成, 序列化 / 反序列化特征, 字段类型处理 等不同层面, 对初学者而言, 很容易造成困惑;本文基于 jackson 2.8.x, 着手整理常用的 jackson 配置选项, 并给出一个便捷的工具类, 以友好的方式整合 jackson 的常用配置项;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-01T08:05:10.186Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jackson 常用配置选项梳理">
+<meta name="twitter:description" content="jackson 有各种各样的配置选项 (Feature), 涵盖了包括 json 语法解析, 语句生成, 序列化 / 反序列化特征, 字段类型处理 等不同层面, 对初学者而言, 很容易造成困惑;本文基于 jackson 2.8.x, 着手整理常用的 jackson 配置选项, 并给出一个便捷的工具类, 以友好的方式整合 jackson 的常用配置项;">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <script src="/js/leancloud-revision.js"></script>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshell.zhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ZhangZhi1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">jackson 常用配置选项梳理</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">jackson 常用配置选项梳理</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-01-21T07:51:40.000Z" itemprop="datePublished" class="page-time">
+  2017-01-21
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/ser-deser/">ser/deser</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/ser-deser/jackson/">jackson</a></li></ul></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置选项分类"><span class="post-toc-number">1.</span> <span class="post-toc-text">配置选项分类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#JsonGenerator-Feature"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">JsonGenerator.Feature</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#JsonParser-Feature"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">JsonParser.Feature</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#SerializationFeature"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">SerializationFeature</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#DeserializationFeature"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">DeserializationFeature</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#JsonInclude-Include"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">JsonInclude.Include</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jackson-选项控制的良好实践"><span class="post-toc-number">2.</span> <span class="post-toc-text">jackson 选项控制的良好实践</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#站内相关文章"><span class="post-toc-number">3.</span> <span class="post-toc-text">站内相关文章</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">4.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-ser_deser-jackson--jackson_常用配置选项梳理"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">jackson 常用配置选项梳理</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-01-21 15:51:40" datetime="2017-01-21T07:51:40.000Z"  itemprop="datePublished">2017-01-21</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/ser-deser/">ser/deser</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/ser-deser/jackson/">jackson</a></li></ul></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>jackson 有各种各样的配置选项 (Feature), 涵盖了包括 json 语法解析, 语句生成, 序列化 / 反序列化特征, 字段类型处理 等不同层面, 对初学者而言, 很容易造成困惑;<br>本文基于 jackson 2.8.x, 着手整理常用的 jackson 配置选项, 并给出一个便捷的工具类, 以友好的方式整合 jackson 的常用配置项;</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<h3 id="配置选项分类"><a href="#配置选项分类" class="headerlink" title="配置选项分类"></a><strong>配置选项分类</strong></h3><p>jackson 的配置选项丰富得可以让开发者自定义从 json 语句到 javabean 的方方面面, 总体来说有如下几类:<br>json 语句的生成与解析<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// json 语句生成的选项</span></span><br><span class="line">JsonGenerator.Feature</span><br><span class="line"><span class="comment">// json 语法解析的选项</span></span><br><span class="line">JsonParser.Feature</span><br></pre></td></tr></table></figure></p>
+<p>javabean 的序列化与反序列化<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// javabean 序列化选项</span></span><br><span class="line">SerializationFeature</span><br><span class="line"><span class="comment">// javabean 反序列化选项</span></span><br><span class="line">DeserializationFeature</span><br></pre></td></tr></table></figure></p>
+<p>javabean 字段<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// javabean 字段是否参与序列化</span></span><br><span class="line">JsonInclude.Include</span><br></pre></td></tr></table></figure></p>
+<p>上述各 Feature 或 Include 都是以枚举 (enum) 的形式定义的, 他们分布在 jackson 的如下包中:</p>
+<ul>
+<li>JsonGenerator.Feature: jackson-core</li>
+<li>JsonParser.Feature: jackson-core</li>
+<li>SerializationFeature: jackson-databind</li>
+<li>DeserializationFeature: jackson-databind</li>
+<li>JsonInclude.Include: jackson-annotations</li>
+</ul>
+<p>这样的归类与它们的功能有关:<br>JsonGenerator 与 JsonParser 主管 json 的生成与解析, 当属 jackson 的核心功能, 所以归于 jackson-core 包中;<br>SerializationFeature 与 DeserializationFeature 主管 javabean 的序列化与反序列化, 属于数据实体绑定范畴, 所以归于 jackson-databind 包中;<br>JsonInclude.Include 比较特别, 它理应主管字段是否参与序列化, 是 javabean 序列化的控制细节, 但是它的外部类 JsonInclude 本身是一个注解, 故其被归于 jackson-annotations 包中;<br>&nbsp;<br>下面将分别总结各类 Feature 中具体的常用选项; 有一点要说的是, 以下选项有些本身就是默认设置, 这里只是拿出来总结一下, 我们需要了解这些设置的存在; 另外, 某些设置可能只针对普遍的情况, 在特殊场景下并不适用 (比如容错性, 在某些严格的环境下就是需要 fast fail, 不需要容错);</p>
+<h4 id="JsonGenerator-Feature"><a href="#JsonGenerator-Feature" class="headerlink" title="JsonGenerator.Feature"></a><strong>JsonGenerator.Feature</strong></h4><p>其实, JsonGenerator.Feature 是一个比较底层的设置, 在源码注释中被称为 <code>Low-level I/O / content features</code>;<br>关于 json 的生成的配置项, 主要是三个方面:<br>(1) 统一字段的 json 规范形式, 如对引号的要求;<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 必须以 "双引号" 的形式包装字段</span></span><br><span class="line">objectMapper.configure(JsonGenerator.Feature.QUOTE_FIELD_NAMES, <span class="keyword">true</span>);</span><br></pre></td></tr></table></figure></p>
+<p>(2) 加强 json 生成的容错性, 如 JsonToken (大括号与中括号) 的匹配;<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 允许 json 生成器自动补全未匹配的括号</span></span><br><span class="line">objectMapper.configure(JsonGenerator.Feature.AUTO_CLOSE_JSON_CONTENT, <span class="keyword">true</span>);</span><br></pre></td></tr></table></figure></p>
+<p>(3) 第三个可能比较少见, 因为大部分业务场景下, 我们只是使用 <code>objectMapper.writeValueAsString</code> 方法, 得到其返回的 json 字符串以作他用; 而如果使用 <code>objectMapper.writeValue</code> 方法, 则可能涉及到写入流的问题:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 允许 json 生成器在写入完成后自动关闭写入的流</span></span><br><span class="line">objectMapper.configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, <span class="keyword">false</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这个选项默认是开启的, 那么会导致一个问题: 当你希望在往目标输出流里输出 json 之后再输出一些其他内容便会失败, 因为 jackson 已经自动帮你关闭该输出流了; 所以有些时候, 这个选项要设置成 false;</p>
+<h4 id="JsonParser-Feature"><a href="#JsonParser-Feature" class="headerlink" title="JsonParser.Feature"></a><strong>JsonParser.Feature</strong></h4><p>JsonParser 的配置项, 主要是加强 json 解析的容错性, 并主要体现在三方面:<br>(1) 降低字段的 json 规范形式, 如对引号的要求; 可以发现, 当自己生成 json 时, 我们要求严格规范引号的书写, 而当解析别人的 json 时, 却需要放宽规范与形式, 增强容错;<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 允许 json 存在没用引号括起来的 field</span></span><br><span class="line">objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, <span class="keyword">true</span>);</span><br><span class="line"><span class="comment">// 允许 json 存在使用单引号括起来的 field</span></span><br><span class="line">objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, <span class="keyword">true</span>);</span><br><span class="line"><span class="comment">// 允许 json 存在没用引号括起来的 ascii 控制字符</span></span><br><span class="line">objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, <span class="keyword">true</span>);</span><br></pre></td></tr></table></figure></p>
+<p>(2) 扩大数值字段的表现形式, 如前导 0, 无限大等;<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 允许 json number 类型的数存在前导 0 (like: 0001)</span></span><br><span class="line">objectMapper.configure(JsonParser.Feature.ALLOW_NUMERIC_LEADING_ZEROS, <span class="keyword">true</span>);</span><br><span class="line"><span class="comment">// 允许 json 存在 NaN, INF, -INF 作为 number 类型</span></span><br><span class="line">objectMapper.configure(JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS, <span class="keyword">true</span>);</span><br></pre></td></tr></table></figure></p>
+<p>(3) 允许出现注释;<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 允许 json 存在形如 // 或 /**/ 的注释</span></span><br><span class="line">objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, <span class="keyword">true</span>);</span><br></pre></td></tr></table></figure></p>
+<h4 id="SerializationFeature"><a href="#SerializationFeature" class="headerlink" title="SerializationFeature"></a><strong>SerializationFeature</strong></h4><p>SerializationFeature 的配置项, 主要是针对 javabean 字段序列化作规范与统一;<br>比如:<br>(1) 输出压缩的 json, 而不要缩进格式化, 浪费流量;<br>(2) 统一时间类型的输出为 timestamp, 消除歧义, 方便转换;<br>(3) 将空的集合类型以空的形式参与序列化, 而不是不展示它们, 从而始终能得到完整的数据结果;<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 序列化时, 禁止自动缩进 (格式化) 输出的 json (压缩输出)</span></span><br><span class="line">objectMapper.configure(SerializationFeature.INDENT_OUTPUT, <span class="keyword">false</span>);</span><br><span class="line"><span class="comment">// 序列化时, 将各种时间日期类型统一序列化为 timestamp 而不是其字符串表示</span></span><br><span class="line">objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, <span class="keyword">true</span>);</span><br><span class="line"><span class="comment">// 序列化时, map, list 中的 null 值也要参与序列化</span></span><br><span class="line">objectMapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, <span class="keyword">true</span>);</span><br></pre></td></tr></table></figure></p>
+<p>另外也有一些容错方面的设置:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 序列化时, 对于没有任何 public methods / properties 的类, 序列化不报错</span></span><br><span class="line">objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, <span class="keyword">false</span>);</span><br></pre></td></tr></table></figure></p>
+<h4 id="DeserializationFeature"><a href="#DeserializationFeature" class="headerlink" title="DeserializationFeature"></a><strong>DeserializationFeature</strong></h4><p>反序列化时配置项, 主要是考虑到容错性, 针对陌生的字段作忽略处理, 从而提高版本之间的兼容性(比如升级某个 api 版本增加字段后, 所有调用方并不需要保持同步升级, 反序列化时对新字段暂时忽略即可);<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 忽略未知的字段</span></span><br><span class="line">objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, <span class="keyword">false</span>);</span><br></pre></td></tr></table></figure></p>
+<h4 id="JsonInclude-Include"><a href="#JsonInclude-Include" class="headerlink" title="JsonInclude.Include"></a><strong>JsonInclude.Include</strong></h4><p>这与 <code>SerializationFeature.WRITE_NULL_MAP_VALUES</code> 有些相似: 就是针对所有的元素, 不管是不是 null, 都要参与序列化, 要展示所有元素的情况, 而不是对空值就忽略不展示了, 那会诱导发生潜在的 bug; 这算是对字段序列化作的规范统一;<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 所有实例中的 空字段, null 字段, 都要参与序列化</span></span><br><span class="line">objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);</span><br><span class="line">objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);</span><br></pre></td></tr></table></figure></p>
+<h3 id="jackson-选项控制的良好实践"><a href="#jackson-选项控制的良好实践" class="headerlink" title="jackson 选项控制的良好实践"></a><strong>jackson 选项控制的良好实践</strong></h3><p>公司的基础公共服务 api 中, 有一组关于 jackson 的良好封装, 旨在以更便捷友好的方式设置 jackson 配置选项, 当时该组件的作者是基础架构部的 <a href="mailto:miao.yang@qunar.com" target="_blank" rel="noopener">杨淼</a>; 不过, 该组件源代码维护在 qunar 的私有 gitlab 仓库中, 并不对外开源; 出于与公司的保密协议, 我只能将我一个使用 scala 开发的个人项目中针对此重新编写的代码拿出来与大家分享: <a href="https://github.com/spark-bypass-common/common-base/tree/master/src/main/scala/com/qunar/spark/base/json" target="_blank" rel="noopener">便捷设置 jackson 配置选项的案例</a>;<br>这个案例中, 有两点值得分享:<br><strong>(1) 利用重载方法统一选项设置入口</strong><br>关于 ObjectMapper 设置选项的 configure 方法, 我们可以发现, 它有很多重载方法:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ObjectMapper <span class="title">configure</span><span class="params">(MapperFeature f, <span class="keyword">boolean</span> state)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> ObjectMapper <span class="title">configure</span><span class="params">(JsonGenerator.Feature f, <span class="keyword">boolean</span> state)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> ObjectMapper <span class="title">configure</span><span class="params">(JsonParser.Feature f, <span class="keyword">boolean</span> state)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> ObjectMapper <span class="title">configure</span><span class="params">(SerializationFeature f, <span class="keyword">boolean</span> state)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> ObjectMapper <span class="title">configure</span><span class="params">(DeserializationFeature f, <span class="keyword">boolean</span> state)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>以上五个重载方法已经涵盖了上一节中提到的五种 Feature 中的四种; 最后还有一个关于 JsonInclude.Include 的设置方法如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 针对 JsonInclude.Include</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ObjectMapper <span class="title">setSerializationInclusion</span><span class="params">(JsonInclude.Include incl)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>所以, 在我分享的例子中, 便抽出了一个统一设置各个 Feature 的方法:<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">def</span> <span class="title">configure</span></span>(mapper: <span class="type">ObjectMapper</span>, feature: <span class="type">AnyRef</span>, state: <span class="type">Boolean</span>) &#123;</span><br><span class="line">  feature <span class="keyword">match</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> feature: <span class="type">SerializationFeature</span> =&gt; mapper.configure(feature.asInstanceOf[<span class="type">SerializationFeature</span>], state)</span><br><span class="line">    <span class="keyword">case</span> feature: <span class="type">DeserializationFeature</span> =&gt; mapper.configure(feature.asInstanceOf[<span class="type">DeserializationFeature</span>], state)</span><br><span class="line">    <span class="keyword">case</span> feature: <span class="type">JsonParser</span>.<span class="type">Feature</span> =&gt; mapper.configure(feature.asInstanceOf[<span class="type">JsonParser</span>.<span class="type">Feature</span>], state)</span><br><span class="line">    <span class="keyword">case</span> feature: <span class="type">JsonGenerator</span>.<span class="type">Feature</span> =&gt; mapper.configure(feature.asInstanceOf[<span class="type">JsonGenerator</span>.<span class="type">Feature</span>], state)</span><br><span class="line">    <span class="comment">// 兜底逻辑, 针对其余的 Feature</span></span><br><span class="line">    <span class="keyword">case</span> feature: <span class="type">MapperFeature</span> =&gt; mapper.configure(feature.asInstanceOf[<span class="type">MapperFeature</span>], state)</span><br><span class="line">    <span class="keyword">case</span> feature: <span class="type">Include</span> =&gt; <span class="keyword">if</span> (state) mapper.setSerializationInclusion(feature.asInstanceOf[<span class="type">Include</span>])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>(2) 使用位运算符巧妙设置选项</strong><br>其实, 在 jackson 自己的源码中, 就已经蕴含着位运算的设计思路 (以 SerializationFeature 为例):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* SerializationFeature */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ObjectMapper <span class="title">configure</span><span class="params">(SerializationFeature f, <span class="keyword">boolean</span> state)</span> </span>&#123;</span><br><span class="line">    _serializationConfig = state ? _serializationConfig.with(f) : _serializationConfig.without(f);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* SerializationConfig */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> SerializationConfig <span class="title">with</span><span class="params">(SerializationFeature feature)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> newSerFeatures = _serFeatures | feature.getMask();</span><br><span class="line">    <span class="keyword">return</span> (newSerFeatures == _serFeatures) ? <span class="keyword">this</span> : <span class="keyword">new</span> SerializationConfig(<span class="keyword">this</span>, _mapperFeatures,</span><br><span class="line">        newSerFeatures, _generatorFeatures, _generatorFeaturesToChange, _formatWriteFeatures,</span><br><span class="line">        _formatWriteFeaturesToChange);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中, <code>feature.getMask()</code> 方法便是得到目标 feature 的掩码 <code>_mask</code>, 一个在二进制上与其他 feature 相互错开的整数值:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">SerializationFeature</span><span class="params">(<span class="keyword">boolean</span> defaultState)</span> </span>&#123;</span><br><span class="line">    _defaultState = defaultState;</span><br><span class="line">    _mask = (<span class="number">1</span> &lt;&lt; ordinal());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMask</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> _mask; &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以发现, <code>1 &lt;&lt; ordinal()</code> 这个操作会给该枚举中的每个值, 依次对 1 作左移, 从而枚举内所有的值, 其二进制表示都只含有一个 1, 且两两错开 (但由于 <code>_mask</code> 是一个普通整型, 所以该枚举只能容纳不超过 32 个值);<br>那么位或运算 <code>_serFeatures | feature.getMask()</code> 便等于将该目标枚举值追加到掩码中了;<br>在我分享的例子中, 也是借鉴了这样巧妙的设计思想, 不同之处在于, 我的案例中是将所有常用的选项配置放在了一起, 组成了一个新的枚举, 并添加了一个 enableByDefault, 表示是否默认开启; 在这个新枚举中, 使用位操作对所有常用的配置编码, 统一设置:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">val defaults: Long = &#123;</span><br><span class="line">  var flags = <span class="number">0</span></span><br><span class="line">  <span class="keyword">for</span> (f &lt;- values <span class="keyword">if</span> f.enabledByDefault) &#123;</span><br><span class="line">    flags |= f.getMask</span><br><span class="line">  &#125;</span><br><span class="line">  flags</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">sealed <span class="keyword">case</span> class <span class="title">JsonFeatureValue</span> <span class="params">(@BeanProperty feature: AnyRef, enabledByDefault: Boolean)</span> extends Val </span>&#123;</span><br><span class="line">  <span class="meta">@BeanProperty</span> val mask = <span class="number">1</span> &lt;&lt; id</span><br><span class="line">  <span class="function">def <span class="title">isEnabled</span><span class="params">(flags: Long)</span>: Boolean </span>= (flags &amp; mask) != <span class="number">0</span></span><br><span class="line">  <span class="function">def <span class="title">enable</span><span class="params">(flags: Long)</span>: Long </span>= flags | mask</span><br><span class="line">  <span class="function">def <span class="title">disable</span><span class="params">(flags: Long)</span>: Long </span>= flags &amp; (~mask)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当不想使用默认设置时, 构建一个新的 ObjectMapper 实例也十分简洁, 只需传入一个掩码映射的数值即可:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> def <span class="title">buildMapperInternal</span><span class="params">(features: Long)</span>: ObjectMapper </span>= &#123;</span><br><span class="line">  val mapper = <span class="keyword">new</span> ObjectMapper</span><br><span class="line">  <span class="keyword">for</span> (jf &lt;- JsonFeature.values) &#123;</span><br><span class="line">    configure(mapper, jf.getFeature, jf.isEnabled(features))</span><br><span class="line">  &#125;</span><br><span class="line">  mapper</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>&nbsp;<br>以上便是该案例中两个值得学习的设计要点: 基于 jackson 原生代码, 利用方法重载, 位运算符, 整合分散的配置项, 聚集为一个便捷的工具类;</p>
+<h3 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h3><ul>
+<li><a href="https://github.com/spark-bypass-common/common-base/tree/master/src/main/scala/com/qunar/spark/base/json" target="_blank" rel="noopener">便捷设置 jackson 配置选项的案例</a></li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h3><ul>
+<li><a href="https://stackoverflow.com/questions/3140563/how-to-avoid-null-values-serialization-in-hashmap" target="_blank" rel="noopener">How to avoid null values serialization in HashMap</a></li>
+<li><a href="https://stackoverflow.com/questions/8372549/java-program-terminating-after-objectmapper-writevaluesystem-out-responsedata" target="_blank" rel="noopener">Java program terminating after ObjectMapper.writeValue(System.out, responseData) - Jackson Library</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2017/01/21/ser_deser-jackson--jackson_常用配置选项梳理/" rel="external">http://zshell.cc/2017/01/21/ser_deser-jackson--jackson_常用配置选项梳理</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="http://zshell.cc">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
+            zshell.zhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jackson/">jackson</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/json/">json</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/01/21/ser_deser-jackson--jackson_常用配置选项梳理/&title=《jackson 常用配置选项梳理》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/01/21/ser_deser-jackson--jackson_常用配置选项梳理/&title=《jackson 常用配置选项梳理》 — 希尔的博客&source=
+jackson 有各种各样的配置选项 (Feature), 涵盖了包括 json 语法解析, 语句生成, 序列化 / 反序列化特征, 字段类型处理 等不..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/01/21/ser_deser-jackson--jackson_常用配置选项梳理/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《jackson 常用配置选项梳理》 — 希尔的博客&url=http://zshell.cc/2017/01/21/ser_deser-jackson--jackson_常用配置选项梳理/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/01/21/ser_deser-jackson--jackson_常用配置选项梳理/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/03/06/web--http_status_code_典型问题总结/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">http status code 典型问题总结</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/01/06/linux-other--lsof札记/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">lsof 札记</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "fMh2JHgkPnDtARiQapOg8Jrk-gzGzoHsz",
+            appKey: "UPNXLDUkngDnuhfC9XQPgF6n",
+            avatar: "mm",
+            placeholder: "您的评论, 吾愿洗耳恭听!",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshell.zhang &copy; 2016 - 2017</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/01/21/ser_deser-jackson--jackson_常用配置选项梳理/&title=《jackson 常用配置选项梳理》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/01/21/ser_deser-jackson--jackson_常用配置选项梳理/&title=《jackson 常用配置选项梳理》 — 希尔的博客&source=
+jackson 有各种各样的配置选项 (Feature), 涵盖了包括 json 语法解析, 语句生成, 序列化 / 反序列化特征, 字段类型处理 等不..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/01/21/ser_deser-jackson--jackson_常用配置选项梳理/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《jackson 常用配置选项梳理》 — 希尔的博客&url=http://zshell.cc/2017/01/21/ser_deser-jackson--jackson_常用配置选项梳理/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/01/21/ser_deser-jackson--jackson_常用配置选项梳理/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvklEQVR42u3aS27jQAwFwNz/0h5gtoas90j1OAOUVoGtT5cCNGmSPz/x8fp7XH3y/vf7+e/fJlddnf/wgYeHhzda+tUxw7yCo32VV8+9uTMeHh7eMd7nx3wmJd+2Ly5fz40FDw8P76u8JBVOQsU+rcfDw8P7X3gJu31Z7bPw8PDwfg8vSXzb8NAWDvIy7pFaCx4eHt6kglqns9/6+2B/Dw8PD2/RVW+bWG1K3Sbc9drw8PDwDvA2BdZnS7cJOEnfb8IDHh4e3qO8hL0pvyalh7a4HAUePDw8vAO8fMPdb/FJreBzAXf2LDw8PLyneMnFyfbdNrfyFDwf/Kp/K+Dh4eEteLPf722hIQfP0vTLAi4eHh7eo7zPiensYTNGni4nQeXmf4iHh4e34EUb6yjJ3jfAZuesloKHh4dXIjcjVu3wwaYZVpd38fDw8B7l5WNSeTJdjEMFLf9ZSRcPDw/vNK/dlPNlteNc+bURGA8PD+9LvDxg5EXYpGKQNLpuQhEeHh7eYd6sDJGXEtrBrCT8RJ09PDw8vGO8tj2/KSu0RY3hYAEeHh7eP+HNGk77kLBJyusyLh4eHt6CtykozAoZ9eKCUsVN0MLDw8M7zNsUCGYJcVLAXb0gPDw8vEd5++Z9275qr8oHFIqQgIeHh7fgteNTmw09H7eapearuIeHh4dX8toBrFlLLAk/s1ZctGY8PDy8R3mzG+VbfA6YDWPdfI6Hh4d3mJcHiXwRyefFctsDDw8P71HeqzxmG3peYni2VYaHh4d3gtfusZtvZ2EgL/gOYXh4eHgjXh4MEt5sCOBcWQQPDw/vHC9fdP6rf3P/TSsODw8P77fxNgXc9v55CLl8Fh4eHt5XeUnq3J7fBpV2zAsPDw/vHC9veuUl2rZtlix92NzCw8PDe5TXNsBm6XL+avLA0K4KDw8Pb837A573DQFNTji4AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
