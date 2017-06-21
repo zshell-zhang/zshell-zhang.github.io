@@ -22,18 +22,18 @@
     
     
     <meta name="keywords" content="linux:shell">
-    <meta name="description" content="linux 中有很多实用的工具, 采用了这样一种工作方式:定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;类似的工具包括 ioutil, jmap 等;本文整理了实现上述逻辑的一些典型方法;">
+    <meta name="description" content="linux 中有很多实用的工具, 采用了这样一种工作方式:定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;类似的工具包括 iostat, dstat, jstat 等;本文整理了实现上述逻辑的一些典型方法;">
 <meta name="keywords" content="linux:shell">
 <meta property="og:type" content="article">
 <meta property="og:title" content="bash 结束死循环的方法">
 <meta property="og:url" content="http://zshell.cc/2017/11/05/linux-shell--bash结束死循环的方法/index.html">
 <meta property="og:site_name" content="希尔的博客">
-<meta property="og:description" content="linux 中有很多实用的工具, 采用了这样一种工作方式:定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;类似的工具包括 ioutil, jmap 等;本文整理了实现上述逻辑的一些典型方法;">
+<meta property="og:description" content="linux 中有很多实用的工具, 采用了这样一种工作方式:定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;类似的工具包括 iostat, dstat, jstat 等;本文整理了实现上述逻辑的一些典型方法;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-12-07T16:12:56.677Z">
+<meta property="og:updated_time" content="2018-06-16T05:08:39.512Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="bash 结束死循环的方法">
-<meta name="twitter:description" content="linux 中有很多实用的工具, 采用了这样一种工作方式:定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;类似的工具包括 ioutil, jmap 等;本文整理了实现上述逻辑的一些典型方法;">
+<meta name="twitter:description" content="linux 中有很多实用的工具, 采用了这样一种工作方式:定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;类似的工具包括 iostat, dstat, jstat 等;本文整理了实现上述逻辑的一些典型方法;">
     
         <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
     
@@ -192,7 +192,7 @@
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
             <blockquote>
-<p>linux 中有很多实用的工具, 采用了这样一种工作方式:<br>定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;<br>类似的工具包括 ioutil, jmap 等;<br>本文整理了实现上述逻辑的一些典型方法;</p>
+<p>linux 中有很多实用的工具, 采用了这样一种工作方式:<br>定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;<br>类似的工具包括 iostat, dstat, jstat 等;<br>本文整理了实现上述逻辑的一些典型方法;</p>
 </blockquote>
 <a id="more"></a>
 <hr>

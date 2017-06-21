@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="排查系统性能问题时, 最尴尬的事情莫过于敲下 top 命令后, 看着不断跳动的界面, 愣是不知道接下来要怎么操作, 最后无奈得按下了一个 q;所以我专门写作本文, 系统性得整理一下 top 命令所展示的内容与结构, 常见操作快捷键与技巧; 虽然在 top 界面里按 h 便能进入帮助界面, 但那种操作排版比较密集, 信息量太大, 没有直观性;当然, 即使是这篇文章的内容, 我最好也熟记于心, 否则">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-21T11:01:36.412Z">
+<meta property="og:updated_time" content="2018-06-14T14:20:21.164Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="top 命令与操作及其参数指标总结">
 <meta name="twitter:description" content="排查系统性能问题时, 最尴尬的事情莫过于敲下 top 命令后, 看着不断跳动的界面, 愣是不知道接下来要怎么操作, 最后无奈得按下了一个 q;所以我专门写作本文, 系统性得整理一下 top 命令所展示的内容与结构, 常见操作快捷键与技巧; 虽然在 top 界面里按 h 便能进入帮助界面, 但那种操作排版比较密集, 信息量太大, 没有直观性;当然, 即使是这篇文章的内容, 我最好也熟记于心, 否则">
@@ -207,7 +207,7 @@
 <p>其中有几个比较重要的指标:</p>
 <ul>
 <li>user time 时间占比大, 说明用户空间内的 cpu 计算比较多, 这属于最常见的状态;</li>
-<li>system time 时间占比大, 说明 system call 系统调用比较多, 计算多在内核空间发生;<br>这往往不是一个好的兆头, 如果伴随着系统的性能异常, 需要使用 strace 等命令追踪系统调用的状态;<br>如果一个正常情况下 system time 很少的进程, 突然莫名其妙得 user time 与 system time 的差距达到了量级, 那么有相当的概率, 系统内核发生了性能问题, 比如缺页 (page fault);<br>如果一个进程每次启动都会造成很高的 system time, 那么很可能是进程内部的逻辑在执行某些耗时的 system call, 这一点在 <a href="https://huoding.com/tag/strace" target="_blank" rel="noopener">火丁笔记的总结</a> 里十分有代表性;</li>
+<li>system time 时间占比大, 说明 system call 系统调用比较多, 计算多在内核空间发生;<br>这往往不是一个好的兆头, 如果伴随着系统的性能异常, 需要使用 strace 等命令追踪系统调用的状态;<br>如果一个正常情况下 system time 很少的进程, 突然莫名其妙得 user time 与 system time 的差距达到了量级, 那么有相当的概率, 系统内核发生了性能问题, 比如进程上下文切换 (context switch) 频繁以及缺页 (page fault);<br>如果一个进程每次启动都会造成很高的 system time, 那么很可能是进程内部的逻辑在执行某些耗时的 system call, 这一点在 <a href="https://huoding.com/tag/strace" target="_blank" rel="noopener">火丁笔记的总结</a> 里十分有代表性;</li>
 <li>idle time 时间占比很大, 说明 cpu 很闲, 时间多消耗在了闲置进程上;</li>
 <li>wait time 时间占比很大, 这十有八九是 cpu 等待 IO 设备的时间过长, 比较常见的是磁盘 IO 出现了吞吐瓶颈, 导致 cpu wait; 当然也有可能是网络适配器的带宽被打满了;</li>
 </ul>
