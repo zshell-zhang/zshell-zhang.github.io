@@ -20,21 +20,21 @@
     
     
     <meta name="keywords" content="elasticsearch">
-    <meta name="description" content="todo">
+    <meta name="description" content="关于 elasticsearch, 吐槽最多的就是其前后版本的兼容性问题; 在任何一个上规模的系统体系里, 要将使用中的 elasticsearch 提升一个 major 版本是一件非常有挑战性的事情; 为了迎接这一挑战, 公司专门抽调人力资源作前期调研, 故为此文以记之;在这篇文章中, 我从 客户端, 索引创建, query dsl, search api, plugins, 监控体系等多方面">
 <meta name="keywords" content="elasticsearch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="elasticsearch 6.x 升级调研报告">
 <meta property="og:url" content="https://zshell-zhang.github.io/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/index.html">
 <meta property="og:site_name" content="希尔的博客">
-<meta property="og:description" content="todo">
+<meta property="og:description" content="关于 elasticsearch, 吐槽最多的就是其前后版本的兼容性问题; 在任何一个上规模的系统体系里, 要将使用中的 elasticsearch 提升一个 major 版本是一件非常有挑战性的事情; 为了迎接这一挑战, 公司专门抽调人力资源作前期调研, 故为此文以记之;在这篇文章中, 我从 客户端, 索引创建, query dsl, search api, plugins, 监控体系等多方面">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/elasticsearch/elasticsearch_6.2_升级调研纪实/x-pack-fee.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/elasticsearch/elasticsearch_6.2_升级调研纪实/x-pack-monitor.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/elasticsearch/elasticsearch_6.2_升级调研纪实/x-pack-search-profiler.png">
-<meta property="og:updated_time" content="2018-03-30T15:22:43.588Z">
+<meta property="og:updated_time" content="2018-04-01T15:29:07.163Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="elasticsearch 6.x 升级调研报告">
-<meta name="twitter:description" content="todo">
+<meta name="twitter:description" content="关于 elasticsearch, 吐槽最多的就是其前后版本的兼容性问题; 在任何一个上规模的系统体系里, 要将使用中的 elasticsearch 提升一个 major 版本是一件非常有挑战性的事情; 为了迎接这一挑战, 公司专门抽调人力资源作前期调研, 故为此文以记之;在这篇文章中, 我从 客户端, 索引创建, query dsl, search api, plugins, 监控体系等多方面">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/elasticsearch/elasticsearch_6.2_升级调研纪实/x-pack-fee.png">
     
         <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
@@ -171,7 +171,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#客户端兼容性问题"><span class="post-toc-number">1.</span> <span class="post-toc-text">客户端兼容性问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#升级过渡期-client-端的技术选型"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">升级过渡期 client 端的技术选型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HighLevelClient-的使用注意事项"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">HighLevelClient 的使用注意事项</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#语法兼容性问题"><span class="post-toc-number">2.</span> <span class="post-toc-text">语法兼容性问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#索引创建的兼容性"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">索引创建的兼容性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#query-dsl-的兼容性"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">query dsl 的兼容性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#search-api-的兼容性"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">search api 的兼容性</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#底层索引数据兼容性问题"><span class="post-toc-number">3.</span> <span class="post-toc-text">底层索引数据兼容性问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#工具兼容性问题"><span class="post-toc-number">4.</span> <span class="post-toc-text">工具兼容性问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#http-访问工具兼容性"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">http 访问工具兼容性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#插件兼容性"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">插件兼容性</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#监控体系"><span class="post-toc-number">5.</span> <span class="post-toc-text">监控体系</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基于-rest-api-graphite-grafana-的方案"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">基于 rest api + graphite + grafana 的方案</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#elastic-官方组件-x-pack"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">elastic 官方组件 x-pack</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#本文总结"><span class="post-toc-number">6.</span> <span class="post-toc-text">本文总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">7.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#客户端兼容性问题"><span class="post-toc-number">1.</span> <span class="post-toc-text">客户端兼容性问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#巨轮转向的前提-es-adapter"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">巨轮转向的前提: es-adapter</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#升级过渡期-client-端的技术选型"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">升级过渡期 client 端的技术选型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HighLevelClient-的使用注意事项"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">HighLevelClient 的使用注意事项</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#语法兼容性问题"><span class="post-toc-number">2.</span> <span class="post-toc-text">语法兼容性问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#索引创建的兼容性"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">索引创建的兼容性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#query-dsl-的兼容性"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">query dsl 的兼容性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#search-api-的兼容性"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">search api 的兼容性</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#底层索引数据兼容性问题"><span class="post-toc-number">3.</span> <span class="post-toc-text">底层索引数据兼容性问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#工具兼容性问题"><span class="post-toc-number">4.</span> <span class="post-toc-text">工具兼容性问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#http-访问工具兼容性"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">http 访问工具兼容性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#插件兼容性"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">插件兼容性</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#监控体系"><span class="post-toc-number">5.</span> <span class="post-toc-text">监控体系</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基于-rest-api-graphite-grafana-的方案"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">基于 rest api + graphite + grafana 的方案</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#elastic-官方组件-x-pack"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">elastic 官方组件 x-pack</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#本文总结"><span class="post-toc-number">6.</span> <span class="post-toc-text">本文总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#站内相关文章"><span class="post-toc-number">7.</span> <span class="post-toc-text">站内相关文章</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">8.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
         </nav>
     </aside>
 
@@ -194,12 +194,13 @@
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
             <blockquote>
-<p>todo</p>
+<p>关于 elasticsearch, 吐槽最多的就是其前后版本的兼容性问题; 在任何一个上规模的系统体系里, 要将使用中的 elasticsearch 提升一个 major 版本是一件非常有挑战性的事情; 为了迎接这一挑战, 公司专门抽调人力资源作前期调研, 故为此文以记之;<br>在这篇文章中, 我从 客户端, 索引创建, query dsl, search api, plugins, 监控体系等多方面讨论了从 2.4.2 版本迁移到 6.2.2 版本的一系列可能遇到的兼容性问题及解决方案;<br>希望能给各位读者带来工作上的帮助!</p>
 </blockquote>
 <a id="more"></a>
 <hr>
-<p><strong>高能预警: 万字长文, 如只希望了解最终结论, 请点击:</strong> <em><a href="#本文总结">本文总结</a>;</em></p>
-<h2 id="客户端兼容性问题"><a href="#客户端兼容性问题" class="headerlink" title="客户端兼容性问题"></a><strong>客户端兼容性问题</strong></h2><h3 id="升级过渡期-client-端的技术选型"><a href="#升级过渡期-client-端的技术选型" class="headerlink" title="升级过渡期 client 端的技术选型"></a><strong>升级过渡期 client 端的技术选型</strong></h3><p>关于 elasticsearch java 官方客户端, 除了 TransportClient 之外, 最近又新出了一个 HighLevelClient, 而且官方准备在接下来的一两个 major 版本中, 让 HighLevelClient 逐步取代 TransportClient, 官方原话是这样描述的:</p>
+<p><strong>万字长文, 高能预警! 如只希望了解最终结论, 请点击:</strong> <em><a href="#本文总结">本文总结</a>;</em><br>&nbsp;<br>间歇断续, 历时余月, 本文终于迎来了收尾;<br>这篇文章缘起于部门自建 elasticsearch 集群的一个线上故障, 这是我们技术 TL 在 elastic 论坛的提问: <a href="https://discuss.elastic.co/t/es-consume-high-cpu-with-threadlocal/117402" target="_blank" rel="noopener">ES consume high cpu with threadlocal</a>; 随着业务规模的扩大, 业务数据的积累, 我们意识到当前 2.4.2 版本的 elasticsearch 已经满足不了我们的需求, 此刻亟需升级我们的集群; 比较之后, 我们打算将 6.2.2 版本作为升级的目标, 并着手开始调研; 本文便是该升级调研的一个总结报告;<br>相比于公司内部发表的版本, 本篇博客脱去了所有涉及公司的敏感信息, 并在开篇第一节补充介绍了一下我们使用 elasticsearch 的方式, 以方便外部读者更好得理解本文的其余部分内容;</p>
+<h2 id="客户端兼容性问题"><a href="#客户端兼容性问题" class="headerlink" title="客户端兼容性问题"></a><strong>客户端兼容性问题</strong></h2><h3 id="巨轮转向的前提-es-adapter"><a href="#巨轮转向的前提-es-adapter" class="headerlink" title="巨轮转向的前提: es-adapter"></a><strong>巨轮转向的前提: es-adapter</strong></h3><p>我相信, 搞过 elasticsearch major 版本升级的人都对 elastic 公司深有体会: 从不按牌理出牌, 一个毫不妥协的技术理想主义者, 在其世界里根本没有兼容性这个词; 对于这样的公司做出的产品, 升级必定是一个痛苦的过程;<br>如果请求 elasticsearch 的代码逻辑散落在部门众多业务线的众多系统里, 要推动他们修改代码势必比登天还难: 因为这个过程对他们的 PKI 没有任何帮助, 只会挤占他们的工时, 增加他们的额外负担和 “无效” 工作量, 他们一定不会积极配合, 我们将无法推动进展;<br>还好部门的 VP 有技术远见,在各系统建立之初, 就定下了访问 elasticsearch 的规范: 禁止各系统自己主动连接 elasticsearch, 必须统一由专门的系统代理, 负责语法校验, 行为规范, 请求监控, 以及统一的调优, 这个系统被命名为 es-adapter;<br>当然, es-adapter 系统设计的早期也有一些硬伤, 并直接诱发了一个严重的线上故障: <a href="">apache httpclient 初始化参数设置总结</a>; 那次事故之后, 甚至有技术 TL 开始怀疑 es-adapter 成为了当前体系的瓶颈, 需要评估有无必要废弃该系统; 但是船大掉头难, 整改谈何容易? 最后还是老老实实完善了 es-adapter 的逻辑继续使用;<br>有的时候 es-adapter 也会做一些语法兼容性的逻辑, 比如之前从 1.7.3 升级到 2.4.2 的时候, 部分 dsl 语法的改动就完全在 es-adapter 上代理了, 对业务线无感知, 轻描淡写地升级了一个 major 版本; 尽管这么做带来了一些技术债务, 但确实为有限时间内的快速升级提供了可能性; 在后面的时间, 业务线可以慢慢地迭代版本, 逐渐适配新 elasticsearch 版本的 api, 偿还债务; 正所谓: 万事之先, 圆方门户; 虽覆能复, 不失其度;<br>不得不说, 当系统规模与复杂度发展到了一个 “船大难掉头” 的程度时, es-adapter 就像是《三体》中描述的 “水滴” 一样, 带领整个体系从一个更高的维度完成 “平滑” 转向; 没有 es-adapter, 升级 elasticsearch 到 6.2.2 就无从谈起; 只不过这次的情形相比上一次有些难看, 没法做到完全透明了, es-adapter 部分特有的逻辑设计在这次升级可能会栽一个跟头, 具体的内容请见下文: <a href="#search-api-的兼容性">search api 的兼容性</a>;</p>
+<h3 id="升级过渡期-client-端的技术选型"><a href="#升级过渡期-client-端的技术选型" class="headerlink" title="升级过渡期 client 端的技术选型"></a><strong>升级过渡期 client 端的技术选型</strong></h3><p>关于 elasticsearch java 官方客户端, 除了 TransportClient 之外, 最近又新出了一个 HighLevelClient, 而且官方准备在接下来的一两个 major 版本中, 让 HighLevelClient 逐步取代 TransportClient, 官方原话是这样描述的:</p>
 <blockquote>
 <p>We plan on deprecating the <code>TransportClient</code> in Elasticsearch 7.0 and removing it completely in 8.0.</p>
 </blockquote>
@@ -300,6 +301,9 @@
             </figure><br>除了以上免费功能, kibana 本身还有最基础的 Discover 和 Visualize 数据可视化功能, 只不过各业务线都习惯于使用 head 工具来访问线上数据, 并且 kibana 的该部分功能较之以前无显著变化, 此处便不再详述;<br>以上便是 elasticsearch 6.x 下 x-pack 最常见的使用情况;</p>
 <h2 id="本文总结"><a href="#本文总结" class="headerlink" title="本文总结"></a><strong>本文总结</strong></h2><p>本文主要讨论当前生产环境下从 elasticsearch 2.4.2 升级成 6.2.2 的可行性与兼容性问题;<br><strong>首先是客户端兼容性问题:</strong><br>elastic 公司新推出的 <code>RestHighLevelClient</code> 从 http 层面最大限度得屏蔽了各版本间的差异, 使得跨版本调用成为了可能; 使用 6.2.2 的 <code>RestHighLevelClient</code> 可以正常访问 2.4.2 的集群, 这为集群升级带来了便利;<br><strong>其次是语法兼容性问题:</strong><br>此处仍需细分为三个方面: <strong>create index</strong>, <strong>query dsl</strong> 和 <strong>search api</strong> ;<br><strong>create index</strong> 方面, 其他的零碎变化都显得不痛不痒, 对我们的影响微乎其微, 唯一一个显著的大改变就是废弃了 <code>string</code> 类型, 改而细分出两个司职更明确的类型: <code>text</code> 与 <code>keyword</code>, 分别对应于分词和不分词的情形; 这个大改变需要我们对现有所有的索引作一次大整改;<br><strong>query dsl</strong> 方面, 对我们的影响也在控制范围之内: 只有 <code>missing</code> 语句被废弃需要业务线作一定的修改, 其他的大多可以由 es-adapter 代理兼容;<br><strong>search api</strong> 方面, 可能影响就比较大了: <code>scan</code> 和 <code>count</code> 两种 search type 被废弃, 并在 es-adapter 糟糕的设计之下, 影响被放大, 需要麻烦各业务线配合修改;<br><strong>然后是索引数据迁移兼容性问题:</strong><br>经过多方测试, 发现只有两种方法可以在我们这种跨两个 major 版本的情况下迁移索引数据: reindex 模块和 es-spark 工具; 好在这两种方法 (由其是后者) 之前就是我们主要的索引迁移工具;<br><strong>接着是工具兼容性问题:</strong><br>经过不断探索与变通, 最后 <code>cerebro</code>, <code>elasticsearch-head</code>, <code>elasticfence</code>, <code>elasticsearch-analysis-ik</code>, <code>curator</code> 等一系列原有生产环境下的 elasticsearch 工具 (插件) 都 “顺利” 实现了对 6.2.2 版本的兼容;<br><strong>最后是监控体系兼容性问题:</strong><br>得益于 6.x 版本 rest api 对先前的延续, 之前生产环境使用的基于一系列开源方案的自建监控系统, 在 6.x 下依然做到了正常运转;<br>另外, 从 5.0 开始横空出世的 x-pack, 也在本次调研中被部署测试; 其中 monitoring, search-profiler 等功能都展示出了其实用的价值;</p>
 <p>&nbsp;<br><strong>以上便是本文的全部内容;</strong></p>
+<h2 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h2><ul>
+<li><a href="">apache httpclient 初始化参数设置总结</a></li>
+</ul>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2><ul>
 <li><a href="https://github.com/elastic/elasticsearch-dsl-py/blob/master/Changelog.rst" target="_blank" rel="noopener">Changelog</a></li>
 <li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.2/removal-of-types.html" target="_blank" rel="noopener">Removal of mapping types</a></li>
@@ -365,8 +369,7 @@
       </li>
       <li>
         <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/&title=《elasticsearch 6.x 升级调研报告》 — 希尔的博客&source=
-todo
-" data-title=" QQ">
+关于 elasticsearch, 吐槽最多的就是其前后版本的兼容性问题; 在任何一个上规模的系统体系里, 要将使用中的 elasticsearch 提..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -527,8 +530,7 @@ todo
       </li>
       <li>
         <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/&title=《elasticsearch 6.x 升级调研报告》 — 希尔的博客&source=
-todo
-" data-title=" QQ">
+关于 elasticsearch, 吐槽最多的就是其前后版本的兼容性问题; 在任何一个上规模的系统体系里, 要将使用中的 elasticsearch 提..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
