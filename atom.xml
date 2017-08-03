@@ -153,9 +153,9 @@
       <category term="module" scheme="http://zshell.cc/categories/python/module/"/>
     
     
-      <category term="python" scheme="http://zshell.cc/tags/python/"/>
-    
       <category term="python:module" scheme="http://zshell.cc/tags/python-module/"/>
+    
+      <category term="python" scheme="http://zshell.cc/tags/python/"/>
     
   </entry>
   
@@ -481,9 +481,9 @@
       <category term="module" scheme="http://zshell.cc/categories/python/module/"/>
     
     
-      <category term="python" scheme="http://zshell.cc/tags/python/"/>
-    
       <category term="python:module" scheme="http://zshell.cc/tags/python-module/"/>
+    
+      <category term="python" scheme="http://zshell.cc/tags/python/"/>
     
   </entry>
   
