@@ -22,15 +22,18 @@
     
     
     <meta name="keywords" content="nginx,nginx:module">
-    <meta name="keywords" content="nginx,nginx:module">
+    <meta name="description" content="ngx_http_gzip_module 是十分有用的 nginx 模块, 其有效压缩了 http 请求大小, 节省了流量, 加快了传输速度, 提升了用户体验;当然, 其在使用上也有一些坑, 本文将具体讨论一下相关内容;">
+<meta name="keywords" content="nginx,nginx:module">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nginx module 使用总结: ngx_http_gzip_module">
 <meta property="og:url" content="http://zshell.cc/2017/12/21/nginx-module--nginx_module_使用总结_ngx_http_gzip_module/index.html">
 <meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="ngx_http_gzip_module 是十分有用的 nginx 模块, 其有效压缩了 http 请求大小, 节省了流量, 加快了传输速度, 提升了用户体验;当然, 其在使用上也有一些坑, 本文将具体讨论一下相关内容;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-26T03:43:48.842Z">
+<meta property="og:updated_time" content="2018-05-13T06:36:48.762Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx module 使用总结: ngx_http_gzip_module">
+<meta name="twitter:description" content="ngx_http_gzip_module 是十分有用的 nginx 模块, 其有效压缩了 http 请求大小, 节省了流量, 加快了传输速度, 提升了用户体验;当然, 其在使用上也有一些坑, 本文将具体讨论一下相关内容;">
     
         <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
     
@@ -163,6 +166,13 @@
 
 <div class="container body-wrap">
     
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#gzip-模块的安装"><span class="post-toc-number">1.</span> <span class="post-toc-text">gzip 模块的安装</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#gzip-模块的配置"><span class="post-toc-number">2.</span> <span class="post-toc-text">gzip 模块的配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#gzip-模块实践中遇到的坑"><span class="post-toc-number">3.</span> <span class="post-toc-text">gzip 模块实践中遇到的坑</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">4.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
 
 <article id="post-nginx-module--nginx_module_使用总结_ngx_http_gzip_module"
   class="post-article article-type-post fade" itemprop="blogPost">
@@ -181,7 +191,32 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <a id="more"></a>
+            <blockquote>
+<p>ngx_http_gzip_module 是十分有用的 nginx 模块, 其有效压缩了 http 请求大小, 节省了流量, 加快了传输速度, 提升了用户体验;<br>当然, 其在使用上也有一些坑, 本文将具体讨论一下相关内容;</p>
+</blockquote>
+<a id="more"></a>
+<p>ngx_http_gzip_module 这个模块的名字其实是 <a href="http://nginx.org/en/docs/http/ngx_http_gzip_module.html" target="_blank" rel="noopener">官方文档</a> 里定义的; 然而在 nginx 源码里 (v1.11.2), 这个模块所在的源码文件名叫 <code>src/http/ngx_http_gzip_filter_module.c</code>;</p>
+<h3 id="gzip-模块的安装"><a href="#gzip-模块的安装" class="headerlink" title="gzip 模块的安装"></a><strong>gzip 模块的安装</strong></h3><p>ngx_http_gzip_module 编译默认安装, 无需额外操作;</p>
+<h3 id="gzip-模块的配置"><a href="#gzip-模块的配置" class="headerlink" title="gzip 模块的配置"></a><strong>gzip 模块的配置</strong></h3><p>gzip 模块的配置可以在如下位置:</p>
+<ol>
+<li>nginx.conf 中的 http 指令域下;</li>
+<li>某个具体 vhost.conf 配置下的 server 指令域下;</li>
+<li>某个具体 server 指令下的 location 指令域下;</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">ngx_command_t</span>  ngx_http_gzip_filter_commands[] = &#123;</span><br><span class="line"></span><br><span class="line">    &#123; ngx_string(<span class="string">"gzip"</span>),</span><br><span class="line">      NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_HTTP_LIF_CONF</span><br><span class="line">                        |NGX_CONF_FLAG,</span><br><span class="line">      ngx_conf_set_flag_slot,</span><br><span class="line">      NGX_HTTP_LOC_CONF_OFFSET,</span><br><span class="line">      offsetof(<span class="keyword">ngx_http_gzip_conf_t</span>, enable),</span><br><span class="line">      <span class="literal">NULL</span> &#125;,</span><br><span class="line">      </span><br><span class="line">    &#123; ngx_string(<span class="string">"gzip_buffers"</span>),</span><br><span class="line">      NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_TAKE2,</span><br><span class="line">      ngx_conf_set_bufs_slot,</span><br><span class="line">      NGX_HTTP_LOC_CONF_OFFSET,</span><br><span class="line">      offsetof(<span class="keyword">ngx_http_gzip_conf_t</span>, bufs),</span><br><span class="line">      <span class="literal">NULL</span> &#125;,</span><br><span class="line">    </span><br><span class="line">    ......</span><br><span class="line">    </span><br><span class="line">      ngx_null_command</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>以上代码片段列举了 <code>gzip</code> 指令与 <code>gzip_buffers</code>, 其余的指令与 <code>gzip_buffers</code> 在使用上下文设置上基本相同, 都是 <code>NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF</code>;<br>从源码中可以看出, 在 gzip 模块里, <code>gzip</code> 指令相比其他指令有一个特别的地方: 除了 http, server, location 之外, 还有一个地方可以使用 <code>gzip</code> 指令, <code>NGX_HTTP_LIF_CONF</code>, 即 location 指令域中的 if 配置下;</p>
+<p>以下是一个典型完整的 gzip 配置:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启/关闭, 默认 off</span></span><br><span class="line">gzip on | off;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当 response header 中包含 Via 头信息时, 根据 request header 中某些头信息决定是否需要开启 gzip, 默认 off</span></span><br><span class="line">gzip_proxied off | expired | no-cache | no-store | private | no_last_modified | no_etag | auth | any;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据 User-Agent 的值匹配, 针对部分请求不使用 gzip, 比如老旧的 IE6</span></span><br><span class="line">gzip_disable <span class="string">"msie6"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在 response header 中添加 Vary: Accept-Encoding, 告诉 cache/cdn 同时缓存 压缩与非压缩两种版本的 response, 默认 off</span></span><br><span class="line">gzip_vary on | off;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 gzip 的最小 size, size 值取决于 Content-length 的值, 默认 20 bytes</span></span><br><span class="line">gzip_min_length 1k;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用于 gzip 压缩缓冲区的 num 与 size</span></span><br><span class="line"><span class="comment"># 建议 num 为 cpu 核心数, size 为 cpu cache page 大小</span></span><br><span class="line">gzip_buffers 32 8k;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 支持 gzip 模块的最低 http 版本, 默认 1.1</span></span><br><span class="line">gzip_http_version 1.0;</span><br><span class="line"></span><br><span class="line"><span class="comment"># gzip 压缩级别, [1-9], 默认 1, 级别越高, 压缩率越高, 同时消耗的 cpu 资源越高</span></span><br><span class="line">gzip_comp_level 1;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 针对哪些 Content-type 使用 gzip, 默认是 text/html</span></span><br><span class="line"><span class="comment"># text/html 不需要设置到 gzip_types 中, 在其他条件满足时, text/html 会自动被压缩</span></span><br><span class="line"><span class="comment"># 若设置了 text/html 反而会输出 warn </span></span><br><span class="line">gzip_types text/css application/javascript application/json;</span><br></pre></td></tr></table></figure></p>
+<h3 id="gzip-模块实践中遇到的坑"><a href="#gzip-模块实践中遇到的坑" class="headerlink" title="gzip 模块实践中遇到的坑"></a><strong>gzip 模块实践中遇到的坑</strong></h3><p><strong>(1) gzip_comp_level 级别的选择</strong><br>在 <a href="https://serverfault.com/questions/253074/what-is-the-best-nginx-compression-gzip-level" target="_blank" rel="noopener">stackoverflow 上的一个问题</a> 里曾讨论到, gzip_comp_level 压缩级别, 虽然其越高压缩率越高, 但是压缩边际提升率在 level = 1 之后却是在下降的:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 针对 text/html</span></span><br><span class="line">0    55.38 KiB (100.00% of original size)</span><br><span class="line">1    11.22 KiB ( 20.26% of original size)</span><br><span class="line">2    10.89 KiB ( 19.66% of original size)</span><br><span class="line">3    10.60 KiB ( 19.14% of original size)</span><br><span class="line">4    10.17 KiB ( 18.36% of original size)</span><br><span class="line">5     9.79 KiB ( 17.68% of original size)</span><br><span class="line">6     9.62 KiB ( 17.37% of original size)</span><br><span class="line">7     9.50 KiB ( 17.15% of original size)</span><br><span class="line">8     9.45 KiB ( 17.06% of original size)</span><br><span class="line">9     9.44 KiB ( 17.05% of original size)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 针对 application/x-javascript</span></span><br><span class="line">0    261.46 KiB (100.00% of original size)</span><br><span class="line">1     95.01 KiB ( 36.34% of original size)</span><br><span class="line">2     90.60 KiB ( 34.65% of original size)</span><br><span class="line">3     87.16 KiB ( 33.36% of original size)</span><br><span class="line">4     81.89 KiB ( 31.32% of original size)</span><br><span class="line">5     79.33 KiB ( 30.34% of original size)</span><br><span class="line">6     78.04 KiB ( 29.85% of original size)</span><br><span class="line">7     77.85 KiB ( 29.78% of original size)</span><br><span class="line">8     77.74 KiB ( 29.73% of original size)</span><br><span class="line">9     77.75 KiB ( 29.74% of original size)</span><br></pre></td></tr></table></figure></p>
+<p>随着压缩级别的提高, 更高的 cpu 消耗却换不来有效的压缩提升效率; 所以 gzip_comp_level 的最佳实践是将其设为 1, 便足够了;<br>&nbsp;</p>
+<p><strong>(2) gzip_min_length 的陷阱</strong><br>一般经验上, 我们会将 gzip_min_length 设置为 1KB, 以防止 response size 太小, 压缩后反而变大;<br>只是, ngx_http_gzip_module 取决于 response headers 里的 Content-length; 如果 response 里面有这个 header, 那没有任何问题, 但是如果 response 里面没这个 header, gzip_min_length 设置就失效了;<br>这种情况其实并不少见: <code>Transfer-Encoding: chunked</code>; </p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h3><ul>
+<li><a href="http://nginx.org/en/docs/http/ngx_http_gzip_module.html" target="_blank" rel="noopener">Module ngx_http_gzip_module</a></li>
+<li><a href="http://www.jianshu.com/p/af6304f7cbd6" target="_blank" rel="noopener">nginx の gzip 使用</a></li>
+<li><a href="https://www.darrenfang.com/2015/01/setting-up-http-cache-and-gzip-with-nginx/" target="_blank" rel="noopener">加速nginx: 开启gzip和缓存</a></li>
+<li><a href="http://www.webkaka.com/blog/archives/how-to-set-Vary-Accept-Encoding-header.html" target="_blank" rel="noopener">标头 “Vary:Accept-Encoding” 指定方法及其重要性分析</a></li>
+<li><a href="https://serverfault.com/questions/253074/what-is-the-best-nginx-compression-gzip-level" target="_blank" rel="noopener">What is the best nginx compression gzip level</a></li>
+<li><a href="https://segmentfault.com/q/1010000002686639" target="_blank" rel="noopener">关于 nginx 配置文件 gzip 的配置问题: 不太明白这个 gzip_proxied 的作用是什么, 应该如何正确配置</a></li>
+</ul>
 
         </div>
 
@@ -232,7 +267,8 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/12/21/nginx-module--nginx_module_使用总结_ngx_http_gzip_module/&title=《nginx module 使用总结: ngx_http_gzip_module》 — 希尔的博客&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/12/21/nginx-module--nginx_module_使用总结_ngx_http_gzip_module/&title=《nginx module 使用总结: ngx_http_gzip_module》 — 希尔的博客&source=
+ngx_http_gzip_module 是十分有用的 nginx 模块, 其有效压缩了 http 请求大小, 节省了流量, 加快了传输速度, 提升了用..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -399,7 +435,8 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/12/21/nginx-module--nginx_module_使用总结_ngx_http_gzip_module/&title=《nginx module 使用总结: ngx_http_gzip_module》 — 希尔的博客&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/12/21/nginx-module--nginx_module_使用总结_ngx_http_gzip_module/&title=《nginx module 使用总结: ngx_http_gzip_module》 — 希尔的博客&source=
+ngx_http_gzip_module 是十分有用的 nginx 模块, 其有效压缩了 http 请求大小, 节省了流量, 加快了传输速度, 提升了用..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
