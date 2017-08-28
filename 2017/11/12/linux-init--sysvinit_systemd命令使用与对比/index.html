@@ -15,7 +15,7 @@
     <link rel="canonical" href="http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/">
     
     
-    <title>sysvinit_systemd命令使用与对比 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <title>sysvinit / systemd 命令使用与对比 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -25,14 +25,14 @@
     <meta name="description" content="当用户空间引导程序 systemV init 被 systemd 所取代, centos 7 下操纵与查看 daemon service 的命令也随之而改变;不过, 由于 systemd 的庞大复杂, 命令选项繁多, 本文对 systemd 的整理主要集中于与 sysvinit 所提供的功能重合度最高的 systemctl 命令;">
 <meta name="keywords" content="linux:init,systemd">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sysvinit_systemd命令使用与对比">
+<meta property="og:title" content="sysvinit &#x2F; systemd 命令使用与对比">
 <meta property="og:url" content="http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/index.html">
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="当用户空间引导程序 systemV init 被 systemd 所取代, centos 7 下操纵与查看 daemon service 的命令也随之而改变;不过, 由于 systemd 的庞大复杂, 命令选项繁多, 本文对 systemd 的整理主要集中于与 sysvinit 所提供的功能重合度最高的 systemctl 命令;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-22T09:29:08.918Z">
+<meta property="og:updated_time" content="2018-04-23T15:34:44.269Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="sysvinit_systemd命令使用与对比">
+<meta name="twitter:title" content="sysvinit &#x2F; systemd 命令使用与对比">
 <meta name="twitter:description" content="当用户空间引导程序 systemV init 被 systemd 所取代, centos 7 下操纵与查看 daemon service 的命令也随之而改变;不过, 由于 systemd 的庞大复杂, 命令选项繁多, 本文对 systemd 的整理主要集中于与 sysvinit 所提供的功能重合度最高的 systemctl 命令;">
     
         <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
@@ -122,7 +122,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">sysvinit_systemd命令使用与对比</div>
+        <div class="flex-col header-title ellipsis">sysvinit / systemd 命令使用与对比</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -144,7 +144,7 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">sysvinit_systemd命令使用与对比</h1>
+        <h1 class="title">sysvinit / systemd 命令使用与对比</h1>
         <h5 class="subtitle">
             
                 <time datetime="2017-11-12T09:18:06.000Z" itemprop="datePublished" class="page-time">
@@ -178,7 +178,7 @@
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">sysvinit_systemd命令使用与对比</h1>
+        <h1 class="post-card-title">sysvinit / systemd 命令使用与对比</h1>
         <div class="post-meta">
             <time class="post-time" title="2017-11-12 17:18:06" datetime="2017-11-12T09:18:06.000Z"  itemprop="datePublished">2017-11-12</time>
 
@@ -200,8 +200,8 @@
 <h3 id="service-的使用方式"><a href="#service-的使用方式" class="headerlink" title="service 的使用方式"></a><strong>service 的使用方式</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动, 停止, 重启, 查看</span></span><br><span class="line">sudo service ntpd start</span><br><span class="line">sudo service ntpd stop</span><br><span class="line">sudo service ntpd restart</span><br><span class="line">sudo service ntpd status</span><br></pre></td></tr></table></figure>
 <h3 id="chkconfig-的使用方式"><a href="#chkconfig-的使用方式" class="headerlink" title="chkconfig 的使用方式"></a><strong>chkconfig 的使用方式</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列举所有的 daemon service 在各个 runlevel 上的启停状态</span></span><br><span class="line">sudo chkconfig --list</span><br><span class="line"><span class="comment"># 列举指定的 daemon service 在各个 runlevel 上的启停状态</span></span><br><span class="line">&gt; sudo chkconfig --list ntpd</span><br><span class="line">ntpd           	0:on	1:on	2:on	3:on	4:on	5:on	6:off</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加一个 daemon service</span></span><br><span class="line">sudo chkconfig --add mysqld</span><br><span class="line"><span class="comment"># 在默认的 2, 3, 4, 5 四个 runlevel 上自动启动 mysqld</span></span><br><span class="line">sudo chkconfig mysqld on</span><br><span class="line"><span class="comment"># 在指定的 3, 5 两个 runlevel 上自动启动 mysqld</span></span><br><span class="line">sudo chkconfig --level 35 mysqld on</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除一个 daemon service</span></span><br><span class="line">sudo chkconfig --del rngd</span><br></pre></td></tr></table></figure>
 <h3 id="ntsysv-的使用方式"><a href="#ntsysv-的使用方式" class="headerlink" title="ntsysv 的使用方式"></a><strong>ntsysv 的使用方式</strong></h3><p>ntsysv 在 centos 7 之前的各发行版本上都默认安装, 不过从 centos 7 之后, 该命令的 GUI 形式已经不再默认提供, 只提供了 chkconfig 命令用于兼容照顾老的 systemV init 方式;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认情况下 ntsysv 配置的是当前 user session 所在的 runlevel</span></span><br><span class="line">sudo ntsysv</span><br><span class="line"><span class="comment"># 配置 runlevel = 5 的 daemon service</span></span><br><span class="line">sudo ntsysv --level 5</span><br></pre></td></tr></table></figure></p>
-<h2 id="主流的-systemd-相关命令"><a href="#主流的-systemd-相关命令" class="headerlink" title="主流的 systemd 相关命令"></a><strong>主流的 systemd 相关命令</strong></h2><p>systemd 相比 sysvinit 就要复杂多了, 同时也比 sysvinit 强大多了;<br>systemd 相比 sysvinit 更强大的其中一个重要点是, systemd 不仅仅管理系统中的各进程, 它管理 linux 系统中的所有资源, 并把不同的资源称为 unit:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">service unit: 系统服务</span><br><span class="line">target unit: 多个 unit 构成的一个组</span><br><span class="line">device unit: 硬件设备</span><br><span class="line">mount unit: 文件系统的挂载点</span><br><span class="line">automount unit: 自动挂载点</span><br><span class="line">path unit: 文件或路径</span><br><span class="line">scope unit: 不是由 systemd 启动的外部进程</span><br><span class="line">slice unit: 进程组</span><br><span class="line">snapshot unit: systemd 快照, 可以切回某个快照</span><br><span class="line">socket unit: 进程间通信的 socket</span><br><span class="line">swap unit: swap 文件</span><br><span class="line">timer unit: 定时器</span><br></pre></td></tr></table></figure></p>
-<p>其中, <strong>service unit</strong> 在 12 类 unit 中是最主要的一类, 也是日常操作中最频繁接触的一类, 当然也是与传统的 sysvinit 可以直接比较的对象;<br>&nbsp;<br>systemd 主要涉及到的命令有: <code>systemctl</code>, <code>hostnamectl</code>, <code>localectl</code>, <code>timedatectl</code>, <code>loginctl</code>, <code>journalctl</code> 等, 其中:</p>
+<h2 id="主流的-systemd-相关命令"><a href="#主流的-systemd-相关命令" class="headerlink" title="主流的 systemd 相关命令"></a><strong>主流的 systemd 相关命令</strong></h2><p>systemd 相比 sysvinit 就要复杂多了, 同时也比 sysvinit 强大多了;<br>systemd 相比 sysvinit 更强大的其中一个重要点是, systemd 不仅仅管理系统中的各进程, 它管理 linux 系统中的所有资源, 并把不同的资源称为 unit:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">service unit: 系统服务</span><br><span class="line">target unit: 多个 unit 构成的一个组</span><br><span class="line">device unit: 硬件设备</span><br><span class="line">mount unit: 文件系统的挂载点</span><br><span class="line">automount unit: 自动挂载点</span><br><span class="line">path unit: 文件或路径</span><br><span class="line">scope unit: 不是由 systemd 启动的外部进程</span><br><span class="line">slice unit: 进程组</span><br><span class="line">snapshot unit: systemd 快照, 可以切回某个快照</span><br><span class="line">socket unit: 进程间通信的 socket</span><br><span class="line">swap unit: swap 文件</span><br><span class="line">timer unit: 定时器, 可与 crond 相对比, 可圈可点</span><br></pre></td></tr></table></figure></p>
+<p>其中, <strong>service unit</strong> 在 12 类 unit 中是最主要的一类, 也是日常操作中最频繁接触的一类, 当然也是与传统的 sysvinit 可以直接比较的对象;<br>另外, systemd 里另外一个比较有意思的是 timer unit, 关于此的详细内容可以参见: <a href="">systemd 的定时器功能</a>;<br>&nbsp;<br>systemd 主要涉及到的命令有: <code>systemctl</code>, <code>hostnamectl</code>, <code>localectl</code>, <code>timedatectl</code>, <code>loginctl</code>, <code>journalctl</code> 等, 其中:</p>
 <ul>
 <li><code>systemctl</code> 是最重要的命令, 最核心的操作都与此命令有关, 比如启停服务, 管理各 unit 等;</li>
 <li><code>hostnamectl</code> 用于管理主机信息等;</li>
@@ -220,7 +220,8 @@
 <p>关于 journalctl 的详细内容, 请参见另外一篇文章: <a href="">sysvinit / systemd 日志系统的使用与对比</a>;</p>
 <h2 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h2><ul>
 <li><a href="">sysvinit/systemd/upstart 初始化过程梳理</a></li>
-<li><a href="">systemd 的配置文件整理</a></li>
+<li><a href="">systemd 的定时器功能</a></li>
+<li><a href="">systemd 相关配置文件整理</a></li>
 <li><a href="">sysvinit / systemd 日志系统的使用与对比</a></li>
 </ul>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2><ul>
@@ -271,7 +272,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&title=《sysvinit_systemd命令使用与对比》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&title=《sysvinit / systemd 命令使用与对比》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -281,7 +282,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&title=《sysvinit_systemd命令使用与对比》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&title=《sysvinit / systemd 命令使用与对比》 — 希尔的博客&source=
 当用户空间引导程序 systemV init 被 systemd 所取代, centos 7 下操纵与查看 daemon service 的命令也随之而..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
@@ -292,7 +293,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《sysvinit_systemd命令使用与对比》 — 希尔的博客&url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&via=http://zshell.cc" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《sysvinit / systemd 命令使用与对比》 — 希尔的博客&url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
@@ -439,7 +440,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&title=《sysvinit_systemd命令使用与对比》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&title=《sysvinit / systemd 命令使用与对比》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -449,7 +450,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&title=《sysvinit_systemd命令使用与对比》 — 希尔的博客&source=
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&title=《sysvinit / systemd 命令使用与对比》 — 希尔的博客&source=
 当用户空间引导程序 systemV init 被 systemd 所取代, centos 7 下操纵与查看 daemon service 的命令也随之而..." data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
@@ -460,7 +461,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《sysvinit_systemd命令使用与对比》 — 希尔的博客&url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&via=http://zshell.cc" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《sysvinit / systemd 命令使用与对比》 — 希尔的博客&url=http://zshell.cc/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/&via=http://zshell.cc" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
