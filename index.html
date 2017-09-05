@@ -304,6 +304,55 @@
         </li>
     
         <li class="post-list-item fade">
+            <article id="post-jvm-gc--gc日志学习笔记"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-03-06 18:04:22" datetime="2018-03-06T10:04:22.000Z"  itemprop="datePublished">2018-03-06</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/jvm/">jvm</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/jvm/gc/">gc</a></li></ul></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/03/06/jvm-gc--gc日志学习笔记/">gc 日志学习笔记</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        <blockquote>
+<p>关于 gc 日志, 网上有丰富的资料, 另外周志明的《深入理解 Java 虚拟机: JVM 高级特性与最佳实践》3.5.8 小节也有 gc 日志的介绍;<br>但是真等拿到一个具体的 gc.log, 才发现网上很多的内容都停留在一个比较浅的层次, 只是介绍了最基本的情况, 对于生产环境中正在使用的 CMS, G1 收集器涉及很少, 对各种 gc 相关的 jvm 参数, 它们在 gc 日志中的具体作用, 都很少看到一个详细的整理; 另外, 对 gc 日志的管理运维, 也很难看到一篇好文章来认真讨论; 所以, 我在这里需要写下这篇文章, 从我自己的角度去作一个全面的总结;<br>本文所述内容涉及的 jvm 版本是: Java HotSpot(TM) 64-Bit Server VM (25.60-b23) for linux-amd64 JRE (1.8.0_60-b27);</p>
+</blockquote>
+    
+
+       <!-- <a href="/2018/03/06/jvm-gc--gc日志学习笔记/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a> -->
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm-gc/">jvm:gc</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-python-module--python_module_使用总结_定时调度器"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -601,55 +650,6 @@
     <div class="post-footer">
         
 	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-init/">linux:init</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/systemd/">systemd</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-linux-shell--bash结束死循环的方法"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2017-11-05 00:00:00" datetime="2017-11-04T16:00:00.000Z"  itemprop="datePublished">2017-11-05</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/shell/">shell</a></li></ul></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2017/11/05/linux-shell--bash结束死循环的方法/">bash 结束死循环的方法</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <blockquote>
-<p>linux 中有很多实用的工具, 采用了这样一种工作方式:<br>定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;<br>类似的工具包括 ioutil, jmap 等;<br>本文整理了实现上述逻辑的一些典型方法;</p>
-</blockquote>
-    
-
-       <!-- <a href="/2017/11/05/linux-shell--bash结束死循环的方法/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a> -->
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-shell/">linux:shell</a></li></ul>
 
     </div>
     
