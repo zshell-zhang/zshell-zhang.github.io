@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://zshell.cc/2018/05/13/nginx-module--nginx_module_使用总结_ngx_http_geo_module/">
+    
+    
+    <title>nginx module 使用总结: ngx_http_geo_module | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="nginx:module">
+    <meta name="description" content="在处理与 ip 地址相关的 nginx 逻辑上, ngx_http_geo_module 往往能发挥一些有力的作用; 其封装了大量与 ip 地址相关的匹配逻辑, 使得处理问题更加便捷高效;">
+<meta name="keywords" content="nginx:module">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx module 使用总结: ngx_http_geo_module">
+<meta property="og:url" content="http://zshell.cc/2018/05/13/nginx-module--nginx_module_使用总结_ngx_http_geo_module/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="在处理与 ip 地址相关的 nginx 逻辑上, ngx_http_geo_module 往往能发挥一些有力的作用; 其封装了大量与 ip 地址相关的匹配逻辑, 使得处理问题更加便捷高效;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-13T07:46:01.732Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx module 使用总结: ngx_http_geo_module">
+<meta name="twitter:description" content="在处理与 ip 地址相关的 nginx 逻辑上, ngx_http_geo_module 往往能发挥一些有力的作用; 其封装了大量与 ip 地址相关的匹配逻辑, 使得处理问题更加便捷高效;">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <script src="/js/leancloud-revision.js"></script>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshell.zhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ZhangZhi1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">nginx module 使用总结: ngx_http_geo_module</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">nginx module 使用总结: ngx_http_geo_module</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-05-13T07:45:02.000Z" itemprop="datePublished" class="page-time">
+  2018-05-13
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/nginx/">nginx</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/nginx/module/">module</a></li></ul></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#geo-模块的安装"><span class="post-toc-number">1.</span> <span class="post-toc-text">geo 模块的安装</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#geo-模块的配置"><span class="post-toc-number">2.</span> <span class="post-toc-text">geo 模块的配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">3.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-nginx-module--nginx_module_使用总结_ngx_http_geo_module"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">nginx module 使用总结: ngx_http_geo_module</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-05-13 15:45:02" datetime="2018-05-13T07:45:02.000Z"  itemprop="datePublished">2018-05-13</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/nginx/">nginx</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/nginx/module/">module</a></li></ul></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>在处理与 ip 地址相关的 nginx 逻辑上, ngx_http_geo_module 往往能发挥一些有力的作用; 其封装了大量与 ip 地址相关的匹配逻辑, 使得处理问题更加便捷高效;</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<p>ngx_http_geo_module 最主要的事情是作了一个 ip 地址到其他变量的映射; 一说到映射, 我们便会想起另一个模块: ngx_http_map_module; 从抽象上讲, geo 模块确实像是 map 模块在 ip (geography) 细分领域内的针对性功能实现;</p>
+<h3 id="geo-模块的安装"><a href="#geo-模块的安装" class="headerlink" title="geo 模块的安装"></a><strong>geo 模块的安装</strong></h3><p>ngx_http_geo_module 编译默认安装, 无需额外操作;</p>
+<h3 id="geo-模块的配置"><a href="#geo-模块的配置" class="headerlink" title="geo 模块的配置"></a><strong>geo 模块的配置</strong></h3><p>geo 模块的配置只能在 nginx.conf 中的 http 指令下, 这与 ngx_http_map_module 模块是一致的:<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">ngx_command_t</span>  ngx_http_geo_commands[] = &#123;</span><br><span class="line"></span><br><span class="line">    &#123; ngx_string(<span class="string">"geo"</span>),</span><br><span class="line">      NGX_HTTP_MAIN_CONF|NGX_CONF_BLOCK|NGX_CONF_TAKE12,</span><br><span class="line">      ngx_http_geo_block,</span><br><span class="line">      NGX_HTTP_MAIN_CONF_OFFSET,</span><br><span class="line">      <span class="number">0</span>,</span><br><span class="line">      <span class="literal">NULL</span> &#125;,</span><br><span class="line"></span><br><span class="line">      ngx_null_command</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>geo 模块的配置模式如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">geo [<span class="variable">$address</span>] <span class="variable">$variable</span> &#123;</span><br><span class="line">    default     0;</span><br><span class="line">    127.0.0.1   1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中, \$address 可选, 默认从 <code>$remote_addr</code> 变量中获取目标 client ip address; 如果使用其他变量作为 ip 地址, 该变量须要是一个合法的 ip 地址, 否则将以 “255.255.255.255” 作为代替;<br>以下是一个典型的 geo 模块配置, \$address 已缺省默认为 <code>$remote_addr</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">geo <span class="variable">$flag</span> &#123;</span><br><span class="line">    <span class="comment"># 以下是一些设置项</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 定义可信地址, 若 $remote_addr 匹配了其中之一, 将从 request header X-Forwarded-For 获得目标 client ip address</span></span><br><span class="line">    proxy           192.168.100.0/24;</span><br><span class="line">    delete          127.0.0.0/16;</span><br><span class="line">    <span class="comment"># 默认兜底逻辑</span></span><br><span class="line">    default         -1;</span><br><span class="line">    <span class="comment"># 定义外部的映射内容</span></span><br><span class="line">    include         conf/geo.conf;</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 以下是具体的映射内容</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 可以使用 CIDR 匹配</span></span><br><span class="line">    192.168.1.0/24  0;</span><br><span class="line">    <span class="comment"># 精确匹配</span></span><br><span class="line">    10.64.0.5       1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>除了以上的典型用法之外, geo 模块还有一种地址段范围的匹配模式:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">geo <span class="variable">$flag</span> &#123;</span><br><span class="line">    <span class="comment"># 需放在第一行</span></span><br><span class="line">    ranges;</span><br><span class="line">    192.168.1.0-192.168.1.100       0;</span><br><span class="line">    192.168.1.100-192.168.1.200     1;</span><br><span class="line">    192.168.1.201-192.168.1.255     2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h3><ul>
+<li><a href="http://nginx.org/en/docs/http/ngx_http_geo_module.html" target="_blank" rel="noopener">Module ngx_http_geo_module</a></li>
+<li><a href="http://www.ttlsa.com/nginx/using-nginx-geo-method/" target="_blank" rel="noopener">nginx geo 使用方法</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2018/05/13/nginx-module--nginx_module_使用总结_ngx_http_geo_module/" rel="external">http://zshell.cc/2018/05/13/nginx-module--nginx_module_使用总结_ngx_http_geo_module</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="http://zshell.cc">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
+            zshell.zhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx-module/">nginx:module</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2018/05/13/nginx-module--nginx_module_使用总结_ngx_http_geo_module/&title=《nginx module 使用总结: ngx_http_geo_module》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2018/05/13/nginx-module--nginx_module_使用总结_ngx_http_geo_module/&title=《nginx module 使用总结: ngx_http_geo_module》 — 希尔的博客&source=
+在处理与 ip 地址相关的 nginx 逻辑上, ngx_http_geo_module 往往能发挥一些有力的作用; 其封装了大量与 ip 地址相关的匹..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2018/05/13/nginx-module--nginx_module_使用总结_ngx_http_geo_module/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《nginx module 使用总结: ngx_http_geo_module》 — 希尔的博客&url=http://zshell.cc/2018/05/13/nginx-module--nginx_module_使用总结_ngx_http_geo_module/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2018/05/13/nginx-module--nginx_module_使用总结_ngx_http_geo_module/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/04/06/linux-disk--chattr_lsattr使用总结/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">chattr / lsattr 使用总结</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "fMh2JHgkPnDtARiQapOg8Jrk-gzGzoHsz",
+            appKey: "UPNXLDUkngDnuhfC9XQPgF6n",
+            avatar: "mm",
+            placeholder: "您的评论, 吾愿洗耳恭听!",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshell.zhang &copy; 2016 - 2017</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2018/05/13/nginx-module--nginx_module_使用总结_ngx_http_geo_module/&title=《nginx module 使用总结: ngx_http_geo_module》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2018/05/13/nginx-module--nginx_module_使用总结_ngx_http_geo_module/&title=《nginx module 使用总结: ngx_http_geo_module》 — 希尔的博客&source=
+在处理与 ip 地址相关的 nginx 逻辑上, ngx_http_geo_module 往往能发挥一些有力的作用; 其封装了大量与 ip 地址相关的匹..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2018/05/13/nginx-module--nginx_module_使用总结_ngx_http_geo_module/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《nginx module 使用总结: ngx_http_geo_module》 — 希尔的博客&url=http://zshell.cc/2018/05/13/nginx-module--nginx_module_使用总结_ngx_http_geo_module/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2018/05/13/nginx-module--nginx_module_使用总结_ngx_http_geo_module/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADIklEQVR42u3awY7iQAwEUP7/p9nrrEYTqtoZLXhfTkhA0q85GJf78Yiv55fr+t2vn8m/lXw+eeLNFzY2NvaHsJ+XVwL7/vr7/ZPXCeZ6mxILNjY29lb2ZLk/3ef6wUkBS0pUu/XY2NjY2BPG9RPPyhI2NjY29oQ9wc9L4D8rYNjY2NhvyW4LQxs8JduUB/1tOIWNjY29mz1/zPu8/pX5NjY2NvYbs5/llTcPbSPRhlZt5PTXt7CxsbEXsfMCMDlS044BzoKnfP3Y2NjYm9ht3DP5zIu9Dzb6rNeob42NjY39Uex5zHQGuLe9aZsTbGxs7H3s60CnbS3awChvLdrR8otiho2Njb2Ofe+RnTaWmpPadggbGxt7B7stJ3mRuLf9KMpSOx7AxsbGXsRu46G8Fcm3rD2mczgwwMbGxl7ETt54xtdZsZnEWJPgCRsbG3sruy0Av91a5AOJvDXCxsbG3sSeH45JyslkiHt2PGi0LGxsbOyPYk9i97OSdjYebofN0aZgY2Njr2DPh7j5EtuWYx5mFb8zNjY29iL2vPxMDu7cOwb+8c7Y2NjYS9n1PKGM7NsxbVvqHu1jsLGxsVewi7/vcTuRvJsXofnw4Md3sbGxsRex7z1Y08ZAydbkEdhhQcXGxsb+WPZZGcgDnRzZPvdsCD1KrbCxsbHfnp0vqwWfBVU5uF4VNjY29jp2voh2zHAW+rSfqbcDGxsbexH7bMSbB/dnUVE7rkgipxdtCTY2NvYi9uRGk0XfVRrzgz7Y2NjYu9lJi5I3Bmdb1r4+vLCxsbFXsPOSkw8Jiljnph+pbquwsbGxl7LPSsvkaE4+Km4HwC902NjY2EvZZ2XjbEhQRD9xdJUXOWxsbOwd7Gd55dHS2cDgLO6v14CNjY29iN2GOPMQ//o+ZyPbu5oWbGxs7M9lt6F/W5wSavv7zKMobGxs7H3sOouKo//8yE7yrcmoGBsbGxs7Lxh3Haw5azOKRA0bGxv7v2RPGoy8pTkbFRfjYWxsbOx17LypKIKb4DhOe4ez4fFoPICNjY399uw2jmmLUF78frsRwsbGxl7H/gOo+gw3weEIVwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
