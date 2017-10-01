@@ -304,7 +304,7 @@
         </li>
     
         <li class="post-list-item fade">
-            <article id="post-jvm-gc--gc日志学习笔记"
+            <article id="post-jvm-gc--java_gc日志学习笔记"
   class="article-card article-type-post" itemprop="blogPost">
 
     <div class="post-meta">
@@ -322,7 +322,7 @@
 
   
     <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/03/06/jvm-gc--gc日志学习笔记/">gc 日志学习笔记</a>
+      <a class="post-title-link" href="/2018/03/06/jvm-gc--java_gc日志学习笔记/">java gc 日志学习笔记</a>
     </h3>
   
 
@@ -333,11 +333,11 @@
 
     
         <blockquote>
-<p>关于 gc 日志, 网上有丰富的资料, 另外周志明的《深入理解 Java 虚拟机: JVM 高级特性与最佳实践》3.5.8 小节也有 gc 日志的介绍;<br>但是真等拿到一个具体的 gc.log, 才发现网上很多的内容都停留在一个比较浅的层次, 只是介绍了最基本的情况, 对于生产环境中正在使用的 CMS, G1 收集器涉及很少, 对各种 gc 相关的 jvm 参数, 它们在 gc 日志中的具体作用, 都很少看到一个详细的整理; 另外, 对 gc 日志的管理运维, 也很难看到一篇好文章来认真讨论; 所以, 我在这里需要写下这篇文章, 从我自己的角度去作一个全面的总结;<br>本文所述内容涉及的 jvm 版本是: Java HotSpot(TM) 64-Bit Server VM (25.60-b23) for linux-amd64 JRE (1.8.0_60-b27);</p>
+<p>关于 gc 日志, 网上有丰富的资料, 另外周志明的《深入理解 Java 虚拟机: JVM 高级特性与最佳实践》一书, 在第二版中的第 3.5.8 小节也补充了关于 gc 日志的介绍;<br>但是真等拿到一个具体的 gc log, 才发现网上很多的内容都停留在一个比较初级的层次, 只是介绍了最基本的情况; 其对于生产环境中正在使用的 CMS, G1 收集器涉及很少, 对各种 gc 相关的 jvm 参数, 它们在 gc 日志中的具体作用, 也少见一个详细的整理; 另外, 对 gc 日志的管理运维, 我也很难看到一篇好文章来认真讨论;<br>基于以上状况, 我决定在这里写下这篇文章, 从我自己的角度去对 java gc 作一个全面的总结;<br>补充说明: 本文所述内容涉及的 jvm 版本是: Java HotSpot(TM) 64-Bit Server VM (25.60-b23) for linux-amd64 JRE (1.8.0_60-b27);</p>
 </blockquote>
     
 
-       <!-- <a href="/2018/03/06/jvm-gc--gc日志学习笔记/" class="post-more waves-effect waves-button">
+       <!-- <a href="/2018/03/06/jvm-gc--java_gc日志学习笔记/" class="post-more waves-effect waves-button">
             阅读全文…
         </a> -->
     </div>

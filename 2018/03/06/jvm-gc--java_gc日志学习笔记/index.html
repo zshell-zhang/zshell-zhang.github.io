@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://zshell.cc/2018/03/06/jvm-gc--java_gc日志学习笔记/">
+    
+    
+    <title>java gc 日志学习笔记 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="jvm:gc">
+    <meta name="description" content="关于 gc 日志, 网上有丰富的资料, 另外周志明的《深入理解 Java 虚拟机: JVM 高级特性与最佳实践》一书, 在第二版中的第 3.5.8 小节也补充了关于 gc 日志的介绍;但是真等拿到一个具体的 gc log, 才发现网上很多的内容都停留在一个比较初级的层次, 只是介绍了最基本的情况; 其对于生产环境中正在使用的 CMS, G1 收集器涉及很少, 对各种 gc 相关的 jvm 参数,">
+<meta name="keywords" content="jvm:gc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java gc 日志学习笔记">
+<meta property="og:url" content="http://zshell.cc/2018/03/06/jvm-gc--java_gc日志学习笔记/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="关于 gc 日志, 网上有丰富的资料, 另外周志明的《深入理解 Java 虚拟机: JVM 高级特性与最佳实践》一书, 在第二版中的第 3.5.8 小节也补充了关于 gc 日志的介绍;但是真等拿到一个具体的 gc log, 才发现网上很多的内容都停留在一个比较初级的层次, 只是介绍了最基本的情况; 其对于生产环境中正在使用的 CMS, G1 收集器涉及很少, 对各种 gc 相关的 jvm 参数,">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jvm/gc/gc%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/heap_statistics.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jvm/gc/gc%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/gc_phase_statistics.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jvm/gc/gc%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/gc_time_statistics.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jvm/gc/gc%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/gc_cause_statistics.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jvm/gc/gc%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/tenuring_summary.png">
+<meta property="og:updated_time" content="2018-05-19T07:56:25.313Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java gc 日志学习笔记">
+<meta name="twitter:description" content="关于 gc 日志, 网上有丰富的资料, 另外周志明的《深入理解 Java 虚拟机: JVM 高级特性与最佳实践》一书, 在第二版中的第 3.5.8 小节也补充了关于 gc 日志的介绍;但是真等拿到一个具体的 gc log, 才发现网上很多的内容都停留在一个比较初级的层次, 只是介绍了最基本的情况; 其对于生产环境中正在使用的 CMS, G1 收集器涉及很少, 对各种 gc 相关的 jvm 参数,">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jvm/gc/gc%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/heap_statistics.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <script src="/js/leancloud-revision.js"></script>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshell.zhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ZhangZhi1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">java gc 日志学习笔记</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">java gc 日志学习笔记</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-03-06T10:04:22.000Z" itemprop="datePublished" class="page-time">
+  2018-03-06
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/jvm/">jvm</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/jvm/gc/">gc</a></li></ul></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#与-gc-相关的-jvm-选项"><span class="post-toc-number">1.</span> <span class="post-toc-text">与 gc 相关的 jvm 选项</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#gc-日志开头的元信息输出"><span class="post-toc-number">2.</span> <span class="post-toc-text">gc 日志开头的元信息输出</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#gc-日志内容分析"><span class="post-toc-number">3.</span> <span class="post-toc-text">gc 日志内容分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#gc-日志文件的运维最佳实践"><span class="post-toc-number">4.</span> <span class="post-toc-text">gc 日志文件的运维最佳实践</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#gc-日志的辅助分析工具"><span class="post-toc-number">5.</span> <span class="post-toc-text">gc 日志的辅助分析工具</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#站内相关文章"><span class="post-toc-number">6.</span> <span class="post-toc-text">站内相关文章</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">7.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-jvm-gc--java_gc日志学习笔记"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">java gc 日志学习笔记</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-03-06 18:04:22" datetime="2018-03-06T10:04:22.000Z"  itemprop="datePublished">2018-03-06</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/jvm/">jvm</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/jvm/gc/">gc</a></li></ul></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>关于 gc 日志, 网上有丰富的资料, 另外周志明的《深入理解 Java 虚拟机: JVM 高级特性与最佳实践》一书, 在第二版中的第 3.5.8 小节也补充了关于 gc 日志的介绍;<br>但是真等拿到一个具体的 gc log, 才发现网上很多的内容都停留在一个比较初级的层次, 只是介绍了最基本的情况; 其对于生产环境中正在使用的 CMS, G1 收集器涉及很少, 对各种 gc 相关的 jvm 参数, 它们在 gc 日志中的具体作用, 也少见一个详细的整理; 另外, 对 gc 日志的管理运维, 我也很难看到一篇好文章来认真讨论;<br>基于以上状况, 我决定在这里写下这篇文章, 从我自己的角度去对 java gc 作一个全面的总结;<br>补充说明: 本文所述内容涉及的 jvm 版本是: Java HotSpot(TM) 64-Bit Server VM (25.60-b23) for linux-amd64 JRE (1.8.0_60-b27);</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<h3 id="与-gc-相关的-jvm-选项"><a href="#与-gc-相关的-jvm-选项" class="headerlink" title="与 gc 相关的 jvm 选项"></a><strong>与 gc 相关的 jvm 选项</strong></h3><p>以下选项可以开启 gc 日志:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打印 gc 的基本信息</span></span><br><span class="line">-verbose:gc</span><br><span class="line"><span class="comment"># 与 -verbose:gc 功能相同</span></span><br><span class="line">-XX:+PrintGC</span><br><span class="line"><span class="comment"># 打印 gc 的详细信息</span></span><br><span class="line">-XX:+PrintGCDetails</span><br></pre></td></tr></table></figure></p>
+<p>-verbose:gc 与 -XX:+PrintGC 在功能上是一样的; 其区别在于 -verbose 是 jvm 的标准选项, 而 -XX 是 jvm 的非稳定选项; 另外, -XX:+PrintGCDetails 在启动脚本中可以自动开启 PrintGC 选项;</p>
+<p>以下选项可以控制 gc 打印的内容:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 输出 gc 发生的时间, 形如: yyyy-MM-dd'T'HH:mm:ss.SSSZ +0800</span></span><br><span class="line">-XX:+PrintGCDateStamps</span><br><span class="line"><span class="comment"># 输出 gc 发生时, 从进程启动到当前时刻总共经历的时间长度, 单位为秒</span></span><br><span class="line">-XX:+PrintGCTimeStamps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印 gc 的原因, jdk7 以上支持, 从 jdk8 开始默认打印 gc 原因</span></span><br><span class="line">-XX:+PrintGCCause</span><br><span class="line"><span class="comment"># 打印 jvm 进入 safepoint 时的状态统计</span></span><br><span class="line">-XX:+PrintSafepointStatistics</span><br><span class="line"><span class="comment"># 打印每次 "stop the world" 持续的时间</span></span><br><span class="line">-XX:+PrintGCApplicationStoppedTime</span><br><span class="line"></span><br><span class="line"><span class="comment"># gc 发生前打印堆的状态</span></span><br><span class="line">-XX:+PrintHeapAtGC</span><br><span class="line"><span class="comment"># gc 发生时打印每一个岁数上对象存活数量分布图</span></span><br><span class="line">-XX:+PrintTenuringDistribution</span><br></pre></td></tr></table></figure></p>
+<h3 id="gc-日志开头的元信息输出"><a href="#gc-日志开头的元信息输出" class="headerlink" title="gc 日志开头的元信息输出"></a><strong>gc 日志开头的元信息输出</strong></h3><p>一般在 jvm 启动时, gc.log 都会在开头打印出与当前 jvm 相关的一些元信息:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># jvm 版本信息</span></span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (25.60-b23) <span class="keyword">for</span> linux-amd64 JRE (1.8.0_60-b27), built on Aug  4 2015 12:19:40 by <span class="string">"java_re"</span> with gcc 4.3.0 20080428 (Red Hat 4.3.0-8)</span><br><span class="line"><span class="comment"># 内存信息</span></span><br><span class="line">Memory: 4k page, physical 65859796k(37547692k free), swap 0k(0k free)</span><br><span class="line"><span class="comment"># jvm 选项</span></span><br><span class="line">CommandLine flags: -XX:+DisableExplicitGC -XX:+FlightRecorder -XX:+G1SummarizeConcMark -XX:+HeapDumpOnOutOfMemoryError -XX:InitialHeapSize=33285996544 -XX:MaxHeapSize=33285996544 -XX:+PrintClassHistogram -XX:+Pr</span><br><span class="line">intGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintTenuringDistribution -XX:+UnlockCommercialFeatures -XX:+UnlockDiagnosticVMOptions -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseG1GC</span><br></pre></td></tr></table></figure></p>
+<p>在 jvm 选项中使用不同的收集器, 所输出的 gc 日志格式会有所不同, 尤其是 G1, CMS 等实现复杂的收集器; 不过, 在一些细节的区别之外, 大部分收集器在整体结构上都会维持一定的共性, 以方便使用者阅读;</p>
+<h3 id="gc-日志内容分析"><a href="#gc-日志内容分析" class="headerlink" title="gc 日志内容分析"></a><strong>gc 日志内容分析</strong></h3><p>我选取了几段有代表性的 gc 日志, 包括 ParNew, PS, CMS, G1, 其中相同或相似的内容我作了合并, 内容不同的部分则单独整理; 同时我也选取了一些有代表性的 gc 日志选项所打印的内容, 作重点介绍;</p>
+<p><strong>(1) 打印 gc 发生的时间点, 与 jvm 启动后经历的时间长度</strong><br>对应的 jvm 选项是 PrintGCDateStamps 和 PrintGCTimeStamps; 其中, gc timestamp 是从 jvm 启动至日志打印当时所经历的秒数;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -XX:+PrintGCDateStamps</span></span><br><span class="line"><span class="comment"># -XX:+PrintGCTimeStamps</span></span><br><span class="line">2018-02-06T11:46:09.444+0800: 30.455: [...]</span><br></pre></td></tr></table></figure></p>
+<p><strong>(2) 打印 gc 发生的原因及类型</strong><br>对应的 jvm 选项是 PrintGCCause; 当然, 在 jdk8 之后, 默认会打印 gc cause;<br>这里 G1 和其他的收集器在格式上稍有区别, 因为它的设计与其他收集器差异较大, gc 的条件及类型都不尽相同;<br>G1 收集器的格式, 第一个括号内是 gc 原因, 第二个括号内为 gc 类型:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -XX:+PrintGCCause</span></span><br><span class="line"><span class="comment"># G1 收集器的四种基本 gc 原因</span></span><br><span class="line">GC pause (G1 Evacuation Pause) (mixed)</span><br><span class="line">GC pause (GCLocker Initiated GC) (young)</span><br><span class="line">GC pause (G1 Humongous Allocation) (young)</span><br><span class="line">GC pause (Metadata GC Threshold) (young)</span><br></pre></td></tr></table></figure></p>
+<p>其他收集器的格式, 括号内是 gc 原因, 括号之前是 gc 类型:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -XX:+PrintGCCause</span></span><br><span class="line">GC (Allocation Failure)</span><br><span class="line">Full GC (Metadata GC Threshold)</span><br></pre></td></tr></table></figure></p>
+<p>其中 gc 类型是这样界定的: 没有 STW 则为 GC, 若发生了 STW, 则为 Full GC;</p>
+<p><strong>(3) 打印 gc 发生时每一个岁数上对象存活量分布图</strong><br>对应的 jvm 选项是 PrintTenuringDistribution, 这是一个十分有用的性能调参选项;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -XX:+PrintTenuringDistribution</span></span><br><span class="line"><span class="comment"># from / to survivor 的大小为 104857600 bytes, 所以 survivor 区的总大小需要 * 2</span></span><br><span class="line">Desired survivor size 104857600 bytes, new threshold 15 (max 15) <span class="comment"># -XX:MaxTenuringThreshold=15</span></span><br><span class="line"><span class="comment">#            |--当前 age 的对象大小--|  |--各 age 累积总大小--|</span></span><br><span class="line">- age   1:   38129576 bytes,            38129576 total</span><br><span class="line">- age   2:   34724160 bytes,            72853736 total</span><br><span class="line">- age   3:    4290896 bytes,            77144632 total</span><br></pre></td></tr></table></figure></p>
+<p>这里需要注意的是, 最后一列 “各 age 累积总大小”, 是将从 age 1 到当前 age 的所有 size 累积相加而成的; 它们驻留在 survivor 区中, 如果其累积 size 超过了 “Desired survivor size”, 将会有部分装不下 survivor 的对象晋升至年老代;<br>与此同时, 即便没有超过 “Desired survivor size”, 达到 “MaxTenuringThreshold” 的对象也将进入年老代; 为了避免数据频繁地从年轻代晋升至年老代, MaxTenuringThreshold 的合理值应该在 15 左右;<br>如果 survivor 区的 size 设置过小, 则每次达到 “Desired survivor size” 时的最大 age 都将远小于 15, 这同样会造成数据频繁地从年轻代晋升至年老代, 此时就需要考虑是否要调大 survivor 区的大小了;</p>
+<p><strong>(4) 打印 jvm 运行时间与 STW 的时间</strong><br>对应的 jvm 选项是 PrintGCApplicationStoppedTime 和 PrintGCApplicationConcurrentTime;<br>当发生 “stop the world”, jvm 便会在 gc 日志里记录应用运行的时间:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -XX:+PrintGCApplicationConcurrentTime</span></span><br><span class="line">2018-02-14T21:35:19.896+0800: 9.433: Application time: 0.0000892 seconds</span><br></pre></td></tr></table></figure></p>
+<p>而当 gc 结束时, jvm 便会在 gc 日志中记录停顿的时间:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -XX:+PrintGCApplicationStoppedTime</span></span><br><span class="line">2018-02-14T17:45:06.305+0800: 4.189: Total time <span class="keyword">for</span> <span class="built_in">which</span> application threads were stopped: 0.0553667 seconds, Stopping threads took: 0.0000412 seconds</span><br></pre></td></tr></table></figure></p>
+<p><strong>(5) 打印 jvm 进入 safepoint 的统计信息</strong><br>对应的 jvm 选项是 PrintSafepointStatistics; 除了 gc pause 之外, 还有很多因素会导致 jvm STW 进入 safepoint, 例如: 反优化(deoptimize), 偏向锁生成(enable biased locking) 与偏向锁撤销(revoke bias), thread dump 等;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -XX:+PrintSafepointStatistics  –XX:PrintSafepointStatisticsCount=1</span></span><br><span class="line">        vmop                [threads: total initially_running wait_to_block][time: spin block sync cleanup vmop] page_trap_count</span><br><span class="line">0.169:  Deoptimize              [      11          0              0    ]       [     0     0     0     0     0    ]  0</span><br><span class="line">        vmop                [threads: total initially_running wait_to_block][time: spin block sync cleanup vmop] page_trap_count</span><br><span class="line">9.933:  RevokeBias              [      52          0              0    ]       [     0     0     0     0     0    ]  0</span><br><span class="line">        vmop                [threads: total initially_running wait_to_block][time: spin block sync cleanup vmop] page_trap_count</span><br><span class="line">49.785: BulkRevokeBias          [      52          1              1    ]       [     0     0     0     0     0    ]  0</span><br><span class="line">        vmop                [threads: total initially_running wait_to_block][time: spin block sync cleanup vmop] page_trap_count</span><br><span class="line">49.821: GenCollectForAllocation [      52          2              2    ]       [     0     0     0     0    22    ]  0</span><br></pre></td></tr></table></figure></p>
+<p>其中:<br>第一列 vmop 是 vm operation, 本次 stw 要做的事情;<br>total 是 stw 发生时, jvm 的总线程数;<br>initially_running 是正在运行, 尚未进入 safepoint 的线程数, 对应后面的时间是 spin;<br>wait_to_block 是进入 safepoint 后尚未阻塞的线程数, 对应后面的时间是 block;<br>所以, sync = spin + block + cleanup;<br>最后一列 vmop 则是 jvm 进入 safepoint 实际动作所消耗的时间;</p>
+<p>&nbsp;<br>以上就是一些典型的与 gc 相关的 jvm 选项; 下面要说的是各典型的收集器日志;</p>
+<p><strong>(6) ParNew 收集器的日志</strong><br>这种是最标准的 gc 日志格式, 也是各种资料上介绍得最多的内容, 日志的含义我已标注在注释上:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -XX:+PrintGCDetails</span></span><br><span class="line"><span class="comment"># |--gc 前后该区域的 size 变化---|  |--gc 的时间--|  |--gc 前后整个堆的 size 变化--|  |--gc 总耗时--|</span></span><br><span class="line">  [275184K-&gt;1998K(306688K),         0.0151232 secs]  598728K-&gt;325543K(2063104K),      0.0152605 secs] [Times: user=0.05 sys=0.00, real=0.02 secs]</span><br></pre></td></tr></table></figure></p>
+<p><strong>(7) Paravel Scavenge 收集器的日志</strong><br>PS 虽然也不是按照标准框架实现的收集器, 但是其 gc 日志与 ParNew 等相比几乎是一脉相承, 几无二致, 此处便不再赘述;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -XX:+PrintGCDetails</span></span><br><span class="line">[PSYoungGen: 585755K-&gt;2888K(640000K)] 1625561K-&gt;1042703K(2038272K), 0.0278206 secs] [Times: user=0.03 sys=0.02, real=0.03 secs]</span><br></pre></td></tr></table></figure></p>
+<p><strong>(8) CMS 收集器的日志</strong><br>CMS 的 gc 日志基本上是按照 CMS 收集算法的执行过程详细记录的;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -XX:+PrintGCDetails</span></span><br><span class="line"><span class="comment"># CMS-initial-mark</span></span><br><span class="line">2018-02-14T17:45:06.250+0800: 4.134: [GC (CMS Initial Mark) [1 CMS-initial-mark: 0K(1756416K)] 190272K(2063104K), 0.0550579 secs] [Times: user=0.18 sys=0.00, real=0.05 secs]</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># CMS-concurrent-mark-start</span></span><br><span class="line">2018-02-14T17:45:06.305+0800: 4.189: [CMS-concurrent-mark-start]</span><br><span class="line">2018-02-14T17:45:06.320+0800: 4.203: [CMS-concurrent-mark: 0.014/0.014 secs] [Times: user=0.05 sys=0.00, real=0.02 secs] </span><br><span class="line"><span class="comment"># CMS-concurrent-preclean</span></span><br><span class="line">2018-02-14T17:45:06.320+0800: 4.203: [CMS-concurrent-preclean-start]</span><br><span class="line">2018-02-14T17:45:06.324+0800: 4.208: [CMS-concurrent-preclean: 0.004/0.004 secs] [Times: user=0.01 sys=0.00, real=0.00 secs] </span><br><span class="line">2018-02-14T17:45:06.325+0800: 4.208: Total time <span class="keyword">for</span> <span class="built_in">which</span> application threads were stopped: 0.0009297 seconds, Stopping threads took: 0.0000444 seconds</span><br><span class="line">2018-02-14T17:45:06.325+0800: 4.209: [CMS-concurrent-abortable-preclean-start]</span><br><span class="line"> CMS: abort preclean due to time 2018-02-14T17:45:11.592+0800: 9.475: [CMS-concurrent-abortable-preclean: 4.211/5.267 secs] [Times: user=10.30 sys=0.27, real=5.27 secs] </span><br><span class="line">2018-02-14T17:45:11.592+0800: 9.476: Total time <span class="keyword">for</span> <span class="built_in">which</span> application threads were stopped: 0.0001745 seconds, Stopping threads took: 0.0000389 seconds</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># CMS-final-remark</span></span><br><span class="line">2018-02-14T17:45:11.592+0800: 9.476: [GC (CMS Final Remark) [YG occupancy: 173321 K (306688 K)]2018-02-14T17:45:11.592+0800: 9.476: [Rescan (parallel) , 0.0380948 secs]2018-02-14T17:45:11.630+0800: 9.514: [weak </span><br><span class="line">refs processing, 0.0001539 secs]2018-02-14T17:45:11.630+0800: 9.514: [class unloading, 0.0082249 secs]2018-02-14T17:45:11.639+0800: 9.522: [scrub symbol table, 0.0051294 secs]2018-02-14T17:45:11.644+0800: 9.528:</span><br><span class="line"> [scrub string table, 0.0010024 secs][1 CMS-remark: 19239K(1756416K)] 192561K(2063104K), 0.0549428 secs] [Times: user=0.17 sys=0.00, real=0.05 secs] </span><br><span class="line">``` </span><br><span class="line">``` bash</span><br><span class="line"><span class="comment"># CMS-concurrent-sweep</span></span><br><span class="line">2018-02-14T17:45:11.647+0800: 9.531: [CMS-concurrent-sweep-start]</span><br><span class="line">2018-02-14T17:45:11.651+0800: 9.535: [CMS-concurrent-sweep: 0.004/0.004 secs] [Times: user=0.01 sys=0.00, real=0.01 secs] </span><br><span class="line"><span class="comment"># CMS-concurrent-reset</span></span><br><span class="line">2018-02-14T17:45:11.651+0800: 9.535: [CMS-concurrent-reset-start]</span><br><span class="line">2018-02-14T17:45:11.668+0800: 9.552: [CMS-concurrent-reset: 0.015/0.017 secs] [Times: user=0.05 sys=0.02, real=0.01 secs]</span><br></pre></td></tr></table></figure>
+<p>关于 CMS 收集算法的流程逻辑, 请参见另一篇文章: <a href="">CMS 收集算法学习与整理</a>;</p>
+<p><strong>(9) G1 收集器的日志</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -XX:+PrintGCDetails</span></span><br><span class="line"><span class="comment"># 老生代的 gc 时间状况</span></span><br><span class="line">   [Parallel Time: 107.6 ms, GC Workers: 23]</span><br><span class="line">      [GC Worker Start (ms): Min: 30455.3, Avg: 30455.6, Max: 30455.8, Diff: 0.5]</span><br><span class="line">      [Ext Root Scanning (ms): Min: 0.7, Avg: 1.6, Max: 16.4, Diff: 15.7, Sum: 37.8]</span><br><span class="line">      [Update RS (ms): Min: 0.0, Avg: 0.5, Max: 0.9, Diff: 0.9, Sum: 12.6]</span><br><span class="line">         [Processed Buffers: Min: 0, Avg: 0.9, Max: 2, Diff: 2, Sum: 21]</span><br><span class="line">      [Scan RS (ms): Min: 0.0, Avg: 0.1, Max: 0.2, Diff: 0.2, Sum: 1.3]</span><br><span class="line">      [Code Root Scanning (ms): Min: 0.0, Avg: 2.3, Max: 26.9, Diff: 26.9, Sum: 52.4]</span><br><span class="line">      [Object Copy (ms): Min: 78.3, Avg: 102.5, Max: 105.7, Diff: 27.4, Sum: 2357.9]</span><br><span class="line">      [Termination (ms): Min: 0.0, Avg: 0.1, Max: 0.1, Diff: 0.1, Sum: 1.3]</span><br><span class="line">         [Termination Attempts: Min: 1, Avg: 63.0, Max: 79, Diff: 78, Sum: 1448]</span><br><span class="line">      [GC Worker Other (ms): Min: 0.0, Avg: 0.1, Max: 0.1, Diff: 0.1, Sum: 1.5]</span><br><span class="line">      [GC Worker Total (ms): Min: 106.9, Avg: 107.2, Max: 107.5, Diff: 0.6, Sum: 2464.8]</span><br><span class="line">      [GC Worker End (ms): Min: 30562.7, Avg: 30562.7, Max: 30562.8, Diff: 0.1]</span><br><span class="line">   [Code Root Fixup: 3.2 ms]</span><br><span class="line">   [Code Root Purge: 0.1 ms]</span><br><span class="line">   [Clear CT: 0.6 ms]</span><br><span class="line">   [Other: 4.4 ms]</span><br><span class="line">      [Choose CSet: 0.0 ms]</span><br><span class="line">      [Ref Proc: 1.6 ms]</span><br><span class="line">      [Ref Enq: 0.0 ms]</span><br><span class="line">      [Redirty Cards: 0.4 ms]</span><br><span class="line">      [Humongous Register: 0.2 ms]</span><br><span class="line">      [Humongous Reclaim: 0.1 ms]</span><br><span class="line">      [Free CSet: 1.0 ms]</span><br><span class="line"><span class="comment"># 新生代的 gc 状况</span></span><br><span class="line">   [Eden: 1472.0M(1464.0M)-&gt;0.0B(1384.0M) Survivors: 120.0M-&gt;200.0M Heap: 1781.0M(31.0G)-&gt;682.3M(31.0G)]</span><br><span class="line"><span class="comment"># gc 时间统计</span></span><br><span class="line"> [Times: user=2.36 sys=0.06, real=0.11 secs]</span><br></pre></td></tr></table></figure></p>
+<p>关于 CMS 收集算法的流程逻辑, 请参见另一篇文章: <a href="">G1 收集算法学习与整理</a>;</p>
+<h3 id="gc-日志文件的运维最佳实践"><a href="#gc-日志文件的运维最佳实践" class="headerlink" title="gc 日志文件的运维最佳实践"></a><strong>gc 日志文件的运维最佳实践</strong></h3><p>关于 gc 日志文件本身的管理运维, 也是存在一些经验的, 错误的运维方法将为性能排查甚至系统运行带来麻烦与阻碍;<br><strong>(1) 避免新的 gc 日志覆盖旧的 gc 日志</strong><br>使用 -Xloggc 可以指定 gc 日志的输出路径, 错误的经验会引导我们作如下设置:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xloggc:<span class="variable">$&#123;CATALINA_BASE&#125;</span>/logs/gc.log</span><br></pre></td></tr></table></figure></p>
+<p>这种设置带来的问题是: 当系统重启后, 新的 gc 日志的路径与老的 gc 日志路径相同, 新日志便会将旧日志覆盖;<br>系统一般不会随便重启, 如果重启, 很可能是出现了故障, 或者性能问题; 在这种设置下, 如果重启前忘了备份当前的 gc 日志, 那重启后就没有性能诊断的依据了 (当然也可能事先使用 jstack, jmap 等工具作了部分现场的保留, 并非完全无法作诊断, 这里只是单从 gc 的角度讨论);<br>所以, 最佳的方法是为 gc 日志的命名带上时间戳:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xloggc:<span class="variable">$&#123;CATALINA_BASE&#125;</span>/logs/gc.log-$(date +%Y-%m-%d-%H-%M)</span><br></pre></td></tr></table></figure></p>
+<p>这样只要不是在同一分钟内两次重启, gc 日志都不会被覆盖;</p>
+<p><strong>(2) gc 日志的 rolling 滚动</strong><br>如果系统一直在健康运行, 那么 gc 日志的大小就会稳定地增长, 占用磁盘空间, 最后导致磁盘空间报警; 显然我们需要对 gc 日志作 rolling, 主流的方式是使用 jvm 自己的选项作控制:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启用 gc 日志 rolling</span></span><br><span class="line">-XX:+UseGCLogFileRotation</span><br><span class="line"><span class="comment"># 设置 gc 日志的最大 size, 一旦触发该条件就滚动切分</span></span><br><span class="line">-XX:GCLogFileSize=10M</span><br><span class="line"><span class="comment"># 设置保留滚动 gc 日志的最大文件数量</span></span><br><span class="line">-XX:NumberOfGCLogFiles=5</span><br></pre></td></tr></table></figure></p>
+<p>最后日志目录下的内容类似于下面这个样子:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gc.log-2018-03-01-17-58.0</span><br><span class="line">gc.log-2018-03-01-17-58.1</span><br><span class="line">gc.log-2018-03-01-17-58.2</span><br><span class="line">gc.log-2018-03-01-17-58.3</span><br><span class="line">gc.log-2018-03-01-17-58.4.current</span><br></pre></td></tr></table></figure></p>
+<p>最后一个带 “.current” 后缀的就是当前正在写的 gc 日志;<br>但这种方式有个问题, 日志文件名没有规范 当达到最大文件数量后, jvm 会选择回头覆盖最老的那个日志文件, 并把 “.current” 后缀也挪过去, 这种模式对日志收集相当得不友好, <a href="http://www.planetcobalt.net/sdb/forward_gc_logs.shtml" target="_blank" rel="noopener">我们很难定位当前正在写入的 log 文件</a>;<br>于是有另外一种思路想来解决 gc 日志收集的问题, 其采用了挪走并写空的方式:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 按天作 rolling</span></span><br><span class="line">cp /home/q/www/<span class="variable">$i</span>/logs/gc.log /home/q/www/<span class="variable">$i</span>/logs/gc.log.$(date -d <span class="string">"yesterday"</span> +%F)</span><br><span class="line"><span class="built_in">echo</span> &gt; /home/q/www/<span class="variable">$i</span>/logs/gc.log</span><br><span class="line">gzip /home/q/www/<span class="variable">$i</span>/logs/gc.log.$(date -d <span class="string">"yesterday"</span> +%F)</span><br></pre></td></tr></table></figure></p>
+<p>这种方法看似可行, 但忽略了一个问题: cp 和 echo 写空这两步并非原子操作, 在这个处理过程中, jvm 依然在试图往日志里写内容, 这就造成了写空后的 gc.log 接不上被 rolling 的老日志了, 甚至在字节层面上都不是完整的编码了, 打开看一下就报了这种错:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"gc.log"</span> may be a binary file.  See it anyway?</span><br></pre></td></tr></table></figure></p>
+<p>即便是使用 strings 命令搜索文本内容, 也只能得到一些残缺的内容, 完全无法分析问题了;<br>说到底, gc 日志的收集陷入这样的困境, 其实是 jvm 自己的支持度不够好; 像 nginx, 使用 <code>kill -USER1</code> 便可以作到原子切割日志; logback 的 RollingFileAppender 也是自身提供了完整的支持; 可惜 jvm gc log 没有走类似的路线, 而是采用了一种古怪的类似于 rrd 的环状模式, 直接造成了收集日志的困难;</p>
+<h3 id="gc-日志的辅助分析工具"><a href="#gc-日志的辅助分析工具" class="headerlink" title="gc 日志的辅助分析工具"></a><strong>gc 日志的辅助分析工具</strong></h3><p>其实拿到一个冗长的 gc 日志文件, 对着枯燥的数字, 我们很难对 待诊断的系统建立起一个直观而感性的性能健康状态的认识;<br>这里有一个十分出色的 gc 日志可视化分析工具: <a href="http://gceasy.io/" target="_blank" rel="noopener">gceasy</a>, 其对于 gc 问题的诊断可谓是如虎添翼;<br>上传 gc 日志并分析诊断, gceasy 可以给出多维度的可视化分析报告, 以友好的交互自动诊断系统的问题所在:</p>
+<ul>
+<li>Heap Statistics (堆状态统计)<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jvm/gc/gc%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/heap_statistics.png" alt="heap_statistics" title="">
+                </div>
+                <div class="image-caption">heap_statistics</div>
+            </figure></li>
+<li>GC Phases Statistics (gc 算法流程各阶段的时间统计)<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jvm/gc/gc%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/gc_phase_statistics.png" alt="gc_phase_statistics" title="">
+                </div>
+                <div class="image-caption">gc_phase_statistics</div>
+            </figure></li>
+<li>GC Time (gc 时间统计)<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jvm/gc/gc%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/gc_time_statistics.png" alt="gc_time_statistics" title="">
+                </div>
+                <div class="image-caption">gc_time_statistics</div>
+            </figure></li>
+<li>GC Cause (gc 原因分布统计)<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jvm/gc/gc%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/gc_cause_statistics.png" alt="gc_cause_statistics" title="">
+                </div>
+                <div class="image-caption">gc_cause_statistics</div>
+            </figure></li>
+<li>tenuring summary (survivor 区每一个岁数上存活对象 szie 统计)<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jvm/gc/gc%E6%97%A5%E5%BF%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/tenuring_summary.png" alt="tenuring_summary" title="">
+                </div>
+                <div class="image-caption">tenuring_summary</div>
+            </figure>
+</li>
+</ul>
+<h3 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h3><ul>
+<li><a href="">CMS 收集算法学习与整理</a></li>
+<li><a href="">G1 收集算法学习与整理</a></li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h3><ul>
+<li><a href="https://blog.csdn.net/dac55300424/article/details/19124831" target="_blank" rel="noopener">深入理解 Java 虚拟机: JVM 高级特性与最佳实践 (第2版) 3.5.8 理解 GC 日志</a></li>
+<li><a href="https://blogs.oracle.com/poonam/understanding-g1-gc-logs" target="_blank" rel="noopener">Understanding G1 GC Logs</a></li>
+<li><a href="http://chenzhou123520.iteye.com/blog/1582163" target="_blank" rel="noopener">Java -verbose:gc 命令</a></li>
+<li><a href="https://yq.aliyun.com/ask/11545" target="_blank" rel="noopener">jvm参数-verbose:gc和-XX:+PrintGC有区别? (阿里云)</a></li>
+<li><a href="https://segmentfault.com/q/1010000004348215/a-1020000004351714" target="_blank" rel="noopener">jvm参数-verbose:gc和-XX:+PrintGC有区别? (segmentfault)</a></li>
+<li><a href="https://developer.jboss.org/thread/148848?tstart=0&amp;_sscc=t" target="_blank" rel="noopener">Some junk characters displaying at start of jboss gc log file</a></li>
+<li><a href="https://blog.csdn.net/zero__007/article/details/53842099" target="_blank" rel="noopener">GC日志中的 stop-the-world</a></li>
+<li><a href="https://www.zhihu.com/question/57722838/answer/156390795" target="_blank" rel="noopener">java GC进入safepoint的时间为什么会这么长</a></li>
+<li><a href="https://blog.gceasy.io/2016/11/15/rotating-gc-log-files/" target="_blank" rel="noopener">ROTATING GC LOG FILES</a></li>
+<li><a href="http://www.planetcobalt.net/sdb/forward_gc_logs.shtml" target="_blank" rel="noopener">Forwarding JVM Garbage Collector Logs</a></li>
+<li><a href="https://www.jianshu.com/p/e634955f3bbb" target="_blank" rel="noopener">jvm-对象年龄(-XX:+PrintTenuringDistribution)</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2018/03/06/jvm-gc--java_gc日志学习笔记/" rel="external">http://zshell.cc/2018/03/06/jvm-gc--java_gc日志学习笔记</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="http://zshell.cc">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
+            zshell.zhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm-gc/">jvm:gc</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2018/03/06/jvm-gc--java_gc日志学习笔记/&title=《java gc 日志学习笔记》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2018/03/06/jvm-gc--java_gc日志学习笔记/&title=《java gc 日志学习笔记》 — 希尔的博客&source=
+关于 gc 日志, 网上有丰富的资料, 另外周志明的《深入理解 Java 虚拟机: JVM 高级特性与最佳实践》一书, 在第二版中的第 3.5.8 小节..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2018/03/06/jvm-gc--java_gc日志学习笔记/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《java gc 日志学习笔记》 — 希尔的博客&url=http://zshell.cc/2018/03/06/jvm-gc--java_gc日志学习笔记/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2018/03/06/jvm-gc--java_gc日志学习笔记/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/03/24/elasticsearch--elasticsearch6.x升级调研报告/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">elasticsearch 6.x 升级调研报告</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/02/23/python-module--python_module_使用总结_定时调度器/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">python module 使用总结: 定时调度器</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "fMh2JHgkPnDtARiQapOg8Jrk-gzGzoHsz",
+            appKey: "UPNXLDUkngDnuhfC9XQPgF6n",
+            avatar: "mm",
+            placeholder: "您的评论, 吾愿洗耳恭听!",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshell.zhang &copy; 2016 - 2017</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2018/03/06/jvm-gc--java_gc日志学习笔记/&title=《java gc 日志学习笔记》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2018/03/06/jvm-gc--java_gc日志学习笔记/&title=《java gc 日志学习笔记》 — 希尔的博客&source=
+关于 gc 日志, 网上有丰富的资料, 另外周志明的《深入理解 Java 虚拟机: JVM 高级特性与最佳实践》一书, 在第二版中的第 3.5.8 小节..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2018/03/06/jvm-gc--java_gc日志学习笔记/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《java gc 日志学习笔记》 — 希尔的博客&url=http://zshell.cc/2018/03/06/jvm-gc--java_gc日志学习笔记/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2018/03/06/jvm-gc--java_gc日志学习笔记/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMklEQVR42u3aO1IDMRAFQO5/aVNFRADye6PFxcqtyAVrrZpg0Hw+PuL1+Fq/ff6+1s+3v714YWBg3JbxWK711uvn2yOu9/ntXRgYGO/DSIJssl2+2/ro+W4YGBgY6wtc/vNZmMbAwMDYD7jrfZInMTAwMHJGksTOXpmkqS/NxTEwMG7I2G8M/N3nl/Y3MDAw/iXjUa6rguDO/j98CwMD42hGO+6wX2LbIT0JxxgYGIcykofWh56NWbQDZE9OhYGBcTRj1hjYD8qzobH6/wYGBsYRjFmgTL618weqn8fAwDia0aayj9Fa75A3O6MWAgYGxnGMvCjfjlC0CWp+DcXAwHg3xk4KmiefF4xzxefEwMB4B8ZOoNwp0uVXUgwMjHdjzJqXycUuf+aCsQ8MDIyjGbPSfxtGE1gb7uvuAQYGxm0Zs6GutvWY758MnP1wKgwMjKMZyctmA15/UW6rK4UYGBhHMNrmZQ7IL4v5GMeTUIuBgXEoo92oLbHNimjtKAYGBsbZjLZwnzcM2uZBu1t098TAwDiI0V7aZsE6T0rbCysGBsbZjBlmZ+KsbWfWVUMMDIzjGDspa3vtywtzbckPAwPjbEbbPmwD9P5ubSEPAwPjVMbOSNZO8M1T4nosDAMD41DGTsLZlszypLcI6xgYGBjBVS8P0LNa2ZOrJwYGBkYQKGeXy52AvhVwMTAwbsjImwFJkG0DdB7Eh41MDAyMmzNmCWRb9J+NU1yVAGNgYNyW8QmU5rJQsnubdAAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
