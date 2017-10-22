@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>du / df 使用及其区别 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="linux:disk">
+    <meta name="description" content="本文主要是整理 磁盘使用量 相关的命令, 如 du, df 等;接着, 一般性得总结这两个命令在实际工作中的应用;然后再以 du, df 命令的区别为例, 讨论命令背后的逻辑, 工作中存在的问题, 最后引申出问题解决的工具: lsof;">
+<meta name="keywords" content="linux:disk">
+<meta property="og:type" content="article">
+<meta property="og:title" content="du &#x2F; df 使用及其区别">
+<meta property="og:url" content="https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="本文主要是整理 磁盘使用量 相关的命令, 如 du, df 等;接着, 一般性得总结这两个命令在实际工作中的应用;然后再以 du, df 命令的区别为例, 讨论命令背后的逻辑, 工作中存在的问题, 最后引申出问题解决的工具: lsof;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-04-06T13:22:05.098Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="du &#x2F; df 使用及其区别">
+<meta name="twitter:description" content="本文主要是整理 磁盘使用量 相关的命令, 如 du, df 等;接着, 一般性得总结这两个命令在实际工作中的应用;然后再以 du, df 命令的区别为例, 讨论命令背后的逻辑, 工作中存在的问题, 最后引申出问题解决的工具: lsof;">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <script src="/js/leancloud-revision.js"></script>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshell.zhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ZhangZhi1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">du / df 使用及其区别</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">du / df 使用及其区别</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-04-07T14:58:04.000Z" itemprop="datePublished" class="page-time">
+  2017-04-07
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/disk/">disk</a></li></ul></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#du命令"><span class="post-toc-number">1.</span> <span class="post-toc-text">du命令</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#du-的常用选项"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">du 的常用选项</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#df-命令"><span class="post-toc-number">2.</span> <span class="post-toc-text">df 命令</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#df-的常用选项"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">df 的常用选项</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#du-与-df-命令的区别"><span class="post-toc-number">3.</span> <span class="post-toc-text">du 与 df 命令的区别</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#df-命令与-du-命令的工作原理"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">df 命令与 du 命令的工作原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#df-命令与-du-命令可接受范围内不一致"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">df 命令与 du 命令可接受范围内不一致</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#df-命令与-du-命令显著不一致"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">df 命令与 du 命令显著不一致</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#问题解决方案"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">问题解决方案</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#站内相关文章"><span class="post-toc-number">4.</span> <span class="post-toc-text">站内相关文章</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">5.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-linux-disk--du_df使用及其区别"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">du / df 使用及其区别</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-04-07 22:58:04" datetime="2017-04-07T14:58:04.000Z"  itemprop="datePublished">2017-04-07</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/disk/">disk</a></li></ul></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>本文主要是整理 磁盘使用量 相关的命令, 如 du, df 等;<br>接着, 一般性得总结这两个命令在实际工作中的应用;<br>然后再以 du, df 命令的区别为例, 讨论命令背后的逻辑, 工作中存在的问题, 最后引申出问题解决的工具: lsof;</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<h2 id="du命令"><a href="#du命令" class="headerlink" title="du命令"></a><strong>du命令</strong></h2><blockquote>
+<p>estimate disk file space usage. — man du</p>
+</blockquote>
+<h3 id="du-的常用选项"><a href="#du-的常用选项" class="headerlink" title="du 的常用选项"></a><strong>du 的常用选项</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不加任何选项, 默认是 列举指定路径下, 每一个目录(递归所有的子目录)的大小</span></span><br><span class="line">sudo du /target_path</span><br><span class="line"><span class="comment"># 列举指定路径下所有的文件(包括目录与文件)的大小</span></span><br><span class="line">sudo du -a /target_path</span><br><span class="line"><span class="comment"># 以 human-readable 的形式, 列举目标路径的文件磁盘占用总大小(将该路径下所有子文件大小求和)</span></span><br><span class="line">sudo du -s /target_path</span><br><span class="line"><span class="comment"># 以指定路径下所有的子一级路径为 target, 以 human-readable 的方式列举其中每一个下的所有子文件大小之和</span></span><br><span class="line"><span class="comment"># (诊断 磁盘满问题 最常用的方式)</span></span><br><span class="line">sudo du -sh /target_path/*</span><br><span class="line"><span class="comment"># 除了其余选项该有的输出之外, 最后一行另附一个给定 target_path 下的 total 总和</span></span><br><span class="line"><span class="comment"># 理论上这与目标路径不含通配符的 -sh 输出结果是相同的</span></span><br><span class="line">sudo du -c /target_path</span><br></pre></td></tr></table></figure>
+<h2 id="df-命令"><a href="#df-命令" class="headerlink" title="df 命令"></a><strong>df 命令</strong></h2><blockquote>
+<p>file system disk space usage. — man df</p>
+</blockquote>
+<h3 id="df-的常用选项"><a href="#df-的常用选项" class="headerlink" title="df 的常用选项"></a><strong>df 的常用选项</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示给定的路径所挂载的磁盘分区的大小及使用量等</span></span><br><span class="line">df /target_path</span><br><span class="line"><span class="comment"># 以 MB 最小单位显示大小及使用量</span></span><br><span class="line">df --block-size=1m /target_path</span><br><span class="line">df -B 1m /target_path</span><br><span class="line"><span class="comment"># 以 human-readable 的方式显示 当前挂载的所有可用健康的文件系统 的大小, 使用量等情况</span></span><br><span class="line">df -h <span class="comment"># 1024</span></span><br><span class="line">df -H <span class="comment"># 1000</span></span><br><span class="line"><span class="comment"># 显示所有的文件系统, 包括 伪文件系统, 重复的, 不可访问的文件系统 (pseudo, duplicate, inaccessible)</span></span><br><span class="line">df -a</span><br><span class="line"><span class="comment"># 过滤 nfs 远程文件系统后的本地文件系统</span></span><br><span class="line">df -l</span><br></pre></td></tr></table></figure>
+<p>&nbsp;<br><strong>一般性总结:</strong><br>df 命令主要关心的是磁盘分区的 size, 而不是具体某文件的占用大小;<br>所以 df 命令的主要运用场景是: <code>df -h</code>, 判断所挂载的每个分区的使用率, 是不是满了;<br>作为先决判断依据, 如果发现磁盘满了, 再接着使用 <code>du -sh</code> 等命令进一步排查;<br>&nbsp;</p>
+<h2 id="du-与-df-命令的区别"><a href="#du-与-df-命令的区别" class="headerlink" title="du 与 df 命令的区别"></a><strong>du 与 df 命令的区别</strong></h2><h3 id="df-命令与-du-命令的工作原理"><a href="#df-命令与-du-命令的工作原理" class="headerlink" title="df 命令与 du 命令的工作原理"></a><strong>df 命令与 du 命令的工作原理</strong></h3><p>df 命令使用 系统调用 <code>statfs</code>, 获取磁盘分区的超级块 (super block) 使用情况;<br>du 命令使用 系统调用 <code>fstat</code>, 获取待统计文件的大小;</p>
+<h3 id="df-命令与-du-命令可接受范围内不一致"><a href="#df-命令与-du-命令可接受范围内不一致" class="headerlink" title="df 命令与 du 命令可接受范围内不一致"></a><strong>df 命令与 du 命令可接受范围内不一致</strong></h3><p>[<strong>问题场景</strong>]: <em>du -s 与 df 核算精确结果总有差异;</em><br>&nbsp;<br>[<strong>原因</strong>]: du -s 命令通过将指定文件系统中所有的目录, 符号链接和文件使用的块数累加得到该文件系统使用的总块数, 这是上层用户级的数据;<br>df 命令通过查看文件系统磁盘块分配图得出总块数与剩余块数, 这是直接从底层获取的数据;<br>所以, 一些元数据信息(inode, super blocks 等)不会被上层的 du 命令计入在内, 而 df 命令由于直接获取的底层超级块的信息, 则会将其计入在内;<br>&nbsp;<br>[<strong>结论</strong>]: <em>这种差异属于系统性的差异, 是由命令的特点决定的, 无法改变;</em></p>
+<h3 id="df-命令与-du-命令显著不一致"><a href="#df-命令与-du-命令显著不一致" class="headerlink" title="df 命令与 du 命令显著不一致"></a><strong>df 命令与 du 命令显著不一致</strong></h3><p>[<strong>问题场景</strong>]: <em>当一个被某进程持有其句柄的文件被删除后, 进程不释放句柄, du 将不会再统计该文件, 而 df 的使用量仍会将其计入在内;</em><br>&nbsp;<br>[<strong>原因</strong>]: 当文件句柄被进程持有, 尽管文件被删除, 目录项已经不存在该文件路径了, 但只要句柄不释放, 文件在磁盘上就不会真正删除该文件;<br>这样一来, 目录项不存在该文件了, du 命令就不会统计到该文件, 但文件没真正删除, 磁盘分区 super block 的信息就不会改变, df 命令仍会将其计入使用量;<br>&nbsp;<br>[<strong>结论</strong>]: <em>这种差异属于第三方因素干扰导致的差异, 且差异十分显著, 需要通过下一节所讨论的方式加以解决;</em></p>
+<h3 id="问题解决方案"><a href="#问题解决方案" class="headerlink" title="问题解决方案"></a><strong>问题解决方案</strong></h3><p>磁盘满了, 但是有进程持有大文件的句柄, 无法真正从磁盘删除掉; 对于这类问题, 有如下两种解决方案:<br>1.配合使用 lsof 找出相关的 <code>幽灵文件</code> 的句柄持有情况(command 与 pid):<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; sudo lsof | grep deleted</span><br><span class="line">nginx      4804      nobody   59u      REG	253,1    110116  243425480 /usr/<span class="built_in">local</span>/openresty/nginx/client_body_temp/0068359496 (deleted)</span><br><span class="line">nginx      4819      nobody   51u      REG	253,1    115876  243425480 /usr/<span class="built_in">local</span>/openresty/nginx/client_body_temp/0068359498 (deleted)</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>然后 kill 掉进程 (或 restart 进程), 即可释放文件句柄;<br>当然, 本文是以 nginx 举例, 但实际上 nginx 对于日志文件的文件句柄释放, 有自己专有的方法, 具体内容请见本站另外两篇文章: <a href="https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/#其他信号">linux signals 总体认识#其他信号</a> 和 <a href="">nginx signals 处理</a>;<br>另外, 磁盘满的问题, 不能总是靠人肉登机器去解决, 我们需要一些自动化的方案来将我们从这种低级的操作中解放出来;<br>所以, 对于所有机器上都会遇到的日志文件不断累积占满磁盘的问题, 这篇文章介绍了解决方案: <a href="">logrotate 配置与运维</a>;<br>&nbsp;<br>2.如果进程很重要, 不能容忍任何时间范围内的服务不可用 (其实理论上这种情况属于单点瓶颈, 未能做到高可用), 则可以采用如下方式:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将文件写空</span></span><br><span class="line">sudo <span class="built_in">echo</span> &gt; file_path</span><br></pre></td></tr></table></figure></p>
+<p>将文件内容间接删除, 这样即便句柄未释放, 但文件本身已经没有内容, 也就不再占用空间了;</p>
+<h2 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h2><ul>
+<li><a href="https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%BF%90%E7%BB%B4/">logrotate 配置与运维</a></li>
+<li><a href="https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/#其他信号">linux signals 总体认识#其他信号</a></li>
+<li><a href="">nginx signals 处理</a></li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2><ul>
+<li><a href="http://www.cnblogs.com/heyonggang/p/3644736.html" target="_blank" rel="noopener">df和du显示的磁盘空间使用情况不一致的原因及处理</a></li>
+<li><a href="http://blog.csdn.net/guoguo1980/article/details/2324454" target="_blank" rel="noopener">linux lsof 详解</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2017/04/07/linux-disk--du_df使用及其区别/" rel="external">https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="https://zshell-zhang.github.io">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
+            zshell.zhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-disk/">linux:disk</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/&title=《du / df 使用及其区别》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/&title=《du / df 使用及其区别》 — 希尔的博客&source=
+本文主要是整理 磁盘使用量 相关的命令, 如 du, df 等;接着, 一般性得总结这两个命令在实际工作中的应用;然后再以 du, df 命令的区别为例..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《du / df 使用及其区别》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/05/13/saltstack--saltstack_cheat_sheet/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">saltstack cheat sheet</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/04/05/linux-process--linux_signals总体认识/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">linux signals 总体认识</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "fMh2JHgkPnDtARiQapOg8Jrk-gzGzoHsz",
+            appKey: "UPNXLDUkngDnuhfC9XQPgF6n",
+            avatar: "mm",
+            placeholder: "您的评论, 吾愿洗耳恭听!",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshell.zhang &copy; 2016 - 2017</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/&title=《du / df 使用及其区别》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/&title=《du / df 使用及其区别》 — 希尔的博客&source=
+本文主要是整理 磁盘使用量 相关的命令, 如 du, df 等;接着, 一般性得总结这两个命令在实际工作中的应用;然后再以 du, df 命令的区别为例..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《du / df 使用及其区别》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/04/07/linux-disk--du_df使用及其区别/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACrklEQVR42u3aQXKDMAwF0Nz/0um2HQp8STbNdB6rTAK2HwtLkfx6xdf723X85vj92VNnz17fcxx58YWHh4c3WPr1oid3Hmesfs7Xg4eHh/cM72xHPbunurlXA0n+Um4seHh4eB/AS5Ld0206mDe5Hw8PD+//8aojJMEGDw8P79N4+dDXz1bvT0JIknwvqLXg4eHh9cd5Vbf45z9v6e/h4eHhjbvqqwqv81maq8XDw8PbwMs33EmLa20KXl4nHh4e3lJevpR8s05GqJZ0e8/i4eHh7eBNMPnRq1746R1HKEQ2PDw8vAFvUmjo1VF7jbFyGQIPDw9vAy/ffK8xeTBIXmU1GJz+ioeHh/dHvHm7a5LlVtfzSxkXDw8Pbxuv12Ra1cqa/HpTusXDw8N7kJdsynk5OB+5l6bj4eHhPcPLF50XUnvUXkMuCm94eHh4S3mTptTkiEAvrU9aYj/GxMPDw9vGq27KSfq7qhycz3LzjwEPDw9vM2+yHfeKGr20/gaJh4eHt4GXD7EqLe7Nch0kyrPj4eHhjXn5Rl8tpCZJeTVgVMMSHh4e3pO8akhYVaLNw0C0Ejw8PLxtvFUF3Mmv1ZdbLubi4eHhjXlJkpqn15Pvey20m9eEh4eHt4HXa/9PmlWTAm4ye+EYAR4eHt6AV/2rnx8RKL/jOGkuvGg8PDy8bbxVh6vytDhfen6AYNTfw8PDw2vxJqlzXoqtjt8r7OLh4eHt4L2LV77QaoE4L84WisJ4eHh4G3i99vwkCuWY+bN4eHh4+3i9rTwPJL3DAYVywzUYDw8PbxuvWmKYpON5obZcWcHDw8P7eF6yuEkgqYaB6DQZHh4e3uO8ajk1KQTvCD94eHh4u3nVgkK1iJAfQajec4PEw8PD28Cb/+GfhI3JQYFVh7Tw8PDwYt4XgLJK37hgq48AAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
