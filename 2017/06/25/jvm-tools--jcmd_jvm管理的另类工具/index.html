@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://zshell.cc/2017/06/25/jvm-tools--jcmd_jvm管理的另类工具/">
+    
+    
+    <title>jcmd: jvm 管理的另类工具 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="jvm:tools">
+    <meta name="description" content="曾经 oracle 向我们提供了一套 jvm 管理与诊断问题的 “工具全家桶”: jps, jstack, jmap, jstat, jhat, jinfo 等等, 我们针对不同的情景使用不同的工具, 解决特定的问题;现在, oracle 在 jdk7 之后又为我们带来了一个全能的工具 jcmd; 它最重要的功能是启动 java flight recorder, 不过 oracle 在设计该命令">
+<meta name="keywords" content="jvm:tools">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jcmd: jvm 管理的另类工具">
+<meta property="og:url" content="http://zshell.cc/2017/06/25/jvm-tools--jcmd_jvm管理的另类工具/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="曾经 oracle 向我们提供了一套 jvm 管理与诊断问题的 “工具全家桶”: jps, jstack, jmap, jstat, jhat, jinfo 等等, 我们针对不同的情景使用不同的工具, 解决特定的问题;现在, oracle 在 jdk7 之后又为我们带来了一个全能的工具 jcmd; 它最重要的功能是启动 java flight recorder, 不过 oracle 在设计该命令">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-20T11:14:11.159Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jcmd: jvm 管理的另类工具">
+<meta name="twitter:description" content="曾经 oracle 向我们提供了一套 jvm 管理与诊断问题的 “工具全家桶”: jps, jstack, jmap, jstat, jhat, jinfo 等等, 我们针对不同的情景使用不同的工具, 解决特定的问题;现在, oracle 在 jdk7 之后又为我们带来了一个全能的工具 jcmd; 它最重要的功能是启动 java flight recorder, 不过 oracle 在设计该命令">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <script src="/js/leancloud-revision.js"></script>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshell.zhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ZhangZhi1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">jcmd: jvm 管理的另类工具</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">jcmd: jvm 管理的另类工具</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-06-25T11:13:05.000Z" itemprop="datePublished" class="page-time">
+  2017-06-25
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/jvm/">jvm</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/jvm/tools/">tools</a></li></ul></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jcmd-工具的定位"><span class="post-toc-number">1.</span> <span class="post-toc-text">jcmd 工具的定位</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jps-类似功能"><span class="post-toc-number">2.</span> <span class="post-toc-text">jps 类似功能</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#查看-jcmd-对指定虚拟机能做的事情"><span class="post-toc-number">3.</span> <span class="post-toc-text">查看 jcmd 对指定虚拟机能做的事情</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jstack-类似功能"><span class="post-toc-number">4.</span> <span class="post-toc-text">jstack 类似功能</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jmap-类似功能"><span class="post-toc-number">5.</span> <span class="post-toc-text">jmap 类似功能</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jinfo-类似功能"><span class="post-toc-number">6.</span> <span class="post-toc-text">jinfo 类似功能</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jcmd-使用总结"><span class="post-toc-number">7.</span> <span class="post-toc-text">jcmd 使用总结</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#站内相关文章"><span class="post-toc-number">8.</span> <span class="post-toc-text">站内相关文章</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">9.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-jvm-tools--jcmd_jvm管理的另类工具"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">jcmd: jvm 管理的另类工具</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-06-25 19:13:05" datetime="2017-06-25T11:13:05.000Z"  itemprop="datePublished">2017-06-25</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/jvm/">jvm</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/jvm/tools/">tools</a></li></ul></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>曾经 oracle 向我们提供了一套 jvm 管理与诊断问题的 “工具全家桶”: jps, jstack, jmap, jstat, jhat, jinfo 等等, 我们针对不同的情景使用不同的工具, 解决特定的问题;<br>现在, oracle 在 jdk7 之后又为我们带来了一个全能的工具 jcmd; 它最重要的功能是启动 java flight recorder, 不过 oracle 在设计该命令的时候, “不小心” 为它附加上了一些其他功能, 从而将原本平静的水面搅起了波澜;</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<h3 id="jcmd-工具的定位"><a href="#jcmd-工具的定位" class="headerlink" title="jcmd 工具的定位"></a><strong>jcmd 工具的定位</strong></h3><p>jcmd 是 jdk7 之后新增的工具, 它是 java flight recorder 的唯一启动方式, 详细的内容请见 <a href="">java flight recorder 的使用</a>; 不过, oracle 顺手又为其附带了一些 “便捷” 小工具:</p>
+<ol>
+<li>列举 jvm 进程 (对标 jps)</li>
+<li>dump 栈信息 (对标 jstack)</li>
+<li>dump 堆信息 (对标 jmap -dump)</li>
+<li>统计类信息 (对标 jmap -histo)</li>
+<li>获取系统信息 (对标 jinfo)</li>
+</ol>
+<p>这样一下子就有意思了, jcmd 似乎有了想要取代其他命令的野心; 下面来具体介绍一下 jcmd 都能顺手做些什么事情;</p>
+<h3 id="jps-类似功能"><a href="#jps-类似功能" class="headerlink" title="jps 类似功能"></a><strong>jps 类似功能</strong></h3><p>jcmd 命令不带任何选项或者使用 -l 选项, 都可以打印当前用户下运行的虚拟机进程;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># jps</span></span><br><span class="line">sudo -u xxx jps -l</span><br><span class="line"><span class="comment"># jcmd</span></span><br><span class="line">sudo -u xxx jcmd [-l]</span><br></pre></td></tr></table></figure></p>
+<h3 id="查看-jcmd-对指定虚拟机能做的事情"><a href="#查看-jcmd-对指定虚拟机能做的事情" class="headerlink" title="查看 jcmd 对指定虚拟机能做的事情"></a><strong>查看 jcmd 对指定虚拟机能做的事情</strong></h3><p>jcmd 确实神通广大, 但是再厉害的大夫也得病人配合工作才行, 比如在低版本 jre 上跑的程序肯定无法使用 flight recorder 抓 dump;<br>当使用 jcmd 拿到了目标 vmid 后, 使用如下命令可以查看 jcmd 对目标 jvm 能够使用的功能:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u xxx jcmd &#123;vmid&#125; <span class="built_in">help</span></span><br></pre></td></tr></table></figure></p>
+<p>输出可以使用的功能列举如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># flight recorder 相关功能</span></span><br><span class="line">JFR.stop</span><br><span class="line">JFR.start</span><br><span class="line">JFR.dump</span><br><span class="line">JFR.check</span><br><span class="line"></span><br><span class="line"><span class="comment"># jmx 相关功能</span></span><br><span class="line">ManagementAgent.stop</span><br><span class="line">ManagementAgent.start_local</span><br><span class="line">ManagementAgent.start</span><br><span class="line"></span><br><span class="line"><span class="comment"># jstack 相关功能</span></span><br><span class="line">Thread.print</span><br><span class="line"></span><br><span class="line"><span class="comment"># jmap 相关功能</span></span><br><span class="line">GC.class_stats</span><br><span class="line">GC.class_histogram</span><br><span class="line">GC.heap_dump</span><br><span class="line"></span><br><span class="line"><span class="comment"># jinfo 相关功能</span></span><br><span class="line">VM.flags</span><br><span class="line">VM.system_properties</span><br><span class="line">VM.command_line</span><br><span class="line">VM.version</span><br><span class="line"></span><br><span class="line"><span class="comment"># gc 相关</span></span><br><span class="line">GC.run_finalization <span class="comment"># System.runFinalization()</span></span><br><span class="line">GC.run              <span class="comment"># System.gc()</span></span><br><span class="line">GC.rotate_log       <span class="comment"># 切割 gc log</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 其他</span></span><br><span class="line">VM.native_memory</span><br><span class="line">VM.check_commercial_features</span><br><span class="line">VM.unlock_commercial_features</span><br><span class="line">VM.uptime</span><br></pre></td></tr></table></figure></p>
+<h3 id="jstack-类似功能"><a href="#jstack-类似功能" class="headerlink" title="jstack 类似功能"></a><strong>jstack 类似功能</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u xxx jcmd &#123;vmid&#125; Thread.print</span><br></pre></td></tr></table></figure>
+<p>以上命令输出的内容与以下使用 jstack 命令的输出一致:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u xxx jstack -l &#123;vmid&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="jmap-类似功能"><a href="#jmap-类似功能" class="headerlink" title="jmap 类似功能"></a><strong>jmap 类似功能</strong></h3><p>与 jmap 相关的功能主要是以下四类:<br>(1) 堆区对象的总体统计<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># jmap 的实现</span></span><br><span class="line">sudo -u xxx jmap -heap &#123;vmid&#125;</span><br></pre></td></tr></table></figure></p>
+<p>jcmd 没有提供与 jmap -heap 类似的功能;</p>
+<p>(2) 堆区对象的详细直方图统计<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># jcmd 的实现</span></span><br><span class="line">sudo -u xxx jcmd &#123;vmid&#125; GC.class_histogram</span><br><span class="line"><span class="comment"># jmap 的实现</span></span><br><span class="line">sudo -u xxx jmap -histo[:live] &#123;vmid&#125;</span><br></pre></td></tr></table></figure></p>
+<p>(3) metaspace 的信息统计<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># jcmd 的实现</span></span><br><span class="line">sudo -u xxx jcmd &#123;vmid&#125; GC.class_stats</span><br><span class="line"><span class="comment"># jmap 的实现</span></span><br><span class="line">sudo -u xxx jmap -clstats &#123;vmid&#125;</span><br></pre></td></tr></table></figure></p>
+<p>虽然都是关于 jdk8 metaspace 的信息统计, 不过 jcmd GC.class_stats 与 jmap -clstats 的输出内容没什么关联;<br>另外, 使用 jcmd GC.class_stats 功能, 需要开启 jvm 选项 <code>UnlockDiagnosticVMOptions</code>;</p>
+<p>(4) 堆区对象的 dump<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># jcmd 的实现</span></span><br><span class="line">sudo -u xxx jcmd &#123;vmid&#125; GC.heap_dump &#123;file_path&#125;</span><br><span class="line"><span class="comment"># jmap 的实现</span></span><br><span class="line">sudo -u xxx jmap -dump[:live],format=b,file=&#123;file_path&#125; &#123;vmid&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="jinfo-类似功能"><a href="#jinfo-类似功能" class="headerlink" title="jinfo 类似功能"></a><strong>jinfo 类似功能</strong></h3><p>与 jinfo 相关的功能主要是以下两类:<br>(1) 打印 jvm 的系统信息, 包括系统参数, 版本等<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># jcmd 的实现</span></span><br><span class="line">sudo -u xxx jcmd &#123;vmid&#125; VM.system_properties</span><br><span class="line">sudo -u xxx jcmd &#123;vmid&#125; VM.version</span><br><span class="line"><span class="comment"># jmap 的实现</span></span><br><span class="line">sudo -u xxx jinfo -sysprops &#123;vmid&#125;</span><br></pre></td></tr></table></figure></p>
+<p>(2) 打印 jvm 的选项<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># jcmd 的实现</span></span><br><span class="line">sudo -u xxx jcmd &#123;vmid&#125; VM.command_line</span><br><span class="line"><span class="comment"># jmap 的实现</span></span><br><span class="line">sudo -u xxx jinfo -flags &#123;vmid&#125;</span><br></pre></td></tr></table></figure></p>
+<p>(3) 修改 jvm 的选项<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># jcmd 的部分实现</span></span><br><span class="line">sudo -u xxx jcmd &#123;vmid&#125; VM.unlock_commercial_features</span><br><span class="line">sudo -u xxx jcmd &#123;vmid&#125; VM.check_commercial_features</span><br><span class="line"><span class="comment"># jmap 的实现</span></span><br><span class="line">sudo -u xxx jinfo -flag [+|-]&#123;option_name&#125; &#123;vmid&#125;</span><br><span class="line">sudo -u xxx jinfo -flag &#123;option_name&#125;=&#123;value&#125; &#123;vmid&#125;</span><br></pre></td></tr></table></figure></p>
+<p>关于修改 jvm 选项, 只能说 jcmd 几乎是没有相关的功能, 其只能操控与 flight recorder 配套的 <code>UnlockCommercialFeatures</code> 选项而已;</p>
+<h3 id="jcmd-使用总结"><a href="#jcmd-使用总结" class="headerlink" title="jcmd 使用总结"></a><strong>jcmd 使用总结</strong></h3><p>往不好听的讲, 除了 java flight recorder 之外, jcmd 其余的功能只能说是 “鸡肋”: 只有 jps, jstack 可以算完全覆盖了其相关功能, jmap 勉强可以算覆盖了其相关功能;<br>除此之外, jinfo 的部分功能没有实现, jstat 的所有功能都没有实现; 而且 jcmd 的选项名字一般都比较长, 不容易记住, 必须依赖 <code>jcmd {vmid} help</code> 打印相关内容, 给使用带来了不便;<br>总体来说, 除了 java flight recorder 必须要使用 jcmd 之外, 其余的功能暂时还是建议使用传统的工具来解决问题; jcmd 的野心还得继续培养, 等以后 oracle 发布新版本的时候再继续观察吧;</p>
+<h3 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h3><ul>
+<li><a href="">java flight recorder 的使用</a></li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h3><ul>
+<li><a href="http://fengfu.io/2016/12/14/jcmd%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3/" target="_blank" rel="noopener">jcmd命令详解</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2017/06/25/jvm-tools--jcmd_jvm管理的另类工具/" rel="external">http://zshell.cc/2017/06/25/jvm-tools--jcmd_jvm管理的另类工具</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="http://zshell.cc">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
+            zshell.zhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm-tools/">jvm:tools</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/06/25/jvm-tools--jcmd_jvm管理的另类工具/&title=《jcmd: jvm 管理的另类工具》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/06/25/jvm-tools--jcmd_jvm管理的另类工具/&title=《jcmd: jvm 管理的另类工具》 — 希尔的博客&source=
+曾经 oracle 向我们提供了一套 jvm 管理与诊断问题的 “工具全家桶”: jps, jstack, jmap, jstat, jhat, jin..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/06/25/jvm-tools--jcmd_jvm管理的另类工具/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《jcmd: jvm 管理的另类工具》 — 希尔的博客&url=http://zshell.cc/2017/06/25/jvm-tools--jcmd_jvm管理的另类工具/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/06/25/jvm-tools--jcmd_jvm管理的另类工具/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/08/01/python-module--python_module_使用总结_MySQLdb/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">python module 使用总结: MySQLdb</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/05/13/saltstack--saltstack_cheat_sheet/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">saltstack cheat sheet</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "fMh2JHgkPnDtARiQapOg8Jrk-gzGzoHsz",
+            appKey: "UPNXLDUkngDnuhfC9XQPgF6n",
+            avatar: "mm",
+            placeholder: "您的评论, 吾愿洗耳恭听!",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshell.zhang &copy; 2016 - 2017</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/06/25/jvm-tools--jcmd_jvm管理的另类工具/&title=《jcmd: jvm 管理的另类工具》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/06/25/jvm-tools--jcmd_jvm管理的另类工具/&title=《jcmd: jvm 管理的另类工具》 — 希尔的博客&source=
+曾经 oracle 向我们提供了一套 jvm 管理与诊断问题的 “工具全家桶”: jps, jstack, jmap, jstat, jhat, jin..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/06/25/jvm-tools--jcmd_jvm管理的另类工具/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《jcmd: jvm 管理的另类工具》 — 希尔的博客&url=http://zshell.cc/2017/06/25/jvm-tools--jcmd_jvm管理的另类工具/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/06/25/jvm-tools--jcmd_jvm管理的另类工具/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACu0lEQVR42u3awY7iMBAEUP7/p1lpTivNJFS5beDwckIoxHlBsp3qfjzi4/lz/P/59ze/PydXy0dvf/XAw8PDO8Z73h73pPsh186/Oufqalf3jIeHh3eaN7m5+4HbRSK5WnIneHh4eN/Ay4e8R95/P9m44+Hh4X0/736DO182kvvBw8PD+xSvvcW1Cb2NLfLHtCFrwcPDw4t5k0n5U5+P1/fw8PDwlqrqk0UiiRuSYCJfDP4YFw8PD+8Ab63I1Jay1rbga4W06I0BDw8Pb8zLp/i1eKJdQtqWhWQsPDw8vF28te1sHqrOg4a23eryjQEPDw9vK28NlpDyTfauwOKPhQEPDw9vK6+duFvS5Mrzx4SHh4d3mjdpsWon/bYNKy+tvSiA4eHh4Y15bWD6IglempPbklsR7OLh4eEd5k2igTbkTZaZyVj1P4CHh4fX7ZA3325+ft7s1baFRW8MeHh4eEu8PKjNg9d24zsJQV78Fg8PD+8ALz/WyvbtsjFpMkiWKzw8PLxdvHwKbotSSeybBxDtsoSHh4f3Tl5edmqDg+T8tV9dno+Hh4e3ldcOtvbaX0zi8eIUNT3g4eHhvYW3duQBxCSGyDfuRdMVHh4e3oC3VsifB7jJHN7+DXh4eHjneO3ttpvjvNEquc5iiwAeHh7eMd48bmi3zvkWfLRo4eHh4W3l5T/OI4a8+WDv93h4eHjv57WTfk5qw9xtzQd4eHh4B3j5Njrf+K7Fr3XE0I6Ch4eHt4n3LI9JONvGwQffGPDw8PAGvPnkO3kQbVkuD3Dx8PDwTvPaxWAevCZBcBuFvKjv4eHh4R3grcUTi90KZVYw6arCw8PD+ywvD1vz6b7dWLclNzw8PLzv4U1KWXkUO1lU8PDw8E7z5kWvOhsuH1C7SODh4eGd460NOQ8g5tHGtseKh4eHl/L+ASe1nHHBCYSIAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
