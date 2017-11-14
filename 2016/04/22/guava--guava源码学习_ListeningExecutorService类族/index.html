@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://zshell.cc/2016/04/22/guava--guava源码学习_ListeningExecutorService类族/">
+    
+    
+    <title>guava 源码学习: ListeningExecutorService 类族 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="guava,juc,线程池">
+    <meta name="description" content="带有 listenable 回调功能的 guava 线程池是 com.google.common.util.concurrent 包里十分重要的概念, 它们实现了任务执行完异步回调指定逻辑的功能, 在很大程度上解决了 java 原生组件 Future / FutureTask 阻塞获取结果的尴尬, 在生产实践中有着广泛的应用;">
+<meta name="keywords" content="guava,juc,线程池">
+<meta property="og:type" content="article">
+<meta property="og:title" content="guava 源码学习: ListeningExecutorService 类族">
+<meta property="og:url" content="http://zshell.cc/2016/04/22/guava--guava源码学习_ListeningExecutorService类族/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="带有 listenable 回调功能的 guava 线程池是 com.google.common.util.concurrent 包里十分重要的概念, 它们实现了任务执行完异步回调指定逻辑的功能, 在很大程度上解决了 java 原生组件 Future / FutureTask 阻塞获取结果的尴尬, 在生产实践中有着广泛的应用;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-19T13:13:47.759Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="guava 源码学习: ListeningExecutorService 类族">
+<meta name="twitter:description" content="带有 listenable 回调功能的 guava 线程池是 com.google.common.util.concurrent 包里十分重要的概念, 它们实现了任务执行完异步回调指定逻辑的功能, 在很大程度上解决了 java 原生组件 Future / FutureTask 阻塞获取结果的尴尬, 在生产实践中有着广泛的应用;">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <script src="/js/leancloud-revision.js"></script>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshell.zhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/zshellzhang1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">guava 源码学习: ListeningExecutorService 类族</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">guava 源码学习: ListeningExecutorService 类族</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-04-21T16:00:57.000Z" itemprop="datePublished" class="page-time">
+  2016-04-22
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/guava/">guava</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#类族相关成员列举"><span class="post-toc-number">1.</span> <span class="post-toc-text">类族相关成员列举</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ListenableFutureTask-的异步回调原理"><span class="post-toc-number">2.</span> <span class="post-toc-text">ListenableFutureTask 的异步回调原理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#java-原生组件的关键支持"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">java 原生组件的关键支持</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ListenableFutureTask-的具体实现"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">ListenableFutureTask 的具体实现</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#guava-顺手实现的一些便捷工具类"><span class="post-toc-number">3.</span> <span class="post-toc-text">guava 顺手实现的一些便捷工具类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MoreExecutors"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">MoreExecutors</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Futures"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">Futures</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-guava--guava源码学习_ListeningExecutorService类族"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">guava 源码学习: ListeningExecutorService 类族</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2016-04-22 00:00:57" datetime="2016-04-21T16:00:57.000Z"  itemprop="datePublished">2016-04-22</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/guava/">guava</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>带有 listenable 回调功能的 guava 线程池是 <code>com.google.common.util.concurrent</code> 包里十分重要的概念, 它们实现了任务执行完异步回调指定逻辑的功能, 在很大程度上解决了 java 原生组件 Future / FutureTask 阻塞获取结果的尴尬, 在生产实践中有着广泛的应用;</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<h2 id="类族相关成员列举"><a href="#类族相关成员列举" class="headerlink" title="类族相关成员列举"></a><strong>类族相关成员列举</strong></h2><p>guava 中与 ListeningExecutorService 相关的类都集中在 util.concurrent 包中, 主要分为三类:<br>(1) 包装返回 ListenableFutureTask 的 ExecutorService:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ListeningExecutorService extends ExecutorService;</span><br><span class="line">AbstractListeningExecutorService extends AbstractExecutorService implements ListeningExecutorService;</span><br><span class="line">MoreExecutors.ListeningDecorator extends AbstractListeningExecutorService;</span><br></pre></td></tr></table></figure></p>
+<p>(2) 与 ListenableFutureTask 相关的类, 实现异步回调的关键逻辑:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ListenableFuture extends Future;</span><br><span class="line">ListenableFutureTask extends FutureTask implements ListenableFuture;</span><br><span class="line">ExecutionList;</span><br></pre></td></tr></table></figure></p>
+<p>(3) 便捷工具类, 主要是方便开发者以友好的方式使用 ListeningExecutorService 和 ListenableFutureTask:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MoreExecutors;</span><br><span class="line">Futures;</span><br><span class="line">FutureCallback;</span><br></pre></td></tr></table></figure></p>
+<h2 id="ListenableFutureTask-的异步回调原理"><a href="#ListenableFutureTask-的异步回调原理" class="headerlink" title="ListenableFutureTask 的异步回调原理"></a><strong>ListenableFutureTask 的异步回调原理</strong></h2><h3 id="java-原生组件的关键支持"><a href="#java-原生组件的关键支持" class="headerlink" title="java 原生组件的关键支持"></a><strong>java 原生组件的关键支持</strong></h3><p>guava ListenableFuture 得以实现任务完成后异步回调指定逻辑的关键就在于 java.util.concurrent.FutureTask 留白了一个空方法:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Protected method invoked when this task transitions to state</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@code</span> isDone&#125; (whether normally or via cancellation). The </span></span><br><span class="line"><span class="comment"> * default implementation does nothing.  Subclasses may override</span></span><br><span class="line"><span class="comment"> * this method to invoke completion callbacks or perform</span></span><br><span class="line"><span class="comment"> * bookkeeping. Note that you can query status inside the </span></span><br><span class="line"><span class="comment"> * implementation of this method to determine whether this task</span></span><br><span class="line"><span class="comment"> * has been cancelled.</span></span><br><span class="line"><span class="comment"> */</span>  </span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">done</span><span class="params">()</span> </span>&#123; &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以发现, 注释中说明了该方法将留给子类去重写以实现 “invoke completion callbacks”;</p>
+<p>下面来看下这个空方法是如何被回调的:<br>(1) FutureTask 的 run 方法, 当任务跑完后会根据结果调用 set / setException 方法更新 state 状态;<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Callable&lt;V&gt; c = callable;</span><br><span class="line">        <span class="keyword">if</span> (c != <span class="keyword">null</span> &amp;&amp; state == NEW) &#123;</span><br><span class="line">            V result;</span><br><span class="line">            <span class="keyword">boolean</span> ran;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                result = c.call();</span><br><span class="line">                ran = <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">                result = <span class="keyword">null</span>;</span><br><span class="line">                ran = <span class="keyword">false</span>;</span><br><span class="line">                setException(ex); <span class="comment">// 任务失败更新 state 为 EXCEPTIONAL</span></span><br><span class="line">            &#125;   </span><br><span class="line">            <span class="keyword">if</span> (ran)</span><br><span class="line">                set(result); <span class="comment">// 任务成功更新 state 为 COMPLETING</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>(2) 以 set 方法为例, 更新完状态后会调用 finishCompletion() 方法;<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(V v)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (UNSAFE.compareAndSwapInt(<span class="keyword">this</span>, stateOffset, NEW, COMPLETING)) &#123;</span><br><span class="line">        outcome = v;</span><br><span class="line">        UNSAFE.putOrderedInt(<span class="keyword">this</span>, stateOffset, NORMAL);</span><br><span class="line">        finishCompletion(); <span class="comment">// 状态更新完, 回调 finish 逻辑</span></span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>另外除了 set 与 setException 方法之外, 还有 cancel(boolean mayInterruptIfRunning) 方法也回调了 finishCompletion() 方法;<br>(3) 在 finishCompletion() 方法中, 回调了留白的 done() 方法;<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">finishCompletion</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// assert state &gt; COMPLETING;</span></span><br><span class="line">    <span class="keyword">for</span> (WaitNode q; (q = waiters) != <span class="keyword">null</span>;) &#123;</span><br><span class="line">        <span class="keyword">if</span> (UNSAFE.compareAndSwapObject(<span class="keyword">this</span>, waitersOffset, q, <span class="keyword">null</span>)) &#123;</span><br><span class="line">            <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">                Thread t = q.thread;</span><br><span class="line">                <span class="keyword">if</span> (t != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    q.thread = <span class="keyword">null</span>;</span><br><span class="line">                    LockSupport.unpark(t);</span><br><span class="line">                &#125;   </span><br><span class="line">                WaitNode next = q.next;</span><br><span class="line">                <span class="keyword">if</span> (next == <span class="keyword">null</span>)</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                q.next = <span class="keyword">null</span>;</span><br><span class="line">                q = next;</span><br><span class="line">            &#125;   </span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;   </span><br><span class="line">    &#125;</span><br><span class="line">    done(); <span class="comment">// 此处的回调留待实现</span></span><br><span class="line">    callable = <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>ListenableFutureTask 正是继承了 FutureTask 并重写了 done() 方法, 实现了异步回调指定逻辑的功能;</p>
+<h3 id="ListenableFutureTask-的具体实现"><a href="#ListenableFutureTask-的具体实现" class="headerlink" title="ListenableFutureTask 的具体实现"></a><strong>ListenableFutureTask 的具体实现</strong></h3><p>在 ListenableFutureTask 中对 done() 方法的实现是这样的:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Internal implementation detail used to invoke the listeners.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">done</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    executionList.execute();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中, 类成员 executionList 的 execute() 方法逻辑如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">()</span> </span>&#123; </span><br><span class="line">    RunnableExecutorPair list;</span><br><span class="line">    <span class="comment">// 因为涉及到链表反转, 所以需要同步工具保证线程安全</span></span><br><span class="line">    <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123; </span><br><span class="line">        <span class="keyword">if</span> (executed) &#123; </span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125; </span><br><span class="line">        executed = <span class="keyword">true</span>;</span><br><span class="line">        list = runnables;</span><br><span class="line">        runnables = <span class="keyword">null</span>;</span><br><span class="line">    &#125; </span><br><span class="line">    RunnableExecutorPair reversedList = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">// 反转链表, 调整执行次序</span></span><br><span class="line">    <span class="keyword">while</span> (list != <span class="keyword">null</span>) &#123; </span><br><span class="line">        RunnableExecutorPair tmp = list;</span><br><span class="line">        list = list.next;</span><br><span class="line">        tmp.next = reversedList;</span><br><span class="line">        reversedList = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 挨个执行链表上的每个回调任务</span></span><br><span class="line">    <span class="keyword">while</span> (reversedList != <span class="keyword">null</span>) &#123; </span><br><span class="line">        executeListener(reversedList.runnable, reversedList.executor);</span><br><span class="line">        reversedList = reversedList.next;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 内部类, 表示一个链表的节点</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">RunnableExecutorPair</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> Runnable runnable;</span><br><span class="line">    <span class="keyword">final</span> Executor executor;</span><br><span class="line">    <span class="meta">@Nullable</span> RunnableExecutorPair next;</span><br><span class="line"></span><br><span class="line">    RunnableExecutorPair(Runnable runnable, Executor executor, RunnableExecutorPair next) &#123;</span><br><span class="line">        <span class="keyword">this</span>.runnable = runnable;</span><br><span class="line">        <span class="keyword">this</span>.executor = executor;</span><br><span class="line">        <span class="keyword">this</span>.next = next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中, RunnableExecutorPair 是个链表节点, 存储了待执行的回调任务及执行任务的 executor; ExecutionList.execute 方法的内容就是将链表中的每个任务按照 <strong>原始入队的顺序</strong> 遍历执行;<br>所谓入队, 其实就是指我们得到一个 ListenableFuture 实例后为其添加的回调逻辑, 通常我们会调用 addListener(Runnable listener, Executor executor) 方法以实现异步回调;<br>而这里所说的 “原始入队的顺序”, 便是指 ListenableFuture 调用 addListener 方法添加回调任务的顺序;<br>ListenableFutureTask 实现的 addListener 方法是调用 executionList.add 方法:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* ExecutionList */</span></span><br><span class="line"><span class="comment">/* public void add(Runnable runnable, Executor executor) */</span></span><br><span class="line"><span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!executed) &#123;</span><br><span class="line">        runnables = <span class="keyword">new</span> RunnableExecutorPair(runnable, executor, runnables);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以发现, add 方法是将新的 RunnableExecutorPair 插在了链表头上, 使得遍历链表的顺序与插入顺序相反, 所以 execute 方法中需要先反转链表才能执行;<br>&nbsp;<br>以上内容便是 ListenableFutureTask 实现异步回调的基本原理;</p>
+<h2 id="guava-顺手实现的一些便捷工具类"><a href="#guava-顺手实现的一些便捷工具类" class="headerlink" title="guava 顺手实现的一些便捷工具类"></a><strong>guava 顺手实现的一些便捷工具类</strong></h2><p>虽然上文已描述了 ListenableFutureTask 异步回调的原理, 但这离我们的实际使用仍然相距甚远, 我们并不会主动构造 ListenableFutureTask, 也很少直接调用一个 ListenableFuture 实例的 addListener 方法, 这些都太不方便了;<br>guava 基于 ListenableFuture 又编写了一系列的工具类, 这些工具类简化了我们使用 ListenableFuture 的方式, 在生产环境中被普遍使用;</p>
+<h3 id="MoreExecutors"><a href="#MoreExecutors" class="headerlink" title="MoreExecutors"></a><strong>MoreExecutors</strong></h3><p>首先是入口 MoreExecutors, 我们通常使用 listeningDecorator 方法构造一个能够生产 ListenableFutureTask 的 ListeningExecutorService 实例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ListeningExecutorService <span class="title">listeningDecorator</span><span class="params">(ExecutorService delegate)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (delegate <span class="keyword">instanceof</span> ListeningExecutorService)</span><br><span class="line">        ? (ListeningExecutorService) delegate</span><br><span class="line">        : (delegate <span class="keyword">instanceof</span> ScheduledExecutorService)</span><br><span class="line">        ? <span class="keyword">new</span> ScheduledListeningDecorator((ScheduledExecutorService) delegate)</span><br><span class="line">        : <span class="keyword">new</span> ListeningDecorator(delegate);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>重点看最后一行, 这是我们代码里经常走到的一行逻辑: ListeningDecorator 使用了一个装饰器, 修饰了 ExecutorService 中一些重要的方法:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ListeningDecorator</span> <span class="keyword">extends</span> <span class="title">AbstractListeningExecutorService</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>ListeningDecorator 本身没有什么特殊的地方, 关键看它的父类 AbstractListeningExecutorService:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span> </span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">final</span> &lt;T&gt; <span class="function">ListenableFutureTask&lt;T&gt; <span class="title">newTaskFor</span><span class="params">(Runnable runnable, T value)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ListenableFutureTask.create(runnable, value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">ListenableFuture&lt;T&gt; <span class="title">submit</span><span class="params">(Runnable task, @Nullable T result)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (ListenableFuture&lt;T&gt;) <span class="keyword">super</span>.submit(task, result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* ListenableFutureTask */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;V&gt; <span class="function">ListenableFutureTask&lt;V&gt; <span class="title">create</span><span class="params">(Runnable runnable, @Nullable V result)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ListenableFutureTask&lt;V&gt;(runnable, result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以说, 这里就是生产 ListenableFutureTask 的地方了, MoreExecutors.listeningDecorator 返回的实例将被这些方法包装, 以能够构造出合适的 ListenableFutureTask 实例;</p>
+<h3 id="Futures"><a href="#Futures" class="headerlink" title="Futures"></a><strong>Futures</strong></h3><p>能够以友好方式构造 ListenableFutureTask 其实是不够的, 如果我们要主动调用其 addListener 方法, 就得自己处理回调任务中的各种异常, 类似下面这种模式:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">listenableFuture.addListener(() -&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        xxx = listenableFuture.get();</span><br><span class="line">        ...</span><br><span class="line">    &#125; <span class="keyword">catch</span> (ExecutionException e) &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125; <span class="keyword">catch</span> (RuntimeException e) &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, Executors.newSingleThreadExecutor());</span><br></pre></td></tr></table></figure></p>
+<p>很明显, 不是非常友好, 这种固化的逻辑完全是可以抽出来的, 于是 guava 提供了 Futures 类, 其中有一个方法 addCallback:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;V&gt; <span class="function"><span class="keyword">void</span> <span class="title">addCallback</span><span class="params">(ListenableFuture&lt;V&gt; future, FutureCallback&lt;? <span class="keyword">super</span> V&gt; callback)</span> </span>&#123; </span><br><span class="line">    addCallback(future, callback, MoreExecutors.sameThreadExecutor());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;V&gt; <span class="function"><span class="keyword">void</span> <span class="title">addCallback</span><span class="params">(<span class="keyword">final</span> ListenableFuture&lt;V&gt; future,</span></span></span><br><span class="line"><span class="function"><span class="params">                                   <span class="keyword">final</span> FutureCallback&lt;? <span class="keyword">super</span> V&gt; callback, Executor executor)</span> </span>&#123; </span><br><span class="line">    Preconditions.checkNotNull(callback);</span><br><span class="line">    Runnable callbackListener = () -&gt; &#123; </span><br><span class="line">        <span class="keyword">final</span> V value;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            value = getUninterruptibly(future);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ExecutionException e) &#123; </span><br><span class="line">            callback.onFailure(e.getCause());</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (RuntimeException e) &#123; </span><br><span class="line">            callback.onFailure(e);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Error e) &#123; </span><br><span class="line">            callback.onFailure(e);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125; </span><br><span class="line">        callback.onSuccess(value);</span><br><span class="line">    &#125;;</span><br><span class="line">    future.addListener(callbackListener, executor);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码有两点:<br>(1) 使用 MoreExecutors.sameThreadExecutor() 构造执行回调的 executor;<br>MoreExecutors.sameThreadExecutor() 返回了一个自定义的 SameThreadExecutorService 实例, 这个类的特点是单线程, 回调任务都放在 executor.execute 所在线程里处理; 这样做十分得轻量化, 而如果使用 jdk 的 ThreadPoolExecutor, 很多时候都是为一个方法的执行付出创建一个线程池的开销;<br>(2) 抽象出一个 FutureCallback 留给使用者实现回调的特定逻辑, 其余的 future.get(), 异常处理等都封装到 addCallback 方法里了, 对于 addCallback 方法里遇到异常或是执行成功, 都只是回调 FutureCallback 的接口而已:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">FutureCallback</span>&lt;<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(@Nullable V result)</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Throwable t)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如此一来, 我们为 ListenableFutureTask 添加回调的方法就简洁多了:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Futures.addCallback(listenableFuture, <span class="keyword">new</span> FutureCallback&lt;String&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(String result)</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Throwable t)</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2016/04/22/guava--guava源码学习_ListeningExecutorService类族/" rel="external">http://zshell.cc/2016/04/22/guava--guava源码学习_ListeningExecutorService类族</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="http://zshell.cc">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
+            zshell.zhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/guava/">guava</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/juc/">juc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/线程池/">线程池</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2016/04/22/guava--guava源码学习_ListeningExecutorService类族/&title=《guava 源码学习: ListeningExecutorService 类族》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2016/04/22/guava--guava源码学习_ListeningExecutorService类族/&title=《guava 源码学习: ListeningExecutorService 类族》 — 希尔的博客&source=
+带有 listenable 回调功能的 guava 线程池是 com.google.common.util.concurrent 包里十分重要的概念, ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2016/04/22/guava--guava源码学习_ListeningExecutorService类族/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《guava 源码学习: ListeningExecutorService 类族》 — 希尔的博客&url=http://zshell.cc/2016/04/22/guava--guava源码学习_ListeningExecutorService类族/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2016/04/22/guava--guava源码学习_ListeningExecutorService类族/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/07/14/tools-git--git忽略文件的特殊场景/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">git 忽略文件的特殊场景</h4>
+      </a>
+    </div>
+  
+
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "fMh2JHgkPnDtARiQapOg8Jrk-gzGzoHsz",
+            appKey: "UPNXLDUkngDnuhfC9XQPgF6n",
+            avatar: "mm",
+            placeholder: "您的评论, 吾愿洗耳恭听!",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshell.zhang &copy; 2016 - 2017</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2016/04/22/guava--guava源码学习_ListeningExecutorService类族/&title=《guava 源码学习: ListeningExecutorService 类族》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2016/04/22/guava--guava源码学习_ListeningExecutorService类族/&title=《guava 源码学习: ListeningExecutorService 类族》 — 希尔的博客&source=
+带有 listenable 回调功能的 guava 线程池是 com.google.common.util.concurrent 包里十分重要的概念, ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2016/04/22/guava--guava源码学习_ListeningExecutorService类族/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《guava 源码学习: ListeningExecutorService 类族》 — 希尔的博客&url=http://zshell.cc/2016/04/22/guava--guava源码学习_ListeningExecutorService类族/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2016/04/22/guava--guava源码学习_ListeningExecutorService类族/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACqUlEQVR42u3aQW4bMRAEQP3/0w7gU4BESvcMKTlA7UlYryUWD+Rscx6P+Pr6vv78/Pud11f75LPnHzcuPDw8vNHQ22E9+4Z2apIpe/Y9yQTh4eHh3ePlw5pNxOupyX+xnSY8PDy8z/ISWP4N7X08PDy8/53XRhinSmc8PDy8n8PbLMR5/JoXzbOyHg8PD+89vM0B2Kc+v+l8Dw8PD688Vc+P9qPSdnTYthonHh4e3gVeGzrMCtm84aBtUIhKfzw8PLyjvE0TwGzos1atWZCBh4eHd4OX/HPeAnUqtM03m/w+Hh4e3lleGxwUy3F8cFW8AbQTh4eHh3eU14a27UbStiPkRXYUK+Ph4eFd420igE0sW9T7o0IfDw8P7zavXnbjJ/Ood9MK9pf7eHh4eJd5s+V4c7VbSN3+hYeHh3eBd+qYf7N8b4KMKEDBw8PDu8CbhRF5fNB2MeTbQz31eHh4eId47fF88tdZEZxHG8VI8PDw8I7ykhg3b1RtN4/ZrxSlPx4eHt5beG271exQf3Yklk8rHh4e3m1e3rTa3m9Dh1OBb5QH4+Hh4S147XKfF+L74RaY/I0BDw8Pb8FrBz072t8MMW8Li3Y/PDw8vEO8TRDQBhOnpq+eCDw8PLxDvORgafa5Xdzbgjv6Lzw8PLwLvP2rfvtkMaARGA8PD+82bx+nnmpLbQ/hounGw8PDu8BLQof8FL4thduCfrZ54OHh4Z3lfZVXWwpvtoc8Pn66FeHh4eFd4G0Gdxa23zBm2wkeHh7ejHdqM8ifeT1lM3bRQICHh4d3iJcMpS1w2wFt9q5/bAx4eHh4H+W17Vb7eHe2ReHh4eH9BN6pZb0NZFcpCx4eHt413qlDr/znZ20KbemPh4eHd4M3e9Vvg902pMgj3RUMDw8Pr+P9AhqGIha66zVhAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
