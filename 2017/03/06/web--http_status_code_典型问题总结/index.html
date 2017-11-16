@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>http status code 典型问题总结 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="http,tomcat,spring,spring-mvc">
+    <meta name="description" content="本人根据自身的工作经历, 以一个 java dev 的视角, 总结了一些 http status code 的常见问题, 原因及解决办法;这些问题涉及到的系统或技术栈包括了 nginx, tomcat, spring(springMVC), elasticsearch 等等;">
+<meta name="keywords" content="http,tomcat,spring,spring-mvc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="http status code 典型问题总结">
+<meta property="og:url" content="https://zshell-zhang.github.io/2017/03/06/web--http_status_code_典型问题总结/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="本人根据自身的工作经历, 以一个 java dev 的视角, 总结了一些 http status code 的常见问题, 原因及解决办法;这些问题涉及到的系统或技术栈包括了 nginx, tomcat, spring(springMVC), elasticsearch 等等;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-26T15:40:25.706Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="http status code 典型问题总结">
+<meta name="twitter:description" content="本人根据自身的工作经历, 以一个 java dev 的视角, 总结了一些 http status code 的常见问题, 原因及解决办法;这些问题涉及到的系统或技术栈包括了 nginx, tomcat, spring(springMVC), elasticsearch 等等;">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <script src="/js/leancloud-revision.js"></script>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshell.zhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ZhangZhi1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">http status code 典型问题总结</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">http status code 典型问题总结</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-03-06T15:27:25.000Z" itemprop="datePublished" class="page-time">
+  2017-03-06
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/web/">web</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3XX-重定向系列"><span class="post-toc-number">1.</span> <span class="post-toc-text">3XX 重定向系列</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#301-Moved-Permanently"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">301 Moved Permanently</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#302-Found"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">302 Found</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#303-See-Other"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">303 See Other</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#304-Not-Modified"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">304 Not Modified</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#307"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">307</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4XX-客户端错误系列"><span class="post-toc-number">2.</span> <span class="post-toc-text">4XX 客户端错误系列</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#400-Bad-Request"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">400 Bad Request</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#401-Unauthorized"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">401 Unauthorized</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#403-Forbidden"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">403 Forbidden</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#404-Not-Found"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">404 Not Found</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#405-Method-Not-Supported"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">405 Method Not Supported</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#406-Not-Acceptable"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">406 Not Acceptable</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#407"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">407</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#408-Request-Timeout"><span class="post-toc-number">2.8.</span> <span class="post-toc-text">408 Request Timeout</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#409-Confilct"><span class="post-toc-number">2.9.</span> <span class="post-toc-text">409 Confilct</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#410"><span class="post-toc-number">2.10.</span> <span class="post-toc-text">410</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#411"><span class="post-toc-number">2.11.</span> <span class="post-toc-text">411</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#412"><span class="post-toc-number">2.12.</span> <span class="post-toc-text">412</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#413-Entity-Too-Large"><span class="post-toc-number">2.13.</span> <span class="post-toc-text">413 Entity Too Large</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#414"><span class="post-toc-number">2.14.</span> <span class="post-toc-text">414</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#415-Not-supported-media-type"><span class="post-toc-number">2.15.</span> <span class="post-toc-text">415 Not supported media type</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#416"><span class="post-toc-number">2.16.</span> <span class="post-toc-text">416</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#417"><span class="post-toc-number">2.17.</span> <span class="post-toc-text">417</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#429-Too-Many-Requests"><span class="post-toc-number">2.18.</span> <span class="post-toc-text">429 Too Many Requests</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-web--http_status_code_典型问题总结"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">http status code 典型问题总结</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-03-06 23:27:25" datetime="2017-03-06T15:27:25.000Z"  itemprop="datePublished">2017-03-06</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/web/">web</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>本人根据自身的工作经历, 以一个 java dev 的视角, 总结了一些 http status code 的常见问题, 原因及解决办法;<br>这些问题涉及到的系统或技术栈包括了 nginx, tomcat, spring(springMVC), elasticsearch 等等;</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<h2 id="3XX-重定向系列"><a href="#3XX-重定向系列" class="headerlink" title="3XX 重定向系列"></a><strong>3XX 重定向系列</strong></h2><h3 id="301-Moved-Permanently"><a href="#301-Moved-Permanently" class="headerlink" title="301 Moved Permanently"></a><strong>301 Moved Permanently</strong></h3><h3 id="302-Found"><a href="#302-Found" class="headerlink" title="302 Found"></a><strong>302 Found</strong></h3><h3 id="303-See-Other"><a href="#303-See-Other" class="headerlink" title="303 See Other"></a><strong>303 See Other</strong></h3><h3 id="304-Not-Modified"><a href="#304-Not-Modified" class="headerlink" title="304 Not Modified"></a><strong>304 Not Modified</strong></h3><p>此状态码需要http header的配合:</p>
+<h3 id="307"><a href="#307" class="headerlink" title="307"></a><strong>307</strong></h3><h2 id="4XX-客户端错误系列"><a href="#4XX-客户端错误系列" class="headerlink" title="4XX 客户端错误系列"></a><strong>4XX 客户端错误系列</strong></h2><p>4XX 为客户端请求错误相关的 status code;<br>以下为各种 4XX status code 的含义以及可能的对应于常用 web server tomcat 或常用 web 框架 springMVC, 返回此 code 的原因;<br>其中, tomcat 的版本为 7.0.47.0, springMVC 的版本为 4.1.8.RELEASE<br>&nbsp;</p>
+<h3 id="400-Bad-Request"><a href="#400-Bad-Request" class="headerlink" title="400 Bad Request"></a><strong>400 Bad Request</strong></h3><p>一般是请求参数错误, 参数个数少了或者参数名与 api 要求不符;<br>&nbsp;</p>
+<h3 id="401-Unauthorized"><a href="#401-Unauthorized" class="headerlink" title="401 Unauthorized"></a><strong>401 Unauthorized</strong></h3><p>请求未认证, 如果服务端需要用户密码认证而 request 未携带相关 header 则会返回此 code;<br>如果是 chrome 收到 401, 便会弹出内置的登陆框, 让用户输入用户密码;<br>如果需要手动发送 http 请求作认证, 需加入如下header:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># base64_encoded_content 是 username=password 被 BASE64 编码后的序列</span></span><br><span class="line">Authorization: Basic base64_encoded_content</span><br></pre></td></tr></table></figure></p>
+<p>其中有两个注意点:</p>
+<ol>
+<li><code>Authentication</code> header 的 value 必须是以 Basic 为前缀, 空一格后跟着 BASE64 编码的内容;</li>
+<li>BASE64 编码的内容是 username=password, 其中间的 <code>=</code> 不能少; 最方便的生成该编码的方法就是使用 chrome 或者 postman 自动生成, 然后查看 code 即可;</li>
+</ol>
+<p>&nbsp;</p>
+<h3 id="403-Forbidden"><a href="#403-Forbidden" class="headerlink" title="403 Forbidden"></a><strong>403 Forbidden</strong></h3><p>禁止访问(非法访问), 一般请求认证失败后返回此 code;<br>&nbsp;</p>
+<h3 id="404-Not-Found"><a href="#404-Not-Found" class="headerlink" title="404 Not Found"></a><strong>404 Not Found</strong></h3><p>找不到资源, 一般在 springMVC 工程里, 这种错误遇到的常见的情况是请求静态资源 (例如 healthcheck.html) 发生 404;<br>通常这种错误的原因是 springMVC 的 DispatcherServlet 拦截了所有的请求, 但是对静态资源的请求却又找不到路由处理器, 从而报出 404;<br>解决的方案主要有三种:<br>(1) web.xml 里配置 tomcat 的 default servlet:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>default<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.html<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>另外, 除了 *.html 之外, 其他静态资源亦可一并配置:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>default<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.js<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>default<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.css<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>default<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.jpg<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>此配置需放在 DispatcherServlet 前面从而在 springMVC 之前被拦截;</p>
+<p>(2) 在 mvc-context.xml 中配置 mvc namespace 下的 default-servlet-handler 标签:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mvc:default-servlet-handler</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>(3) 在 mvc-context.xml 中配置 mvc namespace 下的 resources 标签:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mvc:resources</span> <span class="attr">mapping</span>=<span class="string">"/**"</span> <span class="attr">location</span>=<span class="string">"/"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>&nbsp;</p>
+<h3 id="405-Method-Not-Supported"><a href="#405-Method-Not-Supported" class="headerlink" title="405 Method Not Supported"></a><strong>405 Method Not Supported</strong></h3><p>&nbsp;</p>
+<h3 id="406-Not-Acceptable"><a href="#406-Not-Acceptable" class="headerlink" title="406 Not Acceptable"></a><strong>406 Not Acceptable</strong></h3><p>服务器端无法提供客户端在 <code>Accept</code> header 中给出的媒体类型; 在springMVC 工程里, 这种比较常见的情况, 一般和 json 有关, 往往还需要前端 (比如 ajax) 配合; 因为, 普通的请求, request 报文里一般不会指明 <code>Accept</code> header, 那么无论后端返回什么, 哪怕是报错也好, 都不至于造成 406; 而对于如下 ajax 请求:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$.ajaxFileUpload(&#123;</span><br><span class="line">    data: fetch_form_data(<span class="string">'form_id'</span>),</span><br><span class="line">    url: <span class="string">'/xxx/yyy/zzz'</span></span><br><span class="line">    type: <span class="string">'post'</span>,</span><br><span class="line">    dataType: <span class="string">'json'</span>,   <span class="comment">// 指定了 Accept header 为 application/json</span></span><br><span class="line">    success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123; ... &#125;,</span><br><span class="line">    error: <span class="function"><span class="keyword">function</span>(<span class="params">data, status, e</span>) </span>&#123; ... &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>可以看到, 该 ajax 请求指定了 dataType 为 json, 这会在该 ajax 构造的 request 中追加 <code>Accept</code> header, value 为 <code>application/json</code>, 这就要求服务器端必须返回 json 类型的数据;<br>然后在后端 springMVC 工程里, 有如下几种情况可能会造成 web server 认为无法提供客户端指定的媒体类型:<br>(1) Controller 里的方法上没加 <code>@ResponseBody</code> 注解, 导致 springMVC 未能根据方法返回值正确推断媒体类型:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/xxx"</span>, method = RequestMethod.POST)</span><br><span class="line"><span class="meta">@ResponseBody</span>   <span class="comment">// 该注解使得 springMVC 框架认为该请求需要转化为 json (should be bound to the web response body)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> WebResponse <span class="title">handleRequest</span><span class="params">(@RequestParam(<span class="string">"xxx"</span>)</span> String xxx) </span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="keyword">return</span> WebResponse.success(instance);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>或者更干脆的, 可以对该 Controller 直接使用 <code>@RestController</code> 注解, 相当于让所有的方法都被自动加上了 <code>@ResponseBody</code>:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * A convenience annotation that is itself annotated with &#123;<span class="doctag">@link</span> Controller <span class="doctag">@Controller</span>&#125;</span></span><br><span class="line"><span class="comment"> * and &#123;<span class="doctag">@link</span> ResponseBody <span class="doctag">@ResponseBody</span>&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Target</span>(ElementType.TYPE)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> RestController &#123; ... &#125;</span><br></pre></td></tr></table></figure></p>
+<p>(2) mvc-context.xml 中, 没有注册 “注解驱动”:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mvc:annotation-driven</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这个注解驱动的功能是如此之强大以至于在一般的 springMVC 项目中都不会落下它, 顶多就是覆盖其中部分设置以作微调 (详细的内容请参考: <a href="">&lt;mvc:annotation-driven/&gt; 所做事情的详细梳理</a>);<br>当然, 如果不想被 &lt;mvc:annotation-driven/&gt; 支配而又要避免 406 错误, 就需要主动注入 <code>RequestMappingHandlerAdapter</code>, 而这是一个十分复杂的 bean, 所以并不建议这么搞;<br>(3) 如果第一点和第二点都没有问题却依然报 406 的话, 那么极有可能是 jackson 相关依赖的版本兼容性问题; 在默认的负责读写 json 的 <code>MappingJackson2HttpMessageConverter</code> 中 (v4.1.8.RELEASE), 有这么一句注释:</p>
+<blockquote>
+<p>Compatible with Jackson 2.1 and higher.</p>
+</blockquote>
+<p>而我在更高的 spring 版本里(比如 master), jackson 的最低兼容版本已经到了 2.9; 可见, 如果项目里的 jackson 版本不能与 spring 保持同步, 便极有可能导致序列化/反序列化失败, 进而导致 406 错误;<br>&nbsp;</p>
+<h3 id="407"><a href="#407" class="headerlink" title="407"></a><strong>407</strong></h3><h3 id="408-Request-Timeout"><a href="#408-Request-Timeout" class="headerlink" title="408 Request Timeout"></a><strong>408 Request Timeout</strong></h3><h3 id="409-Confilct"><a href="#409-Confilct" class="headerlink" title="409 Confilct"></a><strong>409 Confilct</strong></h3><h3 id="410"><a href="#410" class="headerlink" title="410"></a><strong>410</strong></h3><h3 id="411"><a href="#411" class="headerlink" title="411"></a><strong>411</strong></h3><h3 id="412"><a href="#412" class="headerlink" title="412"></a><strong>412</strong></h3><h3 id="413-Entity-Too-Large"><a href="#413-Entity-Too-Large" class="headerlink" title="413 Entity Too Large"></a><strong>413 Entity Too Large</strong></h3><h3 id="414"><a href="#414" class="headerlink" title="414"></a><strong>414</strong></h3><h3 id="415-Not-supported-media-type"><a href="#415-Not-supported-media-type" class="headerlink" title="415 Not supported media type"></a><strong>415 Not supported media type</strong></h3><h3 id="416"><a href="#416" class="headerlink" title="416"></a><strong>416</strong></h3><h3 id="417"><a href="#417" class="headerlink" title="417"></a><strong>417</strong></h3><h3 id="429-Too-Many-Requests"><a href="#429-Too-Many-Requests" class="headerlink" title="429 Too Many Requests"></a><strong>429 Too Many Requests</strong></h3>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2017/03/06/web--http_status_code_典型问题总结/" rel="external">https://zshell-zhang.github.io/2017/03/06/web--http_status_code_典型问题总结</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="https://zshell-zhang.github.io">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
+            zshell.zhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/http/">http</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/">spring</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-mvc/">spring-mvc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tomcat/">tomcat</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/03/06/web--http_status_code_典型问题总结/&title=《http status code 典型问题总结》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/03/06/web--http_status_code_典型问题总结/&title=《http status code 典型问题总结》 — 希尔的博客&source=
+本人根据自身的工作经历, 以一个 java dev 的视角, 总结了一些 http status code 的常见问题, 原因及解决办法;这些问题涉及到..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/03/06/web--http_status_code_典型问题总结/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《http status code 典型问题总结》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/03/06/web--http_status_code_典型问题总结/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/03/06/web--http_status_code_典型问题总结/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/03/12/python--python模块导入_相关基础知识梳理/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">python 模块导入: 相关基础知识梳理</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/01/06/linux-other--lsof札记/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">lsof 札记</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "fMh2JHgkPnDtARiQapOg8Jrk-gzGzoHsz",
+            appKey: "UPNXLDUkngDnuhfC9XQPgF6n",
+            avatar: "mm",
+            placeholder: "您的评论, 吾愿洗耳恭听!",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshell.zhang &copy; 2016 - 2017</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/03/06/web--http_status_code_典型问题总结/&title=《http status code 典型问题总结》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/03/06/web--http_status_code_典型问题总结/&title=《http status code 典型问题总结》 — 希尔的博客&source=
+本人根据自身的工作经历, 以一个 java dev 的视角, 总结了一些 http status code 的常见问题, 原因及解决办法;这些问题涉及到..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/03/06/web--http_status_code_典型问题总结/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《http status code 典型问题总结》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/03/06/web--http_status_code_典型问题总结/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/03/06/web--http_status_code_典型问题总结/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsklEQVR42u3ay47bMBAEwP3/n06AnALE0nYPNfYGKJ0M62GWDhy6h19f8fHrz3H/zezKv89eXZmcPTrw8PDwRkO/Ov59dDLcZOj319//bjJmPDw8vG3e/UR8efOoMFzhk9fRliU8PDy8z/KeWkzPlsh4eHh4/yPvfkLfGC4eHh7eT+YlUUIeNMxii/z1rWQteHh4eDHvZBL/1OfF/h4eHh7eQVc9mXDzxlUbBLfF4MVdeHh4eAu8Nn6dLW1n2wLOG2Z4eHh4G7x80p8Bzrcg5C20F5/x8PDwFnj5xH2+mD4POPJ78fDw8N7Da1tiSdBw0rhqr8HDw8N7J282WSdn2wCi3YKw2MfDw8PDi0ltq2kYEAST+0kwgYeHh7fHy5eqJ2fzQpJvNUheBx4eHt4G72Qz06xsJEFDWwCiAAIPDw/vUV770Hzinr2gdutVRMXDw8N7iNcGsnnQkLPzZXdLxcPDw9vj5ZikrXWyFG7x35QoPDw8vAVeO5XXU3O8NM+Lx6yFhoeHh/cU7+TRedzQts3axfplecDDw8Nb4CWPyJe2+UBnr2O46MfDw8N7lHfSvD8/TgLfqDjh4eHhLfCSI7k5/4E2Aj4JjvHw8PD2eCexQrscbyPgWWsNDw8Pb493Ei60g57Fu0e1Dg8PD2+N116ZTOInYcTs5b74Hg8PD2+B1w7lqXLSYvIQBA8PD2+blz+u3Y/QLppzUhEN4+Hh4b2F15aHvIk1G3T7Ko/2OODh4eGlv/5YIppsGsgX6LPPeHh4eO/hzcLWvEi03yQvqAg+8PDw8NZ4s4ZW2zZLnjCrad/8b8DDw8P7EG9WEmYx8WzTAB4eHt7P5+XPbzcWnGzMerEzAg8PD2+Bl4QRbalI4tc2/G23IODh4eFt8Np1aT6geoNpEC6v9/fw8PDw7ni/AXsv5CnRUGL3AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
