@@ -19,16 +19,16 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="linux:disk">
+    <meta name="keywords" content="linux:disk,系统安全">
     <meta name="description" content="对于在机器上操作的人来说, 如果有 sudo 权限, 那 chattr 根本就不是事, 这也不是 chattr 的意义所在;对 chattr 来说, 其所要阻止的, 是那些有意无意想要修改机器上重要文件的程序, 从而保证机器上重要的文件不会因非人为因素而遭到非预期的操作;">
-<meta name="keywords" content="linux:disk">
+<meta name="keywords" content="linux:disk,系统安全">
 <meta property="og:type" content="article">
 <meta property="og:title" content="chattr &#x2F; lsattr 使用总结">
 <meta property="og:url" content="https://zshell-zhang.github.io/2018/04/06/linux-disk--chattr_lsattr使用总结/index.html">
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="对于在机器上操作的人来说, 如果有 sudo 权限, 那 chattr 根本就不是事, 这也不是 chattr 的意义所在;对 chattr 来说, 其所要阻止的, 是那些有意无意想要修改机器上重要文件的程序, 从而保证机器上重要的文件不会因非人为因素而遭到非预期的操作;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-06T13:24:25.194Z">
+<meta property="og:updated_time" content="2018-04-07T10:08:56.222Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="chattr &#x2F; lsattr 使用总结">
 <meta name="twitter:description" content="对于在机器上操作的人来说, 如果有 sudo 权限, 那 chattr 根本就不是事, 这也不是 chattr 的意义所在;对 chattr 来说, 其所要阻止的, 是那些有意无意想要修改机器上重要文件的程序, 从而保证机器上重要的文件不会因非人为因素而遭到非预期的操作;">
@@ -202,6 +202,7 @@
 <blockquote>
 <p>The <code>e</code> attribute indicates that the file is using extents for mapping the blocks on disk. It may not be removed using chattr(1).</p>
 </blockquote>
+<p>所以说, 对 chattr 来说, 这个掩码并不意味着什么;</p>
 <h3 id="常用的情景"><a href="#常用的情景" class="headerlink" title="常用的情景"></a><strong>常用的情景</strong></h3><p>对于生产环境中的机器, 有如下一些重要文件一般会将其用 chattr 设为不可修改, 不可删除:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo chattr +i /etc/resolv.conf</span><br><span class="line">sudo chattr +i /etc/hosts.allow</span><br><span class="line">sudo chattr +i /etc/hosts.deny</span><br></pre></td></tr></table></figure></p>
 <p>其中, /etc/hosts.allow 与 /etc/hosts.deny 是关于 ssh 的登陆白名单/黑名单信息, 安全考虑, 正常只允许跳板机 ssh 到本机, 而禁止其他所有的机器; 这两个文件绝不允许被无故修改;<br>而 /etc/resolv.conf 则是关于 dns 解析的文件, 一旦被修改, 会导致一些网络请求中的域名无法正常解析, 所以也需要被 chattr 锁定防止无故修改;</p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h3><ul>
@@ -237,7 +238,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-disk/">linux:disk</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-disk/">linux:disk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/系统安全/">系统安全</a></li></ul>
 
 
             
