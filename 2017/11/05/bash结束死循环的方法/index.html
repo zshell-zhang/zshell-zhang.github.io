@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="shell," />
 
 
 
@@ -79,13 +79,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="希尔的博客">
-<meta property="og:url" content="https://zshell-zhang.github.io/index.html">
+<meta name="description" content="linux 中有很多实用的工具, 采用了这样一种工作方式:定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;类似的工具包括 ioutil, jmap 等;本文整理了实现上述逻辑的一些典型方法;  方法1: 监听命令返回值根据 GNU 相关规范, 如果">
+<meta name="keywords" content="shell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="bash 结束死循环的方法">
+<meta property="og:url" content="https://zshell-zhang.github.io/2017/11/05/bash结束死循环的方法/index.html">
 <meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="linux 中有很多实用的工具, 采用了这样一种工作方式:定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;类似的工具包括 ioutil, jmap 等;本文整理了实现上述逻辑的一些典型方法;  方法1: 监听命令返回值根据 GNU 相关规范, 如果">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-01T13:18:30.415Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="希尔的博客">
+<meta name="twitter:title" content="bash 结束死循环的方法">
+<meta name="twitter:description" content="linux 中有很多实用的工具, 采用了这样一种工作方式:定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;类似的工具包括 ioutil, jmap 等;本文整理了实现上述逻辑的一些典型方法;  方法1: 监听命令返回值根据 GNU 相关规范, 如果">
 
 
 
@@ -115,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://zshell-zhang.github.io/"/>
+  <link rel="canonical" href="https://zshell-zhang.github.io/2017/11/05/bash结束死循环的方法/"/>
 
 
 
 
 
-  <title>希尔的博客</title>
+  <title>bash 结束死循环的方法 | 希尔的博客</title>
   
 
 
@@ -140,8 +145,7 @@
     
   
 
-  <div class="container sidebar-position-right 
-  page-home">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -244,9 +248,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -276,9 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/05/bash结束死循环的方法/" itemprop="url">bash 结束死循环的方法</a></h1>
+          <h1 class="post-title" itemprop="name headline">bash 结束死循环的方法</h1>
         
 
         <div class="post-meta">
@@ -350,9 +352,7 @@
       
 
       
-        
-          
-            <blockquote>
+        <blockquote>
 <p>linux 中有很多实用的工具, 采用了这样一种工作方式:<br>定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;<br>类似的工具包括 ioutil, jmap 等;<br>本文整理了实现上述逻辑的一些典型方法;</p>
 </blockquote>
 <h3 id="方法1-监听命令返回值"><a href="#方法1-监听命令返回值" class="headerlink" title="方法1: 监听命令返回值"></a><strong>方法1: 监听命令返回值</strong></h3><p>根据 <a href="http://www.gnu.org/software/bash/manual/bashref.html#Exit-Status" target="_blank" rel="noopener">GNU 相关规范</a>, 如果一个进程是由于响应信号 signal 而终止, 其返回码必须是 128 + signal_number;<br>那么, 可以通过判断其返回码 $? 是否大于 128 而判断 COMMAND 是否响应了信号;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">while [ 1 ]; do</span><br><span class="line">    COMMAND</span><br><span class="line">    test $? -gt 128 &amp;&amp; break</span><br><span class="line">done</span><br></pre></td></tr></table></figure></p>
@@ -375,8 +375,6 @@
 <li><a href="http://blog.csdn.net/todd911/article/details/9954961" target="_blank" rel="noopener">Unix/Linux 脚本中 “set -e” 的作用</a></li>
 </ul>
 
-          
-        
       
     </div>
     
@@ -391,263 +389,36 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zshell-zhang.github.io/2016/09/01/bash条件判断全梳理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="zshell.zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="希尔的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/09/01/bash条件判断全梳理/" itemprop="url">bash 条件判断全梳理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-01T17:52:36+08:00">
-                2016-09-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/shell/" rel="tag"># shell</a>
           
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>本文基于 GNU bash, version 4.1.2(1)-release (x86_64-redhat-linux-gnu)</p>
-</blockquote>
-<h2 id="bash-条件判断-的类型与逻辑运算符"><a href="#bash-条件判断-的类型与逻辑运算符" class="headerlink" title="bash 条件判断 的类型与逻辑运算符"></a><strong>bash 条件判断 的类型与逻辑运算符</strong></h2><h3 id="字符串比较"><a href="#字符串比较" class="headerlink" title="字符串比较"></a><strong>字符串比较</strong></h3><ol>
-<li><code>=</code>同<code>==</code>, 相同为真;</li>
-<li><code>!=</code>, 不相同为真;</li>
-<li><code>-z</code>, 长度为0(空)为真;</li>
-<li><code>-n</code>, 长度不为0(非空)为真;</li>
-<li><code>&lt;</code>, 按字典序小于为真;</li>
-<li><code>&gt;</code>, 按字典序大于为真;</li>
-</ol>
-<h3 id="整数比较"><a href="#整数比较" class="headerlink" title="整数比较"></a><strong>整数比较</strong></h3><ol>
-<li><code>-eq</code>, equals, 相等为真;</li>
-<li><code>-ne</code>, not equals, 不相等为真;</li>
-<li><code>-gt</code>, greater than, 大于为真;</li>
-<li><code>-ge</code>, greater equals, 大于等于为真;</li>
-<li><code>-lt</code>, less than, 小于为真;</li>
-<li><code>-le</code>, less equals, 小于等于为真;</li>
-<li><code>&gt;</code>, 大于;</li>
-<li><code>&gt;=</code>, 大于等于;</li>
-<li><code>&lt;</code>, 小于;</li>
-<li><code>&lt;=</code>, 小于等于;</li>
-<li><code>==</code>, 等于;</li>
-<li><code>!=</code>, 不等于;</li>
-</ol>
-<h3 id="文件比较"><a href="#文件比较" class="headerlink" title="文件比较"></a><strong>文件比较</strong></h3><ol>
-<li><code>-e</code>, exists, 文件存在为真</li>
-<li><code>-r</code>, read, 用户可读为真 </li>
-<li><code>-w</code>, write, 用户可写为真 </li>
-<li><code>-x</code>, execute, 用户可执行为真 </li>
-<li><code>-f</code>, file, 文件为正规文件为真 </li>
-<li><code>-d</code>, directory, 文件为目录为真</li>
-<li><code>-L</code>, link, 文件为链接文件为真</li>
-<li><code>-c</code>, char, 文件为字符特殊文件为真 </li>
-<li><code>-b</code>, block, 文件为块特殊文件为真 </li>
-<li><code>-s</code>, 文件大小非0时为真 </li>
-<li><code>-t</code>, 当文件描述符(默认为1)指定的设备为终端时为真</li>
-<li><code>-nt</code>, newer than, 更新时间更晚为真;</li>
-<li><code>-ot</code>, older than, 更新时间更早为真;</li>
-</ol>
-<h3 id="逻辑比较"><a href="#逻辑比较" class="headerlink" title="逻辑比较"></a><strong>逻辑比较</strong></h3><ol>
-<li><code>-a</code>, and, 逻辑与;</li>
-<li><code>-o</code>, or, 逻辑或;</li>
-<li><code>!</code>, 逻辑非;</li>
-<li><code>&amp;&amp;</code>, 逻辑与( 支持短路 );</li>
-<li><code>||</code>, 逻辑或( 支持短路 );</li>
-</ol>
-<p>&nbsp;</p>
-<h2 id="bash-条件判断-的命令-关键字-与语法"><a href="#bash-条件判断-的命令-关键字-与语法" class="headerlink" title="bash 条件判断 的命令(关键字)与语法"></a><strong>bash 条件判断 的命令(关键字)与语法</strong></h2><h3 id="test-与"><a href="#test-与" class="headerlink" title="test 与 [ ]"></a><strong>test 与 [ ]</strong></h3><p><code>test</code> 与 <code>[</code> 是 shell 的内置命令;<br><code>test</code> 和 <code>[]</code> 可以用于比较字符串, 整数, 文件, <code>test expr</code>与<code>[ expr ]</code>有等价的效果;</p>
-<h4 id="字符串比较-1"><a href="#字符串比较-1" class="headerlink" title="字符串比较"></a><strong>字符串比较</strong></h4><p><code>test</code>可以使用<code>=</code>, <code>==</code>, <code>!=</code>比较, bash 4.1版本下也能使用<code>-n</code>, <code>-z</code>比较字符串( 旧版本可能不支持该方式 );<br><code>[]</code>可以使用上述全部的比较符号;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if !test $str1 == $str2; then ... ; fi</span><br><span class="line">if ! [ $str1 == $str2 ]; then ... ; fi</span><br></pre></td></tr></table></figure></p>
-<p><code>test</code> 与 <code>[]</code> 也可以使用 <code>&lt;</code> 和 <code>&gt;</code> 作字符串比较; 但是有一点要注意, <code>test</code>和<code>[</code>是 shell 的内置命令, 使用 <code>&lt;</code> 和 <code>&gt;</code> 需要转义, 否则会被当成重定向; </p>
-<h4 id="整数比较-1"><a href="#整数比较-1" class="headerlink" title="整数比较"></a><strong>整数比较</strong></h4><p><code>test</code>和<code>[]</code>均可以使用<code>-eq</code>, <code>-gt</code>, <code>-ge</code>, <code>-lt</code>, <code>-le</code>, <code>-ne</code> 作整数比较, 但不能使用 <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>,<code>==</code>,<code>!=</code> 等比较运算符;<br>使用<code>&lt;</code>,<code>&gt;</code>,<code>==</code>,<code>!=</code>虽然语法不会报错, 但是会被当成字符串以字典序比较, 不能确保结果的正确性;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if test $1 -le 0; then ... ; fi</span><br><span class="line">if [ $1 -le 0 ]; then ... ; fi</span><br></pre></td></tr></table></figure></p>
-<h4 id="文件比较-1"><a href="#文件比较-1" class="headerlink" title="文件比较"></a><strong>文件比较</strong></h4><p><code>test</code>和<code>[]</code>均可以使用<code>-e</code>, <code>-r</code>, <code>-w</code>, <code>-x</code>等文件比较逻辑;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if test -e /usr/local/localtime; then ... ; fi</span><br><span class="line">if [ -e /usr/local/localtime ]; then ... ; fi</span><br></pre></td></tr></table></figure></p>
-<h4 id="逻辑比较-1"><a href="#逻辑比较-1" class="headerlink" title="逻辑比较"></a><strong>逻辑比较</strong></h4><p><code>test</code>和<code>[]</code>只能使用<code>-a</code>, <code>-o</code>和<code>!</code>运算符, 但<code>-a</code>和<code>-o</code> 不支持逻辑短路;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if !test $str1 == $str2 -a -n $str3; then ... ; fi</span><br><span class="line">if [ $str1 == $str2 -a -n $str3 ]; then ... ; fi</span><br></pre></td></tr></table></figure></p>
-<h4 id="test的返回值"><a href="#test的返回值" class="headerlink" title="test的返回值"></a><strong>test的返回值</strong></h4><p><code>test</code>可以独立于<code>if</code>使用, 其执行结果( 0为真, 1为假 )可以使用<code>$?</code>来接收;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test -z &quot;$1&quot;; echo &quot;$?&quot;</span><br></pre></td></tr></table></figure></p>
-<h3 id="bash关键字-推荐使用"><a href="#bash关键字-推荐使用" class="headerlink" title="bash关键字 [[ ]] ( 推荐使用 )"></a><strong>bash关键字 [[ ]] ( 推荐使用 )</strong></h3><p><code>[[</code> 是 bash 的关键字, 而不是命令;<br><code>[[ ]]</code> 比 <code>[]</code> 更通用, 更安全, 功能更强大; 在生产环境中, 推荐使用 <code>[[ ]]</code>;</p>
-<h4 id="字符串比较-2"><a href="#字符串比较-2" class="headerlink" title="字符串比较"></a><strong>字符串比较</strong></h4><p><code>[[ ]]</code> 除了可以使用基本的 <code>=</code>, <code>==</code>, <code>!=</code>, <code>-n</code>, <code>-z</code> 之外, 其 <code>=</code>,<code>==</code> 和 <code>!=</code>还有通配符模式匹配的功能:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 模式串不能加双引号, 否则会被当作普通串</span><br><span class="line">if [[ &quot;test&quot; == t* ]]; then ... ; fi</span><br></pre></td></tr></table></figure></p>
-<p><code>[[ ]]</code> 还可以使用支持正则表达式的 <code>=~</code> 运算符:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 模式串不能加双引号, 否则会被当作普通串</span><br><span class="line">if [[ &quot;test&quot; =~ ^t[a-z].t$ ]]; then ... ; fi</span><br></pre></td></tr></table></figure></p>
-<p><code>[[ ]]</code>也可以使用<code>&lt;</code>和<code>&gt;</code>作字符串比较; 由于<code>[[</code>是bash内置的关键字, <code>&lt;</code>和<code>&gt;</code>并不会被当成重定向, 所以可以不需要转义;</p>
-<h4 id="整数比较-2"><a href="#整数比较-2" class="headerlink" title="整数比较"></a><strong>整数比较</strong></h4><p>和<code>test</code>, <code>[]</code>一样, <code>[[ ]]</code>可以使用<code>-eq</code>, <code>-gt</code>, <code>-ge</code>, <code>-lt</code>, <code>-le</code>, <code>-ne</code> 作整数比较, 但不能使用 <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>,<code>==</code>,<code>!=</code> 等比较运算符; 不能使用的原因也是一样的(当成字符串来处理了);</p>
-<h4 id="算术拓展"><a href="#算术拓展" class="headerlink" title="算术拓展"></a><strong>算术拓展</strong></h4><p><code>[[]]</code>支持算术拓展, 但是其对整数比较支持度较差, 算术拓展可能是一个鸡肋功能, 而且运算符与运算数之间不能有空格:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if [[ 1+1 -eq 2 ]]; then ... ; fi</span><br></pre></td></tr></table></figure></p>
-<p>此功能不推荐使用;</p>
-<h4 id="文件比较-2"><a href="#文件比较-2" class="headerlink" title="文件比较"></a><strong>文件比较</strong></h4><p>和<code>test</code>, <code>[]</code>一样, <code>[[ ]]</code>可以使用<code>-e</code>, <code>-r</code>, <code>-w</code>, <code>-x</code>等文件比较逻辑;</p>
-<h4 id="逻辑比较-2"><a href="#逻辑比较-2" class="headerlink" title="逻辑比较"></a><strong>逻辑比较</strong></h4><p><code>[[ ]]</code>只能使用<code>&amp;&amp;</code>, <code>||</code>, <code>!</code>运算符, 且<code>&amp;&amp;</code>和<code>||</code>支持逻辑短路;</p>
-<h3 id="的使用场景"><a href="#的使用场景" class="headerlink" title="(( ))的使用场景"></a><strong>(( ))的使用场景</strong></h3><p>无论是<code>test</code>, <code>[]</code>还是<code>[[ ]]</code>, 都不能很好地使用<code>&lt;</code>和<code>&gt;</code>处理整数的比较运算;<br>所以通常使用<code>(())</code>来处理整数的比较运算;<br><code>(())</code>可以使用<code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>,<code>==</code>,<code>!=</code>运算符;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if (( 1 + 1 == 2 )); then ... ; fi</span><br></pre></td></tr></table></figure></p>
-<p>使用<code>(())</code>的时候, 如果使用到了变量, 可以不需要加上<code>$</code>符号;</p>
-<p>&nbsp;</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><table>
-<thead>
-<tr>
-<th style="text-align:center">-</th>
-<th style="text-align:center">test 与 [ ]</th>
-<th style="text-align:center">[[ ]]</th>
-<th style="text-align:center">(( ))</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">字符串比较</td>
-<td style="text-align:center">=, ==, !=, -n, -z, \&lt;, \&gt;</td>
-<td style="text-align:center">=, ==, !=, -n, -z, &lt;, &gt;</td>
-<td style="text-align:center">不支持</td>
-</tr>
-<tr>
-<td style="text-align:center">整数比较</td>
-<td style="text-align:center">-eq, -gt, -ge, -lt, -le, -ne</td>
-<td style="text-align:center">-eq, -gt, -ge, -lt, -le, -ne</td>
-<td style="text-align:center">>, &gt;=, &lt;, &lt;=, ==, !=</td>
-</tr>
-<tr>
-<td style="text-align:center">文件比较</td>
-<td style="text-align:center">-e, -r, -w, -x, -f, -d, -L, -s, -b, -c, -t, -nt, -ot</td>
-<td style="text-align:center">-e, -r, -w, -x, -f, -d, -L, -s, -b, -c, -t, -nt, -ot</td>
-<td style="text-align:center">不支持</td>
-</tr>
-<tr>
-<td style="text-align:center">逻辑比较</td>
-<td style="text-align:center">-a, -o, !</td>
-<td style="text-align:center">&amp;&amp;, \</td>
-<td style="text-align:center">\</td>
-<td>, !</td>
-<td>&amp;&amp;, \</td>
-<td>\</td>
-<td>, !</td>
-</tr>
-</tbody>
-</table>
-<p>&nbsp;</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/01/bash条件判断全梳理/" rel="next" title="bash 条件判断全梳理">
+                <i class="fa fa-chevron-left"></i> bash 条件判断全梳理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
       
     </footer>
   </div>
@@ -657,10 +428,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -668,6 +440,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -688,8 +464,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -769,6 +554,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法1-监听命令返回值"><span class="nav-number">1.</span> <span class="nav-text">方法1: 监听命令返回值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法2-命令返回值短路"><span class="nav-number">2.</span> <span class="nav-text">方法2: 命令返回值短路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法3-使用-trap-捕获信号"><span class="nav-number">3.</span> <span class="nav-text">方法3: 使用 trap 捕获信号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法4-使用-ctrl-z-配合-SIGTERM-信号"><span class="nav-number">4.</span> <span class="nav-text">方法4: 使用 ctrl + z 配合 SIGTERM 信号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法5-使用-e-选项"><span class="nav-number">5.</span> <span class="nav-text">方法5: 使用 -e 选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接"><span class="nav-number">6.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -902,6 +703,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 

@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="本文基于 GNU bash, version 4.1.2(1)-release (x86_64-redhat-linux-gnu)  bash 条件判断 的类型与逻辑运算符字符串比较 =同==, 相同为真; !=, 不相同为真; -z, 长度为0(空)为真; -n, 长度不为0(非空)为真; &amp;lt;, 按字典序小于为真; &amp;gt;, 按字典序大于为真;  整数比较 -eq, equals, 相">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-01T10:00:15.350Z">
+<meta property="og:updated_time" content="2018-01-01T11:30:57.419Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="bash 条件判断全梳理">
 <meta name="twitter:description" content="本文基于 GNU bash, version 4.1.2(1)-release (x86_64-redhat-linux-gnu)  bash 条件判断 的类型与逻辑运算符字符串比较 =同==, 相同为真; !=, 不相同为真; -z, 长度为0(空)为真; -n, 长度不为0(非空)为真; &amp;lt;, 按字典序小于为真; &amp;gt;, 按字典序大于为真;  整数比较 -eq, equals, 相">
@@ -399,6 +399,7 @@
 <li><code>&amp;&amp;</code>, 逻辑与( 支持短路 );</li>
 <li><code>||</code>, 逻辑或( 支持短路 );</li>
 </ol>
+<p>&nbsp;</p>
 <h2 id="bash-条件判断-的命令-关键字-与语法"><a href="#bash-条件判断-的命令-关键字-与语法" class="headerlink" title="bash 条件判断 的命令(关键字)与语法"></a><strong>bash 条件判断 的命令(关键字)与语法</strong></h2><h3 id="test-与"><a href="#test-与" class="headerlink" title="test 与 [ ]"></a><strong>test 与 [ ]</strong></h3><p><code>test</code> 与 <code>[</code> 是 shell 的内置命令;<br><code>test</code> 和 <code>[]</code> 可以用于比较字符串, 整数, 文件, <code>test expr</code>与<code>[ expr ]</code>有等价的效果;</p>
 <h4 id="字符串比较-1"><a href="#字符串比较-1" class="headerlink" title="字符串比较"></a><strong>字符串比较</strong></h4><p><code>test</code>可以使用<code>=</code>, <code>==</code>, <code>!=</code>比较, bash 4.1版本下也能使用<code>-n</code>, <code>-z</code>比较字符串( 旧版本可能不支持该方式 );<br><code>[]</code>可以使用上述全部的比较符号;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if !test $str1 == $str2; then ... ; fi</span><br><span class="line">if ! [ $str1 == $str2 ]; then ... ; fi</span><br></pre></td></tr></table></figure></p>
 <p><code>test</code> 与 <code>[]</code> 也可以使用 <code>&lt;</code> 和 <code>&gt;</code> 作字符串比较; 但是有一点要注意, <code>test</code>和<code>[</code>是 shell 的内置命令, 使用 <code>&lt;</code> 和 <code>&gt;</code> 需要转义, 否则会被当成重定向; </p>
@@ -417,6 +418,7 @@
 <h4 id="逻辑比较-2"><a href="#逻辑比较-2" class="headerlink" title="逻辑比较"></a><strong>逻辑比较</strong></h4><p><code>[[ ]]</code>只能使用<code>&amp;&amp;</code>, <code>||</code>, <code>!</code>运算符, 且<code>&amp;&amp;</code>和<code>||</code>支持逻辑短路;</p>
 <h3 id="的使用场景"><a href="#的使用场景" class="headerlink" title="(( ))的使用场景"></a><strong>(( ))的使用场景</strong></h3><p>无论是<code>test</code>, <code>[]</code>还是<code>[[ ]]</code>, 都不能很好地使用<code>&lt;</code>和<code>&gt;</code>处理整数的比较运算;<br>所以通常使用<code>(())</code>来处理整数的比较运算;<br><code>(())</code>可以使用<code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>,<code>==</code>,<code>!=</code>运算符;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if (( 1 + 1 == 2 )); then ... ; fi</span><br></pre></td></tr></table></figure></p>
 <p>使用<code>(())</code>的时候, 如果使用到了变量, 可以不需要加上<code>$</code>符号;</p>
+<p>&nbsp;</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><table>
 <thead>
 <tr>
@@ -457,6 +459,7 @@
 </tr>
 </tbody>
 </table>
+<p>&nbsp;</p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2>
       
     </div>
@@ -493,8 +496,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/22/hello-world/" rel="prev" title="hexo title">
-                hexo title <i class="fa fa-chevron-right"></i>
+              <a href="/2017/11/05/bash结束死循环的方法/" rel="prev" title="bash 结束死循环的方法">
+                bash 结束死循环的方法 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -598,7 +601,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">1</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -608,6 +611,22 @@
 
           
 
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangzhi1993-2025" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:xaaservice@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                  </span>
+                
+            </div>
           
 
           
