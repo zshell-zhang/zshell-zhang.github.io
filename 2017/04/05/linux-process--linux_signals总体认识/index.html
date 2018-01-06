@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="linux:shell," />
+  <meta name="keywords" content="linux:process," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="注: bash 映射 (map) 在文档里叫做 关联数组 (associated array), 使用关联数组的最低 bash 版本是 4.1.2;">
-<meta name="keywords" content="linux:shell">
+<meta name="description" content="linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;本文正是想对 linux 世界中林林总总的">
+<meta name="keywords" content="linux:process">
 <meta property="og:type" content="article">
-<meta property="og:title" content="bash 数组与映射">
-<meta property="og:url" content="https://zshell-zhang.github.io/2017/10/22/linux-shell--bash数组与映射/index.html">
+<meta property="og:title" content="linux signals 总体认识">
+<meta property="og:url" content="https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/index.html">
 <meta property="og:site_name" content="希尔的博客">
-<meta property="og:description" content="注: bash 映射 (map) 在文档里叫做 关联数组 (associated array), 使用关联数组的最低 bash 版本是 4.1.2;">
+<meta property="og:description" content="linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;本文正是想对 linux 世界中林林总总的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-03T15:18:11.226Z">
+<meta property="og:updated_time" content="2018-01-05T15:30:03.954Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="bash 数组与映射">
-<meta name="twitter:description" content="注: bash 映射 (map) 在文档里叫做 关联数组 (associated array), 使用关联数组的最低 bash 版本是 4.1.2;">
+<meta name="twitter:title" content="linux signals 总体认识">
+<meta name="twitter:description" content="linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;本文正是想对 linux 世界中林林总总的">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://zshell-zhang.github.io/2017/10/22/linux-shell--bash数组与映射/"/>
+  <link rel="canonical" href="https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/"/>
 
 
 
 
 
-  <title>bash 数组与映射 | 希尔的博客</title>
+  <title>linux signals 总体认识 | 希尔的博客</title>
   
 
 
@@ -301,7 +301,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zshell-zhang.github.io/2017/10/22/linux-shell--bash数组与映射/">
+    <link itemprop="mainEntityOfPage" href="https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="zshell.zhang">
@@ -318,7 +318,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">bash 数组与映射</h1>
+          <h1 class="post-title" itemprop="name headline">linux signals 总体认识</h1>
         
 
         <div class="post-meta">
@@ -330,8 +330,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-22T23:32:19+08:00">
-                2017-10-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-05T23:24:22+08:00">
+                2017-04-05
               </time>
             
 
@@ -364,8 +364,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/shell/" itemprop="url" rel="index">
-                    <span itemprop="name">shell</span>
+                  <a href="/categories/linux/process/" itemprop="url" rel="index">
+                    <span itemprop="name">process</span>
                   </a>
                 </span>
 
@@ -402,19 +402,32 @@
 
       
         <blockquote>
-<p>注: bash 映射 (map) 在文档里叫做 <code>关联数组 (associated array)</code>, 使用关联数组的最低 bash 版本是 4.1.2;</p>
+<p>linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;<br>不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;<br>本文正是想对 linux 世界中林林总总的 signals 作一次梳理, 总结一些日常工作中频繁使用以及不太接触但十分有用的信号;</p>
 </blockquote>
 <a id="more"></a>
-<h2 id="数组-关联数组-的创建"><a href="#数组-关联数组-的创建" class="headerlink" title="数组/关联数组 的创建"></a><strong>数组/关联数组 的创建</strong></h2><h3 id="静态创建"><a href="#静态创建" class="headerlink" title="静态创建"></a><strong>静态创建</strong></h3><p>使用类型限定 declare 定义:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 数组</span></span><br><span class="line"><span class="built_in">declare</span> -a array1=(<span class="string">'a'</span> <span class="string">'b'</span> <span class="string">'c'</span>)</span><br><span class="line"><span class="built_in">declare</span> -a array2=(a b c)</span><br><span class="line"><span class="comment"># 关联数组</span></span><br><span class="line"><span class="built_in">declare</span> -A map1=([<span class="string">"a"</span>]=<span class="string">"aa"</span> [<span class="string">"b"</span>]=<span class="string">"bb"</span> [<span class="string">"c"</span>]=<span class="string">"cc"</span>)</span><br><span class="line"><span class="built_in">declare</span> -A map2=([a]=aa [b]=bb [c]=cc)</span><br></pre></td></tr></table></figure></p>
-<p>如果不带类型限定, bash 不会自动推断 关联数组 类型:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">object1=(a b c)</span><br><span class="line">object2=([<span class="string">"a"</span>]=<span class="string">"aa"</span> [<span class="string">"b"</span>]=<span class="string">"bb"</span> [<span class="string">"c"</span>]=<span class="string">"cc"</span>)</span><br></pre></td></tr></table></figure></p>
-<p>对于以上两者, bash 都将推断为 普通数组 类型, 其中 object2 中有三个 string 元素: [“a”]=”aa”, [“b”]=”bb” 与 [“c”]=”cc”;</p>
-<h3 id="动态创建"><a href="#动态创建" class="headerlink" title="动态创建"></a><strong>动态创建</strong></h3><p>以上展示了 数组/动态数组 的静态创建方式;<br>更复杂的场景是, 由一段其他复杂命令的输出, 赋值构建一个数组类型:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">pair_array=(`sed -n -e <span class="string">'6,/&#125;/p'</span> -e <span class="string">'$d'</span> <span class="variable">$&#123;formatted_curl_response_file&#125;</span> | awk -F <span class="string">':'</span> <span class="string">'&#123;</span></span><br><span class="line"><span class="string">    log_length = length($1);</span></span><br><span class="line"><span class="string">    app_code_length = length($2);</span></span><br><span class="line"><span class="string">    log_path = substr($1, 2, log_length - 2);</span></span><br><span class="line"><span class="string">    app_code = substr($2, 2, app_code_length - 2);</span></span><br><span class="line"><span class="string">    map[log_path] = app_code</span></span><br><span class="line"><span class="string">&#125; END &#123;</span></span><br><span class="line"><span class="string">    for (key in map) &#123;</span></span><br><span class="line"><span class="string">        printf ("%10s=%10s ", key, map[key])</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;'</span>`)</span><br></pre></td></tr></table></figure></p>
-<p>以上逻辑, 由 sed 与 awk 两重管道输出目标内容, 作为创建数组的参数, 以达到动态创建的目的;<br>但是, 以上方式只适用于创建 数组, 而不适用于创建 关联数组, 原因与上一节 静态创建数组 中所表述的相同: 即使输出格式符合定义规范, bash 并不会自动推断为 关联数组;<br>&nbsp;<br>另外, 企图通过 declare 强制限定类型去动态创建, 也是不合法的:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">declare</span> -A map=(`last -n 1 | head -n 1 | awk <span class="string">'&#123;map[$1]=$3&#125; END&#123;for (key in map) &#123;printf ("[%10s]=%10s ", key, map[key])&#125;&#125;'</span>`)</span><br><span class="line"><span class="comment"># 以上语句会报如下错误:</span></span><br><span class="line">-bash: map: [: must use subscript when assigning associative array</span><br><span class="line">-bash: map: zshell.z]=113.44.125.146: must use subscript when assigning associative array</span><br></pre></td></tr></table></figure></p>
-<p>因为, 通过 ``, $() 等命令代换, [zshell.z]=113.44.125.146 这样的输出内容被当作命令执行, 而 [ 这是一个 bash 的内置命令, 用于条件判断;<br>显然 zshell.z]=113.44.125.146 这样的语句是不符合条件判断的参数输入的;</p>
-<h2 id="数组-关联数组-的使用"><a href="#数组-关联数组-的使用" class="headerlink" title="数组/关联数组 的使用"></a><strong>数组/关联数组 的使用</strong></h2><p>单独赋值:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">map[<span class="string">'a'</span>]=<span class="string">'aaa'</span></span><br><span class="line">array[0]=aaa</span><br></pre></td></tr></table></figure></p>
-<p>获取数据:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获得所有 values</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;map[@]&#125;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;array[@]&#125;</span></span><br><span class="line"><span class="comment"># 获得某个单独的值</span></span><br><span class="line">var=<span class="variable">$&#123;map['a']&#125;</span></span><br><span class="line">var=<span class="variable">$&#123;array[0]&#125;</span></span><br><span class="line"><span class="comment"># 获得所有 keys (对于数组而言, 就是获得所有的索引下标)</span></span><br><span class="line"><span class="keyword">for</span> key <span class="keyword">in</span> <span class="variable">$&#123;!map[@]&#125;</span>; <span class="keyword">do</span></span><br><span class="line">    ...</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="keyword">for</span> key <span class="keyword">in</span> <span class="variable">$&#123;!array[@]&#125;</span>; <span class="keyword">do</span></span><br><span class="line">    ...</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="linux-signals-总览"><a href="#linux-signals-总览" class="headerlink" title="linux signals 总览"></a><strong>linux signals 总览</strong></h2><p>linux siginal 可分为如下几大类:</p>
+<ol>
+<li>系统错误信号</li>
+<li>进程终止信号</li>
+<li>作业控制信号</li>
+<li>AIO 信号</li>
+<li>定时器信号</li>
+<li>操作错误信号</li>
+<li>其他信号</li>
+</ol>
+<p>&nbsp;<br>使用 kill -l 查看所有信号分布:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">kill</span> -l</span><br><span class="line"> 1) SIGHUP	     2) SIGINT	     3) SIGQUIT	     4) SIGILL	     5) SIGTRAP</span><br><span class="line"> 6) SIGABRT	     7) SIGBUS	     8) SIGFPE	     9) SIGKILL	    10) SIGUSR1</span><br><span class="line">11) SIGSEGV	    12) SIGUSR2	    13) SIGPIPE	    14) SIGALRM	    15) SIGTERM</span><br><span class="line">16) SIGSTKFLT	    17) SIGCHLD	    18) SIGCONT	    19) SIGSTOP	    20) SIGTSTP</span><br><span class="line">21) SIGTTIN	    22) SIGTTOU	    23) SIGURG	    24) SIGXCPU	    25) SIGXFSZ</span><br><span class="line">26) SIGVTALRM	    27) SIGPROF	    28) SIGWINCH    29) SIGIO	    30) SIGPWR</span><br><span class="line">31) SIGSYS	    34) SIGRTMIN    35) SIGRTMIN+1  36) SIGRTMIN+2  37) SIGRTMIN+3</span><br><span class="line">38) SIGRTMIN+4	    39) SIGRTMIN+5  40) SIGRTMIN+6  41) SIGRTMIN+7  42) SIGRTMIN+8</span><br><span class="line">43) SIGRTMIN+9	    44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13</span><br><span class="line">48) SIGRTMIN+14	    49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12</span><br><span class="line">53) SIGRTMAX-11	    54) SIGRTMAX-10 55) SIGRTMAX-9  56) SIGRTMAX-8  57) SIGRTMAX-7</span><br><span class="line">58) SIGRTMAX-6	    59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2</span><br><span class="line">63) SIGRTMAX-1	    64) SIGRTMAX</span><br></pre></td></tr></table></figure></p>
+<h2 id="各类别信号整理"><a href="#各类别信号整理" class="headerlink" title="各类别信号整理"></a><strong>各类别信号整理</strong></h2><h3 id="进程终止信号"><a href="#进程终止信号" class="headerlink" title="进程终止信号"></a><strong>进程终止信号</strong></h3><p>进程终止信号是我们日常操作中最常用的一类信号;<br>进程终止信号共有五个, 其中除了 SIGKILL 之外, 其他信号都是 可阻塞, 可忽略, 可处理的;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># terminate, kill 不加任何选项的默认信号, 默认处理是终止进程;</span></span><br><span class="line">SIGTERM</span><br><span class="line"><span class="comment"># interrupt, ctrl + c 发出的信号, 默认处理是终止进程;</span></span><br><span class="line">SIGINT</span><br><span class="line"><span class="comment"># quit, ctrl + / 发出的信号, 与 SIGINT 类似, 不过其默认处理相比 SIGINT 还增加了一项:</span></span><br><span class="line"><span class="comment"># 1. 终止进程; 2. 产生进程 core dump 文件;</span></span><br><span class="line">SIGQUIT</span><br><span class="line"><span class="comment"># kill, 不可阻塞, 不可忽略, 最强力的终止信号, 通常会导致进程立即终止, 其占有的资源无法释放清理</span></span><br><span class="line"><span class="comment"># 一般需要在 SIGTERM/SIGINT/SIGQUIT 等信号无法响应之后, 才最后使用</span></span><br><span class="line">SIGKILL</span><br><span class="line"><span class="comment"># hang up, 通常在用户退出终端断开 sessiion 时由系统发出该信号给 session</span></span><br><span class="line"><span class="comment"># session 接收该信号并将其发送给子进程</span></span><br><span class="line">SIGHUP</span><br></pre></td></tr></table></figure></p>
+<p>另外一篇详细梳理与 SIGHUP 相关知识点的链接: <a href="">SIGHUP 相关全梳理</a>;<br>该文章主要涉及 SIGHUP 信号发生的条件, 传导, 与 SIGHUP 相关的 nohup, &amp;,  shopt huponexit, disown 等概念, 并包括一些 SIGHUP 的自定义应用;</p>
+<h3 id="任务控制信号"><a href="#任务控制信号" class="headerlink" title="任务控制信号"></a><strong>任务控制信号</strong></h3><h3 id="其他信号"><a href="#其他信号" class="headerlink" title="其他信号"></a><strong>其他信号</strong></h3><p>其他信号是指未在上述分类中的一些小众信号, 这些信号本身并未有太多关联, 不能用一个类别去统一描述它们;<br>&nbsp;<br>(1) 用户自定义信号: SIGUSR1 / SIGUSR2<br>这两个信号, linux 保证系统自身不会向进程发送, 完全由使用者自己定义该信号的语义以及处理逻辑;<br>SIGUSR1 与 SIGUSR2, 在系统层面完全没有区别, 如果可以, linux 其实能再定义一个 SIGUSR3; 所以用户自定义信号的预留数量, 本身是一个模糊的界定;<br>以下是 SIGUSR1 / SIGUSR2 的具体使用场景:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通知 nginx 关闭当前句柄, 重新打开日志文件, 用于 logrotate 切割日志</span></span><br><span class="line"><span class="built_in">kill</span> -USR1 `cat /var/run/nginx.pid`</span><br><span class="line"><span class="comment"># 通知 nginx 平滑升级 二进制可执行程序</span></span><br><span class="line"><span class="built_in">kill</span> -s SIGUSR2 `cat /var/run/nginx.pid`</span><br></pre></td></tr></table></figure></p>
+<p>&nbsp;<br>(2) SIGWINCH (winch 译作: 吊车, 摇柄), 默认处理是忽略该信号;<br>以下是 SIGWINCH 的具体使用场景:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通知 nginx worker process 不再接受新 request, 并从容关闭</span></span><br><span class="line"><span class="built_in">kill</span> -WINCH `cat /var/run/nginx.pid`</span><br></pre></td></tr></table></figure></p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2><ul>
-<li><a href="http://blog.csdn.net/adermxl/article/details/41145019" target="_blank" rel="noopener">shell中的map使用</a></li>
+<li><a href="http://www.gnu.org/software/libc/manual/html_node/Termination-Signals.html#Termination-Signals" target="_blank" rel="noopener">24.2.2 Termination Signals</a></li>
+<li><a href="http://www.gnu.org/software/libc/manual/html_node/Job-Control-Signals.html" target="_blank" rel="noopener">24.2.5 Job Control Signals</a></li>
+<li><a href="http://www.gnu.org/software/libc/manual/html_node/Miscellaneous-Signals.html#Miscellaneous-Signals" target="_blank" rel="noopener">24.2.7 Miscellaneous Signals</a></li>
+<li><a href="https://stackoverflow.com/questions/27403641/difference-between-sigusr1-and-sigusr2" target="_blank" rel="noopener">Difference between SIGUSR1 and SIGUSR2</a></li>
+<li><a href="http://blog.csdn.net/fuming0210sc/article/details/50906372" target="_blank" rel="noopener">linux kill 命令 以及 USR1 信号 解释</a></li>
+<li><a href="http://blog.csdn.net/lisongjia123/article/details/50471854" target="_blank" rel="noopener">Linux 信号入门详解</a></li>
+<li><a href="http://blog.csdn.net/yankai0219/article/details/8453261" target="_blank" rel="noopener">文章3: Nginx中与信号有关的内容</a></li>
 </ul>
 
       
@@ -433,7 +446,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/linux-shell/" rel="tag"># linux:shell</a>
+            <a href="/tags/linux-process/" rel="tag"># linux:process</a>
           
         </div>
       
@@ -446,8 +459,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/10/14/rsync--rsyncd配置与运行/" rel="next" title="r<!---->syncd 配置与运维">
-                <i class="fa fa-chevron-left"></i> r<!---->syncd 配置与运维
+              <a href="/2017/01/06/linux--lsof札记/" rel="next" title="lsof 札记">
+                <i class="fa fa-chevron-left"></i> lsof 札记
               </a>
             
           </div>
@@ -456,8 +469,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/11/05/linux-shell--bash结束死循环的方法/" rel="prev" title="bash 结束死循环的方法">
-                bash 结束死循环的方法 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/10/14/rsync--rsyncd配置与运行/" rel="prev" title="r<!---->syncd 配置与运维">
+                r<!---->syncd 配置与运维 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -610,7 +623,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数组-关联数组-的创建"><span class="nav-number">1.</span> <span class="nav-text">数组/关联数组 的创建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态创建"><span class="nav-number">1.1.</span> <span class="nav-text">静态创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态创建"><span class="nav-number">1.2.</span> <span class="nav-text">动态创建</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组-关联数组-的使用"><span class="nav-number">2.</span> <span class="nav-text">数组/关联数组 的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">3.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#linux-signals-总览"><span class="nav-number">1.</span> <span class="nav-text">linux signals 总览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各类别信号整理"><span class="nav-number">2.</span> <span class="nav-text">各类别信号整理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程终止信号"><span class="nav-number">2.1.</span> <span class="nav-text">进程终止信号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务控制信号"><span class="nav-number">2.2.</span> <span class="nav-text">任务控制信号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他信号"><span class="nav-number">2.3.</span> <span class="nav-text">其他信号</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">3.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>

@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="linux:net," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="第一次接触到 lsof 命令, 是因为偶然间发现 netstat 命令已经落伍了(与此同时, 还发现了 ss 命令, 详见另一篇文章: netstat/ss 使用对比 );使用之后, 发现 lsof 被人称为 神器, 还是有一定道理的; 在任何资源都被抽象为 文件 的 linux 中, 一个面向 文件 的管理工具, 自然辖域辽阔, 神通广大, 再加上与其他命令的巧妙组合, 更如虎添翼, 在工作实">
+<meta name="keywords" content="linux:net">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lsof 札记">
+<meta property="og:url" content="https://zshell-zhang.github.io/2017/01/06/linux--lsof札记/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="第一次接触到 lsof 命令, 是因为偶然间发现 netstat 命令已经落伍了(与此同时, 还发现了 ss 命令, 详见另一篇文章: netstat/ss 使用对比 );使用之后, 发现 lsof 被人称为 神器, 还是有一定道理的; 在任何资源都被抽象为 文件 的 linux 中, 一个面向 文件 的管理工具, 自然辖域辽阔, 神通广大, 再加上与其他命令的巧妙组合, 更如虎添翼, 在工作实">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-06T07:32:05.937Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="lsof 札记">
+<meta name="twitter:description" content="第一次接触到 lsof 命令, 是因为偶然间发现 netstat 命令已经落伍了(与此同时, 还发现了 ss 命令, 详见另一篇文章: netstat/ss 使用对比 );使用之后, 发现 lsof 被人称为 神器, 还是有一定道理的; 在任何资源都被抽象为 文件 的 linux 中, 一个面向 文件 的管理工具, 自然辖域辽阔, 神通广大, 再加上与其他命令的巧妙组合, 更如虎添翼, 在工作实">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'zshell.zhang'
+    },
+    algolia: {
+      applicationID: 'ZMIXW3930D',
+      apiKey: 'c49c36c7c844f33b8192006e785dd70d',
+      indexName: 'my_github_page_blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zshell-zhang.github.io/2017/01/06/linux--lsof札记/"/>
+
+
+
+
+
+  <title>lsof 札记 | 希尔的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">希尔的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zshell-zhang.github.io/2017/01/06/linux--lsof札记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zshell.zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="希尔的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">lsof 札记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-06T15:17:04+08:00">
+                2017-01-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/other/" itemprop="url" rel="index">
+                    <span itemprop="name">other</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>第一次接触到 lsof 命令, 是因为偶然间发现 netstat 命令已经落伍了(与此同时, 还发现了 ss 命令, 详见另一篇文章: <a href="">netstat/ss 使用对比</a> );<br>使用之后, 发现 lsof 被人称为 <code>神器</code>, 还是有一定道理的; 在任何资源都被抽象为 <code>文件</code> 的 linux 中, 一个面向 <code>文件</code> 的管理工具, 自然辖域辽阔, 神通广大, 再加上与其他命令的巧妙组合, 更如虎添翼, 在工作实践中独当一面;<br>本文参考了一些实用资料, 结合自己的经验, 对 lsof 命令的使用略作整理;</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="lsof-命令的输出结构"><a href="#lsof-命令的输出结构" class="headerlink" title="lsof 命令的输出结构"></a><strong>lsof 命令的输出结构</strong></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># COMMAND   启动进程的命令</span></span><br><span class="line"><span class="comment"># PID       进程号</span></span><br><span class="line"><span class="comment"># TID       线程号</span></span><br><span class="line"><span class="comment"># USER      用户</span></span><br><span class="line"><span class="comment"># FD        文件描述符</span></span><br><span class="line"><span class="comment"># TYPE      文件类型</span></span><br><span class="line"><span class="comment"># DEVICE    磁盘名称</span></span><br><span class="line"><span class="comment"># SIZE      文件大小</span></span><br><span class="line"><span class="comment"># NODE      inode 号</span></span><br><span class="line"><span class="comment"># NAME      文件资源的名称</span></span><br><span class="line">&gt; sudo lsof | head -n 2</span><br><span class="line">COMMAND     PID   TID      USER   FD      TYPE             DEVICE    SIZE/OFF       NODE NAME</span><br><span class="line">systemd       1            root  cwd       DIR              253,1        4096        128 /</span><br></pre></td></tr></table></figure>
+<h3 id="各字段的不同输出含义"><a href="#各字段的不同输出含义" class="headerlink" title="各字段的不同输出含义"></a><strong>各字段的不同输出含义</strong></h3><p>FD: 文件描述符 file description<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 任何进程都必须有的</span></span><br><span class="line">0:      标准输入流</span><br><span class="line">1:      标准输出流</span><br><span class="line">2:      标准错误流</span><br><span class="line"></span><br><span class="line"><span class="comment"># 几种特殊的保留 fd</span></span><br><span class="line">cwd:    current work directory, 应用程序启动的目录</span><br><span class="line">txt:    二进制可执行文件或共享库</span><br><span class="line">rtd:    root directory, 根目录</span><br><span class="line">mem:    memory mapped file, 内存映射文件</span><br><span class="line">mmap:   memory-mapped device, 内存映射设备</span><br><span class="line"></span><br><span class="line"><span class="comment"># 整数后面跟着的字母</span></span><br><span class="line">u:      可读可写模式</span><br><span class="line">r:      只读模式</span><br><span class="line">w:      只写模式</span><br></pre></td></tr></table></figure></p>
+<p>TYPE: 文件类型<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">DIR:    目录文件</span><br><span class="line">REG:    普通文件</span><br><span class="line">CHR:    char, 字符设备文件</span><br><span class="line">BLK:    block, 块设备文件</span><br><span class="line">IPV4:   ipv4 socket 套接字文件</span><br><span class="line">IPV6:   ipv6 socket 套接字文件</span><br></pre></td></tr></table></figure></p>
+<p>DEVICE:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">todo</span><br></pre></td></tr></table></figure></p>
+<p>SIZE: 文件大小<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 套接字文件的文件大小比较特殊, 其没有大小, 用特殊字符占位, 其余则正常显示 size</span></span><br><span class="line">0t0:    套接字文件的默认占位</span><br></pre></td></tr></table></figure></p>
+<p>&nbsp;</p>
+<h2 id="lsof-的日常应用"><a href="#lsof-的日常应用" class="headerlink" title="lsof 的日常应用"></a><strong>lsof 的日常应用</strong></h2><h3 id="lsof-网络-相关的应用"><a href="#lsof-网络-相关的应用" class="headerlink" title="lsof 网络 相关的应用"></a><strong>lsof 网络 相关的应用</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示所有网络连接</span></span><br><span class="line">sudo lsof -i</span><br><span class="line"><span class="comment"># 只显示 ipv6 的连接</span></span><br><span class="line">sudo lsof -i 6</span><br><span class="line"><span class="comment"># 只显示 tcp 协议的连接</span></span><br><span class="line">sudo lsof -i TCP</span><br><span class="line"><span class="comment"># 指定端口号</span></span><br><span class="line">sudo lsof -i:port</span><br><span class="line"><span class="comment"># 指定主机(与端口)</span></span><br><span class="line">sudo lsof -i@l-tracer15.tc.cn2.xx.com:9999</span><br></pre></td></tr></table></figure>
+<h3 id="lsof-用户-相关的应用"><a href="#lsof-用户-相关的应用" class="headerlink" title="lsof 用户 相关的应用"></a><strong>lsof 用户 相关的应用</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示某用户所打开的文件</span></span><br><span class="line">sudo lsof -u zshell.zhang</span><br><span class="line">sudo lsof -u ^zshell.zhang (排除此用户)</span><br></pre></td></tr></table></figure>
+<h3 id="lsof-命令-进程-相关的应用"><a href="#lsof-命令-进程-相关的应用" class="headerlink" title="lsof 命令/进程 相关的应用"></a><strong>lsof 命令/进程 相关的应用</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 只显示 pid</span></span><br><span class="line">sudo lsof -t</span><br><span class="line"><span class="comment"># 只显示指定的命令打开的文件</span></span><br><span class="line">sudo lsof -c nginx</span><br><span class="line"><span class="comment"># 只显示指定 pid 的进程打开的文件</span></span><br><span class="line">sudo lsof -p pid</span><br></pre></td></tr></table></figure>
+<h3 id="lsof-文件-目录-相关的应用"><a href="#lsof-文件-目录-相关的应用" class="headerlink" title="lsof 文件/目录 相关的应用"></a><strong>lsof 文件/目录 相关的应用</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 搜索与指定路径相关的一切资源(user, process 等)</span></span><br><span class="line">sudo lsof /target_path</span><br><span class="line"><span class="comment"># +d: 搜索与指定的一级目录下所有的文件相关的一切资源; +D: 递归操作(往下所有层级目录)</span></span><br><span class="line">sudo lsof +d /target_path</span><br><span class="line">sudo lsof +D /target_path</span><br></pre></td></tr></table></figure>
+<h3 id="lsof-的选项组合及实践技巧"><a href="#lsof-的选项组合及实践技巧" class="headerlink" title="lsof 的选项组合及实践技巧"></a><strong>lsof 的选项组合及实践技巧</strong></h3><p>上述的 lsof 操作, 对于多种选项的组合, 其默认是 或(or) 的关系, 即满足其中之一便会打印出来;<br>lsof 与(and) 的逻辑运算关系如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 -a 达到 与(and) 的效果</span></span><br><span class="line"><span class="comment"># 必须同时满足三个条件: </span></span><br><span class="line"><span class="comment">#   1. 是用户 zshell.zhang 启动的进程;</span></span><br><span class="line"><span class="comment">#   2. 是套接字文件, 且连接的主机是 10.64.4.11;</span></span><br><span class="line"><span class="comment">#   3. 该进程命令是 java;</span></span><br><span class="line">sudo lsof -a -u zshell.zhang -i@10.64.4.11 -c java</span><br></pre></td></tr></table></figure></p>
+<p>lsof 常用的组合及实践:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 寻找已删除但未释放文件句柄的幽灵文件</span></span><br><span class="line">sudo lsof | grep deleted</span><br><span class="line"><span class="comment"># 杀死所有匹配一定文件打开条件的进程</span></span><br><span class="line">sudo <span class="built_in">kill</span> `sudo lsof -t -c java` <span class="comment"># 杀死所有 java 进程</span></span><br><span class="line">sudo <span class="built_in">kill</span> `sudo lsof -t -u zshell.zhang` <span class="comment"># 杀死所有 zshell.zhang 的用户进程</span></span><br><span class="line"><span class="comment"># 恢复删除的文件</span></span><br><span class="line"><span class="comment"># 找到误删文件被什么进程持有, 获得 pid 和 fd</span></span><br><span class="line">1. sudo lsof /target_deleted_file</span><br><span class="line"><span class="comment"># /proc/&#123;pid&#125;/fd/&#123;fd_num&#125; 的内容即为误删内容, 重定向到误删文件中即可</span></span><br><span class="line">2. cat /proc/&#123;pid&#125;/fd/&#123;fd_num&#125; &gt; /target_deleted_file</span><br></pre></td></tr></table></figure></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2><ul>
+<li><a href="http://blog.csdn.net/guoguo1980/article/details/2324454" target="_blank" rel="noopener">linux lsof详解</a></li>
+<li><a href="http://www.cnblogs.com/MenAngel/p/5575479.html" target="_blank" rel="noopener">每天一个Linux命令（45）lsof命令</a></li>
+<li><a href="https://linux.cn/article-4099-1.html" target="_blank" rel="noopener">Linux 命令神器: lsof 入门</a></li>
+<li><a href="https://stackoverflow.com/questions/25140730/what-does-the-fd-column-of-pipes-listed-by-lsof-mean" target="_blank" rel="noopener">what-does-the-fd-column-of-pipes-listed-by-lsof-mean</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux-net/" rel="tag"># linux:net</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/04/linux-text-sed命令整理/" rel="next" title="sed 命令整理">
+                <i class="fa fa-chevron-left"></i> sed 命令整理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/05/linux-process--linux_signals总体认识/" rel="prev" title="linux signals 总体认识">
+                linux signals 总体认识 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4"
+                alt="zshell.zhang" />
+            
+              <p class="site-author-name" itemprop="name">zshell.zhang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangzhi1993-2025" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:xaaservice@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-paper-plane"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#lsof-命令的输出结构"><span class="nav-number">1.</span> <span class="nav-text">lsof 命令的输出结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#各字段的不同输出含义"><span class="nav-number">1.1.</span> <span class="nav-text">各字段的不同输出含义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lsof-的日常应用"><span class="nav-number">2.</span> <span class="nav-text">lsof 的日常应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lsof-网络-相关的应用"><span class="nav-number">2.1.</span> <span class="nav-text">lsof 网络 相关的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lsof-用户-相关的应用"><span class="nav-number">2.2.</span> <span class="nav-text">lsof 用户 相关的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lsof-命令-进程-相关的应用"><span class="nav-number">2.3.</span> <span class="nav-text">lsof 命令/进程 相关的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lsof-文件-目录-相关的应用"><span class="nav-number">2.4.</span> <span class="nav-text">lsof 文件/目录 相关的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lsof-的选项组合及实践技巧"><span class="nav-number">2.5.</span> <span class="nav-text">lsof 的选项组合及实践技巧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">3.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zshell.zhang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.3"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
