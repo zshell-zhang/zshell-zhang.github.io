@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="linux:process," />
+  <meta name="keywords" content="linux:disk," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;本文正是想对 linux 世界中林林总总的">
-<meta name="keywords" content="linux:process">
+<meta name="description" content="本文主要是整理 磁盘使用量 相关的命令, 如 du, df 等;接着, 一般性得总结这两个命令在实际工作中的应用;然后再以 du, df 命令的区别为例, 讨论命令背后的逻辑, 工作中存在的问题, 最后引申出问题解决的工具: lsof;">
+<meta name="keywords" content="linux:disk">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux signals 总体认识">
-<meta property="og:url" content="https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/index.html">
+<meta property="og:title" content="du &#x2F; df 使用及其区别">
+<meta property="og:url" content="https://zshell-zhang.github.io/2017/04/07/linux-other--du,df使用及其区别/index.html">
 <meta property="og:site_name" content="希尔的博客">
-<meta property="og:description" content="linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;本文正是想对 linux 世界中林林总总的">
+<meta property="og:description" content="本文主要是整理 磁盘使用量 相关的命令, 如 du, df 等;接着, 一般性得总结这两个命令在实际工作中的应用;然后再以 du, df 命令的区别为例, 讨论命令背后的逻辑, 工作中存在的问题, 最后引申出问题解决的工具: lsof;">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-05T15:30:03.954Z">
+<meta property="og:updated_time" content="2018-01-07T15:06:11.325Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux signals 总体认识">
-<meta name="twitter:description" content="linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;本文正是想对 linux 世界中林林总总的">
+<meta name="twitter:title" content="du &#x2F; df 使用及其区别">
+<meta name="twitter:description" content="本文主要是整理 磁盘使用量 相关的命令, 如 du, df 等;接着, 一般性得总结这两个命令在实际工作中的应用;然后再以 du, df 命令的区别为例, 讨论命令背后的逻辑, 工作中存在的问题, 最后引申出问题解决的工具: lsof;">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/"/>
+  <link rel="canonical" href="https://zshell-zhang.github.io/2017/04/07/linux-other--du,df使用及其区别/"/>
 
 
 
 
 
-  <title>linux signals 总体认识 | 希尔的博客</title>
+  <title>du / df 使用及其区别 | 希尔的博客</title>
   
 
 
@@ -301,7 +301,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/">
+    <link itemprop="mainEntityOfPage" href="https://zshell-zhang.github.io/2017/04/07/linux-other--du,df使用及其区别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="zshell.zhang">
@@ -318,7 +318,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">linux signals 总体认识</h1>
+          <h1 class="post-title" itemprop="name headline">du / df 使用及其区别</h1>
         
 
         <div class="post-meta">
@@ -330,8 +330,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-05T23:24:22+08:00">
-                2017-04-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-07T22:58:04+08:00">
+                2017-04-07
               </time>
             
 
@@ -364,8 +364,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/process/" itemprop="url" rel="index">
-                    <span itemprop="name">process</span>
+                  <a href="/categories/linux/other/" itemprop="url" rel="index">
+                    <span itemprop="name">other</span>
                   </a>
                 </span>
 
@@ -402,32 +402,25 @@
 
       
         <blockquote>
-<p>linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;<br>不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;<br>本文正是想对 linux 世界中林林总总的 signals 作一次梳理, 总结一些日常工作中频繁使用以及不太接触但十分有用的信号;</p>
+<p>本文主要是整理 磁盘使用量 相关的命令, 如 du, df 等;<br>接着, 一般性得总结这两个命令在实际工作中的应用;<br>然后再以 du, df 命令的区别为例, 讨论命令背后的逻辑, 工作中存在的问题, 最后引申出问题解决的工具: lsof;</p>
 </blockquote>
 <a id="more"></a>
-<h2 id="linux-signals-总览"><a href="#linux-signals-总览" class="headerlink" title="linux signals 总览"></a><strong>linux signals 总览</strong></h2><p>linux siginal 可分为如下几大类:</p>
-<ol>
-<li>系统错误信号</li>
-<li>进程终止信号</li>
-<li>作业控制信号</li>
-<li>AIO 信号</li>
-<li>定时器信号</li>
-<li>操作错误信号</li>
-<li>其他信号</li>
-</ol>
-<p>&nbsp;<br>使用 kill -l 查看所有信号分布:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">kill</span> -l</span><br><span class="line"> 1) SIGHUP	     2) SIGINT	     3) SIGQUIT	     4) SIGILL	     5) SIGTRAP</span><br><span class="line"> 6) SIGABRT	     7) SIGBUS	     8) SIGFPE	     9) SIGKILL	    10) SIGUSR1</span><br><span class="line">11) SIGSEGV	    12) SIGUSR2	    13) SIGPIPE	    14) SIGALRM	    15) SIGTERM</span><br><span class="line">16) SIGSTKFLT	    17) SIGCHLD	    18) SIGCONT	    19) SIGSTOP	    20) SIGTSTP</span><br><span class="line">21) SIGTTIN	    22) SIGTTOU	    23) SIGURG	    24) SIGXCPU	    25) SIGXFSZ</span><br><span class="line">26) SIGVTALRM	    27) SIGPROF	    28) SIGWINCH    29) SIGIO	    30) SIGPWR</span><br><span class="line">31) SIGSYS	    34) SIGRTMIN    35) SIGRTMIN+1  36) SIGRTMIN+2  37) SIGRTMIN+3</span><br><span class="line">38) SIGRTMIN+4	    39) SIGRTMIN+5  40) SIGRTMIN+6  41) SIGRTMIN+7  42) SIGRTMIN+8</span><br><span class="line">43) SIGRTMIN+9	    44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13</span><br><span class="line">48) SIGRTMIN+14	    49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12</span><br><span class="line">53) SIGRTMAX-11	    54) SIGRTMAX-10 55) SIGRTMAX-9  56) SIGRTMAX-8  57) SIGRTMAX-7</span><br><span class="line">58) SIGRTMAX-6	    59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2</span><br><span class="line">63) SIGRTMAX-1	    64) SIGRTMAX</span><br></pre></td></tr></table></figure></p>
-<h2 id="各类别信号整理"><a href="#各类别信号整理" class="headerlink" title="各类别信号整理"></a><strong>各类别信号整理</strong></h2><h3 id="进程终止信号"><a href="#进程终止信号" class="headerlink" title="进程终止信号"></a><strong>进程终止信号</strong></h3><p>进程终止信号是我们日常操作中最常用的一类信号;<br>进程终止信号共有五个, 其中除了 SIGKILL 之外, 其他信号都是 可阻塞, 可忽略, 可处理的;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># terminate, kill 不加任何选项的默认信号, 默认处理是终止进程;</span></span><br><span class="line">SIGTERM</span><br><span class="line"><span class="comment"># interrupt, ctrl + c 发出的信号, 默认处理是终止进程;</span></span><br><span class="line">SIGINT</span><br><span class="line"><span class="comment"># quit, ctrl + / 发出的信号, 与 SIGINT 类似, 不过其默认处理相比 SIGINT 还增加了一项:</span></span><br><span class="line"><span class="comment"># 1. 终止进程; 2. 产生进程 core dump 文件;</span></span><br><span class="line">SIGQUIT</span><br><span class="line"><span class="comment"># kill, 不可阻塞, 不可忽略, 最强力的终止信号, 通常会导致进程立即终止, 其占有的资源无法释放清理</span></span><br><span class="line"><span class="comment"># 一般需要在 SIGTERM/SIGINT/SIGQUIT 等信号无法响应之后, 才最后使用</span></span><br><span class="line">SIGKILL</span><br><span class="line"><span class="comment"># hang up, 通常在用户退出终端断开 sessiion 时由系统发出该信号给 session</span></span><br><span class="line"><span class="comment"># session 接收该信号并将其发送给子进程</span></span><br><span class="line">SIGHUP</span><br></pre></td></tr></table></figure></p>
-<p>另外一篇详细梳理与 SIGHUP 相关知识点的链接: <a href="">SIGHUP 相关全梳理</a>;<br>该文章主要涉及 SIGHUP 信号发生的条件, 传导, 与 SIGHUP 相关的 nohup, &amp;,  shopt huponexit, disown 等概念, 并包括一些 SIGHUP 的自定义应用;</p>
-<h3 id="任务控制信号"><a href="#任务控制信号" class="headerlink" title="任务控制信号"></a><strong>任务控制信号</strong></h3><h3 id="其他信号"><a href="#其他信号" class="headerlink" title="其他信号"></a><strong>其他信号</strong></h3><p>其他信号是指未在上述分类中的一些小众信号, 这些信号本身并未有太多关联, 不能用一个类别去统一描述它们;<br>&nbsp;<br>(1) 用户自定义信号: SIGUSR1 / SIGUSR2<br>这两个信号, linux 保证系统自身不会向进程发送, 完全由使用者自己定义该信号的语义以及处理逻辑;<br>SIGUSR1 与 SIGUSR2, 在系统层面完全没有区别, 如果可以, linux 其实能再定义一个 SIGUSR3; 所以用户自定义信号的预留数量, 本身是一个模糊的界定;<br>以下是 SIGUSR1 / SIGUSR2 的具体使用场景:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通知 nginx 关闭当前句柄, 重新打开日志文件, 用于 logrotate 切割日志</span></span><br><span class="line"><span class="built_in">kill</span> -USR1 `cat /var/run/nginx.pid`</span><br><span class="line"><span class="comment"># 通知 nginx 平滑升级 二进制可执行程序</span></span><br><span class="line"><span class="built_in">kill</span> -s SIGUSR2 `cat /var/run/nginx.pid`</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;<br>(2) SIGWINCH (winch 译作: 吊车, 摇柄), 默认处理是忽略该信号;<br>以下是 SIGWINCH 的具体使用场景:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通知 nginx worker process 不再接受新 request, 并从容关闭</span></span><br><span class="line"><span class="built_in">kill</span> -WINCH `cat /var/run/nginx.pid`</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="du命令"><a href="#du命令" class="headerlink" title="du命令"></a><strong>du命令</strong></h2><p>estimate disk file space usage. —- man du</p>
+<h3 id="du-的常用选项"><a href="#du-的常用选项" class="headerlink" title="du 的常用选项"></a><strong>du 的常用选项</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不加任何选项, 默认是 列举指定路径下, 每一个目录(递归所有的子目录)的大小</span></span><br><span class="line">sudo du /target_path</span><br><span class="line"><span class="comment"># 列举指定路径下所有的文件(包括目录与文件)的大小</span></span><br><span class="line">sudo du -a /target_path</span><br><span class="line"><span class="comment"># 以 human-readable 的形式, 列举目标路径的文件磁盘占用总大小(将该路径下所有子文件大小求和)</span></span><br><span class="line">sudo du -s /target_path</span><br><span class="line"><span class="comment"># 以指定路径下所有的子一级路径为 target, 以 human-readable 的方式列举其中每一个下的所有子文件大小之和(诊断 磁盘满问题 最常用的方式)</span></span><br><span class="line">sudo du -sh /target_path/*</span><br><span class="line"><span class="comment"># 除了其余选项该有的输出之外, 最后一行另附一个给定 target_path 下的 total 总和</span></span><br><span class="line"><span class="comment"># 理论上这与目标路径不含通配符的 -sh 输出结果是相同的</span></span><br><span class="line">sudo du -c /target_path</span><br></pre></td></tr></table></figure>
+<p>&nbsp;</p>
+<h2 id="df-命令"><a href="#df-命令" class="headerlink" title="df 命令"></a><strong>df 命令</strong></h2><p>file system disk space usage. —- man df</p>
+<h3 id="df-的常用选项"><a href="#df-的常用选项" class="headerlink" title="df 的常用选项"></a><strong>df 的常用选项</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示给定的路径所挂载的磁盘分区的大小及使用量等</span></span><br><span class="line">df /target_path</span><br><span class="line"><span class="comment"># 以 MB 最小单位显示大小及使用量</span></span><br><span class="line">df --block-size=1m /target_path</span><br><span class="line">df -B 1m /target_path</span><br><span class="line"><span class="comment"># 以 human-readable 的方式显示 当前挂载的所有可用健康的文件系统 的大小, 使用量等情况</span></span><br><span class="line">df -h <span class="comment"># 1024</span></span><br><span class="line">df -H <span class="comment"># 1000</span></span><br><span class="line"><span class="comment"># 显示所有的文件系统, 包括 伪文件系统, 重复的, 不可访问的文件系统 (pseudo, duplicate, inaccessible)</span></span><br><span class="line">df -a</span><br><span class="line"><span class="comment"># 过滤 nfs 远程文件系统后的本地文件系统</span></span><br><span class="line">df -l</span><br></pre></td></tr></table></figure>
+<p>&nbsp;<br><strong>一般性总结:</strong><br>df 命令主要关心的是磁盘分区的 size, 而不是具体某文件的占用大小;<br>所以 df 命令的主要运用场景是: <code>df -h</code>, 判断所挂载的每个分区的使用率, 是不是满了;<br>作为先决判断依据, 如果发现磁盘满了, 再接着使用 <code>du -sh</code> 等命令进一步排查;<br>&nbsp;</p>
+<h2 id="du-与-df-命令的区别"><a href="#du-与-df-命令的区别" class="headerlink" title="du 与 df 命令的区别"></a><strong>du 与 df 命令的区别</strong></h2><h3 id="df-命令与-du-命令的工作原理"><a href="#df-命令与-du-命令的工作原理" class="headerlink" title="df 命令与 du 命令的工作原理"></a><strong>df 命令与 du 命令的工作原理</strong></h3><p>df 命令使用 系统调用 <code>statfs</code>, 获取磁盘分区的超级块 (super block) 使用情况;<br>du 命令使用 系统调用 <code>fstat</code>, 获取待统计文件的大小;</p>
+<h3 id="df-命令与-du-命令可接受范围内不一致"><a href="#df-命令与-du-命令可接受范围内不一致" class="headerlink" title="df 命令与 du 命令可接受范围内不一致"></a><strong>df 命令与 du 命令可接受范围内不一致</strong></h3><p>问题场景: <em>du -s 与 df 核算精确结果总有差异;</em><br>&nbsp;<br>原因: du -s 命令通过将指定文件系统中所有的目录, 符号链接和文件使用的块数累加得到该文件系统使用的总块数, 这是上层用户级的数据;<br>df 命令通过查看文件系统磁盘块分配图得出总块数与剩余块数, 这是直接从底层获取的数据;<br>所以, 一些元数据信息(inode, super blocks 等)不会被上层的 du 命令计入在内, 而 df 命令由于直接获取的底层超级块的信息, 则会将其计入在内;<br>&nbsp;<br>结论: <em>这种差异属于系统性的差异, 是由命令的特点决定的, 无法改变;</em></p>
+<h3 id="df-命令与-du-命令显著不一致"><a href="#df-命令与-du-命令显著不一致" class="headerlink" title="df 命令与 du 命令显著不一致"></a><strong>df 命令与 du 命令显著不一致</strong></h3><p>问题场景: <em>当一个被某进程持有其句柄的文件被删除后, 进程不释放句柄, du 将不会再统计该文件, 而 df 的使用量会将其计入在内;</em><br>&nbsp;<br>原因: 当文件句柄被进程持有, 尽管文件被删除, 目录项已经不存在该文件路径了, 但只要句柄不释放, 文件在磁盘上就不会真正删除该文件;<br>这样一来, 目录项不存在该文件了, du 命令就不会统计到该文件, 但文件没真正删除, 磁盘分区 super block 的信息就不会改变, df 命令仍会将其计入使用量;<br>&nbsp;<br>结论: <em>这种差异属于第三方因素干扰导致的差异, 且差异十分显著, 需要通过下一节所讨论的方式加以解决;</em></p>
+<h3 id="问题解决方案"><a href="#问题解决方案" class="headerlink" title="问题解决方案"></a><strong>问题解决方案</strong></h3><p>磁盘满了, 但是有进程持有大文件的句柄, 无法真正从磁盘删除掉; 对于这类问题, 有如下两种解决方案:<br>1.配合使用 lsof 找出相关的 <code>幽灵文件</code> 的句柄持有情况(command 与 pid):<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; sudo lsof | grep deleted</span><br><span class="line">nginx      4804      nobody   59u      REG	253,1    110116  243425480 /usr/<span class="built_in">local</span>/openresty/nginx/client_body_temp/0068359496 (deleted)</span><br><span class="line">nginx      4819      nobody   51u      REG	253,1    115876  243425480 /usr/<span class="built_in">local</span>/openresty/nginx/client_body_temp/0068359498 (deleted)</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>然后 kill 掉进程 (或 restart 进程), 即可释放文件句柄;<br>当然, 本文是以 nginx 举例, 但实际上 nginx 对于日志文件的文件句柄释放, 有自己专有的方法, 具体内容请见本站另外两篇文章: <a href="https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/#其他信号">linux signals 总体认识#其他信号</a> 和 <a href="">nginx signals 处理</a>;<br>另外, 磁盘满的问题, 不能总是靠人肉登机器去解决, 我们需要一些自动化的方案来将我们从这种低级的操作中解放出来;<br>所以, 对于所有机器上都会遇到的日志文件不断累积占满磁盘的问题, 这篇文章介绍了解决方案: <a href="">logrotate 配置与运维</a>;<br>&nbsp;<br>2.如果进程很重要, 不能容忍任何时间范围内的服务不可用 (其实理论上这种情况属于单点瓶颈, 未能做到高可用), 则可以采用如下方式:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将文件写空</span></span><br><span class="line">sudo <span class="built_in">echo</span> &gt; file_path</span><br></pre></td></tr></table></figure></p>
+<p>将文件内容间接删除, 这样即便句柄未释放, 但文件本身已经没有内容, 也就不再占用空间了;<br>&nbsp;</p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2><ul>
-<li><a href="http://www.gnu.org/software/libc/manual/html_node/Termination-Signals.html#Termination-Signals" target="_blank" rel="noopener">24.2.2 Termination Signals</a></li>
-<li><a href="http://www.gnu.org/software/libc/manual/html_node/Job-Control-Signals.html" target="_blank" rel="noopener">24.2.5 Job Control Signals</a></li>
-<li><a href="http://www.gnu.org/software/libc/manual/html_node/Miscellaneous-Signals.html#Miscellaneous-Signals" target="_blank" rel="noopener">24.2.7 Miscellaneous Signals</a></li>
-<li><a href="https://stackoverflow.com/questions/27403641/difference-between-sigusr1-and-sigusr2" target="_blank" rel="noopener">Difference between SIGUSR1 and SIGUSR2</a></li>
-<li><a href="http://blog.csdn.net/fuming0210sc/article/details/50906372" target="_blank" rel="noopener">linux kill 命令 以及 USR1 信号 解释</a></li>
-<li><a href="http://blog.csdn.net/lisongjia123/article/details/50471854" target="_blank" rel="noopener">Linux 信号入门详解</a></li>
-<li><a href="http://blog.csdn.net/yankai0219/article/details/8453261" target="_blank" rel="noopener">文章3: Nginx中与信号有关的内容</a></li>
+<li><a href="http://www.cnblogs.com/heyonggang/p/3644736.html" target="_blank" rel="noopener">df和du显示的磁盘空间使用情况不一致的原因及处理</a></li>
+<li><a href="http://blog.csdn.net/guoguo1980/article/details/2324454" target="_blank" rel="noopener">linux lsof 详解</a></li>
 </ul>
 
       
@@ -446,7 +439,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/linux-process/" rel="tag"># linux:process</a>
+            <a href="/tags/linux-disk/" rel="tag"># linux:disk</a>
           
         </div>
       
@@ -459,8 +452,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/06/linux-other--lsof札记/" rel="next" title="lsof 札记">
-                <i class="fa fa-chevron-left"></i> lsof 札记
+              <a href="/2017/04/05/linux-process--linux_signals总体认识/" rel="next" title="linux signals 总体认识">
+                <i class="fa fa-chevron-left"></i> linux signals 总体认识
               </a>
             
           </div>
@@ -469,8 +462,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/07/linux-other--du,df使用及其区别/" rel="prev" title="du / df 使用及其区别">
-                du / df 使用及其区别 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/10/14/rsync--rsyncd配置与运行/" rel="prev" title="r<!---->syncd 配置与运维">
+                r<!---->syncd 配置与运维 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -623,7 +616,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#linux-signals-总览"><span class="nav-number">1.</span> <span class="nav-text">linux signals 总览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各类别信号整理"><span class="nav-number">2.</span> <span class="nav-text">各类别信号整理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程终止信号"><span class="nav-number">2.1.</span> <span class="nav-text">进程终止信号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务控制信号"><span class="nav-number">2.2.</span> <span class="nav-text">任务控制信号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他信号"><span class="nav-number">2.3.</span> <span class="nav-text">其他信号</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">3.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#du命令"><span class="nav-number">1.</span> <span class="nav-text">du命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#du-的常用选项"><span class="nav-number">1.1.</span> <span class="nav-text">du 的常用选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#df-命令"><span class="nav-number">2.</span> <span class="nav-text">df 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#df-的常用选项"><span class="nav-number">2.1.</span> <span class="nav-text">df 的常用选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#du-与-df-命令的区别"><span class="nav-number">3.</span> <span class="nav-text">du 与 df 命令的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#df-命令与-du-命令的工作原理"><span class="nav-number">3.1.</span> <span class="nav-text">df 命令与 du 命令的工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#df-命令与-du-命令可接受范围内不一致"><span class="nav-number">3.2.</span> <span class="nav-text">df 命令与 du 命令可接受范围内不一致</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#df-命令与-du-命令显著不一致"><span class="nav-number">3.3.</span> <span class="nav-text">df 命令与 du 命令显著不一致</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题解决方案"><span class="nav-number">3.4.</span> <span class="nav-text">问题解决方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>

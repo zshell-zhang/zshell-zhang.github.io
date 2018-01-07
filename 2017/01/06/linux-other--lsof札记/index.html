@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="linux:net," />
+  <meta name="keywords" content="linux:disk,linux:net," />
 
 
 
@@ -80,14 +80,14 @@
 
 
 <meta name="description" content="第一次接触到 lsof 命令, 是因为偶然间发现 netstat 命令已经落伍了(与此同时, 还发现了 ss 命令, 详见另一篇文章: netstat/ss 使用对比 );使用之后, 发现 lsof 被人称为 神器, 还是有一定道理的; 在任何资源都被抽象为 文件 的 linux 中, 一个面向 文件 的管理工具, 自然辖域辽阔, 神通广大, 再加上与其他命令的巧妙组合, 更如虎添翼, 在工作实">
-<meta name="keywords" content="linux:net">
+<meta name="keywords" content="linux:disk,linux:net">
 <meta property="og:type" content="article">
 <meta property="og:title" content="lsof 札记">
 <meta property="og:url" content="https://zshell-zhang.github.io/2017/01/06/linux-other--lsof札记/index.html">
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="第一次接触到 lsof 命令, 是因为偶然间发现 netstat 命令已经落伍了(与此同时, 还发现了 ss 命令, 详见另一篇文章: netstat/ss 使用对比 );使用之后, 发现 lsof 被人称为 神器, 还是有一定道理的; 在任何资源都被抽象为 文件 的 linux 中, 一个面向 文件 的管理工具, 自然辖域辽阔, 神通广大, 再加上与其他命令的巧妙组合, 更如虎添翼, 在工作实">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-06T07:32:05.937Z">
+<meta property="og:updated_time" content="2018-01-07T15:07:04.349Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="lsof 札记">
 <meta name="twitter:description" content="第一次接触到 lsof 命令, 是因为偶然间发现 netstat 命令已经落伍了(与此同时, 还发现了 ss 命令, 详见另一篇文章: netstat/ss 使用对比 );使用之后, 发现 lsof 被人称为 神器, 还是有一定道理的; 在任何资源都被抽象为 文件 的 linux 中, 一个面向 文件 的管理工具, 自然辖域辽阔, 神通广大, 再加上与其他命令的巧妙组合, 更如虎添翼, 在工作实">
@@ -405,6 +405,7 @@
 <p>第一次接触到 lsof 命令, 是因为偶然间发现 netstat 命令已经落伍了(与此同时, 还发现了 ss 命令, 详见另一篇文章: <a href="">netstat/ss 使用对比</a> );<br>使用之后, 发现 lsof 被人称为 <code>神器</code>, 还是有一定道理的; 在任何资源都被抽象为 <code>文件</code> 的 linux 中, 一个面向 <code>文件</code> 的管理工具, 自然辖域辽阔, 神通广大, 再加上与其他命令的巧妙组合, 更如虎添翼, 在工作实践中独当一面;<br>本文参考了一些实用资料, 结合自己的经验, 对 lsof 命令的使用略作整理;</p>
 </blockquote>
 <a id="more"></a>
+<hr>
 <h2 id="lsof-命令的输出结构"><a href="#lsof-命令的输出结构" class="headerlink" title="lsof 命令的输出结构"></a><strong>lsof 命令的输出结构</strong></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># COMMAND   启动进程的命令</span></span><br><span class="line"><span class="comment"># PID       进程号</span></span><br><span class="line"><span class="comment"># TID       线程号</span></span><br><span class="line"><span class="comment"># USER      用户</span></span><br><span class="line"><span class="comment"># FD        文件描述符</span></span><br><span class="line"><span class="comment"># TYPE      文件类型</span></span><br><span class="line"><span class="comment"># DEVICE    磁盘名称</span></span><br><span class="line"><span class="comment"># SIZE      文件大小</span></span><br><span class="line"><span class="comment"># NODE      inode 号</span></span><br><span class="line"><span class="comment"># NAME      文件资源的名称</span></span><br><span class="line">&gt; sudo lsof | head -n 2</span><br><span class="line">COMMAND     PID   TID      USER   FD      TYPE             DEVICE    SIZE/OFF       NODE NAME</span><br><span class="line">systemd       1            root  cwd       DIR              253,1        4096        128 /</span><br></pre></td></tr></table></figure>
 <h3 id="各字段的不同输出含义"><a href="#各字段的不同输出含义" class="headerlink" title="各字段的不同输出含义"></a><strong>各字段的不同输出含义</strong></h3><p>FD: 文件描述符 file description<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 任何进程都必须有的</span></span><br><span class="line">0:      标准输入流</span><br><span class="line">1:      标准输出流</span><br><span class="line">2:      标准错误流</span><br><span class="line"></span><br><span class="line"><span class="comment"># 几种特殊的保留 fd</span></span><br><span class="line">cwd:    current work directory, 应用程序启动的目录</span><br><span class="line">txt:    二进制可执行文件或共享库</span><br><span class="line">rtd:    root directory, 根目录</span><br><span class="line">mem:    memory mapped file, 内存映射文件</span><br><span class="line">mmap:   memory-mapped device, 内存映射设备</span><br><span class="line"></span><br><span class="line"><span class="comment"># 整数后面跟着的字母</span></span><br><span class="line">u:      可读可写模式</span><br><span class="line">r:      只读模式</span><br><span class="line">w:      只写模式</span><br></pre></td></tr></table></figure></p>
 <p>TYPE: 文件类型<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">DIR:    目录文件</span><br><span class="line">REG:    普通文件</span><br><span class="line">CHR:    char, 字符设备文件</span><br><span class="line">BLK:    block, 块设备文件</span><br><span class="line">IPV4:   ipv4 socket 套接字文件</span><br><span class="line">IPV6:   ipv6 socket 套接字文件</span><br></pre></td></tr></table></figure></p>
@@ -417,6 +418,7 @@
 <h3 id="lsof-文件-目录-相关的应用"><a href="#lsof-文件-目录-相关的应用" class="headerlink" title="lsof 文件/目录 相关的应用"></a><strong>lsof 文件/目录 相关的应用</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 搜索与指定路径相关的一切资源(user, process 等)</span></span><br><span class="line">sudo lsof /target_path</span><br><span class="line"><span class="comment"># +d: 搜索与指定的一级目录下所有的文件相关的一切资源; +D: 递归操作(往下所有层级目录)</span></span><br><span class="line">sudo lsof +d /target_path</span><br><span class="line">sudo lsof +D /target_path</span><br></pre></td></tr></table></figure>
 <h3 id="lsof-的选项组合及实践技巧"><a href="#lsof-的选项组合及实践技巧" class="headerlink" title="lsof 的选项组合及实践技巧"></a><strong>lsof 的选项组合及实践技巧</strong></h3><p>上述的 lsof 操作, 对于多种选项的组合, 其默认是 或(or) 的关系, 即满足其中之一便会打印出来;<br>lsof 与(and) 的逻辑运算关系如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 -a 达到 与(and) 的效果</span></span><br><span class="line"><span class="comment"># 必须同时满足三个条件: </span></span><br><span class="line"><span class="comment">#   1. 是用户 zshell.zhang 启动的进程;</span></span><br><span class="line"><span class="comment">#   2. 是套接字文件, 且连接的主机是 10.64.4.11;</span></span><br><span class="line"><span class="comment">#   3. 该进程命令是 java;</span></span><br><span class="line">sudo lsof -a -u zshell.zhang -i@10.64.4.11 -c java</span><br></pre></td></tr></table></figure></p>
 <p>lsof 常用的组合及实践:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 寻找已删除但未释放文件句柄的幽灵文件</span></span><br><span class="line">sudo lsof | grep deleted</span><br><span class="line"><span class="comment"># 杀死所有匹配一定文件打开条件的进程</span></span><br><span class="line">sudo <span class="built_in">kill</span> `sudo lsof -t -c java` <span class="comment"># 杀死所有 java 进程</span></span><br><span class="line">sudo <span class="built_in">kill</span> `sudo lsof -t -u zshell.zhang` <span class="comment"># 杀死所有 zshell.zhang 的用户进程</span></span><br><span class="line"><span class="comment"># 恢复删除的文件</span></span><br><span class="line"><span class="comment"># 找到误删文件被什么进程持有, 获得 pid 和 fd</span></span><br><span class="line">1. sudo lsof /target_deleted_file</span><br><span class="line"><span class="comment"># /proc/&#123;pid&#125;/fd/&#123;fd_num&#125; 的内容即为误删内容, 重定向到误删文件中即可</span></span><br><span class="line">2. cat /proc/&#123;pid&#125;/fd/&#123;fd_num&#125; &gt; /target_deleted_file</span><br></pre></td></tr></table></figure></p>
+<p>另外, lsof 还可以被运用于找出系统中的幽灵文件, 详见: <a href="https://zshell-zhang.github.io/2017/04/07/linux-other--du,df使用及其区别/">du / df 使用及其区别</a>;</p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2><ul>
 <li><a href="http://blog.csdn.net/guoguo1980/article/details/2324454" target="_blank" rel="noopener">linux lsof详解</a></li>
 <li><a href="http://www.cnblogs.com/MenAngel/p/5575479.html" target="_blank" rel="noopener">每天一个Linux命令（45）lsof命令</a></li>
@@ -439,6 +441,8 @@
     <footer class="post-footer">
       
         <div class="post-tags">
+          
+            <a href="/tags/linux-disk/" rel="tag"># linux:disk</a>
           
             <a href="/tags/linux-net/" rel="tag"># linux:net</a>
           
