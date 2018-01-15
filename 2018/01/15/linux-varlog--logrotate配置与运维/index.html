@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="linux:varlog," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文主要讨论以下几个方面:  logrotate 的关键配置文件和配置项语法; logrotate 的使用与运维技巧; logrotate 的运行原理; 特殊场景下 logrotate 的代替方案;">
+<meta name="keywords" content="linux:varlog">
+<meta property="og:type" content="article">
+<meta property="og:title" content="logrotate 配置与运维">
+<meta property="og:url" content="https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate配置与运维/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="本文主要讨论以下几个方面:  logrotate 的关键配置文件和配置项语法; logrotate 的使用与运维技巧; logrotate 的运行原理; 特殊场景下 logrotate 的代替方案;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-14T16:25:06.693Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="logrotate 配置与运维">
+<meta name="twitter:description" content="本文主要讨论以下几个方面:  logrotate 的关键配置文件和配置项语法; logrotate 的使用与运维技巧; logrotate 的运行原理; 特殊场景下 logrotate 的代替方案;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'zshell.zhang'
+    },
+    algolia: {
+      applicationID: 'ZMIXW3930D',
+      apiKey: 'c49c36c7c844f33b8192006e785dd70d',
+      indexName: 'my_github_page_blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate配置与运维/"/>
+
+
+
+
+
+  <title>logrotate 配置与运维 | 希尔的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">希尔的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zshell-zhang.github.io/2018/01/15/linux-varlog--logrotate配置与运维/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zshell.zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="希尔的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">logrotate 配置与运维</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-15T00:23:27+08:00">
+                2018-01-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/varlog/" itemprop="url" rel="index">
+                    <span itemprop="name">varlog</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>本文主要讨论以下几个方面:</p>
+<ol>
+<li>logrotate 的关键配置文件和配置项语法;</li>
+<li>logrotate 的使用与运维技巧;</li>
+<li>logrotate 的运行原理;</li>
+<li>特殊场景下 logrotate 的代替方案;</li>
+</ol>
+</blockquote>
+<a id="more"></a>
+<hr>
+<h3 id="配置文件与配置语法"><a href="#配置文件与配置语法" class="headerlink" title="配置文件与配置语法"></a><strong>配置文件与配置语法</strong></h3><p>logrotate 的配置文件主要是 <code>/etc/logrotate.conf</code> 和 <code>/etc/logrotate.d</code> 目录;<br>/etc/logrotate.conf 文件作为主配置文件, include 了 /etc/logrotate.d 目录下具体的配置内容;<br>以下是 /etc/logrotate.conf 的默认内容:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认的历史日志保留周期单位: 周</span></span><br><span class="line">weekly</span><br><span class="line"><span class="comment"># 历史日志保留四个周期单位, 即四周, 一个月</span></span><br><span class="line">rotate 4</span><br><span class="line"><span class="comment"># use the syslog group by default, since this is the owning group of /var/log/syslog.</span></span><br><span class="line">su root syslog</span><br><span class="line"><span class="comment"># 当旧日志作了 rotate 之后, 将会创建一个和旧日志同名的新文件</span></span><br><span class="line">create</span><br><span class="line"><span class="comment"># 默认使用 gzip 压缩旧日志文件</span></span><br><span class="line">compress</span><br><span class="line"><span class="comment"># 将 /etc/logrotate.d 下面的所有独立配置文件都 include 进来</span></span><br><span class="line">include /etc/logrotate.d</span><br></pre></td></tr></table></figure></p>
+<p>/etc/logrotate.conf 的默认配置优先级比 /etc/logrotate.d/ 目录下的独立配置要低, /etc/logrotate.d 下所有的独立配置文件中的配置项可以覆盖 /etc/logrotate.conf;<br>以 rsyslog 的配置文件为例, 以下是 /etc/logrotate.d/rsyslog 的内容:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">/var/<span class="built_in">log</span>/syslog &#123;</span><br><span class="line">    <span class="comment"># 以 天 为周期单位, 保留 7 天的日志</span></span><br><span class="line">    daily</span><br><span class="line">	rotate 7</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># 忽略任何错误, 比如找不到文件</span></span><br><span class="line">	missingok</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># not if empty, 当日志内容为空时, 不作 rotate</span></span><br><span class="line">	notifempty</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># 压缩日志, 但是采用延时压缩, 即本轮周期产生的日志不压缩, 而在下一个周期时压缩之</span></span><br><span class="line">	compress</span><br><span class="line">	delaycompress</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># postrotate/endscript 内的命令, 作为后处理, 会在本轮周期 rotate 之后回调执行</span></span><br><span class="line">	postrotate</span><br><span class="line">		invoke-rc.d rsyslog rotate &gt; /dev/null</span><br><span class="line">	endscript</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以同时指定多个目标日志使用同一段配置</span></span><br><span class="line">/var/<span class="built_in">log</span>/mail.info</span><br><span class="line">/var/<span class="built_in">log</span>/mail.warn</span><br><span class="line">/var/<span class="built_in">log</span>/mail.err</span><br><span class="line">/var/<span class="built_in">log</span>/mail.log</span><br><span class="line">/var/<span class="built_in">log</span>/daemon.log</span><br><span class="line">/var/<span class="built_in">log</span>/kern.log</span><br><span class="line">/var/<span class="built_in">log</span>/auth.log</span><br><span class="line">/var/<span class="built_in">log</span>/user.log</span><br><span class="line">/var/<span class="built_in">log</span>/lpr.log</span><br><span class="line">/var/<span class="built_in">log</span>/cron.log</span><br><span class="line">/var/<span class="built_in">log</span>/debug</span><br><span class="line">/var/<span class="built_in">log</span>/messages &#123;</span><br><span class="line">    weekly</span><br><span class="line">	rotate 4</span><br><span class="line">	</span><br><span class="line">	missingok</span><br><span class="line">	notifempty</span><br><span class="line">	</span><br><span class="line">	compress</span><br><span class="line">	delaycompress</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># 共享处理脚本, 仅对 prerotate/postrotate 定义时生效</span></span><br><span class="line">	sharedscripts</span><br><span class="line">	</span><br><span class="line">	postrotate</span><br><span class="line">		invoke-rc.d rsyslog rotate &gt; /dev/null</span><br><span class="line">	endscript</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意:</p>
+<ol>
+<li><code>sharedscripts</code> 选项打开后, 所有使用该段配置作 rotate 的目标日志名都会作为参数一次性传给 prerotate/postrotate;<br>而默认的选项 <code>nosharedscripts</code> 则是将每一个日志名分别作为参数传给 prerotate/postrotate;</li>
+<li>logrotate 支持的周期单位, 有 hourly, daily, weekly, monthly; 但是这里有坑: hourly 默认是不生效的, 具体原因见本文第三节;</li>
+</ol>
+<p>&nbsp;<br>如上所叙, prerotate/postrotate 是一种在 rotate 过程中某个时机回调的一段脚本, 像这样类似的配置项总共有如下几种 (所有的配置项必须与 <code>endscript</code> 成对出现):<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在所有匹配的日志 rotate 之前, 仅执行一次</span></span><br><span class="line">firstaction/endscript</span><br><span class="line"><span class="comment"># 在日志 rotate 之前回调</span></span><br><span class="line">prerotate/endscript</span><br><span class="line"><span class="comment"># 在日志 rotate 之后回调</span></span><br><span class="line">postrotate/endscript</span><br><span class="line"><span class="comment"># 在所有匹配的日志 rotate 之后, 仅执行一次</span></span><br><span class="line">lastaction/endscript</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在某个日志将要被删除之前回调执行</span></span><br><span class="line">preremove/endscript</span><br></pre></td></tr></table></figure></p>
+<p>这几种回调时间点的设计, 不得不让人想到 junit 测试类几种注解的方法执行时机, 不得不说有异曲同工之妙;<br>&nbsp;<br>rsyslog 的 logrotate 配置是一个典型, 但同时 logrotate 还有着其他的个性化配置选项:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以下是另一段案例</span></span><br><span class="line">/var/<span class="built_in">log</span>/test.log &#123;</span><br><span class="line">    <span class="comment"># 不以时间为周期单位, 而是以 日志size 为周期单位, 当日志大小达到 100MB 时, 作一次 rotate, 日志保留 5 个周期</span></span><br><span class="line">    size=100M</span><br><span class="line">    rotate 5</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 使用日期命名 rotate 后的旧文件, 日期格式采用 -%Y-%m-%d</span></span><br><span class="line">    dateext</span><br><span class="line">    dateformat -%Y-%m-%d</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 以指定的权限掩码, owner/group 创建 rotate 后的新文件</span></span><br><span class="line">    create 644 root root</span><br><span class="line">    </span><br><span class="line">    postrotate</span><br><span class="line">        /usr/bin/killall -HUP rsyslogd</span><br><span class="line">    endscript</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="logrotate-命令的常用运维选项"><a href="#logrotate-命令的常用运维选项" class="headerlink" title="logrotate 命令的常用运维选项"></a><strong>logrotate 命令的常用运维选项</strong></h3><p>1.指定目标配置文件, 手动执行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将会执行 /etc/logrotate.d/ 下所有的配置</span></span><br><span class="line">logrotate /etc/logrotate.conf</span><br><span class="line"><span class="comment"># 将会只执行指定配置文件中的配置</span></span><br><span class="line">logrotate /etc/logrotate.d/xxx.log</span><br></pre></td></tr></table></figure></p>
+<p>2.debug 验证配置文件正误:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -d:   --debug</span></span><br><span class="line">&gt; logrotate -d /etc/logrotate.d/redis-server.log</span><br><span class="line"><span class="comment"># output</span></span><br><span class="line">reading config file /etc/logrotate.d/redis-server</span><br><span class="line">Handling 1 logs</span><br><span class="line">rotating pattern: /var/<span class="built_in">log</span>/redis/redis-server*.<span class="built_in">log</span>  weekly (12 rotations)</span><br><span class="line">empty <span class="built_in">log</span> files are not rotated, old logs are removed</span><br><span class="line">considering <span class="built_in">log</span> /var/<span class="built_in">log</span>/redis/redis-server.log</span><br><span class="line">  <span class="built_in">log</span> does not need rotating</span><br></pre></td></tr></table></figure></p>
+<p>3.强制 rotate:<br>即便当前不满足 rotate 的条件, force rotate 也会强制作一次 rotate, 而那些超过指定轮数的旧日志将会被删除;<br>force rotate 比较适用于加入了新的配置文件, 需要对其存量历史立即作一次 rotate;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -f:   --force</span></span><br><span class="line">logrotate -f /etc/logrotate.d/xxx.log</span><br></pre></td></tr></table></figure></p>
+<p>4.verbose 详细信息:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -v:   --verbose</span></span><br><span class="line">logrotate -vf /etc/logrotate.d/xxx.log</span><br></pre></td></tr></table></figure></p>
+<p>5.指定 logrotate 自身的日志文件路径:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -s:   --state</span></span><br><span class="line"><span class="comment"># 默认 logrotate 的日志路径: /var/lib/logrotate/status</span></span><br><span class="line">logrotate -s /tmp/logrotate.log /etc/logrotate.conf</span><br></pre></td></tr></table></figure></p>
+<h3 id="logrotate-的运行原理及其缺陷"><a href="#logrotate-的运行原理及其缺陷" class="headerlink" title="logrotate 的运行原理及其缺陷"></a><strong>logrotate 的运行原理及其缺陷</strong></h3><p>logrotate 并不是一个 daemon service, 其本质上只是一个 ‘什么时候调用就什么时候立即执行一次’ 的 C 程序;<br>所以 logrotate 的执行, 依赖于其他 daemon service 的调用, 那么最自然的就是通过 crond 定时任务来调用了;<br>默认情况下, logrotate 是一天被调用一次的, 因为与它相关的 crontab 配置在 <code>/etc/cron.daily</code> 里:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Clean non existent log file entries from status file</span></span><br><span class="line"><span class="built_in">cd</span> /var/lib/logrotate</span><br><span class="line"><span class="built_in">test</span> -e status || touch status</span><br><span class="line">head -1 status &gt; status.clean</span><br><span class="line">sed <span class="string">'s/"//g'</span> status | <span class="keyword">while</span> <span class="built_in">read</span> logfile date</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    [ -e <span class="string">"<span class="variable">$logfile</span>"</span> ] &amp;&amp; <span class="built_in">echo</span> <span class="string">"\"<span class="variable">$logfile</span>\" <span class="variable">$date</span>"</span></span><br><span class="line"><span class="keyword">done</span> &gt;&gt; status.clean</span><br><span class="line">mv status.clean status</span><br><span class="line"></span><br><span class="line"><span class="built_in">test</span> -x /usr/sbin/logrotate || <span class="built_in">exit</span> 0</span><br><span class="line">/usr/sbin/logrotate /etc/logrotate.conf</span><br></pre></td></tr></table></figure></p>
+<p>如本文第二节所述, 由于 logrotate 的执行方式是通过 cron 默认 1 天执行一次, 所以按小时 rotate 的 <code>hourly</code> 配置项, 默认是不生效的; logrotate 的 manual 文档里也有说明:</p>
+<blockquote>
+<p><code>hourly</code>: Log files are rotated every hour. Note that usually logrotate is configured to be run by cron daily. You have to change this configuration and run logrotate hourly to be able to really rotate logs hourly.</p>
+</blockquote>
+<p>不过, 这还不是最大的问题, 毕竟我们只要把上述脚本放到 <code>cron.hourly</code> 里, 就能解决该问题;<br>这种靠定时任务来运行的方式, 最大的问题是: 当我们对某个日志配置成按 <code>size</code> 来 rotate 时, 无法做到当日志触达 size 条件时及时切分, 其所能实现的最小延时是一分钟 (当把 logrotate 脚本的定时任务配成 <em> </em> <em> </em> *, 即每分钟执行一次时), 没法更短了;</p>
+<h3 id="其他的特殊场景"><a href="#其他的特殊场景" class="headerlink" title="其他的特殊场景"></a><strong>其他的特殊场景</strong></h3><h3 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h3><ul>
+<li><a href="">cron 相关全梳理</a></li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h3><ul>
+<li><a href="https://linux.cn/article-4126-1.html" target="_blank" rel="noopener">Linux日志文件总管——logrotate</a></li>
+<li><a href="https://huoding.com/2013/04/21/246" target="_blank" rel="noopener">被遗忘的 Logrotate</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux-varlog/" rel="tag"># linux:varlog</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/31/证券-财富先锋--财富先锋2017年各股池成绩单/" rel="next" title="财富先锋 2017 年各股池成绩单">
+                <i class="fa fa-chevron-left"></i> 财富先锋 2017 年各股池成绩单
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4"
+                alt="zshell.zhang" />
+            
+              <p class="site-author-name" itemprop="name">zshell.zhang</p>
+              <p class="site-description motion-element" itemprop="description">A股是我生平所见最刺激的网络游戏</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangzhi1993-2025" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:xaaservice@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-paper-plane"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件与配置语法"><span class="nav-number">1.</span> <span class="nav-text">配置文件与配置语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#logrotate-命令的常用运维选项"><span class="nav-number">2.</span> <span class="nav-text">logrotate 命令的常用运维选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#logrotate-的运行原理及其缺陷"><span class="nav-number">3.</span> <span class="nav-text">logrotate 的运行原理及其缺陷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他的特殊场景"><span class="nav-number">4.</span> <span class="nav-text">其他的特殊场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#站内相关文章"><span class="nav-number">5.</span> <span class="nav-text">站内相关文章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接"><span class="nav-number">6.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zshell.zhang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.3"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
