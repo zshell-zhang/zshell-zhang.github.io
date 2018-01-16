@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="本文主要讨论以下几个方面:  logrotate 的关键配置文件和配置项语法; logrotate 的使用与运维技巧; logrotate 的运行原理; 特殊场景下 logrotate 的代替方案;">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-14T16:25:06.693Z">
+<meta property="og:updated_time" content="2018-01-16T15:58:36.358Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="logrotate 配置与运维">
 <meta name="twitter:description" content="本文主要讨论以下几个方面:  logrotate 的关键配置文件和配置项语法; logrotate 的使用与运维技巧; logrotate 的运行原理; 特殊场景下 logrotate 的代替方案;">
@@ -432,8 +432,11 @@
 <p><code>hourly</code>: Log files are rotated every hour. Note that usually logrotate is configured to be run by cron daily. You have to change this configuration and run logrotate hourly to be able to really rotate logs hourly.</p>
 </blockquote>
 <p>不过, 这还不是最大的问题, 毕竟我们只要把上述脚本放到 <code>cron.hourly</code> 里, 就能解决该问题;<br>这种靠定时任务来运行的方式, 最大的问题是: 当我们对某个日志配置成按 <code>size</code> 来 rotate 时, 无法做到当日志触达 size 条件时及时切分, 其所能实现的最小延时是一分钟 (当把 logrotate 脚本的定时任务配成 <em> </em> <em> </em> *, 即每分钟执行一次时), 没法更短了;</p>
-<h3 id="其他的特殊场景"><a href="#其他的特殊场景" class="headerlink" title="其他的特殊场景"></a><strong>其他的特殊场景</strong></h3><h3 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h3><ul>
+<h3 id="其他的特殊场景"><a href="#其他的特殊场景" class="headerlink" title="其他的特殊场景"></a><strong>其他的特殊场景</strong></h3><p>logrotate 集日志切分, 日志压缩, 删除旧日志, 邮件提醒等功能为一体, 提供了非常完整的日志管理策略; 不过, 并不是所有的系统日志, 自身都不具有上述功能, 都需要依赖 logrotate 来管理自己;<br>有一个非常典型, 而且使用十分广泛的场景: tomcat web 服务器; 当我们在 tomcat 上部署的服务使用了诸如 logback 之类的第三方日志框架时, 日志切分, 日志压缩等服务它自己便能够胜任了 (与 logback 相关功能的文章请见: <a href="">logback appender 使用总结</a>), 而且我们绝大部分人, 即便不怎么接触 logback 的日志压缩功能, 也至少都习惯于使用 logback  <code>RollingFileAppender</code> 的基础功能去作日志切分;<br>基于以上, 我们只需要一个简单的脚本, 便能够满足日常的 tomcat web 服务器日志运维:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">HOUR1=$(date -d <span class="string">"1 hours ago"</span> +%F-%H)</span><br><span class="line">DATE7=$(date -d <span class="string">"7 days ago"</span> +%F-%H)</span><br><span class="line"><span class="comment"># for example: /home/web/my_server/logs</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> `find /home/web/ -maxdepth 2 \( -<span class="built_in">type</span> d -o -<span class="built_in">type</span> l \) -name logs`; <span class="keyword">do</span></span><br><span class="line">        find -L <span class="variable">$i</span> -maxdepth 1 -<span class="built_in">type</span> f \( -name <span class="string">"*<span class="variable">$&#123;HOUR1&#125;</span>*"</span> -a ! -name <span class="string">"*.gz"</span> \) -<span class="built_in">exec</span> gzip &#123;&#125; \;</span><br><span class="line">        find -L <span class="variable">$i</span> -maxdepth 1 -<span class="built_in">type</span> f \( -name <span class="string">"*<span class="variable">$&#123;DATE7&#125;</span>*"</span> -a -name <span class="string">"*.gz"</span> \) -<span class="built_in">exec</span> rm -f &#123;&#125; \;</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure></p>
+<p>本节内容讨论的是针对 tomcat web 系统上的日志切分, 压缩, 以及删除等常规运维内容; 其实, 针对公司各业务线 web 系统的业务日志, 除此之外至少还有另外两项重要的运维内容: 日志冷备份收集 与 日志实时可视化收集 (ELK); 与之相关的内容请参见如下文章:</p>
+<h3 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h3><ul>
 <li><a href="">cron 相关全梳理</a></li>
+<li><a href="">logback appender 使用总结</a></li>
 </ul>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h3><ul>
 <li><a href="https://linux.cn/article-4126-1.html" target="_blank" rel="noopener">Linux日志文件总管——logrotate</a></li>
