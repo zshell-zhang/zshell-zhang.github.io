@@ -1,85 +1,26 @@
 <!DOCTYPE html>
-
-
-
-  
-
-
-<html class="theme-next gemini use-motion" lang="zh-Hans">
+<html>
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-<meta name="theme-color" content="#222">
+    
+
+    
+
+    
 
 
 
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="linux:process," />
-
-
-
-
-
-
-
-
-
-
-<meta name="description" content="linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;本文正是想对 linux 世界中林林总总的">
+    <meta charset="utf-8">
+    
+    
+    
+    <title>linux signals 总体认识 | 希尔的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="linux:process">
+    <meta name="description" content="linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;本文正是想对 linux 世界中林林总总的">
 <meta name="keywords" content="linux:process">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux signals 总体认识">
@@ -87,321 +28,160 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;本文正是想对 linux 世界中林林总总的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-05T15:30:03.954Z">
+<meta property="og:updated_time" content="2018-01-20T12:10:14.216Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux signals 总体认识">
 <meta name="twitter:description" content="linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;本文正是想对 linux 世界中林林总总的">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
 
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Gemini',
-    version: '5.1.3',
-    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
-    tabs: true,
-    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: 'zshell.zhang'
-    },
-    algolia: {
-      applicationID: 'ZMIXW3930D',
-      apiKey: 'c49c36c7c844f33b8192006e785dd70d',
-      indexName: 'my_github_page_blog',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-
-  <link rel="canonical" href="https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/"/>
-
-
-
-
-
-  <title>linux signals 总体认识 | 希尔的博客</title>
-  
-
-
-
-
-
-
-
+    <!-- custom head -->
+    
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body>
+    <div id="loading" class="active"></div>
 
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">希尔的博客</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-      
-        <p class="site-subtitle"></p>
-      
-  </div>
-
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-
-      
-        <li class="menu-item menu-item-search">
-          
-            <a href="javascript:;" class="popup-trigger">
-          
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
-            
-            搜索
-          </a>
-        </li>
-      
-    </ul>
-  
-
-  
-    <div class="site-search">
-      
-  
-  <div class="algolia-popup popup search-popup">
-    <div class="algolia-search">
-      <div class="algolia-search-input-icon">
-        <i class="fa fa-search"></i>
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshell.zhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
       </div>
-      <div class="algolia-search-input" id="algolia-search-input"></div>
     </div>
-
-    <div class="algolia-results">
-      <div id="algolia-stats"></div>
-      <div id="algolia-hits"></div>
-      <div id="algolia-pagination" class="algolia-pagination"></div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ZhangZhi1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
     </div>
-
-    <span class="popup-btn-close">
-      <i class="fa fa-times-circle"></i>
-    </span>
   </div>
+</aside>
 
-
-
-
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">linux signals 总体认识</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
     </div>
-  
-</nav>
+</header>
+<header class="content-header post-header">
 
-
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
+    <div class="container fade-scale">
+        <h1 class="title">linux signals 总体认识</h1>
+        <h5 class="subtitle">
             
+                <time datetime="2017-04-05T15:24:22.000Z" itemprop="datePublished" class="page-time">
+  2017-04-05
+</time>
 
-  <div id="posts" class="posts-expand">
-    
 
-  
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/process/">process</a></li></ul></li></ul>
 
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="zshell.zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="希尔的博客">
-    </span>
+            
+        </h5>
+    </div>
 
     
-      <header class="post-header">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">linux signals 总体认识</h1>
-        
 
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#linux-signals-总览"><span class="post-toc-number">1.</span> <span class="post-toc-text">linux signals 总览</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#各类别信号整理"><span class="post-toc-number">2.</span> <span class="post-toc-text">各类别信号整理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#进程终止信号"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">进程终止信号</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#任务控制信号"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">任务控制信号</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#其他信号"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">其他信号</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#站内相关文章"><span class="post-toc-number">3.</span> <span class="post-toc-text">站内相关文章</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">4.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-linux-process--linux_signals总体认识"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">linux signals 总体认识</h1>
         <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-05T23:24:22+08:00">
-                2017-04-05
-              </time>
-            
+            <time class="post-time" title="2017-04-05 23:24:22" datetime="2017-04-05T15:24:22.000Z"  itemprop="datePublished">2017-04-05</time>
 
             
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/process/">process</a></li></ul></li></ul>
+
+
 
             
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/process/" itemprop="url" rel="index">
-                    <span itemprop="name">process</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
 
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <blockquote>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
 <p>linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;<br>不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;<br>本文正是想对 linux 世界中林林总总的 signals 作一次梳理, 总结一些日常工作中频繁使用以及不太接触但十分有用的信号;</p>
 </blockquote>
 <a id="more"></a>
@@ -415,11 +195,18 @@
 <li>操作错误信号</li>
 <li>其他信号</li>
 </ol>
-<p>&nbsp;<br>使用 kill -l 查看所有信号分布:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">kill</span> -l</span><br><span class="line"> 1) SIGHUP	     2) SIGINT	     3) SIGQUIT	     4) SIGILL	     5) SIGTRAP</span><br><span class="line"> 6) SIGABRT	     7) SIGBUS	     8) SIGFPE	     9) SIGKILL	    10) SIGUSR1</span><br><span class="line">11) SIGSEGV	    12) SIGUSR2	    13) SIGPIPE	    14) SIGALRM	    15) SIGTERM</span><br><span class="line">16) SIGSTKFLT	    17) SIGCHLD	    18) SIGCONT	    19) SIGSTOP	    20) SIGTSTP</span><br><span class="line">21) SIGTTIN	    22) SIGTTOU	    23) SIGURG	    24) SIGXCPU	    25) SIGXFSZ</span><br><span class="line">26) SIGVTALRM	    27) SIGPROF	    28) SIGWINCH    29) SIGIO	    30) SIGPWR</span><br><span class="line">31) SIGSYS	    34) SIGRTMIN    35) SIGRTMIN+1  36) SIGRTMIN+2  37) SIGRTMIN+3</span><br><span class="line">38) SIGRTMIN+4	    39) SIGRTMIN+5  40) SIGRTMIN+6  41) SIGRTMIN+7  42) SIGRTMIN+8</span><br><span class="line">43) SIGRTMIN+9	    44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13</span><br><span class="line">48) SIGRTMIN+14	    49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12</span><br><span class="line">53) SIGRTMAX-11	    54) SIGRTMAX-10 55) SIGRTMAX-9  56) SIGRTMAX-8  57) SIGRTMAX-7</span><br><span class="line">58) SIGRTMAX-6	    59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2</span><br><span class="line">63) SIGRTMAX-1	    64) SIGRTMAX</span><br></pre></td></tr></table></figure></p>
+<p>&nbsp;<br>linux signals 的产生源一般分为三类: 硬件方式(除数为 0, 内存非法访问等), IO 方式(键盘事件), 以及软件方式: kill 命令, alarm 定时器等;<br>其中我们最熟悉的莫不过 kill 命令了, 详情请见: <a href="">kill 命令族及其选项</a>;</p>
+<p>&nbsp;<br>使用 kill -l 查看所有信号分布:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">kill</span> -l</span><br><span class="line"> 1) SIGHUP	     2) SIGINT	    	 3) SIGQUIT	     4) SIGILL	    	 5) SIGTRAP</span><br><span class="line"> 6) SIGABRT	     7) SIGBUS	    	 8) SIGFPE	     9) SIGKILL	    	10) SIGUSR1</span><br><span class="line">11) SIGSEGV	    12) SIGUSR2	    	13) SIGPIPE	    14) SIGALRM	    	15) SIGTERM</span><br><span class="line">16) SIGSTKFLT	    17) SIGCHLD	    	18) SIGCONT	    19) SIGSTOP	    	20) SIGTSTP</span><br><span class="line">21) SIGTTIN	    22) SIGTTOU	    	23) SIGURG	    24) SIGXCPU	    	25) SIGXFSZ</span><br><span class="line">26) SIGVTALRM	    27) SIGPROF	    	28) SIGWINCH        29) SIGIO	    	30) SIGPWR</span><br><span class="line">31) SIGSYS	    34) SIGRTMIN    	35) SIGRTMIN+1      36) SIGRTMIN+2  	37) SIGRTMIN+3</span><br><span class="line">38) SIGRTMIN+4	    39) SIGRTMIN+5  	40) SIGRTMIN+6      41) SIGRTMIN+7  	42) SIGRTMIN+8</span><br><span class="line">43) SIGRTMIN+9	    44) SIGRTMIN+10 	45) SIGRTMIN+11     46) SIGRTMIN+12 	47) SIGRTMIN+13</span><br><span class="line">48) SIGRTMIN+14	    49) SIGRTMIN+15 	50) SIGRTMAX-14     51) SIGRTMAX-13 	52) SIGRTMAX-12</span><br><span class="line">53) SIGRTMAX-11	    54) SIGRTMAX-10 	55) SIGRTMAX-9      56) SIGRTMAX-8  	57) SIGRTMAX-7</span><br><span class="line">58) SIGRTMAX-6	    59) SIGRTMAX-5  	60) SIGRTMAX-4      61) SIGRTMAX-3  	62) SIGRTMAX-2</span><br><span class="line">63) SIGRTMAX-1	    64) SIGRTMAX</span><br></pre></td></tr></table></figure></p>
 <h2 id="各类别信号整理"><a href="#各类别信号整理" class="headerlink" title="各类别信号整理"></a><strong>各类别信号整理</strong></h2><h3 id="进程终止信号"><a href="#进程终止信号" class="headerlink" title="进程终止信号"></a><strong>进程终止信号</strong></h3><p>进程终止信号是我们日常操作中最常用的一类信号;<br>进程终止信号共有五个, 其中除了 SIGKILL 之外, 其他信号都是 可阻塞, 可忽略, 可处理的;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># terminate, kill 不加任何选项的默认信号, 默认处理是终止进程;</span></span><br><span class="line">SIGTERM</span><br><span class="line"><span class="comment"># interrupt, ctrl + c 发出的信号, 默认处理是终止进程;</span></span><br><span class="line">SIGINT</span><br><span class="line"><span class="comment"># quit, ctrl + / 发出的信号, 与 SIGINT 类似, 不过其默认处理相比 SIGINT 还增加了一项:</span></span><br><span class="line"><span class="comment"># 1. 终止进程; 2. 产生进程 core dump 文件;</span></span><br><span class="line">SIGQUIT</span><br><span class="line"><span class="comment"># kill, 不可阻塞, 不可忽略, 最强力的终止信号, 通常会导致进程立即终止, 其占有的资源无法释放清理</span></span><br><span class="line"><span class="comment"># 一般需要在 SIGTERM/SIGINT/SIGQUIT 等信号无法响应之后, 才最后使用</span></span><br><span class="line">SIGKILL</span><br><span class="line"><span class="comment"># hang up, 通常在用户退出终端断开 sessiion 时由系统发出该信号给 session</span></span><br><span class="line"><span class="comment"># session 接收该信号并将其发送给子进程</span></span><br><span class="line">SIGHUP</span><br></pre></td></tr></table></figure></p>
 <p>另外一篇详细梳理与 SIGHUP 相关知识点的链接: <a href="">SIGHUP 相关全梳理</a>;<br>该文章主要涉及 SIGHUP 信号发生的条件, 传导, 与 SIGHUP 相关的 nohup, &amp;,  shopt huponexit, disown 等概念, 并包括一些 SIGHUP 的自定义应用;</p>
 <h3 id="任务控制信号"><a href="#任务控制信号" class="headerlink" title="任务控制信号"></a><strong>任务控制信号</strong></h3><h3 id="其他信号"><a href="#其他信号" class="headerlink" title="其他信号"></a><strong>其他信号</strong></h3><p>其他信号是指未在上述分类中的一些小众信号, 这些信号本身并未有太多关联, 不能用一个类别去统一描述它们;<br>&nbsp;<br>(1) 用户自定义信号: SIGUSR1 / SIGUSR2<br>这两个信号, linux 保证系统自身不会向进程发送, 完全由使用者自己定义该信号的语义以及处理逻辑;<br>SIGUSR1 与 SIGUSR2, 在系统层面完全没有区别, 如果可以, linux 其实能再定义一个 SIGUSR3; 所以用户自定义信号的预留数量, 本身是一个模糊的界定;<br>以下是 SIGUSR1 / SIGUSR2 的具体使用场景:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通知 nginx 关闭当前句柄, 重新打开日志文件, 用于 logrotate 切割日志</span></span><br><span class="line"><span class="built_in">kill</span> -USR1 `cat /var/run/nginx.pid`</span><br><span class="line"><span class="comment"># 通知 nginx 平滑升级 二进制可执行程序</span></span><br><span class="line"><span class="built_in">kill</span> -s SIGUSR2 `cat /var/run/nginx.pid`</span><br></pre></td></tr></table></figure></p>
 <p>&nbsp;<br>(2) SIGWINCH (winch 译作: 吊车, 摇柄), 默认处理是忽略该信号;<br>以下是 SIGWINCH 的具体使用场景:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通知 nginx worker process 不再接受新 request, 并从容关闭</span></span><br><span class="line"><span class="built_in">kill</span> -WINCH `cat /var/run/nginx.pid`</span><br></pre></td></tr></table></figure></p>
+<p>当然, 通知 worker process 不再接受新请求, nginx 并不需要使用者直接在 linux signals 层面直接处理, nginx 本身提供了平滑重启命令 <code>sbin/nginx -c conf/nginx.conf -s reload</code>, SIGWINCH 信号的发送封装在了该命令里;<br>&nbsp;<br>关于 nginx 与 linux signals 的关系, 在本站另一篇文章中有详细介绍: <a href="">nginx signals 处理</a>;</p>
+<h2 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h2><ul>
+<li><a href="">kill 命令族及其选项</a></li>
+<li><a href="">SIGHUP 相关全梳理</a></li>
+<li><a href="">nginx signals 处理</a></li>
+</ul>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2><ul>
 <li><a href="http://www.gnu.org/software/libc/manual/html_node/Termination-Signals.html#Termination-Signals" target="_blank" rel="noopener">24.2.2 Termination Signals</a></li>
 <li><a href="http://www.gnu.org/software/libc/manual/html_node/Job-Control-Signals.html" target="_blank" rel="noopener">24.2.5 Job Control Signals</a></li>
@@ -430,423 +217,287 @@
 <li><a href="http://blog.csdn.net/yankai0219/article/details/8453261" target="_blank" rel="noopener">文章3: Nginx中与信号有关的内容</a></li>
 </ul>
 
-      
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2017/04/05/linux-process--linux_signals总体认识/" target="_blank" rel="external">https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/</a>
+        
     </div>
     
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/linux-process/" rel="tag"># linux:process</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/01/06/linux-other--lsof札记/" rel="next" title="lsof 札记">
-                <i class="fa fa-chevron-left"></i> lsof 札记
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/04/07/linux-other--du,df使用及其区别/" rel="prev" title="du / df 使用及其区别">
-                du / df 使用及其区别 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
+    <footer>
+        <a href="https://zshell-zhang.github.io">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
+            zshell.zhang
+        </a>
     </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <img class="site-author-image" itemprop="image"
-                src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4"
-                alt="zshell.zhang" />
-            
-              <p class="site-author-name" itemprop="name">zshell.zhang</p>
-              <p class="site-description motion-element" itemprop="description">A股是我生平所见最刺激的网络游戏</p>
-          </div>
-
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/archives/">
-              
-                  <span class="site-state-item-count">14</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-categories">
-                <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
-                  <span class="site-state-item-name">分类</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
-                  <span class="site-state-item-name">标签</span>
-                </a>
-              </div>
-            
-
-          </nav>
-
-          
-
-          
-            <div class="links-of-author motion-element">
-                
-                  <span class="links-of-author-item">
-                    <a href="https://github.com/zhangzhi1993-2025" target="_blank" title="GitHub">
-                      
-                        <i class="fa fa-fw fa-github"></i>GitHub</a>
-                  </span>
-                
-                  <span class="links-of-author-item">
-                    <a href="mailto:xaaservice@gmail.com" target="_blank" title="E-Mail">
-                      
-                        <i class="fa fa-fw fa-paper-plane"></i>E-Mail</a>
-                  </span>
-                
-            </div>
-          
-
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#linux-signals-总览"><span class="nav-number">1.</span> <span class="nav-text">linux signals 总览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各类别信号整理"><span class="nav-number">2.</span> <span class="nav-text">各类别信号整理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程终止信号"><span class="nav-number">2.1.</span> <span class="nav-text">进程终止信号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务控制信号"><span class="nav-number">2.2.</span> <span class="nav-text">任务控制信号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他信号"><span class="nav-number">2.3.</span> <span class="nav-text">其他信号</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">3.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-      
-
-    </div>
-  </aside>
-
+</blockquote>
 
         
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">zshell.zhang</span>
-
-  
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-process/">linux:process</a></li></ul>
 
 
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
+            
+<div class="page-share-wrap">
     
 
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/&title=《linux signals 总体认识》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/&title=《linux signals 总体认识》 — 希尔的博客&source=
+linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SI..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《linux signals 总体认识》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
     
-
-  </div>
-
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/04/07/linux-other--du,df使用及其区别/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">du / df 使用及其区别</h4>
+      </a>
+    </div>
   
 
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/01/06/linux-other--lsof札记/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">lsof 札记</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'zshell-zhang',
+            repo: 'gitment-storage',
+            oauth: {
+                client_id: '8d7b7d33dd8bbd51a8c2',
+                client_secret: 'a98d9b9266c6ccbae7b1194e1680dba27def86ee',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshell.zhang &copy; 2016 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/&title=《linux signals 总体认识》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/&title=《linux signals 总体认识》 — 希尔的博客&source=
+linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SI..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《linux signals 总体认识》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals总体认识/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACu0lEQVR42u3a0U7DMAwFUP7/p8crCNpdxzYq0ukT2tqlp0iJe52Pj/h4fTl+fn71ydVVV9/eX3v1OwMHHh4eXuPWfx5X59yTEl7+4JL7uRwLDw8Pb413NfD9AnAGSB5H/hDfWPDw8PAewLtfPKoFd1IP4+Hh4f13Xj9KyEfEw8PDezIvCSOS6Tt5BNVPksVpIGvBw8PDi3l5F+k5f6/09/Dw8PDaXfVkwq0uJPeTfnWsN3eLh4eHt8CrxqlnmH4sm5fLeHh4eH/JSyKAZDE42z6Vn1kdEQ8PD2+WdxbOnk3l+caspOwuJyh4eHh4Q7zZgZPpuzrWQJCBh4eHt8BLbjEpr6uTeD5iZwHDw8PDm+Ul8WsSPVSXgaTsPjvnl/4eHh4e3iivEz1MbTJIFoCB1Q8PDw9vlHcftnZaYmfFdEIt4PHw8PAWeMlEnPxoflWekeTBcYGKh4eH1+BVB6hGD/nknjfPCoEFHh4e3hqvE+bm030ev46tdXh4eHhrvE7k2m+JJYV4Hh9/uxYPDw9vgZe3sqbSjmouMrBI4OHh4a3xzrY0Va/tX1VefvDw8PBGedWX/36RXX181VZZ+c0ADw8Pr8jL207VCT2PFVrbp5ItX3h4eHijvBww2xjLH0QeWPzyCR4eHt4CL7kgQVZL5Or21vwfEC0teHh4eG1e9VbyiXivGVYo3/Hw8PCWeZ1COT8nn9yTCPjNb+Lh4eGt8apTed6aOiumz47LlBoPDw9viPcqHtUCN2+enS0Yb77Fw8PDW+BN7T6ohg79jQjDiwoeHh5ekZe//OfFdL7BNNnA2opI8PDw8NZ4/Si22tA6a4OVIxI8PDy8x/OS261GGGdNODw8PLyn8c4K5fzR9HtYeHh4eNu8s4ZWdeJOAt+p2BcPDw9vj1d94c9JnQb/2aaEgb1aeHh4eHe8TwwSnHHQE2ujAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
 </script>
 
+<script src="/js/main.min.js?v=1.7.2"></script>
 
 
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
 
+<script src="/js/search.min.js?v=1.7.2" async></script>
 
 
 
 
 
-  
 
 
 
 
-
-
-
-
-
-
-
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
-
-
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-  
-  
-  
-  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
-
-  
-  
-  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
-  
-
-  <script src="/js/src/algolia-search.js?v=5.1.3"></script>
-
-
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>

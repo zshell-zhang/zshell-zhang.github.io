@@ -1,85 +1,26 @@
 <!DOCTYPE html>
-
-
-
-  
-
-
-<html class="theme-next gemini use-motion" lang="zh-Hans">
+<html>
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-<meta name="theme-color" content="#222">
+    
+
+    
+
+    
 
 
 
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="linux:shell," />
-
-
-
-
-
-
-
-
-
-
-<meta name="description" content="本文基于 GNU bash, version 4.1.2(1)-release (x86_64-redhat-linux-gnu)">
+    <meta charset="utf-8">
+    
+    
+    
+    <title>bash 条件判断全梳理 | 希尔的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="linux:shell">
+    <meta name="description" content="本文基于 GNU bash, version 4.1.2(1)-release (x86_64-redhat-linux-gnu)">
 <meta name="keywords" content="linux:shell">
 <meta property="og:type" content="article">
 <meta property="og:title" content="bash 条件判断全梳理">
@@ -87,321 +28,160 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="本文基于 GNU bash, version 4.1.2(1)-release (x86_64-redhat-linux-gnu)">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-02T15:40:57.771Z">
+<meta property="og:updated_time" content="2018-01-20T13:10:27.025Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="bash 条件判断全梳理">
 <meta name="twitter:description" content="本文基于 GNU bash, version 4.1.2(1)-release (x86_64-redhat-linux-gnu)">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
 
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Gemini',
-    version: '5.1.3',
-    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
-    tabs: true,
-    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: 'zshell.zhang'
-    },
-    algolia: {
-      applicationID: 'ZMIXW3930D',
-      apiKey: 'c49c36c7c844f33b8192006e785dd70d',
-      indexName: 'my_github_page_blog',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-
-  <link rel="canonical" href="https://zshell-zhang.github.io/2016/09/01/linux-shell--bash条件判断全梳理/"/>
-
-
-
-
-
-  <title>bash 条件判断全梳理 | 希尔的博客</title>
-  
-
-
-
-
-
-
-
+    <!-- custom head -->
+    
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body>
+    <div id="loading" class="active"></div>
 
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">希尔的博客</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-      
-        <p class="site-subtitle"></p>
-      
-  </div>
-
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-
-      
-        <li class="menu-item menu-item-search">
-          
-            <a href="javascript:;" class="popup-trigger">
-          
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
-            
-            搜索
-          </a>
-        </li>
-      
-    </ul>
-  
-
-  
-    <div class="site-search">
-      
-  
-  <div class="algolia-popup popup search-popup">
-    <div class="algolia-search">
-      <div class="algolia-search-input-icon">
-        <i class="fa fa-search"></i>
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshell.zhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
       </div>
-      <div class="algolia-search-input" id="algolia-search-input"></div>
     </div>
-
-    <div class="algolia-results">
-      <div id="algolia-stats"></div>
-      <div id="algolia-hits"></div>
-      <div id="algolia-pagination" class="algolia-pagination"></div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ZhangZhi1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
     </div>
-
-    <span class="popup-btn-close">
-      <i class="fa fa-times-circle"></i>
-    </span>
   </div>
+</aside>
 
-
-
-
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">bash 条件判断全梳理</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
     </div>
-  
-</nav>
+</header>
+<header class="content-header post-header">
 
-
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
+    <div class="container fade-scale">
+        <h1 class="title">bash 条件判断全梳理</h1>
+        <h5 class="subtitle">
             
+                <time datetime="2016-09-01T09:52:36.000Z" itemprop="datePublished" class="page-time">
+  2016-09-01
+</time>
 
-  <div id="posts" class="posts-expand">
-    
 
-  
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/shell/">shell</a></li></ul></li></ul>
 
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zshell-zhang.github.io/2016/09/01/linux-shell--bash条件判断全梳理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="zshell.zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="希尔的博客">
-    </span>
+            
+        </h5>
+    </div>
 
     
-      <header class="post-header">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">bash 条件判断全梳理</h1>
-        
 
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#bash-条件判断-的类型与逻辑运算符"><span class="post-toc-number">1.</span> <span class="post-toc-text">bash 条件判断 的类型与逻辑运算符</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#字符串比较"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">字符串比较</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#整数比较"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">整数比较</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#文件比较"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">文件比较</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#逻辑比较"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">逻辑比较</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#bash-条件判断-的命令-关键字-与语法"><span class="post-toc-number">2.</span> <span class="post-toc-text">bash 条件判断 的命令(关键字)与语法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#test-与"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">test 与 [ ]</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#字符串比较-1"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">字符串比较</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#整数比较-1"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">整数比较</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#文件比较-1"><span class="post-toc-number">2.1.3.</span> <span class="post-toc-text">文件比较</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#逻辑比较-1"><span class="post-toc-number">2.1.4.</span> <span class="post-toc-text">逻辑比较</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#test的返回值"><span class="post-toc-number">2.1.5.</span> <span class="post-toc-text">test的返回值</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#bash关键字-推荐使用"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">bash关键字 [[ ]] ( 推荐使用 )</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#字符串比较-2"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">字符串比较</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#整数比较-2"><span class="post-toc-number">2.2.2.</span> <span class="post-toc-text">整数比较</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#算术拓展"><span class="post-toc-number">2.2.3.</span> <span class="post-toc-text">算术拓展</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#文件比较-2"><span class="post-toc-number">2.2.4.</span> <span class="post-toc-text">文件比较</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#逻辑比较-2"><span class="post-toc-number">2.2.5.</span> <span class="post-toc-text">逻辑比较</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#的使用场景"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">(( ))的使用场景</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">3.</span> <span class="post-toc-text">总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">4.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-linux-shell--bash条件判断全梳理"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">bash 条件判断全梳理</h1>
         <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-01T17:52:36+08:00">
-                2016-09-01
-              </time>
-            
+            <time class="post-time" title="2016-09-01 17:52:36" datetime="2016-09-01T09:52:36.000Z"  itemprop="datePublished">2016-09-01</time>
 
             
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/shell/">shell</a></li></ul></li></ul>
+
+
 
             
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/shell/" itemprop="url" rel="index">
-                    <span itemprop="name">shell</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
 
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <blockquote>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
 <p>本文基于 GNU bash, version 4.1.2(1)-release (x86_64-redhat-linux-gnu)</p>
 </blockquote>
 <a id="more"></a>
@@ -451,22 +231,22 @@
 </ol>
 <p>&nbsp;</p>
 <h2 id="bash-条件判断-的命令-关键字-与语法"><a href="#bash-条件判断-的命令-关键字-与语法" class="headerlink" title="bash 条件判断 的命令(关键字)与语法"></a><strong>bash 条件判断 的命令(关键字)与语法</strong></h2><h3 id="test-与"><a href="#test-与" class="headerlink" title="test 与 [ ]"></a><strong>test 与 [ ]</strong></h3><p><code>test</code> 与 <code>[</code> 是 shell 的内置命令;<br><code>test</code> 和 <code>[]</code> 可以用于比较字符串, 整数, 文件, <code>test expr</code>与<code>[ expr ]</code>有等价的效果;</p>
-<h4 id="字符串比较-1"><a href="#字符串比较-1" class="headerlink" title="字符串比较"></a><strong>字符串比较</strong></h4><p><code>test</code>可以使用<code>=</code>, <code>==</code>, <code>!=</code>比较, bash 4.1版本下也能使用<code>-n</code>, <code>-z</code>比较字符串( 旧版本可能不支持该方式 );<br><code>[]</code>可以使用上述全部的比较符号;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if !test $str1 == $str2; then ... ; fi</span><br><span class="line">if ! [ $str1 == $str2 ]; then ... ; fi</span><br></pre></td></tr></table></figure></p>
+<h4 id="字符串比较-1"><a href="#字符串比较-1" class="headerlink" title="字符串比较"></a><strong>字符串比较</strong></h4><p><code>test</code>可以使用<code>=</code>, <code>==</code>, <code>!=</code>比较, bash 4.1版本下也能使用<code>-n</code>, <code>-z</code>比较字符串( 旧版本可能不支持该方式 );<br><code>[]</code>可以使用上述全部的比较符号;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> !<span class="built_in">test</span> <span class="variable">$str1</span> == <span class="variable">$str2</span>; <span class="keyword">then</span> ... ; <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> ! [ <span class="variable">$str1</span> == <span class="variable">$str2</span> ]; <span class="keyword">then</span> ... ; <span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
 <p><code>test</code> 与 <code>[]</code> 也可以使用 <code>&lt;</code> 和 <code>&gt;</code> 作字符串比较; 但是有一点要注意, <code>test</code>和<code>[</code>是 shell 的内置命令, 使用 <code>&lt;</code> 和 <code>&gt;</code> 需要转义, 否则会被当成重定向; </p>
-<h4 id="整数比较-1"><a href="#整数比较-1" class="headerlink" title="整数比较"></a><strong>整数比较</strong></h4><p><code>test</code>和<code>[]</code>均可以使用<code>-eq</code>, <code>-gt</code>, <code>-ge</code>, <code>-lt</code>, <code>-le</code>, <code>-ne</code> 作整数比较, 但不能使用 <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>,<code>==</code>,<code>!=</code> 等比较运算符;<br>使用<code>&lt;</code>,<code>&gt;</code>,<code>==</code>,<code>!=</code>虽然语法不会报错, 但是会被当成字符串以字典序比较, 不能确保结果的正确性;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if test $1 -le 0; then ... ; fi</span><br><span class="line">if [ $1 -le 0 ]; then ... ; fi</span><br></pre></td></tr></table></figure></p>
-<h4 id="文件比较-1"><a href="#文件比较-1" class="headerlink" title="文件比较"></a><strong>文件比较</strong></h4><p><code>test</code>和<code>[]</code>均可以使用<code>-e</code>, <code>-r</code>, <code>-w</code>, <code>-x</code>等文件比较逻辑;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if test -e /usr/local/localtime; then ... ; fi</span><br><span class="line">if [ -e /usr/local/localtime ]; then ... ; fi</span><br></pre></td></tr></table></figure></p>
-<h4 id="逻辑比较-1"><a href="#逻辑比较-1" class="headerlink" title="逻辑比较"></a><strong>逻辑比较</strong></h4><p><code>test</code>和<code>[]</code>只能使用<code>-a</code>, <code>-o</code>和<code>!</code>运算符, 但<code>-a</code>和<code>-o</code> 不支持逻辑短路;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if !test $str1 == $str2 -a -n $str3; then ... ; fi</span><br><span class="line">if [ $str1 == $str2 -a -n $str3 ]; then ... ; fi</span><br></pre></td></tr></table></figure></p>
-<h4 id="test的返回值"><a href="#test的返回值" class="headerlink" title="test的返回值"></a><strong>test的返回值</strong></h4><p><code>test</code>可以独立于<code>if</code>使用, 其执行结果( 0为真, 1为假 )可以使用<code>$?</code>来接收;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test -z &quot;$1&quot;; echo &quot;$?&quot;</span><br></pre></td></tr></table></figure></p>
+<h4 id="整数比较-1"><a href="#整数比较-1" class="headerlink" title="整数比较"></a><strong>整数比较</strong></h4><p><code>test</code>和<code>[]</code>均可以使用<code>-eq</code>, <code>-gt</code>, <code>-ge</code>, <code>-lt</code>, <code>-le</code>, <code>-ne</code> 作整数比较, 但不能使用 <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>,<code>==</code>,<code>!=</code> 等比较运算符;<br>使用<code>&lt;</code>,<code>&gt;</code>,<code>==</code>,<code>!=</code>虽然语法不会报错, 但是会被当成字符串以字典序比较, 不能确保结果的正确性;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> <span class="variable">$1</span> -le 0; <span class="keyword">then</span> ... ; <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$1</span> -le 0 ]; <span class="keyword">then</span> ... ; <span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="文件比较-1"><a href="#文件比较-1" class="headerlink" title="文件比较"></a><strong>文件比较</strong></h4><p><code>test</code>和<code>[]</code>均可以使用<code>-e</code>, <code>-r</code>, <code>-w</code>, <code>-x</code>等文件比较逻辑;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> -e /usr/<span class="built_in">local</span>/localtime; <span class="keyword">then</span> ... ; <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ -e /usr/<span class="built_in">local</span>/localtime ]; <span class="keyword">then</span> ... ; <span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="逻辑比较-1"><a href="#逻辑比较-1" class="headerlink" title="逻辑比较"></a><strong>逻辑比较</strong></h4><p><code>test</code>和<code>[]</code>只能使用<code>-a</code>, <code>-o</code>和<code>!</code>运算符, 但<code>-a</code>和<code>-o</code> 不支持逻辑短路;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> !<span class="built_in">test</span> <span class="variable">$str1</span> == <span class="variable">$str2</span> -a -n <span class="variable">$str3</span>; <span class="keyword">then</span> ... ; <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$str1</span> == <span class="variable">$str2</span> -a -n <span class="variable">$str3</span> ]; <span class="keyword">then</span> ... ; <span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="test的返回值"><a href="#test的返回值" class="headerlink" title="test的返回值"></a><strong>test的返回值</strong></h4><p><code>test</code>可以独立于<code>if</code>使用, 其执行结果( 0为真, 1为假 )可以使用<code>$?</code>来接收;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span> -z <span class="string">"<span class="variable">$1</span>"</span>; <span class="built_in">echo</span> <span class="string">"$?"</span></span><br></pre></td></tr></table></figure></p>
 <h3 id="bash关键字-推荐使用"><a href="#bash关键字-推荐使用" class="headerlink" title="bash关键字 [[ ]] ( 推荐使用 )"></a><strong>bash关键字 [[ ]] ( 推荐使用 )</strong></h3><p><code>[[</code> 是 bash 的关键字, 而不是命令;<br><code>[[ ]]</code> 比 <code>[]</code> 更通用, 更安全, 功能更强大; 在生产环境中, 推荐使用 <code>[[ ]]</code>;</p>
-<h4 id="字符串比较-2"><a href="#字符串比较-2" class="headerlink" title="字符串比较"></a><strong>字符串比较</strong></h4><p><code>[[ ]]</code> 除了可以使用基本的 <code>=</code>, <code>==</code>, <code>!=</code>, <code>-n</code>, <code>-z</code> 之外, 其 <code>=</code>,<code>==</code> 和 <code>!=</code>还有通配符模式匹配的功能:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 模式串不能加双引号, 否则会被当作普通串</span><br><span class="line">if [[ &quot;test&quot; == t* ]]; then ... ; fi</span><br></pre></td></tr></table></figure></p>
-<p><code>[[ ]]</code> 还可以使用支持正则表达式的 <code>=~</code> 运算符:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 模式串不能加双引号, 否则会被当作普通串</span><br><span class="line">if [[ &quot;test&quot; =~ ^t[a-z].t$ ]]; then ... ; fi</span><br></pre></td></tr></table></figure></p>
+<h4 id="字符串比较-2"><a href="#字符串比较-2" class="headerlink" title="字符串比较"></a><strong>字符串比较</strong></h4><p><code>[[ ]]</code> 除了可以使用基本的 <code>=</code>, <code>==</code>, <code>!=</code>, <code>-n</code>, <code>-z</code> 之外, 其 <code>=</code>,<code>==</code> 和 <code>!=</code>还有通配符模式匹配的功能:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 模式串不能加双引号, 否则会被当作普通串</span></span><br><span class="line"><span class="keyword">if</span> [[ <span class="string">"test"</span> == t* ]]; <span class="keyword">then</span> ... ; <span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
+<p><code>[[ ]]</code> 还可以使用支持正则表达式的 <code>=~</code> 运算符:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 模式串不能加双引号, 否则会被当作普通串</span></span><br><span class="line"><span class="keyword">if</span> [[ <span class="string">"test"</span> =~ ^t[a-z].t$ ]]; <span class="keyword">then</span> ... ; <span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
 <p><code>[[ ]]</code>也可以使用<code>&lt;</code>和<code>&gt;</code>作字符串比较; 由于<code>[[</code>是bash内置的关键字, <code>&lt;</code>和<code>&gt;</code>并不会被当成重定向, 所以可以不需要转义;</p>
 <h4 id="整数比较-2"><a href="#整数比较-2" class="headerlink" title="整数比较"></a><strong>整数比较</strong></h4><p>和<code>test</code>, <code>[]</code>一样, <code>[[ ]]</code>可以使用<code>-eq</code>, <code>-gt</code>, <code>-ge</code>, <code>-lt</code>, <code>-le</code>, <code>-ne</code> 作整数比较, 但不能使用 <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>,<code>==</code>,<code>!=</code> 等比较运算符; 不能使用的原因也是一样的(当成字符串来处理了);</p>
-<h4 id="算术拓展"><a href="#算术拓展" class="headerlink" title="算术拓展"></a><strong>算术拓展</strong></h4><p><code>[[]]</code>支持算术拓展, 但是其对整数比较支持度较差, 算术拓展可能是一个鸡肋功能, 而且运算符与运算数之间不能有空格:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if [[ 1+1 -eq 2 ]]; then ... ; fi</span><br></pre></td></tr></table></figure></p>
+<h4 id="算术拓展"><a href="#算术拓展" class="headerlink" title="算术拓展"></a><strong>算术拓展</strong></h4><p><code>[[]]</code>支持算术拓展, 但是其对整数比较支持度较差, 算术拓展可能是一个鸡肋功能, 而且运算符与运算数之间不能有空格:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [[ 1+1 -eq 2 ]]; <span class="keyword">then</span> ... ; <span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
 <p>此功能不推荐使用;</p>
 <h4 id="文件比较-2"><a href="#文件比较-2" class="headerlink" title="文件比较"></a><strong>文件比较</strong></h4><p>和<code>test</code>, <code>[]</code>一样, <code>[[ ]]</code>可以使用<code>-e</code>, <code>-r</code>, <code>-w</code>, <code>-x</code>等文件比较逻辑;</p>
 <h4 id="逻辑比较-2"><a href="#逻辑比较-2" class="headerlink" title="逻辑比较"></a><strong>逻辑比较</strong></h4><p><code>[[ ]]</code>只能使用<code>&amp;&amp;</code>, <code>||</code>, <code>!</code>运算符, 且<code>&amp;&amp;</code>和<code>||</code>支持逻辑短路;</p>
-<h3 id="的使用场景"><a href="#的使用场景" class="headerlink" title="(( ))的使用场景"></a><strong>(( ))的使用场景</strong></h3><p>无论是<code>test</code>, <code>[]</code>还是<code>[[ ]]</code>, 都不能很好地使用<code>&lt;</code>和<code>&gt;</code>处理整数的比较运算;<br>所以通常使用<code>(())</code>来处理整数的比较运算;<br><code>(())</code>可以使用<code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>,<code>==</code>,<code>!=</code>运算符;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if (( 1 + 1 == 2 )); then ... ; fi</span><br></pre></td></tr></table></figure></p>
+<h3 id="的使用场景"><a href="#的使用场景" class="headerlink" title="(( ))的使用场景"></a><strong>(( ))的使用场景</strong></h3><p>无论是<code>test</code>, <code>[]</code>还是<code>[[ ]]</code>, 都不能很好地使用<code>&lt;</code>和<code>&gt;</code>处理整数的比较运算;<br>所以通常使用<code>(())</code>来处理整数的比较运算;<br><code>(())</code>可以使用<code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>,<code>==</code>,<code>!=</code>运算符;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (( 1 + 1 == 2 )); <span class="keyword">then</span> ... ; <span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
 <p>使用<code>(())</code>的时候, 如果使用到了变量, 可以不需要加上<code>$</code>符号;</p>
 <p>&nbsp;</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><table>
@@ -500,434 +280,296 @@
 <tr>
 <td style="text-align:center">逻辑比较</td>
 <td style="text-align:center">-a, -o, !</td>
-<td style="text-align:center">&amp;&amp;, \</td>
-<td style="text-align:center">\</td>
-<td>, !</td>
-<td>&amp;&amp;, \</td>
-<td>\</td>
-<td>, !</td>
+<td style="text-align:center">&amp;&amp;, &#124;&#124;, !</td>
+<td style="text-align:center">&amp;&amp;, &#124;&#124;, !</td>
 </tr>
 </tbody>
 </table>
 <p>&nbsp;</p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2>
-      
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2016/09/01/linux-shell--bash条件判断全梳理/" target="_blank" rel="external">https://zshell-zhang.github.io/2016/09/01/linux-shell--bash条件判断全梳理/</a>
+        
     </div>
     
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/linux-shell/" rel="tag"># linux:shell</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/07/14/tools-git--git忽略文件的特殊场景/" rel="next" title="git 忽略文件的特殊场景">
-                <i class="fa fa-chevron-left"></i> git 忽略文件的特殊场景
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/11/04/linux-text-sed命令整理/" rel="prev" title="sed 命令整理">
-                sed 命令整理 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
+    <footer>
+        <a href="https://zshell-zhang.github.io">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
+            zshell.zhang
+        </a>
     </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <img class="site-author-image" itemprop="image"
-                src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4"
-                alt="zshell.zhang" />
-            
-              <p class="site-author-name" itemprop="name">zshell.zhang</p>
-              <p class="site-description motion-element" itemprop="description">A股是我生平所见最刺激的网络游戏</p>
-          </div>
-
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/archives/">
-              
-                  <span class="site-state-item-count">14</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-categories">
-                <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
-                  <span class="site-state-item-name">分类</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
-                  <span class="site-state-item-name">标签</span>
-                </a>
-              </div>
-            
-
-          </nav>
-
-          
-
-          
-            <div class="links-of-author motion-element">
-                
-                  <span class="links-of-author-item">
-                    <a href="https://github.com/zhangzhi1993-2025" target="_blank" title="GitHub">
-                      
-                        <i class="fa fa-fw fa-github"></i>GitHub</a>
-                  </span>
-                
-                  <span class="links-of-author-item">
-                    <a href="mailto:xaaservice@gmail.com" target="_blank" title="E-Mail">
-                      
-                        <i class="fa fa-fw fa-paper-plane"></i>E-Mail</a>
-                  </span>
-                
-            </div>
-          
-
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#bash-条件判断-的类型与逻辑运算符"><span class="nav-number">1.</span> <span class="nav-text">bash 条件判断 的类型与逻辑运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串比较"><span class="nav-number">1.1.</span> <span class="nav-text">字符串比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#整数比较"><span class="nav-number">1.2.</span> <span class="nav-text">整数比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件比较"><span class="nav-number">1.3.</span> <span class="nav-text">文件比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑比较"><span class="nav-number">1.4.</span> <span class="nav-text">逻辑比较</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bash-条件判断-的命令-关键字-与语法"><span class="nav-number">2.</span> <span class="nav-text">bash 条件判断 的命令(关键字)与语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#test-与"><span class="nav-number">2.1.</span> <span class="nav-text">test 与 [ ]</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串比较-1"><span class="nav-number">2.1.1.</span> <span class="nav-text">字符串比较</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#整数比较-1"><span class="nav-number">2.1.2.</span> <span class="nav-text">整数比较</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件比较-1"><span class="nav-number">2.1.3.</span> <span class="nav-text">文件比较</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑比较-1"><span class="nav-number">2.1.4.</span> <span class="nav-text">逻辑比较</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#test的返回值"><span class="nav-number">2.1.5.</span> <span class="nav-text">test的返回值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bash关键字-推荐使用"><span class="nav-number">2.2.</span> <span class="nav-text">bash关键字 [[ ]] ( 推荐使用 )</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串比较-2"><span class="nav-number">2.2.1.</span> <span class="nav-text">字符串比较</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#整数比较-2"><span class="nav-number">2.2.2.</span> <span class="nav-text">整数比较</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算术拓展"><span class="nav-number">2.2.3.</span> <span class="nav-text">算术拓展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件比较-2"><span class="nav-number">2.2.4.</span> <span class="nav-text">文件比较</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑比较-2"><span class="nav-number">2.2.5.</span> <span class="nav-text">逻辑比较</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#的使用场景"><span class="nav-number">2.3.</span> <span class="nav-text">(( ))的使用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-      
-
-    </div>
-  </aside>
-
+</blockquote>
 
         
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">zshell.zhang</span>
-
-  
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-shell/">linux:shell</a></li></ul>
 
 
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
+            
+<div class="page-share-wrap">
     
 
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2016/09/01/linux-shell--bash条件判断全梳理/&title=《bash 条件判断全梳理》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2016/09/01/linux-shell--bash条件判断全梳理/&title=《bash 条件判断全梳理》 — 希尔的博客&source=
+本文基于 GNU bash, version 4.1.2(1)-release (x86_64-redhat-linux-gnu)
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2016/09/01/linux-shell--bash条件判断全梳理/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《bash 条件判断全梳理》 — 希尔的博客&url=https://zshell-zhang.github.io/2016/09/01/linux-shell--bash条件判断全梳理/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2016/09/01/linux-shell--bash条件判断全梳理/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
     
-
-  </div>
-
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2016/11/04/linux-text-sed命令整理/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">sed 命令整理</h4>
+      </a>
+    </div>
   
 
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/07/14/tools-git--git忽略文件的特殊场景/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">git 忽略文件的特殊场景</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'zshell-zhang',
+            repo: 'gitment-storage',
+            oauth: {
+                client_id: '8d7b7d33dd8bbd51a8c2',
+                client_secret: 'a98d9b9266c6ccbae7b1194e1680dba27def86ee',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshell.zhang &copy; 2016 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2016/09/01/linux-shell--bash条件判断全梳理/&title=《bash 条件判断全梳理》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2016/09/01/linux-shell--bash条件判断全梳理/&title=《bash 条件判断全梳理》 — 希尔的博客&source=
+本文基于 GNU bash, version 4.1.2(1)-release (x86_64-redhat-linux-gnu)
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2016/09/01/linux-shell--bash条件判断全梳理/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《bash 条件判断全梳理》 — 希尔的博客&url=https://zshell-zhang.github.io/2016/09/01/linux-shell--bash条件判断全梳理/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2016/09/01/linux-shell--bash条件判断全梳理/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACpUlEQVR42u3aUW7sIAwF0O5/0/MW8DTMvRjSqXTyVTUJcFIJXNs/P/H1+u96dzd5az3auzHfPXngwsPDwxsvPVnQerLkc6wXnbwVrQoPDw/vGm89QUtNPtb6AMhH+GDBw8PD+wJeG0y3Y64PGzw8PLy/y2vvtotLjhM8PDy83+W1QfA81M5hD+Va8PDw8GLeJJz9rZ+v1Pfw8PDwxlX1ttyVh8h7idp6tXh4eHgXePmG+xpcbUlskvbFw8PDe4Y3GfRs+9R6oclvog+Bh4eHN+DlL5wNkZNGhBxcnBJ4eHh4R3ltUDtJK+Qh+3qdURoCDw8P7ygvebktj7Xl//ZAau/i4eHh3eDNkUmxan7YjFqv8PDw8A7xcn1b4poEzaeSxXh4eHjP8PJUb1sSa5MIedWuPuvw8PDwBryWOl9o8rH2xjzwl8TDw8MLeMnE+QY9ad5K8G1hDA8PD+8Gby8IvtGw1baCRZlpPDw8vAu8fKB8uz9V0JpQ8fDw8O7xJq0Ae00G8/THpHkLDw8Pb85LCvlt29PeCHuphw8rwcPDw7vAazfxSaTaNhMcaLrCw8PDu8bbLCyNi17t+EnTVZ3MxcPDwxvwJjmMJMzdS220Qfmx1gE8PDy8Ld7esfFhsjhxMCnO4eHh4T3Da6fcOyryslYCrpMReHh4eEd57ZR7jVntsbEeM0pk4OHh4V3m7YWz+WRtgX+vkQsPDw/vHu9VXmeTsG3jVH0XDw8P7wKv3XCToeephLboNeomw8PDw9vi5Rv95Pm9NG57bNSBNR4eHt6Alydq95IXbaJ2kl/Bw8PD+zbeZLlJ80H+TBFS4+Hh4X0NL09DTO62iWY8PDy8Z3h5yWrSdjBvKajHx8PDw7vA2/uHP9+BE0YbNF+p7+Hh4eF95v0DdWdK3+n32P0AAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
 </script>
 
+<script src="/js/main.min.js?v=1.7.2"></script>
 
 
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
 
+<script src="/js/search.min.js?v=1.7.2" async></script>
 
 
 
 
 
-  
 
 
 
 
-
-
-
-
-
-
-
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
-
-
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-  
-  
-  
-  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
-
-  
-  
-  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
-  
-
-  <script src="/js/src/algolia-search.js?v=5.1.3"></script>
-
-
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>
