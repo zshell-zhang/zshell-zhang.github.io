@@ -13,7 +13,7 @@
     
     
     
-    <title>ulimit 调参与优化 | 希尔的博客</title>
+    <title>ulimit 调参与优化 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -27,8 +27,8 @@
 <meta property="og:url" content="https://zshell-zhang.github.io/2017/10/28/linux-conf--ulimit调参与优化/index.html">
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="ulimit 未正确设置是很多线上故障的根源:Too many open files;java.lang.OutOfMemoryError: unable to create new native thread;对于生产环境来说, ulimit 的调参优化至关重要;本文详细介绍并梳理一下与 ulimit 相关的林林总总;">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-20T08:53:13.612Z">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-01-21T13:37:26.949Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ulimit 调参与优化">
 <meta name="twitter:description" content="ulimit 未正确设置是很多线上故障的根源:Too many open files;java.lang.OutOfMemoryError: unable to create new native thread;对于生产环境来说, ulimit 的调参优化至关重要;本文详细介绍并梳理一下与 ulimit 相关的林林总总;">
@@ -95,6 +95,13 @@
             </li>
         
             <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
               <a href="https://github.com/ZhangZhi1993-2025" target="_blank" >
                 <i class="icon icon-lg icon-github"></i>
                 Github
@@ -118,7 +125,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -197,8 +204,9 @@
 <p>另外, 我们还遇到一种特殊的情况, 用标准配置虚拟机跑 dubbo 的服务治理: 当时发现, 如果服务注册到 zookeeper 的数量达到一定级别, 线上就会报 <code>java.lang.OutOfMemoryError: unable to create new native thread</code> 的异常;<br>最后确定问题的原因是 <code>ulimit -u</code> max user processes 的数量配置过低, 增大后解决问题:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4. max user processes -&gt; 65535</span><br></pre></td></tr></table></figure></p>
 <p>具体的情况可以参见这篇文章: <a href="">dubbo 服务治理系统设计</a>;</p>
 <h3 id="场景2-elasticsearch-data-node"><a href="#场景2-elasticsearch-data-node" class="headerlink" title="场景2: elasticsearch data node"></a><strong>场景2: elasticsearch data node</strong></h3><p>32C64G4T 的配置, 为确保指针压缩特性被打开, 一般我们都会控制 jvm 的最大堆内存与最小堆内存: ‘-Xmx30g -Xms30g’, 并希望能锁住所有的内存, 避免堆内存被 swap 到磁盘, 降低了搜索性能; 这种场景下我们当然不希望 ulimit 限制了 max memory size 以及 max locked memory;<br>所以, 可以对该机器的 ulimit 作出如下调整:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. max locked memory -&gt; unlimit</span><br><span class="line">2. max memory size -&gt; unlimit</span><br><span class="line">3. open files -&gt; 65536</span><br><span class="line">4. stack size -&gt; unlimit</span><br></pre></td></tr></table></figure></p>
-<p>当然, 对于 max locked memory, elasticsearch.yml 本身有一个配置项 bootstrap.mlockall/bootstrap.memory_lock, 其背后实现就是通过类似于 ulimit -l unlimit 的方法完成的;<br>&nbsp;<br>另外, 还有其他的一些场景, 可能需要调整其他参数以作优化, 此处不一而论;<br>以上是需要调整 ulimit 参数的场景举例, 下面的内容是关于如何 临时/永久 修改 ulimit 设置;</p>
-<h2 id="ulimit-当前-session-下的临时修改"><a href="#ulimit-当前-session-下的临时修改" class="headerlink" title="ulimit 当前 session 下的临时修改"></a><strong>ulimit 当前 session 下的临时修改</strong></h2><p>ulimit 的临时调整, 只对当前 session 下的当前用户, 以及当前用户所起的进程生效;<br>其调整方法也已经在 <code>ulimit -a</code> 中被注明了:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># max locked mem</span><br><span class="line">ulimit -l unlimit</span><br><span class="line"># max mem size</span><br><span class="line">ulimit -m unlimit</span><br><span class="line"># open files</span><br><span class="line">ulimit -n 65536</span><br><span class="line"># max user processes</span><br><span class="line">ulimit -u 65536</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>对于 max locked memory, elasticsearch.yml 本身有一个配置项 <code>bootstrap.mlockall</code>/<code>bootstrap.memory_lock</code> = true, 其背后实现就是通过类似于 ulimit -l unlimit 的方法完成的; 只是, elasticsearch 试图自己主动改变该配置能生效的前提, 是 ulimit 配置文件里要允许其这样设置, 具体的逻辑请看本文下下节: <a href="#ulimit-的永久修改">ulimit 的永久修改</a>;</p>
+<p>&nbsp;<br>另外, 还有其他的一些场景, 可能需要调整其他参数以作优化, 此处不一而论;<br>以上是需要调整 ulimit 参数的场景举例, 下面的内容是关于如何 临时/永久 修改 ulimit 设置;</p>
+<h2 id="ulimit-当前-session-下的临时修改"><a href="#ulimit-当前-session-下的临时修改" class="headerlink" title="ulimit 当前 session 下的临时修改"></a><strong>ulimit 当前 session 下的临时修改</strong></h2><p>ulimit 的临时调整, 只对当前 session 下的当前用户, 以及当前用户所起的进程生效;<br>其调整方法也已经在 <code>ulimit -a</code> 中被注明了:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># max locked mem</span></span><br><span class="line"><span class="built_in">ulimit</span> -l <span class="built_in">unlimit</span></span><br><span class="line"><span class="comment"># max mem size</span></span><br><span class="line"><span class="built_in">ulimit</span> -m <span class="built_in">unlimit</span></span><br><span class="line"><span class="comment"># open files</span></span><br><span class="line"><span class="built_in">ulimit</span> -n 65536</span><br><span class="line"><span class="comment"># max user processes</span></span><br><span class="line"><span class="built_in">ulimit</span> -u 65536</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
 <h2 id="ulimit-的永久修改"><a href="#ulimit-的永久修改" class="headerlink" title="ulimit 的永久修改"></a><strong>ulimit 的永久修改</strong></h2><p>上一节的方法, 只能在当前 session 下对当前用户作临时调整, 而 要想对 ulimit 作永久调整, 需要修改一些配置文件:</p>
 <ol>
 <li><code>/etc/security/limits.conf</code>;</li>
@@ -206,6 +214,7 @@
 </ol>
 <p>这些文件用于持久化每个用户的资源限制设置;<br>其中, <code>/etc/security/limits.conf</code> 自不必说, 这是配置 ulimit 的主要文件:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">domain  限制的目标:</span><br><span class="line">        username    用户名;</span><br><span class="line">        @groupname  组名, 需加 <span class="string">'@'</span> 前缀;</span><br><span class="line">        *           通配所有用户/组;</span><br><span class="line">        %groupname  这种写法只能用于限制 某个 group 的 maxlogin <span class="built_in">limit</span>, 即最大登陆用户数限制;</span><br><span class="line">        </span><br><span class="line"><span class="built_in">type</span>    限制的属性:</span><br><span class="line">        `soft` 对 domain 给出的用户设置默认值; </span><br><span class="line">        `hard` 限制 domain 给出的用户自己所能设置的最大值; </span><br><span class="line">        `-` 将 soft 与 hard 都设为相同的值;</span><br><span class="line">        </span><br><span class="line">item    限制的资源类型, 与 <span class="built_in">ulimit</span> 所限制的资源类型大致相同:</span><br><span class="line">        - core - limits the core file size (KB)</span><br><span class="line">        - data - max data size (KB)</span><br><span class="line">        - fsize - maximum filesize (KB)</span><br><span class="line">        - memlock - max locked-in-memory address space (KB)</span><br><span class="line">        - nofile - max number of open file descriptors</span><br><span class="line">        - rss - max resident <span class="built_in">set</span> size (KB)</span><br><span class="line">        - stack - max stack size (KB)</span><br><span class="line">        - cpu - max CPU time (MIN)</span><br><span class="line">        - nproc - max number of processes</span><br><span class="line">        - as - address space <span class="built_in">limit</span> (KB)</span><br><span class="line">        - maxlogins - max number of logins <span class="keyword">for</span> this user</span><br><span class="line">        - maxsyslogins - max number of logins on the system</span><br><span class="line">        - priority - the priority to run user process with</span><br><span class="line">        - locks - max number of file locks the user can hold</span><br><span class="line">        - sigpending - max number of pending signals</span><br><span class="line">        - msgqueue - max memory used by POSIX message queues (bytes)</span><br><span class="line">        - nice - max nice priority allowed to raise to values: [-20, 19]</span><br><span class="line">        - rtprio - max realtime priority</span><br><span class="line"></span><br><span class="line">value   限制的具体值;</span><br></pre></td></tr></table></figure></p>
 <p>以下是一个具体的例子:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#&lt;domain&gt;        &lt;type&gt;     &lt;item&gt;     &lt;value&gt;</span></span><br><span class="line">*                 soft      nproc       65536</span><br><span class="line">*                 hard      nproc       65536</span><br><span class="line">*                 -         nofile      65536</span><br><span class="line">%guest            -         maxlogins   10</span><br><span class="line">elastic           -         memlock     <span class="built_in">unlimit</span></span><br><span class="line">@dev              hard      fsize       10737418240</span><br></pre></td></tr></table></figure></p>
+<p>如上所示, 系统允许 elastic 用户的最大 memlock 为 unlimit, 如果这个值被设置为了一个比较小的值, 那么上上节 elasticsearch 试图将其改成 unlimit 便会失败;</p>
 <p>&nbsp;<br>而对于 <code>/etc/security/limits.d</code> 目录的作用,  <code>/etc/security/limits.conf</code> 文件中的第二段与第三段有如下注释:</p>
 <blockquote>
 <p>Also note that configuration files in /etc/security/limits.d directory,<br>which are read in alphabetical order, override the settings in this<br>file in case the domain is the same or more specific.<br>&nbsp;<br>That means for example that setting a limit for wildcard domain here<br>can be overriden with a wildcard setting in a config file in the<br>subdirectory, but a user specific setting here can be overriden only<br>with a user specific setting in the subdirectory.</p>
@@ -367,7 +376,7 @@ ulimit 未正确设置是很多线上故障的根源:Too many open files;java.la
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <h3 class="reward-title">
         <i class="icon icon-quote-left"></i>
-        谢谢大爷~
+        感谢支持!
         <i class="icon icon-quote-right"></i>
     </h3>
     <div class="reward-content">
@@ -401,7 +410,7 @@ ulimit 未正确设置是很多线上故障的根源:Too many open files;java.la
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
         </p>
     </div>
     <div class="bottom">

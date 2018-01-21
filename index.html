@@ -13,23 +13,20 @@
     
     
     
-    <title>希尔的博客</title>
+    <title>希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
     <meta name="keywords" content="">
-    <meta name="description" content="A股是我生平所见制作最精良的策略类游戏">
-<meta property="og:type" content="website">
+    <meta property="og:type" content="website">
 <meta property="og:title" content="希尔的博客">
 <meta property="og:url" content="https://zshell-zhang.github.io/index.html">
 <meta property="og:site_name" content="希尔的博客">
-<meta property="og:description" content="A股是我生平所见制作最精良的策略类游戏">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="希尔的博客">
-<meta name="twitter:description" content="A股是我生平所见制作最精良的策略类游戏">
     
         <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
     
@@ -93,6 +90,13 @@
             </li>
         
             <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
               <a href="https://github.com/ZhangZhi1993-2025" target="_blank" >
                 <i class="icon icon-lg icon-github"></i>
                 Github
@@ -116,7 +120,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -135,7 +139,7 @@
         <h1 class="title">希尔的博客</h1>
         <h5 class="subtitle">
             
-                
+                兰之猗猗，扬扬其香。不采而佩，于兰何伤？
             
         </h5>
     </div>
@@ -178,19 +182,19 @@
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        
-本文主要讨论以下几个方面:
-
-logrotate 的关键配置文件和配置项语法;
-logrotate 的使用与运维技巧;
-logrotate 的运行原理;
-特殊场景下 logrotate 的代替方案;
-
-
+        <blockquote>
+<p>本文主要讨论以下几个方面:</p>
+<ol>
+<li>logrotate 的关键配置文件和配置项语法;</li>
+<li>logrotate 的使用与运维技巧;</li>
+<li>logrotate 的运行原理;</li>
+<li>特殊场景下 logrotate 的代替方案;</li>
+</ol>
+</blockquote>
     
 
         <a href="/2018/01/15/linux-varlog--logrotate配置与运维/" class="post-more waves-effect waves-button">
-            Continue reading...
+            阅读全文…
         </a>
     </div>
     
@@ -233,13 +237,13 @@ logrotate 的运行原理;
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        
-综合来看, 同花顺财富先锋 2017 年的几个股池系统的年度收益率还是比较令人满意的;‘热点轮动’, ‘股东增持’ 两个股池系统的收益率达到了 200%, ‘支撑压力’ 股池系统的收益率超过 150%;不过 ‘多头趋势’ 股池系统的表现比较糟糕, 2017 年净收益为负;另外还有 ‘深一度’ 股池系统的收益率未显示相关指标, 暂无法统计;各个股池系统 2017 年度收益率的指标, 反映出了各个选股策略在 2017 年 A 股市场上的成效; 以此为鉴, 2018 年的中国资本市场, 我们继续前行;
-
+        <blockquote>
+<p>综合来看, 同花顺财富先锋 2017 年的几个股池系统的年度收益率还是比较令人满意的;<br>‘热点轮动’, ‘股东增持’ 两个股池系统的收益率达到了 200%, ‘支撑压力’ 股池系统的收益率超过 150%;<br>不过 ‘多头趋势’ 股池系统的表现比较糟糕, 2017 年净收益为负;<br>另外还有 ‘深一度’ 股池系统的收益率未显示相关指标, 暂无法统计;<br>各个股池系统 2017 年度收益率的指标, 反映出了各个选股策略在 2017 年 A 股市场上的成效; 以此为鉴, 2018 年的中国资本市场, 我们继续前行;</p>
+</blockquote>
     
 
         <a href="/2017/12/31/证券-财富先锋--财富先锋2017年各股池成绩单/" class="post-more waves-effect waves-button">
-            Continue reading...
+            阅读全文…
         </a>
     </div>
     
@@ -282,13 +286,13 @@ logrotate 的运行原理;
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        
-linux 中有很多实用的工具, 采用了这样一种工作方式:定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;类似的工具包括 ioutil, jmap 等;本文整理了实现上述逻辑的一些典型方法;
-
+        <blockquote>
+<p>linux 中有很多实用的工具, 采用了这样一种工作方式:<br>定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;<br>类似的工具包括 ioutil, jmap 等;<br>本文整理了实现上述逻辑的一些典型方法;</p>
+</blockquote>
     
 
         <a href="/2017/11/05/linux-shell--bash结束死循环的方法/" class="post-more waves-effect waves-button">
-            Continue reading...
+            阅读全文…
         </a>
     </div>
     
@@ -331,13 +335,13 @@ linux 中有很多实用的工具, 采用了这样一种工作方式:定时执�
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        
-ulimit 未正确设置是很多线上故障的根源:Too many open files;java.lang.OutOfMemoryError: unable to create new native thread;对于生产环境来说, ulimit 的调参优化至关重要;本文详细介绍并梳理一下与 ulimit 相关的林林总总;
-
+        <blockquote>
+<p>ulimit 未正确设置是很多线上故障的根源:<br><code>Too many open files</code>;<br><code>java.lang.OutOfMemoryError: unable to create new native thread</code>;<br>对于生产环境来说, ulimit 的调参优化至关重要;<br>本文详细介绍并梳理一下与 ulimit 相关的林林总总;</p>
+</blockquote>
     
 
         <a href="/2017/10/28/linux-conf--ulimit调参与优化/" class="post-more waves-effect waves-button">
-            Continue reading...
+            阅读全文…
         </a>
     </div>
     
@@ -380,13 +384,13 @@ ulimit 未正确设置是很多线上故障的根源:Too many open files;java.la
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        
-注: bash 映射 (map) 在文档里叫做 关联数组 (associated array), 使用关联数组的最低 bash 版本是 4.1.2;
-
+        <blockquote>
+<p>注: bash 映射 (map) 在文档里叫做 <code>关联数组 (associated array)</code>, 使用关联数组的最低 bash 版本是 4.1.2;</p>
+</blockquote>
     
 
         <a href="/2017/10/22/linux-shell--bash数组与映射/" class="post-more waves-effect waves-button">
-            Continue reading...
+            阅读全文…
         </a>
     </div>
     
@@ -429,13 +433,13 @@ ulimit 未正确设置是很多线上故障的根源:Too many open files;java.la
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        
-本文主要梳理 rsync server 的基本配置与使用方式;
-
+        <blockquote>
+<p>本文主要梳理 rsync server 的基本配置与使用方式;</p>
+</blockquote>
     
 
         <a href="/2017/10/14/rsync--rsyncd配置与运行/" class="post-more waves-effect waves-button">
-            Continue reading...
+            阅读全文…
         </a>
     </div>
     
@@ -478,13 +482,13 @@ ulimit 未正确设置是很多线上故障的根源:Too many open files;java.la
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        
-本文主要是整理 磁盘使用量 相关的命令, 如 du, df 等;接着, 一般性得总结这两个命令在实际工作中的应用;然后再以 du, df 命令的区别为例, 讨论命令背后的逻辑, 工作中存在的问题, 最后引申出问题解决的工具: lsof;
-
+        <blockquote>
+<p>本文主要是整理 磁盘使用量 相关的命令, 如 du, df 等;<br>接着, 一般性得总结这两个命令在实际工作中的应用;<br>然后再以 du, df 命令的区别为例, 讨论命令背后的逻辑, 工作中存在的问题, 最后引申出问题解决的工具: lsof;</p>
+</blockquote>
     
 
         <a href="/2017/04/07/linux-other--du,df使用及其区别/" class="post-more waves-effect waves-button">
-            Continue reading...
+            阅读全文…
         </a>
     </div>
     
@@ -527,13 +531,13 @@ ulimit 未正确设置是很多线上故障的根源:Too many open files;java.la
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        
-linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;本文正是想对 linux 世界中林林总总的 signals 作一次梳理, 总结一些日常工作中频繁使用以及不太接触但十分有用的信号;
-
+        <blockquote>
+<p>linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;<br>不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;<br>本文正是想对 linux 世界中林林总总的 signals 作一次梳理, 总结一些日常工作中频繁使用以及不太接触但十分有用的信号;</p>
+</blockquote>
     
 
         <a href="/2017/04/05/linux-process--linux_signals总体认识/" class="post-more waves-effect waves-button">
-            Continue reading...
+            阅读全文…
         </a>
     </div>
     
@@ -576,13 +580,13 @@ linux 的信号系统其实是一个非常重要的概念, 进程间通信的常
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        
-第一次接触到 lsof 命令, 是因为偶然间发现 netstat 命令已经落伍了(与此同时, 还发现了 ss 命令, 详见另一篇文章: netstat/ss 使用对比 );使用之后, 发现 lsof 被人称为 神器, 还是有一定道理的; 在任何资源都被抽象为 文件 的 linux 中, 一个面向 文件 的管理工具, 自然辖域辽阔, 神通广大, 再加上与其他命令的巧妙组合, 更如虎添翼, 在工作实践中独当一面;本文参考了一些实用资料, 结合自己的经验, 对 lsof 命令的使用略作整理;
-
+        <blockquote>
+<p>第一次接触到 lsof 命令, 是因为偶然间发现 netstat 命令已经落伍了(与此同时, 还发现了 ss 命令, 详见另一篇文章: <a href="">netstat/ss 使用对比</a> );<br>使用之后, 发现 lsof 被人称为 <code>神器</code>, 还是有一定道理的; 在任何资源都被抽象为 <code>文件</code> 的 linux 中, 一个面向 <code>文件</code> 的管理工具, 自然辖域辽阔, 神通广大, 再加上与其他命令的巧妙组合, 更如虎添翼, 在工作实践中独当一面;<br>本文参考了一些实用资料, 结合自己的经验, 对 lsof 命令的使用略作整理;</p>
+</blockquote>
     
 
         <a href="/2017/01/06/linux-other--lsof札记/" class="post-more waves-effect waves-button">
-            Continue reading...
+            阅读全文…
         </a>
     </div>
     
@@ -625,13 +629,13 @@ linux 的信号系统其实是一个非常重要的概念, 进程间通信的常
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        
-本文在 Apache Maven 的官方文档上, 结合自己的一些项目经历: 在 Apache Spark 中使用 springframework 的一次实践, 总结了一些 assembly 插件的使用方式和一些注意事项, 以作备忘;另外, 由于 assembly 的 核心配置文件中可配置项种类繁多, 为了体现直观性, 文本直接在一段 ‘丰富而典型’ 的配置文件 case 上, 以注释的形式作为每个配置项的释义;
-
+        <blockquote>
+<p>本文在 Apache Maven 的官方文档上, 结合自己的一些项目经历: <a href="">在 Apache Spark 中使用 springframework 的一次实践</a>, 总结了一些 assembly 插件的使用方式和一些注意事项, 以作备忘;<br>另外, 由于 assembly 的 核心配置文件中可配置项种类繁多, 为了体现直观性, 文本直接在一段 ‘丰富而典型’ 的配置文件 case 上, 以注释的形式作为每个配置项的释义;</p>
+</blockquote>
     
 
         <a href="/2016/11/19/tools-maven--assembly_plugin/" class="post-more waves-effect waves-button">
-            Continue reading...
+            阅读全文…
         </a>
     </div>
     
@@ -665,7 +669,7 @@ linux 的信号系统其实是一个非常重要的概念, 进程间通信的常
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
         </p>
     </div>
     <div class="bottom">
@@ -697,7 +701,7 @@ linux 的信号系统其实是一个非常重要的概念, 进程间通信的常
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/&title=希尔的博客&source=A股是我生平所见制作最精良的策略类游戏" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/&title=希尔的博客&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
