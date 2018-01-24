@@ -250,9 +250,9 @@
       <category term="other" scheme="https://zshell-zhang.github.io/categories/linux/other/"/>
     
     
-      <category term="linux:disk" scheme="https://zshell-zhang.github.io/tags/linux-disk/"/>
-    
       <category term="linux:net" scheme="https://zshell-zhang.github.io/tags/linux-net/"/>
+    
+      <category term="linux:disk" scheme="https://zshell-zhang.github.io/tags/linux-disk/"/>
     
   </entry>
   
