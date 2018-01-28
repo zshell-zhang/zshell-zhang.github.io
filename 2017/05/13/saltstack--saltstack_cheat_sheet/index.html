@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>saltstack cheat sheet | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="cheat sheet,saltstack,运维自动化">
+    <meta name="description" content="本文主要整理日常 saltstack 使用时的最常用的一些命令,以供快速查阅;">
+<meta name="keywords" content="cheat sheet,saltstack,运维自动化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="saltstack cheat sheet">
+<meta property="og:url" content="https://zshell-zhang.github.io/2017/05/13/saltstack--saltstack_cheat_sheet/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="本文主要整理日常 saltstack 使用时的最常用的一些命令,以供快速查阅;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-01-28T13:44:46.677Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="saltstack cheat sheet">
+<meta name="twitter:description" content="本文主要整理日常 saltstack 使用时的最常用的一些命令,以供快速查阅;">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshell.zhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ZhangZhi1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">saltstack cheat sheet</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">saltstack cheat sheet</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-05-13T13:42:21.000Z" itemprop="datePublished" class="page-time">
+  2017-05-13
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/saltstack/">saltstack</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#自由度最大的模块-cmd-模块"><span class="post-toc-number">1.</span> <span class="post-toc-text">自由度最大的模块: cmd 模块</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#控制-minions-的定时任务执行情况-cron-模块"><span class="post-toc-number">2.</span> <span class="post-toc-text">控制 minions 的定时任务执行情况: cron 模块</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#master-与-minions-的文件传输-cp-模块"><span class="post-toc-number">3.</span> <span class="post-toc-text">master 与 minions 的文件传输: cp 模块</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#服务启停控制-systemd-模块"><span class="post-toc-number">4.</span> <span class="post-toc-text">服务启停控制: systemd 模块</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#远程文件控制相关-file-模块"><span class="post-toc-number">5.</span> <span class="post-toc-text">远程文件控制相关: file 模块</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#salt-常用的状态检测"><span class="post-toc-number">6.</span> <span class="post-toc-text">salt 常用的状态检测</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">7.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-saltstack--saltstack_cheat_sheet"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">saltstack cheat sheet</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-05-13 21:42:21" datetime="2017-05-13T13:42:21.000Z"  itemprop="datePublished">2017-05-13</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/saltstack/">saltstack</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>本文主要整理日常 saltstack 使用时的最常用的一些命令,以供快速查阅;</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<h3 id="自由度最大的模块-cmd-模块"><a href="#自由度最大的模块-cmd-模块" class="headerlink" title="自由度最大的模块: cmd 模块"></a><strong>自由度最大的模块: cmd 模块</strong></h3><p>适用于登录 salt master 机器, 人工操作时执行;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cmd.run: 在 minions 上执行任意命令</span></span><br><span class="line">sudo salt * cmd.run <span class="string">"ls -l /etc/localtime"</span></span><br><span class="line">sudo salt * cmd.run uptime</span><br><span class="line"></span><br><span class="line"><span class="comment"># cmd.script: 在 master 上下发任意脚本至 minions 执行</span></span><br><span class="line">sudo salt * cmd.script salt://minion_exeute.sh <span class="string">"args1 args2"</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="控制-minions-的定时任务执行情况-cron-模块"><a href="#控制-minions-的定时任务执行情况-cron-模块" class="headerlink" title="控制 minions 的定时任务执行情况: cron 模块"></a><strong>控制 minions 的定时任务执行情况: cron 模块</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看指定用户的 cron 内容</span></span><br><span class="line">sudo salt * cron.raw_cron root</span><br><span class="line"><span class="comment"># 为指定用户添加指定任务</span></span><br><span class="line">sudo salt * cron.set_job root <span class="string">'*'</span> <span class="string">'*'</span> <span class="string">'*'</span> <span class="string">'*'</span> <span class="string">'*'</span> /home/minion_execute.sh 1&gt;/dev/null</span><br><span class="line"><span class="comment"># 为指定用户删除指定任务</span></span><br><span class="line">sudo salt * cron.rm_job root <span class="string">'*'</span> <span class="string">'*'</span> <span class="string">'*'</span> <span class="string">'*'</span> <span class="string">'*'</span> /home/minion_execute.sh 1&gt;/dev/null</span><br></pre></td></tr></table></figure>
+<h3 id="master-与-minions-的文件传输-cp-模块"><a href="#master-与-minions-的文件传输-cp-模块" class="headerlink" title="master 与 minions 的文件传输: cp 模块"></a><strong>master 与 minions 的文件传输: cp 模块</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 推送文件到 minions 指定路径 (只能推送文件, 不能推送目录)</span></span><br><span class="line">sudo salt * cp.get_file salt://target_file /minion_path</span><br><span class="line"><span class="comment"># 推送目录到 minions 指定路径</span></span><br><span class="line">suod salt * cp.get_dir salt://target_dir /minion_path</span><br><span class="line"><span class="comment"># 下载指定 url 的内容到 minions 指定路径 (不限于本地路径, 更加广泛)</span></span><br><span class="line">sudo salt * cp.get_url salt://target_file /minion_path</span><br><span class="line">sudo salt * cp.get_url https://d3kbcqa49mib13.cloudfront.net/spark-2.2.0-bin-hadoop2.7.tgz /minion_path</span><br></pre></td></tr></table></figure>
+<h3 id="服务启停控制-systemd-模块"><a href="#服务启停控制-systemd-模块" class="headerlink" title="服务启停控制: systemd 模块"></a><strong>服务启停控制: systemd 模块</strong></h3><p>salt.modules.systemd 模块是以 systemd 与 systemctl 为基础的, 尽管其命令多以 serice 开头, 不过该模块和 sysvinit 的 service 命令应该没什么关系;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 分别对应了 systemctl [enable, disable, start, stop, status, restart] httpd.service</span></span><br><span class="line">sudo salt * service.enable httpd</span><br><span class="line">sudo salt * service.disable httpd</span><br><span class="line"></span><br><span class="line">sudo salt * service.start httpd</span><br><span class="line">sudo salt * service.stop httpd</span><br><span class="line">sudo salt * service.status httpd</span><br><span class="line">sudo salt * service.restart httpd</span><br></pre></td></tr></table></figure></p>
+<h3 id="远程文件控制相关-file-模块"><a href="#远程文件控制相关-file-模块" class="headerlink" title="远程文件控制相关: file 模块"></a><strong>远程文件控制相关: file 模块</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建文件</span></span><br><span class="line">sudo salt * file.touch /opt/rsync_passwd</span><br><span class="line"><span class="comment"># 创建目录</span></span><br><span class="line">sudo salt * file.mkdir /opt/rsync</span><br><span class="line"><span class="comment"># 删除指定文件</span></span><br><span class="line">sudo salt * file.remove /opt/rsync_passwd</span><br><span class="line"><span class="comment"># 删除目录</span></span><br><span class="line">sudo salt * file.rmdir /opt/rsync</span><br><span class="line"></span><br><span class="line"><span class="comment"># sudo chown root:root /opt/rsync_passwd</span></span><br><span class="line">sudo salt * file.chown /opt/rsync_passwd root root</span><br><span class="line"><span class="comment"># sudo chmod 600 /etc/rsync_passwd</span></span><br><span class="line">sudo salt * file.set_mode /etc/rsync_passwd 600</span><br></pre></td></tr></table></figure>
+<h3 id="salt-常用的状态检测"><a href="#salt-常用的状态检测" class="headerlink" title="salt 常用的状态检测"></a><strong>salt 常用的状态检测</strong></h3><p>包括:<br>master 与 minions 之间的连通性 check_ping 检查;<br>minions salt version, dependency version, system version 检查;<br>minions network ping 外网检查;<br>磁盘容量 check_disk 检查;<br>等等;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 测试 salt 主从连通性</span></span><br><span class="line">sudo salt * test.ping</span><br><span class="line"><span class="comment"># 打印 salt 的版本以及 salt 依赖的第三方组件的版本</span></span><br><span class="line">sudo salt * test.versions_report</span><br><span class="line"><span class="comment"># 测试 minions 的网络 ping</span></span><br><span class="line">sudo salt * network.ping www.qunar.com</span><br><span class="line"><span class="comment"># 查看 minions 的磁盘使用情况</span></span><br><span class="line">sudo salt * disk.usage</span><br></pre></td></tr></table></figure></p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h3><ul>
+<li><a href="http://blog.csdn.net/shjh369/article/details/49799269" target="_blank" rel="noopener">服务自动化部署平台之Saltstack总结</a></li>
+<li><a href="https://www.cnblogs.com/MacoLee/p/5753640.html" target="_blank" rel="noopener">Saltstack系列3: Saltstack常用模块及API</a></li>
+<li><a href="https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.file.html#salt.modules.file.rmdir" target="_blank" rel="noopener">SALT.MODULES.FILE</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2017/05/13/saltstack--saltstack_cheat_sheet/" rel="external">https://zshell-zhang.github.io/2017/05/13/saltstack--saltstack_cheat_sheet</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="https://zshell-zhang.github.io">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
+            zshell.zhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cheat-sheet/">cheat sheet</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/saltstack/">saltstack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/运维自动化/">运维自动化</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/05/13/saltstack--saltstack_cheat_sheet/&title=《saltstack cheat sheet》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/05/13/saltstack--saltstack_cheat_sheet/&title=《saltstack cheat sheet》 — 希尔的博客&source=
+本文主要整理日常 saltstack 使用时的最常用的一些命令,以供快速查阅;
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/05/13/saltstack--saltstack_cheat_sheet/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《saltstack cheat sheet》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/05/13/saltstack--saltstack_cheat_sheet/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/05/13/saltstack--saltstack_cheat_sheet/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/10/14/rsync--rsyncd配置与运行/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">rsyncd 配置与运维</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/04/07/linux-other--du,df使用及其区别/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">du / df 使用及其区别</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'zhangzhi1993-2025',
+            repo: 'gitment-storage',
+            oauth: {
+                client_id: '8d7b7d33dd8bbd51a8c2',
+                client_secret: 'a98d9b9266c6ccbae7b1194e1680dba27def86ee',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshell.zhang &copy; 2016 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/05/13/saltstack--saltstack_cheat_sheet/&title=《saltstack cheat sheet》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/05/13/saltstack--saltstack_cheat_sheet/&title=《saltstack cheat sheet》 — 希尔的博客&source=
+本文主要整理日常 saltstack 使用时的最常用的一些命令,以供快速查阅;
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/05/13/saltstack--saltstack_cheat_sheet/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《saltstack cheat sheet》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/05/13/saltstack--saltstack_cheat_sheet/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/05/13/saltstack--saltstack_cheat_sheet/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsElEQVR42u3awW7rMAwEwP7/T/ddH1A43SWlNgXGpyCOZY0OEkPy4yO+Pr9c/3+//5x88/XusQsPDw9vPfUnxtPdfAmeJr1/6mlWeHh4ePd4Tzvq65flz77+ZTv15L14eHh478N7Pd021s3DZTw8PLy/y0sG3WzrbeIDDw8P77d47dBJSiI/VNqpX8m14OHh4cW8Tfj7W5+v1Pfw8PDw1lX1fMNtC2OzLb6eLR4eHt4FXptCnQXcbUi9T/Xi4eHh3ebljDx1ux9zf4Tg4eHh3eDlBarPxZVs2W3YPSx94eHh4R3izUhtQatNZyTz+QaPh4eHd4E325rbAyMvqhWbfnwXDw8P7wZvM8VZC9SmGFanJ/Dw8PCO8lpG3iiwTze8Jq1yLXh4eHhr3r78PzsYNi0CUbsAHh4e3gVem2ZNnp2lg/OERf4ZDw8P7x4vn9apLX4fdretD3h4eHineElZqw1t93WovPxW5Frw8PDwDvHa17dp1raV6uwy4eHh4f0ML2mKmhXA2kar5OgqxsTDw8M7xMu36WRa+1aAfXsBHh4e3k/yThWxZpt4uwQHmq7w8PDw5lWn+u99WwxrGwVm6ePHJcDDw8O7wJsdDMnQedtB0kwwO9Lw8PDw7vFmjU2b7X62NHmAjoeHh3eP1/69n6Vxh3W5MsX80TLw8PDwFrw2XM6Xph2hLcLVuRY8PDy8Q7w8fbCJ2aMJldc388fDw8M7yvssr7yNYLYQs1Ty47N4eHh4F3iz8nw7rTaZmy/Q/lDBw8PD29fTZyHvrDCWPJuH7MOeMjw8PLwFb5OK3SRh88JbXsDDw8PDezdePvQsKTxrvXp8Fx4eHt4b8GYBd5J0SO7WQT8eHh7eNd6moJVs60mSIg+164MBDw8P7yhvlmydpRVm1E2aGA8PD+8o7x+Co7GG7m0hvwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
