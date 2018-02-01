@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>python module 使用总结: MySQLdb | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="python:module">
+    <meta name="description" content="MySQLdb 模块是 python 与 mysql 交互的较为底层的接口, 不过它依然是在更为底层的 _mysql 模块之上又作了一层包装;_mysql 才是真正的直接面向 mysql 原生 C 接口的简单适配层, 而 MySQLdb 则在 _mysql 之上作了更多的关于类型转换等抽象包装;考虑到 MySQLdb 模块与一些 python ORM 框架的关系, MySQLdb 与 pytho">
+<meta name="keywords" content="python:module">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python module 使用总结: MySQLdb">
+<meta property="og:url" content="https://zshell-zhang.github.io/2017/08/01/python-module--python_module_MySQLdb使用总结/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="MySQLdb 模块是 python 与 mysql 交互的较为底层的接口, 不过它依然是在更为底层的 _mysql 模块之上又作了一层包装;_mysql 才是真正的直接面向 mysql 原生 C 接口的简单适配层, 而 MySQLdb 则在 _mysql 之上作了更多的关于类型转换等抽象包装;考虑到 MySQLdb 模块与一些 python ORM 框架的关系, MySQLdb 与 pytho">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-02-01T15:48:14.711Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python module 使用总结: MySQLdb">
+<meta name="twitter:description" content="MySQLdb 模块是 python 与 mysql 交互的较为底层的接口, 不过它依然是在更为底层的 _mysql 模块之上又作了一层包装;_mysql 才是真正的直接面向 mysql 原生 C 接口的简单适配层, 而 MySQLdb 则在 _mysql 之上作了更多的关于类型转换等抽象包装;考虑到 MySQLdb 模块与一些 python ORM 框架的关系, MySQLdb 与 pytho">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshell.zhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ZhangZhi1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">python module 使用总结: MySQLdb</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">python module 使用总结: MySQLdb</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-08-01T15:06:08.000Z" itemprop="datePublished" class="page-time">
+  2017-08-01
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/python/">python</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/python/module/">module</a></li></ul></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MySQLdb-的基本操作"><span class="post-toc-number">1.</span> <span class="post-toc-text">MySQLdb 的基本操作</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MySQLdb-cursor-execute-方法"><span class="post-toc-number">2.</span> <span class="post-toc-text">MySQLdb cursor.execute() 方法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MySQLdb-的-query-结果集操作"><span class="post-toc-number">3.</span> <span class="post-toc-text">MySQLdb 的 query 结果集操作</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MySQLdb-的事务操作"><span class="post-toc-number">4.</span> <span class="post-toc-text">MySQLdb 的事务操作</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">5.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-python-module--python_module_MySQLdb使用总结"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">python module 使用总结: MySQLdb</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-08-01 23:06:08" datetime="2017-08-01T15:06:08.000Z"  itemprop="datePublished">2017-08-01</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/python/">python</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/python/module/">module</a></li></ul></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p><code>MySQLdb</code> 模块是 python 与 mysql 交互的较为底层的接口, 不过它依然是在更为底层的 <code>_mysql</code> 模块之上又作了一层包装;<br><code>_mysql</code> 才是真正的直接面向 mysql 原生 C 接口的简单适配层, 而 <code>MySQLdb</code> 则在 <code>_mysql</code> 之上作了更多的关于类型转换等抽象包装;<br>考虑到 <code>MySQLdb</code> 模块与一些 python ORM 框架的关系, <code>MySQLdb</code> 与 python 的关系可以类比为 jdbc 之于 java;<br>本文基于 <code>MySQL-python 1.2.5</code> 对 MySQLdb 作一些使用上的总结;</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<h3 id="MySQLdb-的基本操作"><a href="#MySQLdb-的基本操作" class="headerlink" title="MySQLdb 的基本操作"></a><strong>MySQLdb 的基本操作</strong></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> MySQLdb</span><br><span class="line"><span class="comment"># 获得 mysql 的一个连接</span></span><br><span class="line">conn = MySQLdb.connect(host=<span class="string">'10.64.0.11'</span>, user=<span class="string">'xxx'</span>, passwd=<span class="string">'yyy'</span>, db=<span class="string">"zzz"</span>, port=<span class="number">3306</span>, charset=<span class="string">"utf8"</span>)</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment"># cursor 游标, 是 MySQLdb 中与 mysql 增删改查数据交互的对象</span></span><br><span class="line">    cur = conn.cursor()</span><br><span class="line">    <span class="comment"># 数据库操作</span></span><br><span class="line">    cur.execute(<span class="string">"...sql..."</span>)</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment"># 提交事务</span></span><br><span class="line">    conn.commit()</span><br><span class="line"><span class="keyword">except</span> Exception, e:</span><br><span class="line">    <span class="comment"># 回滚</span></span><br><span class="line">    conn.rollback()</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    <span class="comment"># 关闭连接, 释放资源</span></span><br><span class="line">    conn.close()</span><br></pre></td></tr></table></figure>
+<p>以上是一个 MySQLdb 使用的完整流程, 下面是具体的使用细节与注意点总结;</p>
+<h3 id="MySQLdb-cursor-execute-方法"><a href="#MySQLdb-cursor-execute-方法" class="headerlink" title="MySQLdb cursor.execute() 方法"></a><strong>MySQLdb cursor.execute() 方法</strong></h3><p>MySQLdb 执行数据操纵的关键点就在于 cursor.execute 方法, 所有包括增删改查在内皆是以此方法执行的, 以下是该方法的代码:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">execute</span><span class="params">(self, query, args=None)</span>:</span></span><br><span class="line">    <span class="keyword">del</span> self.messages[:]</span><br><span class="line">    db = self._get_db()</span><br><span class="line">    <span class="keyword">if</span> isinstance(query, unicode):</span><br><span class="line">        query = query.encode(db.unicode_literal.charset)</span><br><span class="line">    <span class="keyword">if</span> args <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">        <span class="comment"># 针对 args 为 dict 的特殊情况处理</span></span><br><span class="line">        <span class="keyword">if</span> isinstance(args, dict):</span><br><span class="line">            query = query % dict((key, db.literal(item)) <span class="keyword">for</span> key, item <span class="keyword">in</span> args.iteritems())</span><br><span class="line">        <span class="comment"># 其余的情况: args 为 tuple 或单个 value</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            query = query % tuple([db.literal(item) <span class="keyword">for</span> item <span class="keyword">in</span> args])</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        r = <span class="keyword">None</span></span><br><span class="line">        r = self._query(query)</span><br><span class="line">    <span class="keyword">except</span> TypeError, m:</span><br><span class="line">        <span class="keyword">if</span> m.args[<span class="number">0</span>] <span class="keyword">in</span> (<span class="string">"not enough arguments for format string"</span>, <span class="string">"not all arguments converted"</span>):</span><br><span class="line">            self.messages.append((ProgrammingError, m.args[<span class="number">0</span>]))</span><br><span class="line">            self.errorhandler(self, ProgrammingError, m.args[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.messages.append((TypeError, m)) </span><br><span class="line">            self.errorhandler(self, TypeError, m)</span><br><span class="line">    <span class="keyword">except</span> (SystemExit, KeyboardInterrupt):</span><br><span class="line">        <span class="keyword">raise</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        exc, value, tb = sys.exc_info()</span><br><span class="line">        <span class="keyword">del</span> tb</span><br><span class="line">        self.messages.append((exc, value))</span><br><span class="line">        self.errorhandler(self, exc, value)</span><br><span class="line">    self._executed = query</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> self._defer_warnings: self._warning_check()</span><br><span class="line">    <span class="keyword">return</span> r</span><br></pre></td></tr></table></figure></p>
+<p>该方法接收一个名为 <code>query</code> 的 sql 字符串, 另外还可选附带参数 <code>args</code>, 所以该方法存在两种主要的用法:<br>1.预先格式化好 sql 字符串, 然后不带参数直接 execute:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sql = <span class="string">"select * from xxx where id = %d"</span> % <span class="number">2</span></span><br><span class="line">cursor.execute(sql)</span><br></pre></td></tr></table></figure></p>
+<p>这种是保守的方法, 参数处理完全由 python 原生的格式化字符串完成, cursor.execute 方法只管执行 sql 就好;<br>这种方法的优点是省事, 坑少;<br>&nbsp;<br>2.将参数传给 execute 方法的 <code>args</code>, 这种使用方法有几个坑, 需要注意一下;<br>该方法有一段注释, 我单独提了出来, 注释中对 args 参数有如下描述:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">    args -- optional sequence or mapping, parameters to use with query.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Note: If args is a sequence, then %s must be used as the</span></span><br><span class="line"><span class="string">    parameter placeholder in the query. If a mapping is used,</span></span><br><span class="line"><span class="string">    %(key)s must be used as the placeholder.</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure></p>
+<p>(1) 注释中提到的坑, 就是说无论传的参数是一个 list/tuple, 还是 dict, 参数占位符类型都必须是字符串(%s | %(key)s ):<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不能是 id = %d, 只能是 id = %s</span></span><br><span class="line">sql = <span class="string">'select * from xxx where id  = %s'</span></span><br></pre></td></tr></table></figure></p>
+<p>因为 execute 方法里处理参数时, 会对参数作 <code>db.literal(item)</code> 处理, 将参数首先转为字符串, 这时占位符如果是 %d 等其他类型, 就报错了;<br>&nbsp;<br>(2) 注释中另一个隐型的坑, 是这个 <code>args</code> 必须是 list/tuple/dict 中的一个, 哪怕只有一个占位数据, 也必须写成 list 或 tuple 类型:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cursor.execute(sql, (<span class="number">2</span>,))</span><br><span class="line">cursor.execute(sql, [<span class="number">2</span>])</span><br></pre></td></tr></table></figure></p>
+<p>如果希望以 tuple 形式表示唯一一个参数, 必须注意加上 逗号, 因为不加逗号就算外面包了括号也会识别为其本身的类型:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> type((<span class="number">1</span>))</span><br><span class="line">&lt;type <span class="string">'int'</span>&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> type((<span class="string">'1'</span>))</span><br><span class="line">&lt;type <span class="string">'str'</span>&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> type((<span class="number">1</span>,))</span><br><span class="line">&lt;type <span class="string">'tuple'</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="MySQLdb-的-query-结果集操作"><a href="#MySQLdb-的-query-结果集操作" class="headerlink" title="MySQLdb 的 query 结果集操作"></a><strong>MySQLdb 的 query 结果集操作</strong></h3><p>MySQLdb 的 query 操作, 主要有以下三种结果集的获取方法:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">cursor.execute(<span class="string">"...sql..."</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获得所有的 tuple 结果集的一个 list</span></span><br><span class="line"><span class="meta">@return list[tuple(elem1, elem2, elem3 ...)]</span></span><br><span class="line">tuple_data_list = cursor.fetchall()</span><br><span class="line"><span class="keyword">for</span> tuple_data <span class="keyword">in</span> tuple_data_list:</span><br><span class="line">    xxx = tuple_data[<span class="number">0</span>]</span><br><span class="line">    yyy = tuple_data[<span class="number">1</span>]</span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="comment"># 采用迭代器的方式, 返回当前游标所对应的 tuple 结果集, 迭代到最后方法返回 None</span></span><br><span class="line"><span class="meta">@return tuple(elem1, elem2, elem3 ...)</span></span><br><span class="line">tuple_data = cursor.fetchone()</span><br><span class="line"><span class="keyword">while</span> tuple_data:</span><br><span class="line">    <span class="comment"># deal with tuple_data</span></span><br><span class="line">    ...</span><br><span class="line">    tuple_data = cursor.fetchone()</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="comment"># 折中的一种方法, 指定返回 size 个 tuple 结果集 组成一个 list;</span></span><br><span class="line"><span class="comment"># 若 指定 size 小于 总的结果集数量, 则返回全部数据集;</span></span><br><span class="line"><span class="meta">@return list[tuple(elem1, elem2, elem3 ...)]</span></span><br><span class="line">tuple_data_list = cursor.fetchmany(size)</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<h3 id="MySQLdb-的事务操作"><a href="#MySQLdb-的事务操作" class="headerlink" title="MySQLdb 的事务操作"></a><strong>MySQLdb 的事务操作</strong></h3><p>MySQLdb 默认不会自动 commit, 所有的增删改操作都必须手动 commit 才能真正写回数据库;<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">conn = MySQLdb.connect(host=<span class="string">'10.64.0.11'</span>, user=<span class="string">'xxx'</span>, passwd=<span class="string">'yyy'</span>, db=<span class="string">"zzz"</span>, port=<span class="number">3306</span>, charset=<span class="string">"utf8"</span>)</span><br><span class="line">SQL = <span class="string">'update xxx set yyy = zzz'</span></span><br><span class="line">cur = conn.cursor()</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    cur.execute(SQL,(<span class="number">2</span>,))</span><br><span class="line">    <span class="comment"># 手动 commit 提交事务</span></span><br><span class="line">    conn.commit()</span><br><span class="line"><span class="keyword">except</span> Exception, e:</span><br><span class="line">    <span class="comment"># 手动回滚</span></span><br><span class="line">    conn.rollback()</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    cur.close()</span><br><span class="line">    conn.close()</span><br></pre></td></tr></table></figure></p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h3><ul>
+<li><a href="https://www.cnblogs.com/franknihao/p/7267182.html" target="_blank" rel="noopener">MySQLdb的安装与使用</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2017/08/01/python-module--python_module_MySQLdb使用总结/" rel="external">https://zshell-zhang.github.io/2017/08/01/python-module--python_module_MySQLdb使用总结</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="https://zshell-zhang.github.io">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
+            zshell.zhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python-module/">python:module</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_MySQLdb使用总结/&title=《python module 使用总结: MySQLdb》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_MySQLdb使用总结/&title=《python module 使用总结: MySQLdb》 — 希尔的博客&source=
+MySQLdb 模块是 python 与 mysql 交互的较为底层的接口, 不过它依然是在更为底层的 _mysql 模块之上又作了一层包装;_mysq..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_MySQLdb使用总结/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《python module 使用总结: MySQLdb》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_MySQLdb使用总结/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_MySQLdb使用总结/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/10/14/rsync--rsyncd配置与运行/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">rsyncd 配置与运维</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/05/13/saltstack--saltstack_cheat_sheet/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">saltstack cheat sheet</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'zhangzhi1993-2025',
+            repo: 'gitment-storage',
+            oauth: {
+                client_id: '8d7b7d33dd8bbd51a8c2',
+                client_secret: 'a98d9b9266c6ccbae7b1194e1680dba27def86ee',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshell.zhang &copy; 2016 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_MySQLdb使用总结/&title=《python module 使用总结: MySQLdb》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_MySQLdb使用总结/&title=《python module 使用总结: MySQLdb》 — 希尔的博客&source=
+MySQLdb 模块是 python 与 mysql 交互的较为底层的接口, 不过它依然是在更为底层的 _mysql 模块之上又作了一层包装;_mysq..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_MySQLdb使用总结/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《python module 使用总结: MySQLdb》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_MySQLdb使用总结/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/08/01/python-module--python_module_MySQLdb使用总结/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADJElEQVR42u3aQW7jMBAEQP//095rgkXo7qEMWHTpJAixxJocBpzm4xFfzx/X+vnzv6v9yvpJ8qvLLmxsbOybsJ/LK8Gsf5X8zbpM63Ks3/bnm7GxsbGPY68/NmtdeUNal2xWghffxcbGxv5i9k5jS3gtGBsbGxt7xm63B7NWlG9vsLGxsbHzNpPz9t/5EbM0bGxs7I9ntxHsJ9+/Jd/GxsbG/mD2s7yScrTj+zZmvkCBjY2NfRA7bwCzEDffYMw2G7P1Y2NjY5/NzttGUpp2KfvFTZ5jY2Njn8TOtxk5Lz9euRNO5JHwn60LGxsb+zh2O1RKlpjHvfmxm3VrXH8dGxsb+zx227SShbbl2FpuicfGxsY+j70fzbafnLXM/D4qEzY2NvZx7HxLMBsk7T+5qsX+OqmEjY2NfRB7Fqy2w6O8+b2jZf66x8bGxj6UvdM8duLY2WGgWRj8aBMJbGxs7JuwZ+OefKDTbh7ar9T/KmxsbOwvY7cD+iTuTZ4nmLYoL2Zp2NjY2Ddnt8dx8gM6eUNq35OHytEUChsbG/uG7PawSzJ+2oly2zY2CyewsbGxT2XPhjuzzUxeyllsHAUe2NjY2Eew8wBgtqnYH0LtHMH8s0DY2NjYB7Hbw5SzRey0sWuj6Efe/bCxsbFvy54taxYP7we67XexsbGxz2O3Qe8sTshHQu14aFY4bGxs7JPYM2pyLOay7lqWoCgKNjY29hHsdojfxsNXkZL3FNsebGxs7OPYScSbby3yFpg0ofZ59GZsbGzsg9jtMGg2vmlHS+1hnZ3tDTY2NvYZ7NnP3hfWrodWs43Ni2wEGxsb+wj2/pAoL8Rsoe1KsLGxsb+NPdu1zOLbdhg0W+GLQBobGxv7CPazvIatIhge5YeB2u9GuyhsbGzs27J3GtVV7HbR+wEzNjY29nnsfEy/ExLvbznawr1ow9jY2NjHsfMzLTP8bHE7/4ZiloaNjY39ZeykzeyEAbNGuL7HxsbGxm6peUvLR0Xtdy/eimBjY2N/PDvfErTLyhc3C33bsRQ2Njb2eex8SNQ2uZ0wICnBfgvExsbGvjn7HyQlU+9lcxFHAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
