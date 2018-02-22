@@ -13,20 +13,25 @@
     
     
     
-    <title>希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <title>python 模块导入: 相关基础知识梳理 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="">
-    <meta property="og:type" content="website">
-<meta property="og:title" content="希尔的博客">
-<meta property="og:url" content="https://zshell-zhang.github.io/page/2/index.html">
+    <meta name="keywords" content="python:module">
+    <meta name="description" content="python 有一个关键字和 java 一样: import, 其功能也类似: 在代码中引入其他的依赖(模块)以使用;不过, 不像 java 那么单纯, python 还要区分为 import module 和 import names 两大类; 作为一个 python 新手, 这些使用上的区别有时会令人感到迷惑;python 包和 java 包在概念上也有类似之处, 不过 python 的">
+<meta name="keywords" content="python:module">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python 模块导入: 相关基础知识梳理">
+<meta property="og:url" content="https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/index.html">
 <meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="python 有一个关键字和 java 一样: import, 其功能也类似: 在代码中引入其他的依赖(模块)以使用;不过, 不像 java 那么单纯, python 还要区分为 import module 和 import names 两大类; 作为一个 python 新手, 这些使用上的区别有时会令人感到迷惑;python 包和 java 包在概念上也有类似之处, 不过 python 的">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-02-22T13:55:04.947Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="希尔的博客">
+<meta name="twitter:title" content="python 模块导入: 相关基础知识梳理">
+<meta name="twitter:description" content="python 有一个关键字和 java 一样: import, 其功能也类似: 在代码中引入其他的依赖(模块)以使用;不过, 不像 java 那么单纯, python 还要区分为 import module 和 import names 两大类; 作为一个 python 新手, 这些使用上的区别有时会令人感到迷惑;python 包和 java 包在概念上也有类似之处, 不过 python 的">
     
         <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
     
@@ -42,7 +47,7 @@
 <body>
     <div id="loading" class="active"></div>
 
-    <aside id="menu"  >
+    <aside id="menu" class="hide" >
   <div class="inner flex-row-vertical">
     <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
         <i class="icon icon-lg icon-close"></i>
@@ -114,7 +119,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">希尔的博客</div>
+        <div class="flex-col header-title ellipsis">python 模块导入: 相关基础知识梳理</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -133,13 +138,19 @@
         
     </div>
 </header>
-<header class="content-header index-header">
+<header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">希尔的博客</h1>
+        <h1 class="title">python 模块导入: 相关基础知识梳理</h1>
         <h5 class="subtitle">
             
-                兰之猗猗，扬扬其香。不采而佩，于兰何伤？
+                <time datetime="2017-03-12T13:35:04.000Z" itemprop="datePublished" class="page-time">
+  2017-03-12
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/python/">python</a></li></ul>
+
             
         </h5>
     </div>
@@ -149,89 +160,35 @@
 
 </header>
 
+
 <div class="container body-wrap">
-
-    <ul class="post-list">
     
-        <li class="post-list-item fade">
-            <article id="post-linux-process--linux_signals总体认识"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2017-04-05 23:24:22" datetime="2017-04-05T15:24:22.000Z"  itemprop="datePublished">2017-04-05</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/process/">process</a></li></ul></li></ul>
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基础预备知识"><span class="post-toc-number">1.</span> <span class="post-toc-text">基础预备知识</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#对象的-name-字段"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">对象的 __name__ 字段</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#内建方法-dir"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">内建方法: dir()</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#import-的规则语法"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">import 的规则语法</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#init-py-文件的功能"><span class="post-toc-number">2.</span> <span class="post-toc-text">__init__.py 文件的功能</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#init-py-文件内容为空"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">__init__.py 文件内容为空</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#在-init-py-中-import-其他模块"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">在 __init__.py 中 import 其他模块</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#init-py-中的保留字段"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">__init__.py 中的保留字段</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#在-init-py-中定义方法-类"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">在 __init__.py 中定义方法/类</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#python-的工作-搜索路径"><span class="post-toc-number">3.</span> <span class="post-toc-text">python 的工作/搜索路径</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">4.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
 
 
+<article id="post-python--python模块导入_相关基础知识梳理"
+  class="post-article article-type-post fade" itemprop="blogPost">
 
-    </div>
+    <div class="post-card">
+        <h1 class="post-card-title">python 模块导入: 相关基础知识梳理</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-03-12 21:35:04" datetime="2017-03-12T13:35:04.000Z"  itemprop="datePublished">2017-03-12</time>
 
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2017/04/05/linux-process--linux_signals总体认识/">linux signals 总体认识</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <blockquote>
-<p>linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;<br>不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;<br>本文正是想对 linux 世界中林林总总的 signals 作一次梳理, 总结一些日常工作中频繁使用以及不太接触但十分有用的信号;</p>
-</blockquote>
-    
-
-       <!-- <a href="/2017/04/05/linux-process--linux_signals总体认识/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a> -->
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-process/">linux:process</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-python--python模块导入_相关基础知识梳理"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2017-03-12 21:35:04" datetime="2017-03-12T13:35:04.000Z"  itemprop="datePublished">2017-03-12</time>
-
-        
+            
 	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/python/">python</a></li></ul>
 
 
 
-    </div>
+            
 
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2017/03/12/python--python模块导入_相关基础知识梳理/">python 模块导入: 相关基础知识梳理</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <a id="more"></a>
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <a id="more"></a>
 <blockquote>
 <p>python 有一个关键字和 java 一样: <code>import</code>, 其功能也类似: 在代码中引入其他的依赖(模块)以使用;<br>不过, 不像 java 那么单纯, python 还要区分为 import module 和 import names 两大类; 作为一个 python 新手, 这些使用上的区别有时会令人感到迷惑;<br>python 包和 java 包在概念上也有类似之处, 不过 python 的 __init__.py 规范更讲究一些, java 的 package-info.java 重要性没有那么强, python 初学者在此也很容易栽跟头;<br>在使用了一段时间的 python 之后, 我突然发现, 关于模块引入相关的知识, 我还从来没有过一个系统性的整理; 故作此文以备将来查阅;</p>
 </blockquote>
@@ -280,325 +237,172 @@
 <li><a href="https://www.cnblogs.com/kex1n/p/5977051.html" target="_blank" rel="noopener">Python类、模块、包的区别</a></li>
 </ul>
 
-    
+        </div>
 
-       <!-- <a href="/2017/03/12/python--python模块导入_相关基础知识梳理/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a> -->
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2017/03/12/python--python模块导入_相关基础知识梳理/" rel="external">https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理</a> <br/> 感谢您的阅读与支持！
+        
     </div>
     
-    <div class="post-footer">
+    <footer>
+        <a href="https://zshell-zhang.github.io">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
+            zshell.zhang
+        </a>
+    </footer>
+</blockquote>
+
         
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
 	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python-module/">python:module</a></li></ul>
 
-    </div>
-    
-</article>
 
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-linux-other--lsof札记"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2017-01-06 15:17:04" datetime="2017-01-06T07:17:04.000Z"  itemprop="datePublished">2017-01-06</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/other/">other</a></li></ul></li></ul>
-
-
-
-    </div>
-
+            
+<div class="page-share-wrap">
     
 
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2017/01/06/linux-other--lsof札记/">lsof 札记</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <blockquote>
-<p>第一次接触到 lsof 命令, 是因为偶然间发现 netstat 命令已经落伍了(与此同时, 还发现了 ss 命令, 详见另一篇文章: <a href="">netstat/ss 使用对比</a> );<br>使用之后, 发现 lsof 被人称为 <code>神器</code>, 还是有一定道理的; 在任何资源都被抽象为 <code>文件</code> 的 linux 中, 一个面向 <code>文件</code> 的管理工具, 自然辖域辽阔, 神通广大, 再加上与其他命令的巧妙组合, 更如虎添翼, 在工作实践中独当一面;<br>本文参考了一些实用资料, 结合自己的经验, 对 lsof 命令的使用略作整理;</p>
-</blockquote>
-    
-
-       <!-- <a href="/2017/01/06/linux-other--lsof札记/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a> -->
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-disk/">linux:disk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-net/">linux:net</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-tools-maven--assembly_plugin"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2016-11-19 23:42:40" datetime="2016-11-19T15:42:40.000Z"  itemprop="datePublished">2016-11-19</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tools/">tools</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tools/maven/">maven</a></li></ul></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2016/11/19/tools-maven--assembly_plugin/">maven-assembly-plugin 使用总结</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <blockquote>
-<p>本文在 Apache Maven 的官方文档上, 结合自己的一些项目经历: <a href="">在 Apache Spark 中使用 springframework 的一次实践</a>, 总结了一些 assembly 插件的使用方式和一些注意事项, 以作备忘;<br>另外, 由于 assembly 的 核心配置文件中可配置项种类繁多, 为了体现直观性, 文本直接在一段 ‘丰富而典型’ 的配置文件 case 上, 以注释的形式作为每个配置项的释义;</p>
-</blockquote>
-    
-
-       <!-- <a href="/2016/11/19/tools-maven--assembly_plugin/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a> -->
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mvn-plugins/">mvn:plugins</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-linux-other--cli控制字符"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2016-11-17 21:11:33" datetime="2016-11-17T13:11:33.000Z"  itemprop="datePublished">2016-11-17</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/other/">other</a></li></ul></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2016/11/17/linux-other--cli控制字符/">cli 控制字符</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <blockquote>
-<p>cli 控制字符是终端操作中非常实用, 也极其频繁使用的快捷键; 使用得好可以加快敲命令的速度, 提升敲命令的准确性, 为工作带来极大便利; 同时, 这也是我们对 linux 爱不释手, 难以回到 windows 的原因之一;<br>另外, 很多 cli 控制字符本质上是向 linux 或进程发送特定的信号, 关于 linux 信号的介绍, 本站有另外一篇文章: <a href="https://zshell-zhang.github.io/2017/04/05/linux-process--linux_signals%E6%80%BB%E4%BD%93%E8%AE%A4%E8%AF%86/">linux signals 总体认识</a>;<br>本文总结一些常用的 cli 控制字符的使用及技巧;</p>
-</blockquote>
-    
-
-       <!-- <a href="/2016/11/17/linux-other--cli控制字符/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a> -->
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cheat-sheet/">cheat sheet</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-linux-text-sed命令整理"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2016-11-04 22:56:47" datetime="2016-11-04T14:56:47.000Z"  itemprop="datePublished">2016-11-04</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/text/">text</a></li></ul></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2016/11/04/linux-text-sed命令整理/">sed 命令整理</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <blockquote>
-<p>stream editor: 流式文本编辑器;<br>sed 命令的侧重点在于对文本的编辑;</p>
-</blockquote>
-    
-
-       <!-- <a href="/2016/11/04/linux-text-sed命令整理/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a> -->
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-text/">linux:text</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-linux-shell--bash条件判断全梳理"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2016-09-01 17:52:36" datetime="2016-09-01T09:52:36.000Z"  itemprop="datePublished">2016-09-01</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/shell/">shell</a></li></ul></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2016/09/01/linux-shell--bash条件判断全梳理/">bash 条件判断全梳理</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <blockquote>
-<p>本文基于 GNU bash, version 4.1.2(1)-release (x86_64-redhat-linux-gnu)</p>
-</blockquote>
-    
-
-       <!-- <a href="/2016/09/01/linux-shell--bash条件判断全梳理/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a> -->
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-shell/">linux:shell</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-tools-git--git忽略文件的特殊场景"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2016-07-14 23:17:24" datetime="2016-07-14T15:17:24.000Z"  itemprop="datePublished">2016-07-14</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tools/">tools</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tools/git/">git</a></li></ul></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2016/07/14/tools-git--git忽略文件的特殊场景/">git 忽略文件的特殊场景</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <blockquote>
-<p>git 忽略文件, 其实有两种场景: 永久忽略 与 临时忽略;<br>使用 <code>.gitignore</code> 在最刚开始时永久忽略指定文件是最常见的处理, 但是偶尔也会遇到特殊情况:<br>1.一时疏忽, 将本该忽略的文件提交追踪了;<br>2.需要临时忽略某指定文件, 一段时间后再继续追踪;<br>本文将讨论以上两种情况下的 git 处理;</p>
-</blockquote>
-    
-
-       <!-- <a href="/2016/07/14/tools-git--git忽略文件的特殊场景/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a> -->
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tools-git/">tools:git</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/&title=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/&title=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
     </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
 
     
-<nav id="page-nav">
-    <div class="inner">
-    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/04/05/linux-process--linux_signals总体认识/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">linux signals 总体认识</h4>
+      </a>
     </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/01/06/linux-other--lsof札记/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">lsof 札记</h4>
+      </a>
+    </div>
+  
 </nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'zhangzhi1993-2025',
+            repo: 'gitment-storage',
+            oauth: {
+                client_id: '8d7b7d33dd8bbd51a8c2',
+                client_secret: 'a98d9b9266c6ccbae7b1194e1680dba27def86ee',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
 
 
 </div>
@@ -633,7 +437,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/page/2/&title=希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/&title=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -643,22 +447,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/page/2/&title=希尔的博客&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/&title=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/page/2/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=希尔的博客&url=https://zshell-zhang.github.io/page/2/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《python 模块导入: 相关基础知识梳理》 — 希尔的博客&url=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/&via=https://zshell-zhang.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/page/2/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2017/03/12/python--python模块导入_相关基础知识梳理/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -669,7 +473,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABzElEQVR42u3aS47DIBAFwNz/0p4DRDCvG7AdqVhFzsQUs2j1h88nXtfXGn07ejJ65+fEwsXFXeZe05Vs//2Xybej98//Nbi4uHdyc8T8MPlR54ccPsfFxX0lt5cMJUfCxcX9Xe58szxZwcXFfT83DzTzjdf7GNtqNVxc3AVunric+3ykv4uLi9viXsXVG5zMnxd2x8XFvYWbB5QElCdGefqCi4v7LHfl1XsvXhRqNVxc3GPcajqSB7he8VNojuDi4h7gJieoDkfzAWp5kIOLi3sLd1cKko9RC+2PvEzCxcU9xq2OVOfPe02QQvGDi4t7C3el1MmDUZ4qleMuLi7uAW6vYVqF9hImXFzcZ7m9YiYfySRFUSGQ4eLiHuYm6UXvMlZe9iz9FhcXdys3H5CsoHsNl/LFLFxc3APc6tB0JQ3KG6y4uLjPcpPGaLMLG6c75W4uLi7uVu5VXCsDlWpDBBcX9ylutVXRG6j0CqHe1Q1cXNxd3N6Ys9o6yQ8Z3SDDxcW9hZuPNKoXKVYKpGEgw8XFfSU3T3qqRyrMYHFxcV/DzbfvBcR/hLi4uDdy8wQlSVbWA19hJoyLi3uAWw0lKwOYeUslf46Li3uM+wcJPgsJK+bUPAAAAABJRU5ErkJggg==" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADOklEQVR42u3aQW4bMRAEQP//0xsgJwOGN93DVSBStSdDlmgWdRhPD7++4uf6+3z/+ftz/577V/I1f+7n5/sffrCxsbE3YV+3T7LF2WeT/eR7zi3Y2NjYp7KTopWXt3yL7fr3n00s2NjY2J/MnhWn/CBma2JjY2NjtwWsbUXaFZI2qS202NjY2J/AToKhtiFZKW+zNuYlWRo2Njb227Nng973/Pnl821sbGzsN2Nfo6eNn/IGox0tDPePjY2NfRA7bzPur9TctwrJp/K25/71orBhY2NjH8deuYKTb6Xd+lODil8LGDY2NvZB7ByQR/x5GcuPIw/9/7EyNjY29hHsWVOxEtDPjjgpqPnIGRsbG/s8dltI1oP72aHPGqRfKzY2Njb2Eew2M8+D/gTQNhX5ynmxxMbGxt6dPSstbSGZjXtbfPHlYWNjYx/Eno1O8zi+bWlWGpI2eMLGxsY+g91uNA/iVxgr8dMwS8PGxsbelp20ENfoWW9p2muas68NGxsbe3f2LNBp35MUlfUDfeAbxsbGxt6QvRL3FP/ulxvK46FZ/ISNjY19EnslxFm/4tM2HkudVtt1YWNjY2/CbstMfkFn1irkg+RZ2SvaEmxsbOxN2MnAtY3p86PMD3F20efXNbGxsbEPYs8KWBIzzUKrNkhK3vlY3cbGxsZ+Y/Z6YJRvMY/yZyWqKG/Y2NjYR7Db2Kgd0+bx03pxKo4MGxsb+2j2q0taexDtcDcqk9jY2NgHsWdXbdrAvV3nun3y4W5xQQcbGxt7W3Y7pm1XuIKnDafar7Co29jY2NgbsttrNElrkV/WWRk25K1ONBXBxsbG3py9cvmmjezz3+avt9ESNjY29tnslWIzGxLkrUu7t6KAYWNjYx/Bbi/fJO1BEjY9m9u3FmxsbOzd2Vf55C1BHgO1V3Ye+C02Njb2QexZAcgL28olnrY5mTVU2NjY2GewZ1dq8s8mh7LOrr9PbGxs7OPYbUGaXdz5/38lmodgY2Njfxh7vfzkA+Y8hGrXwcbGxv5M9vAPxA3MDJYUv6UCho2Njb0Juw1uXgFr24+81GFjY2OfzV7P0vOxax4MzVqaF863sbGxsd+R/QeCfsq+vDJW2AAAAABJRU5ErkJggg==" alt="微信分享二维码">
 </div>
 
 
@@ -677,7 +481,7 @@
 
     <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
 <script>
-var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 
 
 </script>

@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="git 忽略文件, 其实有两种场景: 永久忽略 与 临时忽略;使用 .gitignore 在最刚开始时永久忽略指定文件是最常见的处理, 但是偶尔也会遇到特殊情况:1.一时疏忽, 将本该忽略的文件提交追踪了;2.需要临时忽略某指定文件, 一段时间后再继续追踪;本文将讨论以上两种情况下的 git 处理;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-01-20T13:29:38.068Z">
+<meta property="og:updated_time" content="2018-02-12T10:51:43.855Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git 忽略文件的特殊场景">
 <meta name="twitter:description" content="git 忽略文件, 其实有两种场景: 永久忽略 与 临时忽略;使用 .gitignore 在最刚开始时永久忽略指定文件是最常见的处理, 但是偶尔也会遇到特殊情况:1.一时疏忽, 将本该忽略的文件提交追踪了;2.需要临时忽略某指定文件, 一段时间后再继续追踪;本文将讨论以上两种情况下的 git 处理;">
@@ -193,10 +193,8 @@
 </blockquote>
 <a id="more"></a>
 <hr>
-<h3 id="永远忽略已被跟踪的文件"><a href="#永远忽略已被跟踪的文件" class="headerlink" title="永远忽略已被跟踪的文件"></a><strong>永远忽略已被跟踪的文件</strong></h3><p>适用场景:<br>手误上传了不需要上传的文件, 希望斩草除根, 以后不让 git 追踪该文件;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># first step</span></span><br><span class="line">git rm --cached file_path/</span><br><span class="line"><span class="comment"># second step</span></span><br><span class="line">update .gitignore to exclude target file</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
-<h3 id="临时忽略已被跟踪的文件"><a href="#临时忽略已被跟踪的文件" class="headerlink" title="临时忽略已被跟踪的文件"></a><strong>临时忽略已被跟踪的文件</strong></h3><p>适用场景:<br>目标文件庞大, 每次修改保存时, git 计算文件的变化并更新 working directory, 触发磁盘IO瓶颈;<br>所以需要临时忽略文件, 待修改完成 commit 时恢复跟踪;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># first step</span></span><br><span class="line">git update-index --assume-unchanged file_path/</span><br><span class="line"><span class="comment"># 编辑文件...</span></span><br><span class="line"><span class="comment"># seconde step</span></span><br><span class="line">git update-index --no-assume-unchanged file_path/</span><br></pre></td></tr></table></figure></p>
-<p>&nbsp;</p>
+<h3 id="永远忽略已被跟踪的文件"><a href="#永远忽略已被跟踪的文件" class="headerlink" title="永远忽略已被跟踪的文件"></a><strong>永远忽略已被跟踪的文件</strong></h3><p>适用场景:<br>手误上传了不需要上传的文件, 希望斩草除根, 以后不让 git 追踪该文件;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># first step</span></span><br><span class="line">git rm --cached file_path/</span><br><span class="line"><span class="comment"># second step</span></span><br><span class="line">更新 .gitignore 文件, exclude 目标文件</span><br></pre></td></tr></table></figure></p>
+<h3 id="临时忽略已被跟踪的文件"><a href="#临时忽略已被跟踪的文件" class="headerlink" title="临时忽略已被跟踪的文件"></a><strong>临时忽略已被跟踪的文件</strong></h3><p>适用场景:<br>目标文件庞大, 每次修改保存时, git 计算文件的变化并更新 working directory, 触发磁盘IO瓶颈;<br>所以需要临时忽略文件, 待修改完成 commit 时恢复跟踪;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># first step</span></span><br><span class="line">git update-index --assume-unchanged file_path/</span><br><span class="line"><span class="comment"># second step</span></span><br><span class="line">编辑文件...</span><br><span class="line"><span class="comment"># third step</span></span><br><span class="line">git update-index --no-assume-unchanged file_path/</span><br></pre></td></tr></table></figure></p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h3><ul>
 <li><a href="https://segmentfault.com/q/1010000000430426" target="_blank" rel="noopener">git忽略已经被提交的文件</a></li>
 </ul>
