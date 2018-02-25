@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>python module 使用总结: 定时调度器 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="python:module">
+    <meta name="description" content="在 java 里, 第三方定时调度框架比较常用的是 quartz 和 springframework 提供的 schedule 功能; 不过在各大公司里, 一般都会开发自己能集中管理与灵活调控的调度组件; 这样一来, 第三方的调度框架反而就接触的少了;我相信在以 python 为主要使用语言的公司里, 一定也有自己的调度中间件; 但是对于以 java 为主的公司里, 肯定不可能专为 python">
+<meta name="keywords" content="python:module">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python module 使用总结: 定时调度器">
+<meta property="og:url" content="https://zshell-zhang.github.io/2018/02/23/python-module--python_module_使用总结_定时调度器/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="在 java 里, 第三方定时调度框架比较常用的是 quartz 和 springframework 提供的 schedule 功能; 不过在各大公司里, 一般都会开发自己能集中管理与灵活调控的调度组件; 这样一来, 第三方的调度框架反而就接触的少了;我相信在以 python 为主要使用语言的公司里, 一定也有自己的调度中间件; 但是对于以 java 为主的公司里, 肯定不可能专为 python">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-02-23T15:25:40.749Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python module 使用总结: 定时调度器">
+<meta name="twitter:description" content="在 java 里, 第三方定时调度框架比较常用的是 quartz 和 springframework 提供的 schedule 功能; 不过在各大公司里, 一般都会开发自己能集中管理与灵活调控的调度组件; 这样一来, 第三方的调度框架反而就接触的少了;我相信在以 python 为主要使用语言的公司里, 一定也有自己的调度中间件; 但是对于以 java 为主的公司里, 肯定不可能专为 python">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshell.zhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ZhangZhi1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">python module 使用总结: 定时调度器</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">python module 使用总结: 定时调度器</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-02-23T15:23:21.000Z" itemprop="datePublished" class="page-time">
+  2018-02-23
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/python/">python</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/python/module/">module</a></li></ul></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#sched"><span class="post-toc-number">1.</span> <span class="post-toc-text">sched</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#sched-的局限性与解决方案"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">sched 的局限性与解决方案</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#sched-的调度原理"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">sched 的调度原理</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#schedule"><span class="post-toc-number">2.</span> <span class="post-toc-text">schedule</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#apscheduler"><span class="post-toc-number">3.</span> <span class="post-toc-text">apscheduler</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#celery"><span class="post-toc-number">4.</span> <span class="post-toc-text">celery</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">5.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-python-module--python_module_使用总结_定时调度器"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">python module 使用总结: 定时调度器</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-02-23 23:23:21" datetime="2018-02-23T15:23:21.000Z"  itemprop="datePublished">2018-02-23</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/python/">python</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/python/module/">module</a></li></ul></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>在 java 里, 第三方定时调度框架比较常用的是 quartz 和 springframework 提供的 schedule 功能; 不过在各大公司里, 一般都会开发自己能集中管理与灵活调控的调度组件; 这样一来, 第三方的调度框架反而就接触的少了;<br>我相信在以 python 为主要使用语言的公司里, 一定也有自己的调度中间件; 但是对于以 java 为主的公司里, 肯定不可能专为 python 维护一套调度系统, 所以就很有必要了解一下 python 里的定时调度模块; 本文将介绍几种常用的 python 定时调度框架:</p>
+<ol>
+<li>简单的实现: sched 与 schedule;</li>
+<li>功能增强版: apscheduler;</li>
+<li>分布式调度器: celery;</li>
+</ol>
+</blockquote>
+<a id="more"></a>
+<hr>
+<h3 id="sched"><a href="#sched" class="headerlink" title="sched"></a><strong>sched</strong></h3><p>sched 是 python 官方提供的定时调度模块, 其实现非常的简单, sched.py 的代码量只有一百多行, 且只有一个类: scheduler;<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sched.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">scheduler</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">        @param timefunc     能够返回时间戳的计时函数, 要求该函数是一个无参函数</span></span><br><span class="line"><span class="string">        @param delayfunc    能够阻塞给定时间的阻塞函数, 要求该函数能接收一个数值类型的参数</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    def __init__(self, timefunc, delayfunc);</span><br><span class="line">    </span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">        @param delay        需要延迟的时间</span></span><br><span class="line"><span class="string">        @param priority     当多个任务需要在同一个时间调度时的优先级</span></span><br><span class="line"><span class="string">        @param action       需要调度的函数</span></span><br><span class="line"><span class="string">        @param argument     需要调度函数的参数列表</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    def enter(self, delay, priority, action, argument);</span><br></pre></td></tr></table></figure></p>
+<p>如上所示, scheduler 是使用构造器传进来的计时函数与阻塞函数去实现调度逻辑的;</p>
+<h4 id="sched-的局限性与解决方案"><a href="#sched-的局限性与解决方案" class="headerlink" title="sched 的局限性与解决方案"></a><strong>sched 的局限性与解决方案</strong></h4><p>不过说真的, 把 sched 定义为定时调度模块真的很牵强:<br>常规意义上, 我们所理解的定时调度器, 应该是能够像 cron 那样, 按给定的时间间隔或在指定的时间点上循环执行指定的任务; 但是 sched 并不能做到这一点, sched 所做的, 只是从某一个时间点开始, delay 一段我们给定的延时时间, 然后执行给定方法, 仅执行这一次;<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> sched <span class="keyword">import</span> scheduler</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_task</span><span class="params">(time_str)</span>:</span></span><br><span class="line">    print(<span class="string">'task run: %s'</span> % time_str)</span><br><span class="line"></span><br><span class="line">s = scheduler(time.time, time.sleep)</span><br><span class="line"><span class="comment"># delay 5 秒后执行 do_task 函数, 仅执行一次</span></span><br><span class="line">s.enter(<span class="number">5</span>, <span class="number">0</span>, do_task, (time.time(),))</span><br><span class="line">s.run()</span><br></pre></td></tr></table></figure></p>
+<p>要想 sched 做到循环执行, 还需要在其基础上包装上一层类似’递归’的概念:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s = scheduler(time.time, time.sleep)</span><br><span class="line"><span class="comment"># 在任务函数中将自己再次用 sched 调度以实现循环</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_task</span><span class="params">(time_str)</span>:</span></span><br><span class="line">    s.enter(<span class="number">5</span>, <span class="number">0</span>, do_task, (time.time(),))</span><br><span class="line">    print(<span class="string">'task run: %s'</span> % time_str)</span><br><span class="line">    </span><br><span class="line">s.enter(<span class="number">5</span>, <span class="number">0</span>, do_task, (time.time(),))</span><br><span class="line">s.run()</span><br></pre></td></tr></table></figure></p>
+<p>当然, 这只是将函数自己的引用传给了 scheduler, 神似递归但并非递归, 所以也就不存在找不到递归出口而爆栈的问题了;<br>很明显, 采用这种方式才能实现真正的定时调度, 可谓非常麻烦而蹩脚;</p>
+<h4 id="sched-的调度原理"><a href="#sched-的调度原理" class="headerlink" title="sched 的调度原理"></a><strong>sched 的调度原理</strong></h4><p>sched 使用 heapq 优先队列来管理需要调度的任务; 在调用了 scheduler 类的 enter 方法后, 其实是生成了一个任务的快照, 并放入了优先队列里:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">event = Event(time, priority, action, argument)</span><br><span class="line">heapq.heappush(self._queue, event)</span><br></pre></td></tr></table></figure></p>
+<p>在调用 scheduler.run() 方法后, sched 在一个死循环里, 不断得从优先队列里取出任务执行, 计算最近的下一个任务的等待时间并阻塞:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> q:</span><br><span class="line">   time, priority, action, argument = checked_event = q[<span class="number">0</span>]</span><br><span class="line">   now = timefunc()</span><br><span class="line">   <span class="keyword">if</span> now &lt; time:</span><br><span class="line">       delayfunc(time - now)</span><br><span class="line">   <span class="keyword">else</span>:</span><br><span class="line">       event = pop(q)</span><br><span class="line">       <span class="keyword">if</span> event <span class="keyword">is</span> checked_event:</span><br><span class="line">           action(*argument)</span><br><span class="line">           delayfunc(<span class="number">0</span>)</span><br><span class="line">       <span class="keyword">else</span>:</span><br><span class="line">           heapq.heappush(q, event)</span><br></pre></td></tr></table></figure></p>
+<p>总体来说, sched 的设计还是比较紧凑清晰的, 轻量级化, 但是由于其固有的缺陷, 在复杂的场景中, 往往不能胜任, 我们需要功能更强大的调度框架;</p>
+<h3 id="schedule"><a href="#schedule" class="headerlink" title="schedule"></a><strong>schedule</strong></h3><h3 id="apscheduler"><a href="#apscheduler" class="headerlink" title="apscheduler"></a><strong>apscheduler</strong></h3><h3 id="celery"><a href="#celery" class="headerlink" title="celery"></a><strong>celery</strong></h3><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h3><ul>
+<li><a href="http://blog.csdn.net/leonard_wang/article/details/54017537" target="_blank" rel="noopener">python sched模块学习</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2018/02/23/python-module--python_module_使用总结_定时调度器/" rel="external">https://zshell-zhang.github.io/2018/02/23/python-module--python_module_使用总结_定时调度器</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="https://zshell-zhang.github.io">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
+            zshell.zhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python-module/">python:module</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2018/02/23/python-module--python_module_使用总结_定时调度器/&title=《python module 使用总结: 定时调度器》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2018/02/23/python-module--python_module_使用总结_定时调度器/&title=《python module 使用总结: 定时调度器》 — 希尔的博客&source=
+在 java 里, 第三方定时调度框架比较常用的是 quartz 和 springframework 提供的 schedule 功能; 不过在各大公司里..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2018/02/23/python-module--python_module_使用总结_定时调度器/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《python module 使用总结: 定时调度器》 — 希尔的博客&url=https://zshell-zhang.github.io/2018/02/23/python-module--python_module_使用总结_定时调度器/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2018/02/23/python-module--python_module_使用总结_定时调度器/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/02/03/web--一个dev的拙劣前端笔记_使用jQuery_ajax上传文件/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">一个 dev 的拙劣前端笔记: 使用 jQuery ajax 上传文件</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'zhangzhi1993-2025',
+            repo: 'gitment-storage',
+            oauth: {
+                client_id: '8d7b7d33dd8bbd51a8c2',
+                client_secret: 'a98d9b9266c6ccbae7b1194e1680dba27def86ee',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshell.zhang &copy; 2016 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2018/02/23/python-module--python_module_使用总结_定时调度器/&title=《python module 使用总结: 定时调度器》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2018/02/23/python-module--python_module_使用总结_定时调度器/&title=《python module 使用总结: 定时调度器》 — 希尔的博客&source=
+在 java 里, 第三方定时调度框架比较常用的是 quartz 和 springframework 提供的 schedule 功能; 不过在各大公司里..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2018/02/23/python-module--python_module_使用总结_定时调度器/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《python module 使用总结: 定时调度器》 — 希尔的博客&url=https://zshell-zhang.github.io/2018/02/23/python-module--python_module_使用总结_定时调度器/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2018/02/23/python-module--python_module_使用总结_定时调度器/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADLUlEQVR42u3aQY7bMBAEwP3/p51rgMRO91ABrFHxtDBskUUdZjnNn594vH4bf36e/Hb2+bu/2zUMBzY2NvZN2K+P4913kiUmm5Vs5bsnJ/O+WwM2Njb2PnZbSPJyMtvQvBwOixw2Njb249l5CWw3oj3kYGNjY2OfFLCkICX4ZEPbYwk2Njb209gJZnZImDWk2if/x14aNjY29tez81T0+//+L/k2NjY29hezX+Vog9j2sNGuYTawsbGxN7Fnjfg26J0FtCcHlSRIwMbGxt7BbkvLrHnUxrRtANzGG9jY2Nhb2Z+ps8Z9+3neQvq8WZ9nxMbGxt7HzhfUFqf2ik9SkGav6i8FDBsbG3sF+6qJZ1Hx7CDUzhW9c2xsbOzbsmcxarsd+aFiVlbbqAAbGxt7E3u2lDbETaKItrCdNJ6wsbGxN7Fny633Na4gSUPq5DIQNjY29j72bOmvYJzEye2Ms6YVNjY29g52cuTIG095cyf5Vf4ykrnq0AQbGxv7Vuz2X/yTRs/sOW2k8Y9nYmNjYz+A3Rat9hhzkr2elMDox9jY2Ni3Zc8wsxb/VUUut7wtYNjY2Ng3Z+eNpFlJO497E0Z7wQgbGxt7Ezu62lJGsOdtpnaz6nYYNjY29gPYySPaIpTP0pa0OirAxsbGXspuC0Zbfmblqj0mRXNhY2NjL2Ln7fsTUt76aS/x5BsXnaKwsbGxb85ukfm//m3jaRYk5A0vbGxs7H3s9hiQl5DzuDePBJIXiY2Njf0E9slC8+ZOHjzMoovi3WJjY2MvYufLPSlyectp1lqqLx5hY2Njr2DPrl3mBSZvBiXtqtkFoLdBLzY2NvYi9sni8u3I4+T2qIONjY2N3ZaiJEzNr+C0V4IuCAmwsbGxV7Bf5ZiFqa/jMSxRSQaCjY2NfXP2LABuJ2iXfv6cvMRiY2Nj72AnxeM8+s0D4NmRo21UYWNjY+9jt5d48sW1W5B/flkvDRsbG/vB7Guv0eTfmf326GSDjY2NvZqdFJX24JGXvfa4go2Njb2VPbv++LmRlNeLpBmUb2tUXLGxsbEXsWdh7VXHibz45fNenG9jY2Njfy/7F7/wNQBU08RZAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
