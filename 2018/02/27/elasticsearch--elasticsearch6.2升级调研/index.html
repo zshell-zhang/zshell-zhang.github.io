@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>elasticsearch 6.2 升级调研 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="elasticsearch">
+    <meta name="description" content="todo">
+<meta name="keywords" content="elasticsearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="elasticsearch 6.2 升级调研">
+<meta property="og:url" content="https://zshell-zhang.github.io/2018/02/27/elasticsearch--elasticsearch6.2升级调研/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="todo">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-02-28T14:44:00.815Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="elasticsearch 6.2 升级调研">
+<meta name="twitter:description" content="todo">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshell.zhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ZhangZhi1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">elasticsearch 6.2 升级调研</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">elasticsearch 6.2 升级调研</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-02-27T14:11:48.000Z" itemprop="datePublished" class="page-time">
+  2018-02-27
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/elasticsearch/">elasticsearch</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#API-的兼容性"><span class="post-toc-number">1.</span> <span class="post-toc-text">API 的兼容性</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#索引创建的兼容性"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">索引创建的兼容性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#client-端访问的兼容性"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">client 端访问的兼容性</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#底层索引数据的兼容性"><span class="post-toc-number">2.</span> <span class="post-toc-text">底层索引数据的兼容性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#http-访问工具兼容性"><span class="post-toc-number">3.</span> <span class="post-toc-text">http 访问工具兼容性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#插件兼容性"><span class="post-toc-number">4.</span> <span class="post-toc-text">插件兼容性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#性能检测"><span class="post-toc-number">5.</span> <span class="post-toc-text">性能检测</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#监控体系"><span class="post-toc-number">6.</span> <span class="post-toc-text">监控体系</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#新特性研究"><span class="post-toc-number">7.</span> <span class="post-toc-text">新特性研究</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">8.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-elasticsearch--elasticsearch6.2升级调研"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">elasticsearch 6.2 升级调研</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-02-27 22:11:48" datetime="2018-02-27T14:11:48.000Z"  itemprop="datePublished">2018-02-27</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/elasticsearch/">elasticsearch</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>todo</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<h2 id="API-的兼容性"><a href="#API-的兼容性" class="headerlink" title="API 的兼容性"></a><strong>API 的兼容性</strong></h2><h3 id="索引创建的兼容性"><a href="#索引创建的兼容性" class="headerlink" title="索引创建的兼容性"></a><strong>索引创建的兼容性</strong></h3><p>es 6.2 在索引创建方面, 有如下几点与 es 2.4 有区别:<br>&nbsp;<br><strong>首先是 settings 中的区别;</strong><br>&nbsp;<br>部分字段不能出现在索引创建语句中了, 只能由 elasticsearch 自动生成;<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"settings"</span>:&#123;</span><br><span class="line">    <span class="string">"index"</span>:&#123;</span><br><span class="line">        <span class="comment">// creation_date 不能出现在索引创建的定义语句里</span></span><br><span class="line">        <span class="string">"creation_date"</span>: <span class="string">"1502713848656"</span>,</span><br><span class="line">        <span class="string">"number_of_shards"</span>:<span class="string">"2"</span>,</span><br><span class="line">        <span class="string">"analysis"</span>:&#123;</span><br><span class="line">            <span class="string">"analyzer"</span>:&#123;</span><br><span class="line">                <span class="string">"comma_analyzer"</span>:&#123;</span><br><span class="line">                    <span class="string">"type"</span>:<span class="string">"custom"</span>,</span><br><span class="line">                    <span class="string">"tokenizer"</span>:<span class="string">"comma_tk"</span></span><br><span class="line">                &#125;   </span><br><span class="line">            &#125;,  </span><br><span class="line">            <span class="string">"tokenizer"</span>:&#123;</span><br><span class="line">                <span class="string">"comma_tk"</span>:&#123;</span><br><span class="line">                    <span class="string">"pattern"</span>:<span class="string">","</span>,</span><br><span class="line">                    <span class="string">"type"</span>:<span class="string">"pattern"</span></span><br><span class="line">                &#125;   </span><br><span class="line">            &#125;   </span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"number_of_replicas"</span>:<span class="string">"1"</span>,</span><br><span class="line">        <span class="comment">// uuid 不能出现在索引创建的定义语句里</span></span><br><span class="line">        <span class="string">"uuid"</span>:<span class="string">"Oa0tz0x-SpSfuC591_ASIQ"</span>,</span><br><span class="line">        <span class="comment">// version.create, version.update 不能出现在索引创建的定义语句里</span></span><br><span class="line">        <span class="string">"version"</span>:&#123;</span><br><span class="line">            <span class="string">"created"</span>:<span class="string">"1070399"</span>,</span><br><span class="line">            <span class="string">"upgraded"</span>:<span class="string">"2040299"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这算是一个规范化, 这些字段原本就不该自己定义, 之前我们是复制的时候图省事, 懒得删掉, 现在不行了;<br>&nbsp;<br><strong>然后是 mappings 中的区别;</strong><br>&nbsp;<br><strong>(1) 布尔类型的取值内容规范化</strong><br>elasticsearch 索引定义的 settings/mappings 里有很多属性是布尔类型的开关; 在 6.x 之前的版本, elasticsearch 对布尔类型的取值内容限制很宽松: true, false, on, off, yes, no, 0, 1 都可以接受, 产生了一些混乱, 对初学者造成了困扰:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// elasticsearch 2.4.2</span></span><br><span class="line"><span class="comment">// xxx_idx/_mapping/field/xxx_field</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"xxx_idx"</span>:&#123;</span><br><span class="line">        <span class="string">"mappings"</span>:&#123;</span><br><span class="line">            <span class="string">"xxx_type"</span>:&#123;</span><br><span class="line">                <span class="string">"xxx_field"</span>:&#123;</span><br><span class="line">                    <span class="string">"full_name"</span>:<span class="string">"xxx_field"</span>,</span><br><span class="line">                    <span class="string">"mapping"</span>:&#123;</span><br><span class="line">                        <span class="string">"xxx_field"</span>:&#123;</span><br><span class="line">                            <span class="string">"type"</span>:<span class="string">"string"</span>,</span><br><span class="line">                            <span class="string">"index_name"</span>:<span class="string">"xxx_field"</span>,</span><br><span class="line">                            <span class="comment">// 以下属性都有布尔类型的含义, 但取值五花八门, 容易造成歧义</span></span><br><span class="line">                            <span class="string">"index"</span>:<span class="string">"not_analyzed"</span>, </span><br><span class="line">                            <span class="string">"store"</span>:<span class="literal">false</span>,</span><br><span class="line">                            <span class="string">"doc_values"</span>:<span class="literal">false</span>,</span><br><span class="line">                            <span class="string">"term_vector"</span>:<span class="string">"no"</span>,</span><br><span class="line">                            <span class="string">"norms"</span>:&#123;</span><br><span class="line">                                <span class="string">"enabled"</span>:<span class="literal">false</span></span><br><span class="line">                            &#125;,</span><br><span class="line">                            <span class="string">"null_value"</span>:<span class="literal">null</span>,</span><br><span class="line">                            <span class="string">"include_in_all"</span>:<span class="literal">false</span></span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从 6.x 版本开始, 所有的布尔类型的属性 elasticsearch 只接受两个值: <code>true</code> 或 <code>false</code>;<br><em>从当前 2.4.2 集群的使用状况来看, 这个改动对我们的影响不是特别大, 因为我们在定义索引创建 DSL 语句时, 很多布尔类型的选项都是用的默认值, 并未显式定义, 只有 <code>index</code> 属性可能会经常用到;</em></p>
+<p><strong>(2) _timestamp 字段被废弃</strong><br><em>这个改变对我们的影响不是很大, 我们现在绝大部分索引都会自己定义 createTime / updateTime 字段, 用于记录该文档的创建 / 更新时间, 几乎不依赖系统自带的 _timestamp 字段;</em><br>况且, _timestamp 字段在 2.4.2 版本时, 就已经默认不自动创建了, 要想添加 _timestamp 字段, 必须这样定义:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"_timestamp"</span>: &#123;</span><br><span class="line">    <span class="string">"enabled"</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当然, 在 6.2.2 版本中, 以上定义就直接报 unsupported parameter 错误了;</p>
+<p><strong>(3) 史诗级大改变: string 类型被废弃</strong><br>string 类型被废弃, 代替者是分词的 <code>text</code> 类型和不分词的 <code>keyword</code> 类型;<br>当前正在使用的 2.4.2 版本的集群里, string 类型大概是被使用最多的类型了; 保守估计, 一个普通的索引里, 60%  以上的字段类型都是 string; 现在 6.x 把这个类型废弃了, 就意味着几乎所有索引里的大多数字段都要修改;<br><em>不过好在, 这种修改也只是停留在 index 的 schema 映射层面, 对 store 于底层的 document 而言是完全透明的, 所有原始数据都不需要有任何修改;</em><br>经过搜索发现, 其实早在 elasticsearch 5.0 时, string 类型就已经被 deprecated 了, 然后在 6.1 时被彻底废弃, 详细的 changelog 见官方文档: <a href="https://github.com/elastic/elasticsearch-dsl-py/blob/master/Changelog.rst" target="_blank" rel="noopener">Changelog</a>;<br>仔细一想, 这个改变是有道理的: elasticsearch 想要结束掉目前混乱的概念定义;<br>比如说, 在 5.0 之前的版本, 一个字符串类型的字段, 是这样定义的:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"xxx"</span>: &#123;</span><br><span class="line">    <span class="string">"type"</span>: <span class="string">"string"</span>,</span><br><span class="line">    <span class="string">"index"</span>: <span class="string">"not_analyzed"</span> <span class="comment">// 不需要分词, 但要索引</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="string">"yyy"</span>: &#123;</span><br><span class="line">    <span class="string">"type"</span>: <span class="string">"string"</span>,</span><br><span class="line">    <span class="string">"index"</span>: <span class="string">"no"</span> <span class="comment">// 不需要分词, 也不需要索引</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="string">"zzz"</span>: &#123;</span><br><span class="line">    <span class="string">"type"</span>: <span class="string">"string"</span> <span class="comment">// 默认情况, 需要索引, 也需要分词</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>index</code> 的原本含义是定义是否需要索引, 是一个布尔概念; 但由于字符串类型的特殊性, 索引的同时还需要再区分是否需要分词, 结果 index 属性被设计为允许设置成 <code>not_analyzed</code>, <code>analyzed</code>, <code>no</code> 这样的内容; 然后其他诸如数值类型, 亦被其拖累, index 属性的取值也需要在 <code>not_analyzed</code>, <code>no</code> 中作出选择; 不得不说这非常混乱;<br>要把这块逻辑理清楚, 第一个选择是再引入一个控制分词的开关 word_split, 只允许字符串类型使用, 第二种选择就是把字符串类型拆分成 text 和 keyword;<br>至于 elasticsearch 为何选择了第二种方案, 我猜主要还是默认值不好确定; 对初学者而言, 一般都习惯于使用默认值, 但是究竟默认要不要分词? 以 elasticsearch 的宗旨和初衷来看, 要分词, search every where; 但是以实际使用者的情况来看, 很多的场景下都不需要分词; 如果是把类型拆分, 那么就得在 text 和 keyword 中二选一, 不存在默认值, 使用者自然会去思考自己真正的需求;<br>现在逻辑理清楚了, <code>index</code> 的取值类型, 也就如上一节所说的, 必须要在 <code>true</code> 或 <code>false</code> 中选择, 非常清晰;</p>
+<p><strong>(3) mapping 中取消 multi types</strong><br>从 elasticsearch 6.1 开始, 同一个 index(mapping) 下不允许创建多个 type, index 与 type 必须一一对应; 从下一个 major 版本开始, elasticsearch 将废弃 type 的概念, 详见官方文档: <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.2/removal-of-types.html" target="_blank" rel="noopener">Removal of mapping types</a>;<br>由于底层 Lucene 的限制, 同一个 index 下的不同 type 中的同名的字段, 其背后是共享的同一个 lucene segment; 这就意味着, 同一个 index 下不同 type 中的同名字段, 类型定义也必须相同; 原文如下:</p>
+<blockquote>
+<p>In an Elasticsearch index, fields that have the same name in different mapping types are backed by the same Lucene field internally; In other words, both fields must have the same mapping (definition) in both types.</p>
+</blockquote>
+<p><em>这个改变对我们是有些影响的, 我们有小一部分的索引都存在 multi types 的问题, 这就意味着需要新建索引来承接多出来的 type, 这些索引的使用者必须要修改代码, 使用新的索引名访问不同的 type;</em></p>
+<h3 id="client-端访问的兼容性"><a href="#client-端访问的兼容性" class="headerlink" title="client 端访问的兼容性"></a><strong>client 端访问的兼容性</strong></h3><p>关于 elasticsearch java 官方客户端, 除了 TransportClient 之外, 最近又新出了一个 HighLevelClient, 而且官方准备在接下来的一两个 major 版本中, 让 HighLevelClient 逐步取代 TransportClient, 官方原话是这样描述的:</p>
+<blockquote>
+<p>We plan on deprecating the <code>TransportClient</code> in Elasticsearch 7.0 and removing it completely in 8.0.</p>
+</blockquote>
+<p>所以没有什么好对比的, 我们必须选择 HighLevelClient; 值得注意的是, HighLevelClient 是基于 http 的 rest client, 这样一来, 在客户端方面, elasticsearch 将 java, python, php, javascript 等各种语言的底层接口就都统一起来了;<br>我迫不及待得想看下 HighLevelClient 的 maven 坐标长什么样:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.elasticsearch.client<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>elasticsearch-rest-high-level-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.2.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>artifactId 取名这么独特我就长舒一口气了:<br>之前从 1.7.3 升 2.4.2 时, 由于 TransportClient 跨 major 版本不兼容, 导致 es-adapter 无法用同一个 TransportClient 访问两个集群, 只能苦苦寻找有没有 rest 的解决方案, 后来总算找到一个: Jest (github 地址: <a href="https://github.com/searchbox-io/Jest" target="_blank" rel="noopener">searchbox-io/Jest</a>), 基本囊括了 elasticsearch 各种类别的请求功能;<br>但这还是架不住各业务线种种小众的需求(比如 nested-filter, function-score 等等), 以致于对两个不同版本的集群, es-adapter 不能提供一致的功能;<br>我看了下, Jest 最近一次 commit 时间是 2018.02.08, 最新支持到 elasticsearch v5.3.3, 以这个更新速度, 要支持到 6.2 可能还有一段时间, 好在现在已经有了 HighLevelClient, 而且 maven 坐标与 TransportClient 不冲突, 也就是说可以在 es-adapter 中同时使用: 用 TransportClient 访问 2.4.2 的集群, 而用 HighLevelClient 访问 6.2.2 的集群;</p>
+<h2 id="底层索引数据的兼容性"><a href="#底层索引数据的兼容性" class="headerlink" title="底层索引数据的兼容性"></a><strong>底层索引数据的兼容性</strong></h2><p>根据官方文档, 6.x 版本可以兼容访问 5.x 创建的索引; 5.x 版本可以兼容 2.x 创建的索引;<br>背后其实是 Lucene 版本的兼容性问题, 目前我们 2.4.2 版本的集群使用的 Lucene 版本是 5.5.2, 而 6.2.2 版本的 elasticsearch 使用的 Lucene 版本是 7.2.1;</p>
+<ul>
+<li>由于主机资源有限, 没办法再弄出一组机器来搭建新集群, 我首先想到的是: 能否以 5.x 作跳板, 先原地升级到 5.x, 再从 5.x 升到 6.x;<br>但是看了官方文档, 这个想法是不可行的: <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.2/reindex-upgrade.html" target="_blank" rel="noopener">Reindex before upgrading</a>; elasticsearch 只认索引是在哪个版本的集群中创建的, 并不关心这个索引现在在哪个集群; 一个索引在 2.4.2 集群中创建, 现在运行在 5.x 版本的 elasticsearch 中, 这时候将 5.x 的集群升级到 6.x, 该索引是无法在 6.x 中访问的;</li>
+<li><p>其次我想到的是使用 hdfs snapshot / restore 插件来升级索引; 这种方式曾在之前 1.7.3 升级 2.4.2 版本时大量使用, 总体来说速度比普通的 scroll / index 全量同步要快很多; 但是看了官方文档, 发现这个想法也是不可行的, (文档链接: <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html" target="_blank" rel="noopener">Snapshot And Restore</a>):</p>
+<blockquote>
+<p>A snapshot of an index created in 5.x can be restored to 6.x.<br>A snapshot of an index created in 2.x can be restored to 5.x.<br>A snapshot of an index created in 1.x can be restored to 2.x.</p>
+</blockquote>
+</li>
+<li><p>接着我又想到了 elasticsearch 自带的 reindex 模块; reindex 模块也是官方文档推荐的从 5.x 升 6.x 时的索引升级方法; 经过 beta 测试, 我发现这个方法基本可行, 速度也尚可, 唯一需要注意的就是在 elasticsearch.yml 配置文件中要加上一段配置: <code>reindex.remote.whitelist: oldhost:port</code> 以允许连接远程主机作 reindex;<br>以下是 _reindex API 的使用方法:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">POST _reindex</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"source"</span>: &#123;</span><br><span class="line">    <span class="string">"remote"</span>: &#123;</span><br><span class="line">      <span class="string">"host"</span>: <span class="string">"http://oldhost:9273"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"index"</span>: <span class="string">"source_idx"</span>,</span><br><span class="line">    <span class="string">"type"</span>: <span class="string">"source_type"</span></span><br><span class="line">    <span class="string">"query"</span>: &#123;</span><br><span class="line">      <span class="string">"match_all"</span>: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"dest"</span>: &#123;</span><br><span class="line">    <span class="string">"index"</span>: <span class="string">"dest_idx"</span>,</span><br><span class="line">    <span class="string">"type"</span>: <span class="string">"dest_type"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>除了 reindex 模块之外, 其实还有一种更保守的方法, 就是用基于 es-spark 的索引迁移工具来完成迁移, 这也是之前经常使用的工具;</p>
+</li>
+</ul>
+<h2 id="http-访问工具兼容性"><a href="#http-访问工具兼容性" class="headerlink" title="http 访问工具兼容性"></a><strong>http 访问工具兼容性</strong></h2><p>目前我们经常使用的基于 http 的访问工具主要是 elasticsearch-head 和 cerebro;<br>关于 http 请求, elasticsearch 6.2.2 也有一个重大的改变: <a href="https://www.elastic.co/blog/strict-content-type-checking-for-elasticsearch-rest-requests" target="_blank" rel="noopener">Strict Content-Type Checking for Elasticsearch REST Requests</a>;<br>现在所有带 body 的请求都必须要加上 <code>content-type</code> 头, 否则会被拒绝; 我们目前正在使用的 elasticsearch-head:2 和 cerebro v0.6.1 肯定是不支持这点的, head 是所有针对数据的 CRUD 请求使用不了, cerebro 甚至连接机器都会失败;<br>目前, cerebro 在 github 上已经发布了最新支持 elasticsearch 6.x 的 docker 版本: <a href="https://github.com/yannart/docker-cerebro" target="_blank" rel="noopener">yannart/docker-cerebro</a>; 经过部署测试, 完全兼容 elasticsearch 6.2.2;<br>不过, elasticsearch-head 就没那么积极了, 目前最近的一次 commit 发生在半年之前, 那个时候 elasticsearch 的最新版本还是 v 5.5;</p>
+<h2 id="插件兼容性"><a href="#插件兼容性" class="headerlink" title="插件兼容性"></a><strong>插件兼容性</strong></h2><p>目前生产环境中正在使用的插件是否在 es6 生态下继续兼容:<br>    (1) elasticfence (源代码已被我深度改造, 可以基于 es6.2 的 api 再重新改一下, 官方支不支持都没关系)<br>    (2) elasticsearch-analysis-ik<br>    (3) licence<br>    (4) marvel-agent (xpack 代替)<br>    (5) repository-hdfs<br>    (6) taskscore (曹飞写的, 需要他用 es6.2 的 api 重新改一下) </p>
+<h2 id="性能检测"><a href="#性能检测" class="headerlink" title="性能检测"></a><strong>性能检测</strong></h2><p>(1) 与 2.4 的对比: index, update, query;<br>(2) query 完全取代 filter;<br>(3) load, gc 是否稳定; </p>
+<h2 id="监控体系"><a href="#监控体系" class="headerlink" title="监控体系"></a><strong>监控体系</strong></h2><p>kibana, xpack 的部分免费功能 (待仔细研究); </p>
+<h2 id="新特性研究"><a href="#新特性研究" class="headerlink" title="新特性研究"></a><strong>新特性研究</strong></h2><p>(1) 类似 binlog 的行为日志, 可用于备份及恢复, 甚至实时同步索引;</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2><ul>
+<li><a href="https://github.com/elastic/elasticsearch-dsl-py/blob/master/Changelog.rst" target="_blank" rel="noopener">Changelog</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.2/removal-of-types.html" target="_blank" rel="noopener">Removal of mapping types</a></li>
+<li><a href="https://www.elastic.co/blog/strict-content-type-checking-for-elasticsearch-rest-requests" target="_blank" rel="noopener">Strict Content-Type Checking for Elasticsearch REST Requests</a></li>
+<li><a href="http://blog.csdn.net/napoay/article/details/79135136" target="_blank" rel="noopener">Elasticsearch 6 新特性与重要变更解读</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2018/02/27/elasticsearch--elasticsearch6.2升级调研/" rel="external">https://zshell-zhang.github.io/2018/02/27/elasticsearch--elasticsearch6.2升级调研</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="https://zshell-zhang.github.io">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshell.zhang">
+            zshell.zhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/">elasticsearch</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2018/02/27/elasticsearch--elasticsearch6.2升级调研/&title=《elasticsearch 6.2 升级调研》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2018/02/27/elasticsearch--elasticsearch6.2升级调研/&title=《elasticsearch 6.2 升级调研》 — 希尔的博客&source=
+todo
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2018/02/27/elasticsearch--elasticsearch6.2升级调研/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《elasticsearch 6.2 升级调研》 — 希尔的博客&url=https://zshell-zhang.github.io/2018/02/27/elasticsearch--elasticsearch6.2升级调研/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2018/02/27/elasticsearch--elasticsearch6.2升级调研/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/02/23/python-module--python_module_使用总结_定时调度器/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">python module 使用总结: 定时调度器</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+<section class="comments" id="comments">
+    <div id="gitment_thread"></div>
+    <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'zhangzhi1993-2025',
+            repo: 'gitment-storage',
+            oauth: {
+                client_id: '8d7b7d33dd8bbd51a8c2',
+                client_secret: 'a98d9b9266c6ccbae7b1194e1680dba27def86ee',
+            },
+        })
+        gitment.render('comments')
+    </script>
+</section>
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshell.zhang &copy; 2016 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://zshell-zhang.github.io/2018/02/27/elasticsearch--elasticsearch6.2升级调研/&title=《elasticsearch 6.2 升级调研》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zshell-zhang.github.io/2018/02/27/elasticsearch--elasticsearch6.2升级调研/&title=《elasticsearch 6.2 升级调研》 — 希尔的博客&source=
+todo
+" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://zshell-zhang.github.io/2018/02/27/elasticsearch--elasticsearch6.2升级调研/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《elasticsearch 6.2 升级调研》 — 希尔的博客&url=https://zshell-zhang.github.io/2018/02/27/elasticsearch--elasticsearch6.2升级调研/&via=https://zshell-zhang.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://zshell-zhang.github.io/2018/02/27/elasticsearch--elasticsearch6.2升级调研/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADIklEQVR42u3awW7CQAwE0P7/T9NzVTXMrINUzMsJQUjyzGFYe7++4uPx67g+5/pbyXV+v75+tq9XHNjY2Nhvwn5cHgkpuVrOy4ubFPrPq2FjY2OvY7ePdR1dSey1pTx7tj/fx8bGxv54dvLp2SKkjUZsbGxs7EmAJTduAyz5bn4FbGxs7M9h58HwCI4klpJBQlKOl/fSsLGxsf89O5+K/v/XL5lvY2NjY/9j9qM8JmFzXcQ2hB6DAxsbG3sTu93geH1mu8UnaSe1ZxbPj42Njb2CnYRQ0prJHzovVh6QyZV/vIONjY29mj0ZrN61nJhH4xMLNjY29iL2vfHTNonaO7Yh+uTK2NjY2IvY7cPNm0F5yynfcJMXDhsbG3sfO2/iTyKqjZkkxiYtJ2xsbOwd7KI28bg3X8BMWk6TbUDY2NjYm9hJROWLhLwo+XXakUMRh9jY2Ngr2Gd/6POR6tnA+GwUXZyDjY2NvY6d37gdpk4WLW1piuUQNjY29iJ2O+Jth7tnvLNRbj48xsbGxt7NPmv3tCW4F3Y2MMbGxsbex05enzXl5xs62xCN3sHGxsZewW7/vreDgXmA5SPn/OfBxsbG3sS+d/GQLAba1+2ipWhdYWNjY69j5+ERxUMQb8k4OQ+nOjKxsbGxV7AnWx7bW95VuLOf5Mc72NjY2IvYeYS0I4G7BsPtSKDeEoSNjY29gj0PkmTZkA9xX9hIwsbGxv4A9nzo2w5c56XJY+/P8QA2Njb227LzxlC7qJjw7triU38NGxsb+w3Z7cOdLTzyxn17zm1lxcbGxn5z9qRxn1f07PzJ3psnwYaNjY29lJ0Pa89Gwm0InS0zohjDxsbGXsdO/sq3mybbu5xFafsM2NjY2JvYj/LIh6l5+6kt7jzesLGxsTexJ5PQtqB5LLXj5LtCFxsbG/t92fmoNW/9JHE1uVe+yMHGxsb+HHYbMHmcJMuJSfnyIQE2NjY2dr5dpm0GnW0Myn8YbGxsbOx5adolR7496LApho2Njb2OfVcDqI23ybD5LA6xsbGx97HzAMhvkFPzK+Q/wNmYARsbG/sN2d9RPTUAA1B37AAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
