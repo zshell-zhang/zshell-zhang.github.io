@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="之前写过一篇文章 apache benchmark 使用笔记, 介绍了 apache benchmark 的使用及注意事项, 当时我确实是使用 ab 作了一个系统的压力测试; 可惜不够重视, 我在博客里只作了关于 ab 的使用笔记, 却没有将当时压测的结果输出为一份详细报告;这次被我逮到机会了: 最近我在调研一个 KV 数据库 oracle berkeley db, 需要测试其新版本 (7.4.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-12T15:15:32.332Z">
+<meta property="og:updated_time" content="2018-08-18T06:40:48.123Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="berkeley db 7.x 压力测试报告">
 <meta name="twitter:description" content="之前写过一篇文章 apache benchmark 使用笔记, 介绍了 apache benchmark 的使用及注意事项, 当时我确实是使用 ab 作了一个系统的压力测试; 可惜不够重视, 我在博客里只作了关于 ab 的使用笔记, 却没有将当时压测的结果输出为一份详细报告;这次被我逮到机会了: 最近我在调研一个 KV 数据库 oracle berkeley db, 需要测试其新版本 (7.4.">
@@ -196,14 +196,14 @@
 </blockquote>
 <a id="more"></a>
 <hr>
-<h2 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a><strong>测试环境</strong></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">24C 64G 2.7T</span><br></pre></td></tr></table></figure>
-<h2 id="测试内容"><a href="#测试内容" class="headerlink" title="测试内容"></a><strong>测试内容</strong></h2><p>测试接口:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 随机写, key 在 (0, xxx] 范围内随机生成, valueSize 指定 key 的大小</span></span><br><span class="line">http://<span class="variable">$&#123;remote_url&#125;</span>/random_set?keyRange=xxx&amp;valueSize=xxx</span><br><span class="line"><span class="comment"># 随机读, key 在 (0, xxx] 范围内随机生成</span></span><br><span class="line">http://<span class="variable">$&#123;remote_url&#125;</span>/random_get?keyRange=xxx</span><br><span class="line"><span class="comment"># 随机批量读, key 在 (0, xxx] 范围内随机生成, keyNum 指定批量个数</span></span><br><span class="line">http://<span class="variable">$&#123;remote_url&#125;</span>/random_mget?keyRange=xxx&amp;keyNum=yyy</span><br></pre></td></tr></table></figure></p>
-<p>使用 apache benchmark 作压力测试;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 100 万次总请求, 250 并发, 5s timeout</span></span><br><span class="line">ab -n 1000000 -c 250 -s 5 http://<span class="variable">$&#123;remote_url&#125;</span>/random_get</span><br></pre></td></tr></table></figure></p>
-<h3 id="基础指标分析"><a href="#基础指标分析" class="headerlink" title="基础指标分析"></a><strong>基础指标分析</strong></h3><p>使用 ab 收集基础数据:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># rt</span></span><br><span class="line">min, mean, median, P90, max</span><br><span class="line"><span class="comment"># 标准差/乖离率</span></span><br><span class="line">stdev</span><br><span class="line"><span class="comment"># failure stat</span></span><br><span class="line">error/exception/timeout</span><br></pre></td></tr></table></figure></p>
-<h3 id="jvm-指标分析"><a href="#jvm-指标分析" class="headerlink" title="jvm 指标分析"></a><strong>jvm 指标分析</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; sudo -u www jstat -gcutil -h 10 <span class="variable">$&#123;vmid&#125;</span> 1000 | tee /tmp/jstat_collect/xxx</span><br><span class="line"></span><br><span class="line">S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT</span><br><span class="line">5.67   0.00  48.74  70.68  98.24     -  15588  1199.695    20   2.865   1202.561</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 收集 gc 状态指标</span></span><br><span class="line">YGC, YGCT, FGC, FGCT</span><br></pre></td></tr></table></figure>
+<h2 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a><strong>测试环境</strong></h2><p>测试机器的物理配置如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">24C</span><br><span class="line">64G</span><br><span class="line">2.7T</span><br></pre></td></tr></table></figure></p>
+<h2 id="测试内容"><a href="#测试内容" class="headerlink" title="测试内容"></a><strong>测试内容</strong></h2><p>为了构造大量的随机数据以模拟服务的真实场景, mock 了三个接口如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 随机写, key 在 (0, xxx] 范围内随机生成, valueSize 指定 key 的大小</span></span><br><span class="line">http://<span class="variable">$&#123;remote_url&#125;</span>/random_set?keyRange=xxx&amp;valueSize=xxx</span><br><span class="line"><span class="comment"># 随机读, key 在 (0, xxx] 范围内随机生成</span></span><br><span class="line">http://<span class="variable">$&#123;remote_url&#125;</span>/random_get?keyRange=xxx</span><br><span class="line"><span class="comment"># 随机批量读, key 在 (0, xxx] 范围内随机生成, keyNum 指定批量个数</span></span><br><span class="line">http://<span class="variable">$&#123;remote_url&#125;</span>/random_mget?keyRange=xxx&amp;keyNum=yyy</span><br></pre></td></tr></table></figure></p>
+<p>在各接口中使用当前时间作为随机数发生的 seed, 确保真实随机, 然后使用 apache benchmark 作压力测试:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 100 万次总请求, 250 并发, 5s timeout</span></span><br><span class="line">ab -n 1000000 -c 250 -s 5 http://<span class="variable">$&#123;remote_url&#125;</span>/random_get</span><br></pre></td></tr></table></figure></p>
+<h3 id="基础指标分析"><a href="#基础指标分析" class="headerlink" title="基础指标分析"></a><strong>基础指标分析</strong></h3><p>使用 ab 收集基础数据:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># rt</span></span><br><span class="line">min, mean, median, P90, P99, max</span><br><span class="line"><span class="comment"># 标准差/乖离率</span></span><br><span class="line">stdev</span><br><span class="line"><span class="comment"># failure stat</span></span><br><span class="line">error/exception/timeout</span><br></pre></td></tr></table></figure></p>
+<h3 id="jvm-指标分析"><a href="#jvm-指标分析" class="headerlink" title="jvm 指标分析"></a><strong>jvm 指标分析</strong></h3><p>使用 jstat 采样 jvm gc 状态:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; sudo -u www jstat -gcutil -h 10 <span class="variable">$&#123;vmid&#125;</span> 1000 | tee /tmp/jstat_collect/xxx</span><br><span class="line"></span><br><span class="line"><span class="comment"># sample</span></span><br><span class="line">S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT</span><br><span class="line">5.67   0.00  48.74  70.68  98.24     -  15588  1199.695    20   2.865   1202.561</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 收集关键 gc 状态指标</span></span><br><span class="line">YGC, YGCT, FGC, FGCT</span><br></pre></td></tr></table></figure>
 <h3 id="堆外内存分析"><a href="#堆外内存分析" class="headerlink" title="堆外内存分析"></a><strong>堆外内存分析</strong></h3><p>堆外内存无法使用 jmap / jstat 观察, 只能用 top 观察;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top -b -n 100 -H -p <span class="variable">$&#123;vmid&#125;</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="控制变量测试计划"><a href="#控制变量测试计划" class="headerlink" title="控制变量测试计划"></a><strong>控制变量测试计划</strong></h2><p>在本测试计划内使用的收集器是 ParNew + CMS 的组合, 配置如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-XX:ParallelGCThreads=<span class="variable">$&#123;CPU_COUNT&#125;</span></span><br><span class="line"></span><br><span class="line">-XX:+UseConcMarkSweepGC</span><br><span class="line">-XX:+UseCMSCompactAtFullCollection</span><br><span class="line">-XX:CMSMaxAbortablePrecleanTime=5000</span><br><span class="line">-XX:+CMSClassUnloadingEnabled</span><br><span class="line">-XX:CMSInitiatingOccupancyFraction=80</span><br><span class="line">-XX:+UseCMSInitiatingOccupancyOnly</span><br><span class="line">-XX:+CMSScavengeBeforeRemark</span><br></pre></td></tr></table></figure></p>
+<h2 id="控制变量测试计划"><a href="#控制变量测试计划" class="headerlink" title="控制变量测试计划"></a><strong>控制变量测试计划</strong></h2><p>除了计划 E 是专门对比收集器效果的, 其余的测试计划内均使用 ParNew + CMS 的收集器组合, 配置如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-XX:ParallelGCThreads=<span class="variable">$&#123;CPU_COUNT&#125;</span></span><br><span class="line"></span><br><span class="line">-XX:+UseConcMarkSweepGC</span><br><span class="line">-XX:+UseCMSCompactAtFullCollection</span><br><span class="line">-XX:CMSMaxAbortablePrecleanTime=5000</span><br><span class="line">-XX:+CMSClassUnloadingEnabled</span><br><span class="line">-XX:CMSInitiatingOccupancyFraction=80</span><br><span class="line">-XX:+UseCMSInitiatingOccupancyOnly</span><br><span class="line">-XX:+CMSScavengeBeforeRemark</span><br></pre></td></tr></table></figure></p>
 <h3 id="计划-A-in-heap-缓存大小控制"><a href="#计划-A-in-heap-缓存大小控制" class="headerlink" title="计划 A: in-heap 缓存大小控制"></a><strong>计划 A: in-heap 缓存大小控制</strong></h3><p>测试环境:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-Xms=25g</span><br><span class="line">-Xmx=25g</span><br><span class="line">-Xmn=10g</span><br><span class="line">-XX:MaxDirectMemorySize=10g</span><br><span class="line">-Dje.maxOffHeapMemory=10g</span><br></pre></td></tr></table></figure></p>
 <p><strong>A-1: 测试 set</strong><br>测试命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 100 万次请求, 250 个并发</span></span><br><span class="line">ab -n 1000000 -c 250 -s 5 <span class="string">"http://<span class="variable">$&#123;remote_url&#125;</span>/random_set?keyRange=9999999&amp;valueSize=5000"</span></span><br><span class="line">sudo -u www jstat -gcutil -h 10 <span class="variable">$&#123;vmid&#125;</span> 1000 | tee /tmp/jstat_collect/A-1_X</span><br></pre></td></tr></table></figure></p>
 <p>测试结果:</p>
@@ -219,11 +219,18 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">RT (min/mean/median/P90/max) (ms)</td>
-<td style="text-align:center">6/85/73/122/1461</td>
-<td style="text-align:center">6/87/75/128/1708</td>
-<td style="text-align:center">6/88/75/125/3354</td>
+<td style="text-align:center">RT (min/P90/P99/max) (ms)</td>
+<td style="text-align:center">6/122/316/1461</td>
+<td style="text-align:center">6/128/352/1708</td>
+<td style="text-align:center">6/125/365/3354</td>
 <td style="text-align:center">ab timeout</td>
+</tr>
+<tr>
+<td style="text-align:center">RT (mean/median) (ms)</td>
+<td style="text-align:center">85/73</td>
+<td style="text-align:center">87/75</td>
+<td style="text-align:center">88/75</td>
+<td style="text-align:center">/</td>
 </tr>
 <tr>
 <td style="text-align:center">error/timeout</td>
@@ -269,10 +276,17 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">RT (min/mean/median/P90/max) (ms)</td>
-<td style="text-align:center">9/24/24/29/1030</td>
-<td style="text-align:center">8/23/24/26/1038</td>
-<td style="text-align:center">8/22/21/27/1218</td>
+<td style="text-align:center">RT (min/P90/P99/max) (ms)</td>
+<td style="text-align:center">9/32/29/1030</td>
+<td style="text-align:center">8/26/29/1038</td>
+<td style="text-align:center">8/27/29/1218</td>
+<td style="text-align:center">/</td>
+</tr>
+<tr>
+<td style="text-align:center">RT (mean/median) (ms)</td>
+<td style="text-align:center">24/24</td>
+<td style="text-align:center">23/24</td>
+<td style="text-align:center">22/21</td>
 <td style="text-align:center">/</td>
 </tr>
 <tr>
@@ -319,10 +333,17 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">RT (min/mean/median/P90/max) (ms)</td>
-<td style="text-align:center">8/34/26/28/4529</td>
-<td style="text-align:center">6/32/25/28/4804</td>
-<td style="text-align:center">6/25/23/27/1073</td>
+<td style="text-align:center">RT (min/P90/P99/max) (ms)</td>
+<td style="text-align:center">8/28/34/4529</td>
+<td style="text-align:center">6/28/31/4804</td>
+<td style="text-align:center">6/27/33/1073</td>
+<td style="text-align:center">/</td>
+</tr>
+<tr>
+<td style="text-align:center">RT (mean/median) (ms)</td>
+<td style="text-align:center">34/26</td>
+<td style="text-align:center">32/25</td>
+<td style="text-align:center">25/23</td>
 <td style="text-align:center">/</td>
 </tr>
 <tr>
@@ -369,20 +390,27 @@
 <table>
 <thead>
 <tr>
-<th style="text-align:center">metrics \ je.maxOffHeapMemory</th>
-<th style="text-align:center">512m</th>
-<th style="text-align:center">1g</th>
-<th style="text-align:center">10g</th>
-<th style="text-align:center">20g</th>
+<th style="text-align:center">metrics \ je.maxMemoryPercent</th>
+<th style="text-align:center">5%</th>
+<th style="text-align:center">10%</th>
+<th style="text-align:center">20%</th>
+<th style="text-align:center">30%</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">RT (min/mean/median/P90/max) (ms)</td>
-<td style="text-align:center">6/85/73/122/3173</td>
-<td style="text-align:center">7/83/72/117/1714</td>
-<td style="text-align:center">6/87/75/128/1708</td>
-<td style="text-align:center">6/89/76/131/3074</td>
+<td style="text-align:center">RT (min/P90/P99/max) (ms)</td>
+<td style="text-align:center">6/122/339/3173</td>
+<td style="text-align:center">7/117/318/1714</td>
+<td style="text-align:center">6/128/352/1708</td>
+<td style="text-align:center">6/131/153/3074</td>
+</tr>
+<tr>
+<td style="text-align:center">RT (mean/median) (ms)</td>
+<td style="text-align:center">85/73</td>
+<td style="text-align:center">83/72</td>
+<td style="text-align:center">87/75</td>
+<td style="text-align:center">89/76</td>
 </tr>
 <tr>
 <td style="text-align:center">error/timeout</td>
@@ -419,20 +447,27 @@
 <table>
 <thead>
 <tr>
-<th style="text-align:center">metrics \ je.maxOffHeapMemory</th>
-<th style="text-align:center">512m</th>
-<th style="text-align:center">1g</th>
-<th style="text-align:center">10g</th>
-<th style="text-align:center">20g</th>
+<th style="text-align:center">metrics \ je.maxMemoryPercent</th>
+<th style="text-align:center">5%</th>
+<th style="text-align:center">10%</th>
+<th style="text-align:center">20%</th>
+<th style="text-align:center">30%</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">RT (min/mean/median/P90/max) (ms)</td>
-<td style="text-align:center">9/23/22/25/1030</td>
-<td style="text-align:center">8/23/22/25/1225</td>
-<td style="text-align:center">8/23/24/26/1038</td>
-<td style="text-align:center">823/23/26/441</td>
+<td style="text-align:center">RT (min/P90/P99/max) (ms)</td>
+<td style="text-align:center">9/25/29/1030</td>
+<td style="text-align:center">8/25/28/1225</td>
+<td style="text-align:center">8/26/29/1038</td>
+<td style="text-align:center">823/28/29/441</td>
+</tr>
+<tr>
+<td style="text-align:center">RT (mean/median) (ms)</td>
+<td style="text-align:center">23/22</td>
+<td style="text-align:center">23/22</td>
+<td style="text-align:center">23/24</td>
+<td style="text-align:center">23/26</td>
 </tr>
 <tr>
 <td style="text-align:center">error/timeout</td>
@@ -469,20 +504,27 @@
 <table>
 <thead>
 <tr>
-<th style="text-align:center">metrics \ je.maxOffHeapMemory</th>
-<th style="text-align:center">512m</th>
-<th style="text-align:center">1g</th>
-<th style="text-align:center">10g</th>
-<th style="text-align:center">20g</th>
+<th style="text-align:center">metrics \ je.maxMemoryPercent</th>
+<th style="text-align:center">5%</th>
+<th style="text-align:center">10%</th>
+<th style="text-align:center">20%</th>
+<th style="text-align:center">30%</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">RT (min/mean/median/P90/max) (ms)</td>
-<td style="text-align:center">6/26/24/28/1029</td>
-<td style="text-align:center">6/26/24/27/1342</td>
-<td style="text-align:center">6/32/25/28/4804</td>
-<td style="text-align:center">6/26/23/27/1431</td>
+<td style="text-align:center">RT (min/P90/P99/max) (ms)</td>
+<td style="text-align:center">6/28/162/1029</td>
+<td style="text-align:center">6/27/145/1342</td>
+<td style="text-align:center">6/28/31/4804</td>
+<td style="text-align:center">6/27/67/1431</td>
+</tr>
+<tr>
+<td style="text-align:center">RT (mean/median) (ms)</td>
+<td style="text-align:center">26/24</td>
+<td style="text-align:center">26/24</td>
+<td style="text-align:center">32/25</td>
+<td style="text-align:center">26/23</td>
 </tr>
 <tr>
 <td style="text-align:center">error/timeout</td>
@@ -521,20 +563,27 @@
 <table>
 <thead>
 <tr>
-<th style="text-align:center">metrics \ -Xmx</th>
-<th style="text-align:center">10g</th>
-<th style="text-align:center">20g</th>
-<th style="text-align:center">25g</th>
-<th style="text-align:center">30g</th>
+<th style="text-align:center">metrics \ je.maxMemoryPercent</th>
+<th style="text-align:center">5%</th>
+<th style="text-align:center">10%</th>
+<th style="text-align:center">20%</th>
+<th style="text-align:center">30%</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">RT (min/mean/median/P90/max) (ms)</td>
-<td style="text-align:center">6/83/70/123/3092</td>
-<td style="text-align:center">6/86/74/123/3140</td>
-<td style="text-align:center">6/87/75/128/1708</td>
-<td style="text-align:center">6/94/80/138/3101</td>
+<td style="text-align:center">RT (min/P90/P99/max) (ms)</td>
+<td style="text-align:center">6/123/324/3092</td>
+<td style="text-align:center">6/123/343/3140</td>
+<td style="text-align:center">6/128/352/1708</td>
+<td style="text-align:center">6/138/324/3101</td>
+</tr>
+<tr>
+<td style="text-align:center">RT (mean/median) (ms)</td>
+<td style="text-align:center">83/70</td>
+<td style="text-align:center">86/74</td>
+<td style="text-align:center">87/75</td>
+<td style="text-align:center">94/80</td>
 </tr>
 <tr>
 <td style="text-align:center">error/timeout</td>
@@ -571,20 +620,27 @@
 <table>
 <thead>
 <tr>
-<th style="text-align:center">metrics \ -Xmx</th>
-<th style="text-align:center">10g</th>
-<th style="text-align:center">20g</th>
-<th style="text-align:center">25g</th>
-<th style="text-align:center">30g</th>
+<th style="text-align:center">metrics \ je.maxMemoryPercent</th>
+<th style="text-align:center">5%</th>
+<th style="text-align:center">10%</th>
+<th style="text-align:center">20%</th>
+<th style="text-align:center">30%</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">RT (min/mean/median/P90/max) (ms)</td>
-<td style="text-align:center">9/22/22/25/2819</td>
-<td style="text-align:center">8/22/22/25/1077</td>
-<td style="text-align:center">8/23/24/26/1038</td>
-<td style="text-align:center">10/22/22/25/1429</td>
+<td style="text-align:center">RT (min/P90/P99/max) (ms)</td>
+<td style="text-align:center">9/25/28/2819</td>
+<td style="text-align:center">8/25/28/1077</td>
+<td style="text-align:center">8/26/29/1038</td>
+<td style="text-align:center">10/25/28/1429</td>
+</tr>
+<tr>
+<td style="text-align:center">RT (mean/median) (ms)</td>
+<td style="text-align:center">22/22</td>
+<td style="text-align:center">22/22</td>
+<td style="text-align:center">23/24</td>
+<td style="text-align:center">22/22</td>
 </tr>
 <tr>
 <td style="text-align:center">error/timeout</td>
@@ -621,20 +677,27 @@
 <table>
 <thead>
 <tr>
-<th style="text-align:center">metrics \ -Xmx</th>
-<th style="text-align:center">10g</th>
-<th style="text-align:center">20g</th>
-<th style="text-align:center">25g</th>
-<th style="text-align:center">30g</th>
+<th style="text-align:center">metrics \ je.maxMemoryPercent</th>
+<th style="text-align:center">5%</th>
+<th style="text-align:center">10%</th>
+<th style="text-align:center">20%</th>
+<th style="text-align:center">30%</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">RT (min/mean/median/P90/max) (ms)</td>
-<td style="text-align:center">6/27/25/28/1195</td>
-<td style="text-align:center">6/27/25/29/1264</td>
-<td style="text-align:center">6/32/25/28/4804</td>
-<td style="text-align:center">6/28/25/28/1344</td>
+<td style="text-align:center">RT (min/P90/P99/max) (ms)</td>
+<td style="text-align:center">6/28/102/1195</td>
+<td style="text-align:center">6/29/140/1264</td>
+<td style="text-align:center">6/28/31/4804</td>
+<td style="text-align:center">6/28/159/1344</td>
+</tr>
+<tr>
+<td style="text-align:center">RT (mean/median) (ms)</td>
+<td style="text-align:center">27/25</td>
+<td style="text-align:center">27/25</td>
+<td style="text-align:center">32/25</td>
+<td style="text-align:center">28/25</td>
 </tr>
 <tr>
 <td style="text-align:center">error/timeout</td>
@@ -681,9 +744,14 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">RT (min/mean/median/P90/max) (ms)</td>
-<td style="text-align:center">6/17/15/24/755</td>
-<td style="text-align:center">6/17/15/24/1015</td>
+<td style="text-align:center">RT (min/P90/P99/max) (ms)</td>
+<td style="text-align:center">6/24/40/755</td>
+<td style="text-align:center">6/24/40/1015</td>
+</tr>
+<tr>
+<td style="text-align:center">RT (mean/median) (ms)</td>
+<td style="text-align:center">17/15</td>
+<td style="text-align:center">17/15</td>
 </tr>
 <tr>
 <td style="text-align:center">error/timeout</td>
@@ -719,9 +787,14 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">RT (min/mean/median/P90/max) (ms)</td>
-<td style="text-align:center">6/7/7/8/1077</td>
-<td style="text-align:center">6/7/7/8/1130</td>
+<td style="text-align:center">RT (min/P90/P99/max) (ms)</td>
+<td style="text-align:center">6/8/8/1077</td>
+<td style="text-align:center">6/8/8/1130</td>
+</tr>
+<tr>
+<td style="text-align:center">RT (mean/median) (ms)</td>
+<td style="text-align:center">7/7</td>
+<td style="text-align:center">7/7</td>
 </tr>
 <tr>
 <td style="text-align:center">error/timeout</td>
@@ -757,9 +830,14 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">RT (min/mean/median/P90/max) (ms)</td>
-<td style="text-align:center">6/8/7/8/510</td>
-<td style="text-align:center">6/8/7/8/1068</td>
+<td style="text-align:center">RT (min/P90/P99/max) (ms)</td>
+<td style="text-align:center">6/8/9/510</td>
+<td style="text-align:center">6/8/9/1068</td>
+</tr>
+<tr>
+<td style="text-align:center">RT (mean/median) (ms)</td>
+<td style="text-align:center">8/7</td>
+<td style="text-align:center">8/7</td>
 </tr>
 <tr>
 <td style="text-align:center">error/timeout</td>
@@ -799,9 +877,14 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">RT (min/mean/median/P90/max) (ms)</td>
-<td style="text-align:center">6/87/75/128/1708</td>
+<td style="text-align:center">RT (min/P90/P99/max) (ms)</td>
+<td style="text-align:center">6/128/352/1708</td>
 <td style="text-align:center">ab timeout</td>
+</tr>
+<tr>
+<td style="text-align:center">RT (mean/median) (ms)</td>
+<td style="text-align:center">87/75</td>
+<td style="text-align:center">/</td>
 </tr>
 <tr>
 <td style="text-align:center">error/timeout</td>
@@ -837,8 +920,13 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">RT (min/mean/median/P90/max) (ms)</td>
-<td style="text-align:center">8/23/24/26/1038</td>
+<td style="text-align:center">RT (min/P90/P99/max) (ms)</td>
+<td style="text-align:center">8/26/29/1038</td>
+<td style="text-align:center">/</td>
+</tr>
+<tr>
+<td style="text-align:center">RT (mean/median) (ms)</td>
+<td style="text-align:center">23/24</td>
 <td style="text-align:center">/</td>
 </tr>
 <tr>
@@ -875,9 +963,14 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">RT (min/mean/median/P90/max) (ms)</td>
-<td style="text-align:center">6/32/25/28/4804</td>
+<td style="text-align:center">RT (min/P90/P99/max) (ms)</td>
+<td style="text-align:center">6/28/31/4804</td>
 <td style="text-align:center">/</td>
+</tr>
+<tr>
+<td style="text-align:center">RT (mean/median) (ms)</td>
+<td style="text-align:center">32/25</td>
+<td style="text-align:center">8/7</td>
 </tr>
 <tr>
 <td style="text-align:center">error/timeout</td>
@@ -904,7 +997,7 @@
 <p><strong>测试小结</strong><br>可惜了, 我 retry 了几次, 使用 G1 gc, ab 都在途中 timeout 了; jstat 显示 G1 的 young gc 经历了一个非常长的时间:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT  </span><br><span class="line">0.00 100.00  94.87  47.44  98.45  96.54     12    6.923     0    0.000    6.923</span><br><span class="line">0.00 100.00  94.87  47.44  98.45  96.54     12    6.923     0    0.000    6.923</span><br><span class="line">0.00 100.00   2.89  50.92  98.46  96.54     12   14.315     0    0.000   14.315</span><br><span class="line">0.00 100.00   2.97  50.92  98.46  96.54     12   14.315     0    0.000   14.315</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT  </span><br><span class="line">0.00 100.00  94.87  50.92  98.46  96.54     13   14.315     0    0.000   14.315</span><br><span class="line">0.00 100.00  94.87  50.92  98.46  96.54     13   14.315     0    0.000   14.315</span><br><span class="line">0.00 100.00   2.14  55.58  98.29  96.54     13   25.692     0    0.000   25.692</span><br><span class="line">0.00 100.00   2.21  55.58  98.29  96.54     13   25.692     0    0.000   25.692</span><br></pre></td></tr></table></figure>
 <p>我对 G1 的了解还是不够深入, 可能当前的场景比较特殊, 需要作定制化的调参, 之前使用 G1 都是只加 <code>-XX:+UseG1GC</code> 和 <code>-XX:+G1SummarizeConcMark</code> 两个参数, 其余的优化都交给 jvm 了, 然而对于今天的场景这可能不够用了, 这个需要另行研究了;</p>
-<h2 id="测试总结"><a href="#测试总结" class="headerlink" title="测试总结"></a><strong>测试总结</strong></h2><p>本次测试采用 ab + jstat 组合的方式同时采集测试数据, ab 用于反映系统表面的性能指标, jstat 用于反映系统的 gc 状态, 并进而反映隐藏在表面之下的系统性能问题或者服务潜力;<br>根据测试的结果, 7.4.5 版本的 berkeley db 优于 6.4.25 版本的 berkeley db, 其在并发承受能力上存在明显优势;<br>在收集器选择上, 暂时还是使用 CMS 比较稳妥, G1 可能遇到了特殊的情况, 需要后续研究调优的方法;<br>在使用 7.4.5 版本的 berkeley db 时, 建议作如下内存配置组合, 以达到较好的使用效果:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-Xms= 20g ~ 30g</span><br><span class="line">-Xmx= 20g ~ 30g</span><br><span class="line"></span><br><span class="line">-Dje.maxMemoryPercent= <span class="variable">$&#123;Xmx&#125;</span> * 80% / <span class="variable">$&#123;bdb_shard_number&#125;</span></span><br><span class="line">-XX:MaxDirectMemorySize= (<span class="variable">$&#123;machine_total_memory&#125;</span> - <span class="variable">$&#123;Xmx&#125;</span>) * 80%</span><br><span class="line">-Dje.maxOffHeapMemory= <span class="variable">$&#123;MaxDirectMemorySize&#125;</span> / <span class="variable">$&#123;bdb_shard_number&#125;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="测试总结"><a href="#测试总结" class="headerlink" title="测试总结"></a><strong>测试总结</strong></h2><p>本次测试采用 ab + jstat 组合的方式同时采集测试数据, ab 用于反映系统表面的性能指标, jstat 用于反映系统的 gc 状态, 并进而反映隐藏在表面之下的系统性能问题或者服务潜力;<br>本次测试并没有作极限测量 (不断增大并发直至压挂为止), 而是根据当前的调用状况取了一个留有适当 buffer 的并发量, 从测试结果中可以间接得计算当前服务能承载的 TPS;<br>根据测试的结果, 7.4.5 版本的 berkeley db 优于 6.4.25 版本的 berkeley db, 其在并发承受能力上存在明显优势;<br>在收集器选择上, 暂时还是使用 CMS 比较稳妥, G1 可能遇到了特殊的情况, 需要后续研究调优的方法;<br>在使用 7.4.5 版本的 berkeley db 时, 建议作如下内存配置组合, 以达到较好的使用效果:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-Xms= 20g ~ 30g</span><br><span class="line">-Xmx= 20g ~ 30g</span><br><span class="line"></span><br><span class="line">-Dje.maxMemoryPercent= <span class="variable">$&#123;Xmx&#125;</span> * 80% / <span class="variable">$&#123;bdb_shard_number&#125;</span></span><br><span class="line">-XX:MaxDirectMemorySize= (<span class="variable">$&#123;machine_total_memory&#125;</span> - <span class="variable">$&#123;Xmx&#125;</span>) * 80%</span><br><span class="line">-Dje.maxOffHeapMemory= <span class="variable">$&#123;MaxDirectMemorySize&#125;</span> / <span class="variable">$&#123;bdb_shard_number&#125;</span></span><br></pre></td></tr></table></figure></p>
 
         </div>
 

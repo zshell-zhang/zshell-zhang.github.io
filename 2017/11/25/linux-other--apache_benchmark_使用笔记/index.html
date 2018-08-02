@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="各个公司或多或少都在推出自己的压力测试工具, 形形色色, 种类繁多; 其实, 在开源世界已经有了一个经典成熟的压力测试工具 —- apache benchmark;小巧, 简单, 基于 http 的普适性, 这些都是 apache benchmark 被广泛使用的原因;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-12T12:58:54.647Z">
+<meta property="og:updated_time" content="2018-08-18T03:00:51.949Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="apache benchmark 使用笔记">
 <meta name="twitter:description" content="各个公司或多或少都在推出自己的压力测试工具, 形形色色, 种类繁多; 其实, 在开源世界已经有了一个经典成熟的压力测试工具 —- apache benchmark;小巧, 简单, 基于 http 的普适性, 这些都是 apache benchmark 被广泛使用的原因;">
@@ -222,11 +222,11 @@
 <p>这样 ab 就不会在遇到 connection error 时退出了; 但这有时并不能从根本上解决问题, 比如在某些高并发环境下, 待测服务所在的系统内核开启了 SYN flood 攻击保护, 故意拖慢了请求速度, 造成 connection error, 这可能会导致所有的请求都失败, 从而失去了压测意义; 这种情况下, 往往需要调整内核参数, 关闭一些安全保护:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关闭洪流攻击保护</span></span><br><span class="line">net.ipv4.tcp_syncookies = 0</span><br></pre></td></tr></table></figure></p>
 <p>&nbsp;<br><strong>情况二 tcp read/write error</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apr_pollset_poll: The timeout specified has expired (70007)</span><br></pre></td></tr></table></figure></p>
 <p>以上输出反映了 ab 在测试途中遇到了 read/write timeout, 请求服务超过了选项 -s 设置的 timeout 时间; 这其实是一个不合理的设计, 一个请求超时是很正常的事情, 但是它一遇到超时就直接 exit, 这就让使用者不爽了, 它完全可以放到最后的统计里面的;<br>但是除非你修改 ab 的 source code 重新编译, 否则对于这种错误你也只能是修改 -s 增大超时时间了;</p>
-<h2 id="一个典型的使用实践"><a href="#一个典型的使用实践" class="headerlink" title="一个典型的使用实践"></a><strong>一个典型的使用实践</strong></h2><p>光说不练肯定是不行的, 这里正好有一个比较系统性地压力测试报告, 其将 apache benchmark 作为了一个主要的分析工具, 可以分享一下: <a href="">berkeley db 7.x 压力测试报告</a>;</p>
+<h2 id="一个典型的使用实践"><a href="#一个典型的使用实践" class="headerlink" title="一个典型的使用实践"></a><strong>一个典型的使用实践</strong></h2><p>光说不练肯定是不行的, 这里正好有一个比较系统性地压力测试报告, 其将 apache benchmark 作为了一个主要的分析工具, 可以分享一下: <a href="http://zshell.cc/2018/08/12/linux-other--berkeley_db7.x压力测试报告">berkeley db 7.x 压力测试报告</a>;</p>
 <h2 id="其他类似工具"><a href="#其他类似工具" class="headerlink" title="其他类似工具"></a><strong>其他类似工具</strong></h2><p>有一个与 ab 类似的开源 http 压力测试工具: <a href="https://github.com/wg/wrk" target="_blank" rel="noopener">wrk - a HTTP benchmarking tool</a>, 在 github 上也获得了 1.7 万的 stars;<br>wrk 与 ab 的类似之处在于它们都是基于 http 的命令行工具, 通过命令选项控制压测条件; 但是 wrk 在某种程度上只能算是 ab 的一个子集:<br>wrk 只能通过给定一个确定的压测时间限制, 在给定的时间内以给定的并发度请求, 当时间到了, 压力测试结束, 其并不能设置请求多少次后结束测试;<br>另外, wrk 的输出与 ab 也不太相同:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Running 30s <span class="built_in">test</span> @ http://127.0.0.1:8080/index.html</span><br><span class="line">  12 threads and 400 connections</span><br><span class="line">  </span><br><span class="line">  Thread Stats   Avg      Stdev     Max   +/- Stdev</span><br><span class="line">    Latency   635.91us    0.89ms  12.92ms   93.69%</span><br><span class="line">    Req/Sec    56.20k     8.07k   62.00k    86.54%</span><br><span class="line">    </span><br><span class="line">  22464657 requests <span class="keyword">in</span> 30.00s, 17.76GB <span class="built_in">read</span></span><br><span class="line">  </span><br><span class="line">Requests/sec: 748868.53</span><br><span class="line">Transfer/sec:    606.33MB</span><br></pre></td></tr></table></figure></p>
 <p>相比 ab 的报告略显简洁, 只能说是见仁见智吧;</p>
 <h2 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h2><ul>
-<li><a href="">berkeley db 7.x 压力测试报告</a></li>
+<li><a href="http://zshell.cc/2018/08/12/linux-other--berkeley_db7.x压力测试报告">berkeley db 7.x 压力测试报告</a></li>
 </ul>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2><ul>
 <li><a href="https://www.mankier.com/package/httpd-tools" target="_blank" rel="noopener">Package httpd-tools</a></li>
