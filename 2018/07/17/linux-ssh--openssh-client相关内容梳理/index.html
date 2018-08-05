@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://zshell.cc/2018/07/17/linux-ssh--openssh-client相关内容梳理/">
+    
+    
+    <title>openssh-client 相关内容梳理 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="linux:ssh,security">
+    <meta name="description" content="ssh 相关的命令是日常开发中基础中的基础, 乃是登陆机器操作必不可少的过程; 但是越是寻常, 可能越容易疏于整理总结; 本文就从 openssh-client 着手, 总结一下 .ssh 目录, ssh 相关命令, 以及相关配置文件的使用;">
+<meta name="keywords" content="linux:ssh,security">
+<meta property="og:type" content="article">
+<meta property="og:title" content="openssh-client 相关内容梳理">
+<meta property="og:url" content="http://zshell.cc/2018/07/17/linux-ssh--openssh-client相关内容梳理/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="ssh 相关的命令是日常开发中基础中的基础, 乃是登陆机器操作必不可少的过程; 但是越是寻常, 可能越容易疏于整理总结; 本文就从 openssh-client 着手, 总结一下 .ssh 目录, ssh 相关命令, 以及相关配置文件的使用;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-05T11:58:39.542Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="openssh-client 相关内容梳理">
+<meta name="twitter:description" content="ssh 相关的命令是日常开发中基础中的基础, 乃是登陆机器操作必不可少的过程; 但是越是寻常, 可能越容易疏于整理总结; 本文就从 openssh-client 着手, 总结一下 .ssh 目录, ssh 相关命令, 以及相关配置文件的使用;">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <script src="/js/leancloud-revision.js"></script>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshellzhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/zshellzhang1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">openssh-client 相关内容梳理</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">openssh-client 相关内容梳理</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-07-17T05:13:43.000Z" itemprop="datePublished" class="page-time">
+  2018-07-17
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/ssh/">ssh</a></li></ul></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ssh-目录"><span class="post-toc-number">1.</span> <span class="post-toc-text">.ssh 目录</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#authorized-keys"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">authorized_keys</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#known-hosts"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">known_hosts</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ssh-相关命令"><span class="post-toc-number">2.</span> <span class="post-toc-text">ssh 相关命令</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#openssh-client-配置文件"><span class="post-toc-number">3.</span> <span class="post-toc-text">openssh-client 配置文件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#全局配置文件"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">全局配置文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#私有配置文件"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">私有配置文件</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#站内相关文章"><span class="post-toc-number">4.</span> <span class="post-toc-text">站内相关文章</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">5.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-linux-ssh--openssh-client相关内容梳理"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">openssh-client 相关内容梳理</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-07-17 13:13:43" datetime="2018-07-17T05:13:43.000Z"  itemprop="datePublished">2018-07-17</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/ssh/">ssh</a></li></ul></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>ssh 相关的命令是日常开发中基础中的基础, 乃是登陆机器操作必不可少的过程; 但是越是寻常, 可能越容易疏于整理总结; 本文就从 openssh-client 着手, 总结一下 .ssh 目录, ssh 相关命令, 以及相关配置文件的使用;</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<h2 id="ssh-目录"><a href="#ssh-目录" class="headerlink" title=".ssh 目录"></a><strong>.ssh 目录</strong></h2><p>.ssh 目录对权限的要求是比较苛刻的, 毕竟涉及到了私密信息的安全问题; 一般来说, .ssh 下各目录的权限要求如下 (这里只考虑使用 rsa 算法而不考虑 dsa, ecdsa 等其他非主流的加密算法):</p>
+<ol>
+<li>.ssh 目录自己的权限是 700;</li>
+<li>id_rsa 的目录权限是 600 (强制要求);</li>
+<li>id_rsa.pub 的目录权限一般为 644 (这个没有特殊要求);</li>
+<li>authorized_keys 的目录权限是 600 (强制要求);</li>
+<li>known_hosts 的目录权限一般为 644 (这个没有特殊要求);</li>
+</ol>
+<p>以下是一个直观的例子:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; ls -al .ssh/</span><br><span class="line">drwx------ 2 zshell.zhang qunarops    76 Dec 25 13:27 .</span><br><span class="line">drwx------ 4 zshell.zhang qunarops    94 Dec 25 14:50 ..</span><br><span class="line">-rw------- 1 zshell.zhang qunarops 12997 Dec 25 15:38 authorized_keys</span><br><span class="line">-rw------- 1 zshell.zhang qunarops  1679 Dec 25 11:55 id_rsa</span><br><span class="line">-rw-r--r-- 1 zshell.zhang qunarops   407 Dec 25 11:55 id_rsa.pub</span><br><span class="line">-rw-r--r-- 1 zshell.zhang qunarops  7931 Dec 25 14:02 known_hosts</span><br></pre></td></tr></table></figure></p>
+<p>一般来说, id_rsa 是私钥, id_rsa.pub 是公钥, 公钥与私钥的命名只是约定俗成, 没有强制规定, 可以自定义; 但自定义之后要使用特定的私钥登陆就需要在命令中使用参数指定, 具体请见下一小节;<br>还有一点需要说明的是, 这四类文件虽然都默认存在于用户家目录下的 .ssh/ 目录中, 但对于同一台主机上的同一个用户, 这四个文件并不都会同时出现,  如果真的同时出现了, authorized_keys 与 id_rsa, known_hosts 中的内容也不会有什么关联; 关于 authorized_keys 和 known_hosts 的具体说明, 请见下文;</p>
+<h3 id="authorized-keys"><a href="#authorized-keys" class="headerlink" title="authorized_keys"></a><strong>authorized_keys</strong></h3><p>authorized_keys 记录了允许以当前用户登陆该主机的所有公钥, 但凡一个登陆请求的私钥与 authorized_keys 中的公钥相匹配, 则此次登陆成功; 所以, authorized_keys 并非用于 openssh-client, 而是 server 端的 sshd, 这也是上文所说的: 即便 authorized_keys 与 id_rsa 共存于一个 .ssh 目录下, 两者在内容上也是独立的, 前者是校验别人登陆到本机器的, 而后者是用于从本机器登陆其他主机的;<br>在日常运维值班中, 有一个比较频繁的事情便是机器权限申请的审核与开通, 这里面的操作就涉及到 authorized_keys 的更新; 通常我们会使用自动化运维工具 (例如 saltstack, ansible) 在目标主机上执行相关的逻辑:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建用户</span></span><br><span class="line">useradd -g <span class="variable">$&#123;user_group&#125;</span> -d <span class="variable">$&#123;user_dir&#125;</span>/<span class="variable">$&#123;user_name&#125;</span> <span class="variable">$user_name</span></span><br><span class="line"><span class="comment"># 将公钥写入目标主机对应用户的 authorized_keys 文件</span></span><br><span class="line">wget -O <span class="variable">$&#123;user_dir&#125;</span>/<span class="variable">$&#123;user_name&#125;</span>/.ssh/authorized_keys http://user_query_service_url/<span class="variable">$&#123;user_name&#125;</span>/id_rsa.pub</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<h3 id="known-hosts"><a href="#known-hosts" class="headerlink" title="known_hosts"></a><strong>known_hosts</strong></h3><p>对于最后一个 known_hosts, 其主要用于 openssh-client 对每次登陆的主机的 host key 作校验; 主机 host key 的构成在 <code>man sshd</code> 中有如下介绍:</p>
+<blockquote>
+<p>Each line in these files contains the following fields: hostnames, bits, exponent, modulus, comment.  The fields are separated by spaces.</p>
+</blockquote>
+<p>host key 中存储了 hostname, ip 等内容, 并作了哈希编码; 当 openssh-client 试图连接一个主机时:</p>
+<ul>
+<li>如果在 known_hosts 中不存在该主机的 host key 信息, 则会告知使用者从未连接过该主机, 并确认是否要连接:</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">The authenticity of host '10.64.0.11 (10.64.0.11)' can't be established.</span><br><span class="line">RSA key fingerprint is SHA256:<span class="number">3</span>O+bKYBXKHcYLBbltbuzu8dJbWaX42QHvkKeyABTyqU.</span><br><span class="line">RSA key fingerprint is MD5:ff:<span class="number">3f</span>:<span class="number">57</span>:<span class="number">5</span>c:<span class="number">54</span>:<span class="number">39</span>:<span class="number">8</span>c:<span class="number">71</span>:<span class="number">50</span>:<span class="number">71</span>:aa:bf:<span class="number">1</span>a:<span class="number">6</span>e:a1:<span class="number">0f</span>.</span><br><span class="line">Are you sure you want to continue connecting (yes/no)?</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果在 known_hosts 中存在该主机, 并且 ip 等信息并未发生变化, 则校验通过;</li>
+<li>如果在 known_hosts 中存在该主机, 但是 ip 等信息发生了变化, 则会打印类似如下的 <code>中间人攻击</code> 告警信息:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span><br><span class="line">@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @</span><br><span class="line">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span><br><span class="line">IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!</span><br><span class="line">Someone could be eavesdropping on you right now (man-in-the-middle attack)!</span><br><span class="line">It is also possible that the RSA host key has just been changed.</span><br><span class="line">The fingerprint <span class="keyword">for</span> the RSA key sent by the remote host is</span><br><span class="line">ad:12:0a:af:77:09:af:b0:65:16:9a:0a:04:57:2e:f1.</span><br><span class="line">Please contact your system administrator.</span><br><span class="line">Add correct host key <span class="keyword">in</span> /home/zshell.zhang/.ssh/known_hosts to get rid of this message.</span><br><span class="line">Offending key <span class="keyword">in</span> /home/zshell.zhang/.ssh/known_hosts:96</span><br><span class="line">Password authentication is disabled to avoid man-in-the-middle attacks.</span><br><span class="line">Keyboard-interactive authentication is disabled to avoid man-in-the-middle attacks.</span><br><span class="line">Agent forwarding is disabled to avoid man-in-the-middle attacks.</span><br><span class="line">X11 forwarding is disabled to avoid man-in-the-middle attacks.</span><br></pre></td></tr></table></figure>
+<p>其实, 在公司的内网环境中, 大可不必考虑中间人攻击的可能, 倒是日常运维操作致使主机 ip 地址改变的情况时有发生, 所以对于这种提示, 只需要更新 known_hosts 文件, 删除对应的 host key 即可:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -f <span class="string">"/home/zshell.zhang/.ssh/known_hosts"</span> -R l-xx1.ops.cn1</span><br></pre></td></tr></table></figure></p>
+<p>重新 ssh 连接, 经过询问与确认之后, 新的 host key 便会写入 known_hosts 文件;</p>
+<p>最后回过头来总结一下:<br>像 id_rsa 以及 authorized_keys 这类涉及到私人信息安全的文件一定是要对其余用户不可访问的: 如果私钥文件对其余用户可读, openssh-client 会直接拒绝并提示文件权限设置过宽, 如果 authorized_keys 对其余用户可读, 则用户无法登陆, 会提示需要输入密码; 而类似 id_rsa.pub 公钥这种原本设计就是要公开的信息, 设置成 644, 对其余用户只读即可;</p>
+<h2 id="ssh-相关命令"><a href="#ssh-相关命令" class="headerlink" title="ssh 相关命令"></a><strong>ssh 相关命令</strong></h2><p>ssh 命令常用的选项如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -i:   identity, 指定私钥文件, 适用于文件名自定义的私钥文件</span></span><br><span class="line"><span class="comment"># -p:   port, 指定连接 openssh-server 的端口号</span></span><br><span class="line"><span class="comment"># -X:   开启 openssh 的 Forwarding X11 图形界面功能</span></span><br><span class="line">ssh -p 22 -i .ssh/id_rsa_xxx zshell.zhang@l-xx1.ops.cn1</span><br></pre></td></tr></table></figure></p>
+<p>scp 命令常用的选项如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -r:   recursive, 传输整个目录下的子文件</span></span><br><span class="line"><span class="comment"># -l:   limit, 限制传输带宽, 单位是 kb/s</span></span><br><span class="line"><span class="comment"># -i:   identity, 指定私钥文件</span></span><br><span class="line"><span class="comment"># -P:   port, 指定端口</span></span><br><span class="line">scp -r zshell.zhang@l-xx1.ops.cn2:/tmp/xxx ~/Downloads</span><br></pre></td></tr></table></figure></p>
+<p>与 openssh-client 相关的命令, 还有一个 sftp, 在本文中不作详细讨论, 本站另一篇文章中单独讨论了 sftp 相关的内容: <a href="">sftp 相关知识梳理</a>;</p>
+<h2 id="openssh-client-配置文件"><a href="#openssh-client-配置文件" class="headerlink" title="openssh-client 配置文件"></a><strong>openssh-client 配置文件</strong></h2><p>openssh-client 的配置文件主要有两方面, 全局配置和个人家目录下的私有配置; 在可配置的内容选项上, 全局配置与私有配置其实没有差别, 只不过习惯上会将一些比较通用的配置放在全局配置里;</p>
+<h3 id="全局配置文件"><a href="#全局配置文件" class="headerlink" title="全局配置文件"></a><strong>全局配置文件</strong></h3><p>openssh 的全局配置文件的路径: <code>/etc/ssh/ssh_config</code>;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Host *  <span class="comment"># 对所有的 host 适用的配置</span></span><br><span class="line">ForwardAgent no</span><br><span class="line">ForwardX11 no   <span class="comment"># 允许开启图形界面支持</span></span><br><span class="line">RhostsAuthentication no</span><br><span class="line">RhostsRSAAuthentication no</span><br><span class="line">RSAAuthentication yes</span><br><span class="line">PasswordAuthentication yes</span><br><span class="line">FallBackToRsh no</span><br><span class="line">UseRsh no</span><br><span class="line">BatchMode no</span><br><span class="line">CheckHostIP yes</span><br><span class="line">StrictHostKeyChecking no</span><br><span class="line"><span class="comment"># 默认的私钥文件, 按先后顺序依次获取</span></span><br><span class="line">IdentityFile ~/.ssh/identity</span><br><span class="line">IdentityFile ~/.ssh/id_rsa</span><br><span class="line">Port 22</span><br><span class="line">Cipher 3des</span><br><span class="line">EscapeChar ~</span><br></pre></td></tr></table></figure></p>
+<h3 id="私有配置文件"><a href="#私有配置文件" class="headerlink" title="私有配置文件"></a><strong>私有配置文件</strong></h3><p>openssh 的私有配置文件的路径: <code>$HOME/.ssh/config</code>;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Host *  <span class="comment"># 对所有的 host 适用的配置</span></span><br><span class="line">ServerAliveInterval 30</span><br><span class="line">ControlPersist yes</span><br><span class="line">ControlMaster auto</span><br><span class="line">ControlPath ~/tmp/ssh/master-%r@%h:%p</span><br><span class="line"></span><br><span class="line">ConnectTimeout 30</span><br><span class="line">TCPKeepAlive yes</span><br><span class="line">StrictHostKeyChecking no</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对所有匹配到 *.cn0 的主机, 均使用以下配置连接</span></span><br><span class="line">Host *.cn0</span><br><span class="line">Port 22</span><br><span class="line">User zshell.zhang   <span class="comment"># 使用 zshell.zhang 用户登陆目标主机</span></span><br><span class="line">IdentityFile ~/.ssh/id_rsa  <span class="comment"># 使用指定的私钥文件</span></span><br><span class="line">ProxyCommand ssh zshell.zhang@l-rtools1. -W %h:%p   <span class="comment"># 具体的 ssh 命令</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h2><ul>
+<li><a href="">sftp 相关知识梳理</a></li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2><ul>
+<li><a href="https://www.cnblogs.com/snowbook/p/5671406.html" target="_blank" rel="noopener">ssh配置authorized_keys后仍然需要输入密码的问题</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2018/07/17/linux-ssh--openssh-client相关内容梳理/" rel="external">http://zshell.cc/2018/07/17/linux-ssh--openssh-client相关内容梳理</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="http://zshell.cc">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshellzhang">
+            zshellzhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-ssh/">linux:ssh</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/security/">security</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2018/07/17/linux-ssh--openssh-client相关内容梳理/&title=《openssh-client 相关内容梳理》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2018/07/17/linux-ssh--openssh-client相关内容梳理/&title=《openssh-client 相关内容梳理》 — 希尔的博客&source=
+ssh 相关的命令是日常开发中基础中的基础, 乃是登陆机器操作必不可少的过程; 但是越是寻常, 可能越容易疏于整理总结; 本文就从 openssh-cl..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2018/07/17/linux-ssh--openssh-client相关内容梳理/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《openssh-client 相关内容梳理》 — 希尔的博客&url=http://zshell.cc/2018/07/17/linux-ssh--openssh-client相关内容梳理/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2018/07/17/linux-ssh--openssh-client相关内容梳理/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/08/03/jdk--ThreadLocal相关知识全梳理/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">ThreadLocal 相关知识全梳理</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/05/13/nginx-module--nginx_module_使用总结_ngx_http_geo_module/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">nginx module 使用总结: ngx_http_geo_module</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "fMh2JHgkPnDtARiQapOg8Jrk-gzGzoHsz",
+            appKey: "UPNXLDUkngDnuhfC9XQPgF6n",
+            avatar: "mm",
+            placeholder: "您的评论, 吾愿洗耳恭听!",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshellzhang &copy; 2016 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2018/07/17/linux-ssh--openssh-client相关内容梳理/&title=《openssh-client 相关内容梳理》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2018/07/17/linux-ssh--openssh-client相关内容梳理/&title=《openssh-client 相关内容梳理》 — 希尔的博客&source=
+ssh 相关的命令是日常开发中基础中的基础, 乃是登陆机器操作必不可少的过程; 但是越是寻常, 可能越容易疏于整理总结; 本文就从 openssh-cl..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2018/07/17/linux-ssh--openssh-client相关内容梳理/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《openssh-client 相关内容梳理》 — 希尔的博客&url=http://zshell.cc/2018/07/17/linux-ssh--openssh-client相关内容梳理/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2018/07/17/linux-ssh--openssh-client相关内容梳理/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACoUlEQVR42u3aMXIjMQwEQP//077UgS3NAOSWrqo3UrDLYjMgoSG+vuLn+8eTv/nz/e8/nr9GeD3a4QcPDw9vMfV2cq/fT8D5gubzwcPDw3uGl2zQ+e96Eov5vPkWDw8P7wN4ecHdHi3Jt3h4eHj/I28/oXyx2hHw8PDwnuS14UJO3ccZD2UteHh4eJMc4CsJCD7h95X7PTw8PLz1rfpmy86Ph1PHyS8j4+Hh4V3g5Rtu0lKQTLGNZTctX3h4eHj3eC2pDVvzQyWPHg4U33h4eHgjXhuGzia6b0rIj5w6n8bDw8MreZuAYHZNtS+Ik2swPDw8vHu8s/Fr2yY1a1Y4fGuHh4eHt24LaDf3TWPWbNHbkAIPDw/vLC8vT2db9mycfLnfRCF4eHh4D/JO3arti+Z8PsXBgIeHh3eIlxe77aQ3LVmbUh4PDw/vGd5s6m3I+/oYmMF+eQcPDw/vEV67fbdNAJu2g7oox8PDw7vA29yzzy6ucva+NMfDw8O7x8s3/VlLwWzSSQkeHUh4eHh4R3mz+CDHtC1Whxsa8PDw8C7zNn/7ZxFt+227THh4eHg3eMmrSSlcZx5xSZ0DihIcDw8Pb8Fri+ac3YYObeAbLQQeHh7eBd7m8ulsc8Cm0H8zJh4eHt41XlKwbkrn/NtZtPHnTPDw8PAu8+4FBO3Ff56dvHkTDw8P7xov38rzSWyi3nZpon8MeHh4eGved/nksezr46Tdt2elNh4eHt4N3mzDbYfOr75mvw88eHh4eCUvPwxOLU3bwtVevOHh4eE9w0uGTn63jVOHTzA8PDy8j+TNrvBn+FnQjIeHh/fJvNmF2b74Lo4WPDw8vGu8TWSQl9pno4qoQMfDw8O7wNv8o39dBOdXZXlwfCW8wMPDw0t5/wDJWlS5tYRGugAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
