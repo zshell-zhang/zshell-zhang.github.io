@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://zshell.cc/2017/11/25/linux-other--apache_benchmark_使用笔记/">
+    
+    
+    <title>apache benchmark 使用笔记 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="linux:other,linux:perf">
+    <meta name="description" content="各个公司或多或少都在推出自己的压力测试工具, 形形色色, 种类繁多; 其实, 在开源世界已经有了一个经典成熟的压力测试工具 —- apache benchmark;小巧, 简单, 基于 http 的普适性, 这些都是 apache benchmark 被广泛使用的原因;">
+<meta name="keywords" content="linux:other,linux:perf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="apache benchmark 使用笔记">
+<meta property="og:url" content="http://zshell.cc/2017/11/25/linux-other--apache_benchmark_使用笔记/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="各个公司或多或少都在推出自己的压力测试工具, 形形色色, 种类繁多; 其实, 在开源世界已经有了一个经典成熟的压力测试工具 —- apache benchmark;小巧, 简单, 基于 http 的普适性, 这些都是 apache benchmark 被广泛使用的原因;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-12T12:58:54.647Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="apache benchmark 使用笔记">
+<meta name="twitter:description" content="各个公司或多或少都在推出自己的压力测试工具, 形形色色, 种类繁多; 其实, 在开源世界已经有了一个经典成熟的压力测试工具 —- apache benchmark;小巧, 简单, 基于 http 的普适性, 这些都是 apache benchmark 被广泛使用的原因;">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <script src="/js/leancloud-revision.js"></script>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshellzhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/zshellzhang1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">apache benchmark 使用笔记</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">apache benchmark 使用笔记</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-11-25T12:41:55.000Z" itemprop="datePublished" class="page-time">
+  2017-11-25
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/other/">other</a></li></ul></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#httpd-tools-安装"><span class="post-toc-number">1.</span> <span class="post-toc-text">httpd-tools 安装</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ab-的使用方法"><span class="post-toc-number">2.</span> <span class="post-toc-text">ab 的使用方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ab-的输出分析"><span class="post-toc-number">3.</span> <span class="post-toc-text">ab 的输出分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#顺利完成测试任务的输出"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">顺利完成测试任务的输出</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#测试被迫终止"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">测试被迫终止</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一个典型的使用实践"><span class="post-toc-number">4.</span> <span class="post-toc-text">一个典型的使用实践</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#其他类似工具"><span class="post-toc-number">5.</span> <span class="post-toc-text">其他类似工具</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#站内相关文章"><span class="post-toc-number">6.</span> <span class="post-toc-text">站内相关文章</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">7.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-linux-other--apache_benchmark_使用笔记"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">apache benchmark 使用笔记</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-11-25 20:41:55" datetime="2017-11-25T12:41:55.000Z"  itemprop="datePublished">2017-11-25</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/other/">other</a></li></ul></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>各个公司或多或少都在推出自己的压力测试工具, 形形色色, 种类繁多; 其实, 在开源世界已经有了一个经典成熟的压力测试工具 —- apache benchmark;<br>小巧, 简单, 基于 http 的普适性, 这些都是 apache benchmark 被广泛使用的原因;</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<p>apache benchmark, 其对应的命令被简称为 ab, 是 httpd-tools 里使用最广泛的工具;</p>
+<h2 id="httpd-tools-安装"><a href="#httpd-tools-安装" class="headerlink" title="httpd-tools 安装"></a><strong>httpd-tools 安装</strong></h2><p>直接用 yum install ab 是找不到软件包的, 因为 ab 并没有单独提供, 而是封装在 httpd-tools 里面;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install -y httpd-tools</span><br></pre></td></tr></table></figure></p>
+<p>安装完后, httpd-tools 提供的系列工具如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">apache benchmark</span><br><span class="line"></span><br><span class="line">htdbm</span><br><span class="line">htdigest</span><br><span class="line">htpassword</span><br><span class="line">httxt2dbm</span><br><span class="line">logresolve</span><br></pre></td></tr></table></figure></p>
+<p>后面的 5 个工具, 都是与 apache 服务器相关的辅助工具, 一旦脱离了 apache server 则作用有限; 但是 apache benchmark 却不一样, 虽然它本来的设计目的也是为了压测 apache server, 但既然是 http 请求, 那么大部分 web server 都可以使用其作压力测试;</p>
+<h2 id="ab-的使用方法"><a href="#ab-的使用方法" class="headerlink" title="ab 的使用方法"></a><strong>ab 的使用方法</strong></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 最简单使用: -c concurrency 并发数; -n requests 请求数量</span></span><br><span class="line">ab -n 10000 -c 100 <span class="variable">$&#123;target_url&#125;</span></span><br><span class="line"><span class="comment"># post 请求: -p 指定需要 post 的数据文件, -T 指定 content-type</span></span><br><span class="line">ab -n 10000 -c 100 -p params.file -T <span class="string">'application/x-www-form-urlencoded'</span> <span class="variable">$&#123;target_url&#125;</span></span><br><span class="line"><span class="comment"># -s: timeout, 单位为秒</span></span><br><span class="line">ab -n 10000 -c 100 -s 20 <span class="variable">$&#123;target_url&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -t: timelimit, 指定本次压测的最长时间限制</span></span><br><span class="line"><span class="comment"># 如果不指定 -n, 这里还会默认指定一个 -n 50000</span></span><br><span class="line">ab -c 100 -s 20 -t 60000 <span class="variable">$&#123;target_url&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -r: 当发生 socket error 时不退出, 而是继续执行请求</span></span><br><span class="line"><span class="comment"># -k: 在 http 请求的 headers 中加上 Connection: keep-alive, 以保持连接 </span></span><br><span class="line">ab -n 10000 -c 100 -r -k <span class="variable">$&#123;target_url&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将压测数据记录为 gunplot 可以分析的 dump 文件, 以供其渲染</span></span><br><span class="line">ab -n 10000 -c 100 -g data.plt <span class="variable">$&#123;target_url&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="ab-的输出分析"><a href="#ab-的输出分析" class="headerlink" title="ab 的输出分析"></a><strong>ab 的输出分析</strong></h2><h3 id="顺利完成测试任务的输出"><a href="#顺利完成测试任务的输出" class="headerlink" title="顺利完成测试任务的输出"></a><strong>顺利完成测试任务的输出</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 部分 version, licene 信息已省略</span></span><br><span class="line">&gt; ab -n 100 -c 10 http://www.baidu.com/</span><br><span class="line">......</span><br><span class="line">Server Software:        BWS/1.1</span><br><span class="line">Server Hostname:        www.baidu.com</span><br><span class="line">Server Port:            80</span><br><span class="line"></span><br><span class="line">Document Path:          /</span><br><span class="line">Document Length:        111488 bytes</span><br><span class="line"></span><br><span class="line">Concurrency Level:      10</span><br><span class="line">Time taken <span class="keyword">for</span> tests:   2.055 seconds</span><br><span class="line">Complete requests:      100</span><br></pre></td></tr></table></figure>
+<p>这里有一个需要注意的地方: failed requests;<br>ab 请求失败的原因分为几类:</p>
+<ul>
+<li>Connect: tcp 连接错误, 属于网路问题;</li>
+<li>Length: http response 的 Content-Length 与第一次接收的值不一致, 这种属于业务问题, 并不能严格将其归为失败;</li>
+<li>Exceptions: 服务器端异常, 一般 status code 为 5XX;</li>
+</ul>
+<p>不过, 如果返回客户端错误 4XX, ab 不会判定为 failed requests, 这里需要注意;</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Failed requests:        89 (Connect: 0, Receive: 0, Length: 89, Exceptions: 0)</span><br></pre></td></tr></table></figure>
+<p>如上所示, 像 baidu.com 这种属于动态网页, 每次返回的内容长度不固定, 所以大量请求被 ab 判定为 failed requests;<br>类似这种情况的场景很多, 所以这就提醒我们在使用 ab 作压力测试时, 构造的 mock 接口一定要能够返回固定长度的内容, 而被测试接口的返回内容校验, 应该放在 mock 接口内部逻辑中实现; 一旦校验失败, 不要在返回内容上作标记, 而是直接抛出异常, 以让 ab 识别为 failed requests;</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Write errors:           0</span><br><span class="line">Total transferred:      11320607 bytes</span><br><span class="line">HTML transferred:       11223796 bytes</span><br><span class="line">Requests per second:    48.65 [<span class="comment">#/sec] (mean)</span></span><br><span class="line">Time per request:       205.533 [ms] (mean)</span><br><span class="line">Time per request:       20.553 [ms] (mean, across all concurrent requests)</span><br><span class="line">Transfer rate:          5378.84 [Kbytes/sec] received</span><br></pre></td></tr></table></figure>
+<p>传输各个阶段的统计指标:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Connection Times (ms)</span><br><span class="line"><span class="comment">#             最短时间  平均时间    标准差  中位数时间  最长时间</span></span><br><span class="line">              min       mean        [+/-sd]     median      max</span><br><span class="line">Connect:       36         38            0.8         38       39</span><br><span class="line">Processing:   113        154           14.5        152      198</span><br><span class="line">Waiting:       37         39            1.0         39       42</span><br><span class="line">Total:        150        192           14.7        190      237</span><br></pre></td></tr></table></figure></p>
+<p>最后是 rt 响应时间的分位数统计:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Percentage of the requests served within a certain time (ms)</span><br><span class="line">  50%    190</span><br><span class="line">  66%    192</span><br><span class="line">  75%    194</span><br><span class="line">  80%    195</span><br><span class="line">  90%    198</span><br><span class="line">  95%    230</span><br><span class="line">  98%    234</span><br><span class="line">  99%    237</span><br><span class="line"> 100%    237 (longest request)</span><br></pre></td></tr></table></figure></p>
+<h3 id="测试被迫终止"><a href="#测试被迫终止" class="headerlink" title="测试被迫终止"></a><strong>测试被迫终止</strong></h3><p>以上是一个顺利完成压测任务的输出; 有的时候压力测试并不会很顺利得结束, 如果压得比较猛, 可能待测服务会发生各种问题, 这时 ab 就有可能被迫提前终止任务;<br><strong>情况一 tcp connection error</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apr_socket_recv: Connection timed out (110)</span><br><span class="line">apr_socket_recv: Connection reset by peer (104)</span><br></pre></td></tr></table></figure></p>
+<p>当 ab 遇到 connection error 时默认会直接 exit; 此时可以使用 -r 选项:</p>
+<blockquote>
+<p>-r     Don’t exit on socket receive errors.</p>
+</blockquote>
+<p>这样 ab 就不会在遇到 connection error 时退出了; 但这有时并不能从根本上解决问题, 比如在某些高并发环境下, 待测服务所在的系统内核开启了 SYN flood 攻击保护, 故意拖慢了请求速度, 造成 connection error, 这可能会导致所有的请求都失败, 从而失去了压测意义; 这种情况下, 往往需要调整内核参数, 关闭一些安全保护:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关闭洪流攻击保护</span></span><br><span class="line">net.ipv4.tcp_syncookies = 0</span><br></pre></td></tr></table></figure></p>
+<p>&nbsp;<br><strong>情况二 tcp read/write error</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apr_pollset_poll: The timeout specified has expired (70007)</span><br></pre></td></tr></table></figure></p>
+<p>以上输出反映了 ab 在测试途中遇到了 read/write timeout, 请求服务超过了选项 -s 设置的 timeout 时间; 这其实是一个不合理的设计, 一个请求超时是很正常的事情, 但是它一遇到超时就直接 exit, 这就让使用者不爽了, 它完全可以放到最后的统计里面的;<br>但是除非你修改 ab 的 source code 重新编译, 否则对于这种错误你也只能是修改 -s 增大超时时间了;</p>
+<h2 id="一个典型的使用实践"><a href="#一个典型的使用实践" class="headerlink" title="一个典型的使用实践"></a><strong>一个典型的使用实践</strong></h2><p>光说不练肯定是不行的, 这里正好有一个比较系统性地压力测试报告, 其将 apache benchmark 作为了一个主要的分析工具, 可以分享一下: <a href="">berkeley db 7.x 压力测试报告</a>;</p>
+<h2 id="其他类似工具"><a href="#其他类似工具" class="headerlink" title="其他类似工具"></a><strong>其他类似工具</strong></h2><p>有一个与 ab 类似的开源 http 压力测试工具: <a href="https://github.com/wg/wrk" target="_blank" rel="noopener">wrk - a HTTP benchmarking tool</a>, 在 github 上也获得了 1.7 万的 stars;<br>wrk 与 ab 的类似之处在于它们都是基于 http 的命令行工具, 通过命令选项控制压测条件; 但是 wrk 在某种程度上只能算是 ab 的一个子集:<br>wrk 只能通过给定一个确定的压测时间限制, 在给定的时间内以给定的并发度请求, 当时间到了, 压力测试结束, 其并不能设置请求多少次后结束测试;<br>另外, wrk 的输出与 ab 也不太相同:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Running 30s <span class="built_in">test</span> @ http://127.0.0.1:8080/index.html</span><br><span class="line">  12 threads and 400 connections</span><br><span class="line">  </span><br><span class="line">  Thread Stats   Avg      Stdev     Max   +/- Stdev</span><br><span class="line">    Latency   635.91us    0.89ms  12.92ms   93.69%</span><br><span class="line">    Req/Sec    56.20k     8.07k   62.00k    86.54%</span><br><span class="line">    </span><br><span class="line">  22464657 requests <span class="keyword">in</span> 30.00s, 17.76GB <span class="built_in">read</span></span><br><span class="line">  </span><br><span class="line">Requests/sec: 748868.53</span><br><span class="line">Transfer/sec:    606.33MB</span><br></pre></td></tr></table></figure></p>
+<p>相比 ab 的报告略显简洁, 只能说是见仁见智吧;</p>
+<h2 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h2><ul>
+<li><a href="">berkeley db 7.x 压力测试报告</a></li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2><ul>
+<li><a href="https://www.mankier.com/package/httpd-tools" target="_blank" rel="noopener">Package httpd-tools</a></li>
+<li><a href="http://blog.csdn.net/sangyongjia/article/details/49093945" target="_blank" rel="noopener">Apache Benchmark安装、参数含义&amp;使用总结、结果分析</a></li>
+<li><a href="http://www.ttlsa.com/web/analysis-of-ab-output-information-interpretation-and-failed-requests/" target="_blank" rel="noopener">ab输出信息解释以及Failed requests原因分析</a></li>
+<li><a href="https://www.douban.com/note/501373268/" target="_blank" rel="noopener">apachebench(ab)压测遇到问题的解决方案记录</a></li>
+<li><a href="http://httpd.apache.org/docs/2.2/programs/ab.html" target="_blank" rel="noopener">ab - Apache HTTP server benchmarking tool</a></li>
+<li><a href="http://www.cnblogs.com/archoncap/p/5883723.html" target="_blank" rel="noopener">apache ab压力测试报错 (apr_socket_recv: Connection reset by peer (104))</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2017/11/25/linux-other--apache_benchmark_使用笔记/" rel="external">http://zshell.cc/2017/11/25/linux-other--apache_benchmark_使用笔记</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="http://zshell.cc">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshellzhang">
+            zshellzhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-other/">linux:other</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-perf/">linux:perf</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/11/25/linux-other--apache_benchmark_使用笔记/&title=《apache benchmark 使用笔记》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/11/25/linux-other--apache_benchmark_使用笔记/&title=《apache benchmark 使用笔记》 — 希尔的博客&source=
+各个公司或多或少都在推出自己的压力测试工具, 形形色色, 种类繁多; 其实, 在开源世界已经有了一个经典成熟的压力测试工具 —- apache benc..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/11/25/linux-other--apache_benchmark_使用笔记/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《apache benchmark 使用笔记》 — 希尔的博客&url=http://zshell.cc/2017/11/25/linux-other--apache_benchmark_使用笔记/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/11/25/linux-other--apache_benchmark_使用笔记/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/12/21/nginx-module--nginx_module_使用总结_ngx_http_gzip_module/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">nginx module 使用总结: ngx_http_gzip_module</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/11/12/linux-init--sysvinit_systemd命令使用与对比/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">sysvinit / systemd 命令使用与对比</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "fMh2JHgkPnDtARiQapOg8Jrk-gzGzoHsz",
+            appKey: "UPNXLDUkngDnuhfC9XQPgF6n",
+            avatar: "mm",
+            placeholder: "您的评论, 吾愿洗耳恭听!",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshellzhang &copy; 2016 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/11/25/linux-other--apache_benchmark_使用笔记/&title=《apache benchmark 使用笔记》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/11/25/linux-other--apache_benchmark_使用笔记/&title=《apache benchmark 使用笔记》 — 希尔的博客&source=
+各个公司或多或少都在推出自己的压力测试工具, 形形色色, 种类繁多; 其实, 在开源世界已经有了一个经典成熟的压力测试工具 —- apache benc..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/11/25/linux-other--apache_benchmark_使用笔记/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《apache benchmark 使用笔记》 — 希尔的博客&url=http://zshell.cc/2017/11/25/linux-other--apache_benchmark_使用笔记/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/11/25/linux-other--apache_benchmark_使用笔记/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvElEQVR42u3a0W4bMQwEQP//T6fPRXvWkiITt5h7MnyOT6MAorzU6xVfXw/X0yf/fP109+mdp7uvjQsPDw9vaOj5g58+kzCSUb2fmsOk4+Hh4a3x8iU+X+6TQpJMTTKGx/fx8PDwPpiXlI2bMoOHh4f3f/DyLe/77fJNkcDDw8P7KV51Ie4t1r2Y45uyFjw8PLxOJnDoIn3O65X+Hh4eHt51Vz1frKtts5swovBteHh4eAu8fMGttv+npiYJTQ4xBx4eHt4arxeY5lvepHj0pvgwZjw8PLwFXhK2Ju2rfHtdhQ2EFHh4eHijvPyHfd6wz1tcvUkpbN/x8PDw1ng3i29+sCAf+sCBADw8PLwFXr457kW01XemDmz9pb+Hh4eHN8SrxgQ3i/hNGbhqj+Hh4eGN8nqMXgPsZlKahxjw8PDw1nhJ9ThsW+PHR5vguFREZyLw8PDwRnl5CppvZzeKR/XbCmcl8PDw8Iq8JCDIF9+bKKEXdhy+Ew8PD2+BV/3xn5eEQ0wQl6LqtvvwLDw8PLxr3n3E0Fvok6f3IobHkxF4eHh4Q7x8UU6igV4tSu5Wx4OHh4f3s7ze9jo5LtA7sNVMpvHw8PBGeb0CkMcN+bCmSggeHh7eNi9vQSWTchNw5KRmbIGHh4f3LbyNgwXvw4Xkbm9C8fDw8KZ4vQNVeZw6dXgr/zeU9+x4eHh4LV61sVR9fNI2S8ZTnUQ8PDy8bd59y7+3XS736/JCgoeHhzfK+ype1bZWr2V1c4Dgt2/Aw8PDW+DlVzV+7YXCyVa7CcDDw8Mb5eWtqWQo9+UkCSnycoKHh4e3x+tFsVPNs0JDK6gCeHh4eJ/Jq0a3vW10XjDw8PDw/hVedaudHzvIW2iHEoKHh4e3xsuD2mQK8pbV/ZGCw9/i4eHhLfCqP/KrYUQvgBgYNB4eHt487xf5jwMn32hz4gAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
