@@ -157,6 +157,55 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-python-module--python_module_使用总结_MySQLdb"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2017-08-01 23:06:08" datetime="2017-08-01T15:06:08.000Z"  itemprop="datePublished">2017-08-01</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/python/">python</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/python/module/">module</a></li></ul></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2017/08/01/python-module--python_module_使用总结_MySQLdb/">python module 使用总结: MySQLdb</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        <blockquote>
+<p><code>MySQLdb</code> 模块是 python 与 mysql 交互的较为底层的接口, 不过它依然是在更为底层的 <code>_mysql</code> 模块之上又作了一层包装;<br><code>_mysql</code> 才是真正的直接面向 mysql 原生 C 接口的简单适配层, 而 <code>MySQLdb</code> 则在 <code>_mysql</code> 之上作了更多的关于类型转换等抽象包装;<br>考虑到 <code>MySQLdb</code> 模块与一些 python ORM 框架的关系, <code>MySQLdb</code> 与 python 的关系可以类比为 jdbc 之于 java;<br>如果是复杂的系统, 我们肯定会选择 ORM 框架, 不过对于一些简单的小工具, 定时小任务等, 本身没什么复杂的数据库操作, 那就用 MySQLdb 最方便了;<br>本文基于 <code>MySQL-python 1.2.5</code> 对 MySQLdb 作一些使用上的总结;</p>
+</blockquote>
+    
+
+       <!-- <a href="/2017/08/01/python-module--python_module_使用总结_MySQLdb/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a> -->
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python-module/">python:module</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-jvm-tools--jcmd_jvm管理的另类工具"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -590,55 +639,6 @@
     <div class="post-footer">
         
 	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-disk/">linux:disk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-net/">linux:net</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-tools-maven--assembly_plugin"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2016-11-19 23:42:40" datetime="2016-11-19T15:42:40.000Z"  itemprop="datePublished">2016-11-19</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tools/">tools</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tools/maven/">maven</a></li></ul></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2016/11/19/tools-maven--assembly_plugin/">maven-assembly-plugin 使用总结</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <blockquote>
-<p>本文在 Apache Maven 的官方文档上, 结合自己的一些项目经历: <a href="">在 Apache Spark 中使用 springframework 的一次实践</a>, 总结了一些 assembly 插件的使用方式和一些注意事项, 以作备忘;<br>另外, 由于 assembly 的 核心配置文件中可配置项种类繁多, 为了体现直观性, 文本直接在一段 ‘丰富而典型’ 的配置文件 case 上, 以注释的形式作为每个配置项的释义;</p>
-</blockquote>
-    
-
-       <!-- <a href="/2016/11/19/tools-maven--assembly_plugin/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a> -->
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mvn-plugins/">mvn:plugins</a></li></ul>
 
     </div>
     
