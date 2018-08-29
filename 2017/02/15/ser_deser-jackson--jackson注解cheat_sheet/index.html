@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://zshell.cc/2017/02/15/ser_deser-jackson--jackson注解cheat_sheet/">
+    
+    
+    <title>jackson 注解 cheat sheet | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="cheat sheet,jackson,json">
+    <meta name="description" content="本文是 JsonUtil 类 cheat sheet 的姊妹篇;JsonUtil 类 cheat sheet 侧重于代码层面对 jackson API 的使用, 是一个 “宏观” 的行为: 其设置对全局皆有效; 而本文则着重讨论 javabean 各成员上 jackson 注解的使用, 是一个 “微观” 的行为: 通过注解的约定, 可以精细化控制具体的类, 字段及方法 的序列化 / 反序列化行为">
+<meta name="keywords" content="cheat sheet,jackson,json">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jackson 注解 cheat sheet">
+<meta property="og:url" content="http://zshell.cc/2017/02/15/ser_deser-jackson--jackson注解cheat_sheet/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="本文是 JsonUtil 类 cheat sheet 的姊妹篇;JsonUtil 类 cheat sheet 侧重于代码层面对 jackson API 的使用, 是一个 “宏观” 的行为: 其设置对全局皆有效; 而本文则着重讨论 javabean 各成员上 jackson 注解的使用, 是一个 “微观” 的行为: 通过注解的约定, 可以精细化控制具体的类, 字段及方法 的序列化 / 反序列化行为">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-09-09T12:31:24.086Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jackson 注解 cheat sheet">
+<meta name="twitter:description" content="本文是 JsonUtil 类 cheat sheet 的姊妹篇;JsonUtil 类 cheat sheet 侧重于代码层面对 jackson API 的使用, 是一个 “宏观” 的行为: 其设置对全局皆有效; 而本文则着重讨论 javabean 各成员上 jackson 注解的使用, 是一个 “微观” 的行为: 通过注解的约定, 可以精细化控制具体的类, 字段及方法 的序列化 / 反序列化行为">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <script src="/js/leancloud-revision.js"></script>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshellzhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/zshellzhang1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">jackson 注解 cheat sheet</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">jackson 注解 cheat sheet</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-02-15T10:13:20.000Z" itemprop="datePublished" class="page-time">
+  2017-02-15
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/ser-dser/">ser/dser</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/ser-dser/jackson/">jackson</a></li></ul></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#字段是否参与序列化"><span class="post-toc-number">1.</span> <span class="post-toc-text">字段是否参与序列化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#反序列化相关注解"><span class="post-toc-number">2.</span> <span class="post-toc-text">反序列化相关注解</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#多态反序列化"><span class="post-toc-number">3.</span> <span class="post-toc-text">多态反序列化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#循环依赖的解除-字段的排除"><span class="post-toc-number">4.</span> <span class="post-toc-text">循环依赖的解除 (字段的排除)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#站内相关文章"><span class="post-toc-number">5.</span> <span class="post-toc-text">站内相关文章</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">6.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-ser_deser-jackson--jackson注解cheat_sheet"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">jackson 注解 cheat sheet</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-02-15 18:13:20" datetime="2017-02-15T10:13:20.000Z"  itemprop="datePublished">2017-02-15</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/ser-dser/">ser/dser</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/ser-dser/jackson/">jackson</a></li></ul></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>本文是 <a href="https://zshell.cc/2016/08/11/tools-jackson--JsonUtil类cheat_sheet/">JsonUtil 类 cheat sheet</a> 的姊妹篇;<br><a href="https://zshell.cc/2016/08/11/tools-jackson--JsonUtil类cheat_sheet/">JsonUtil 类 cheat sheet</a> 侧重于代码层面对 jackson API 的使用, 是一个 “宏观” 的行为: 其设置对全局皆有效; 而本文则着重讨论 javabean 各成员上 jackson 注解的使用, 是一个 “微观” 的行为: 通过注解的约定, 可以精细化控制具体的类, 字段及方法 的序列化 / 反序列化行为, 使 jackson 能够定制化得处理各个 javabean;</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<h3 id="字段是否参与序列化"><a href="#字段是否参与序列化" class="headerlink" title="字段是否参与序列化"></a><strong>字段是否参与序列化</strong></h3><p>控制字段是否参与序列化是精细化管理 jackson 行为的典型案例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bean</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 总是序列化, 默认情况</span></span><br><span class="line">    <span class="meta">@JsonInclude</span>(JsonInclude.Include.ALWAYS)</span><br><span class="line">    <span class="keyword">private</span> String str1;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 只有不为 null 时才参与序列化</span></span><br><span class="line">    <span class="meta">@JsonInclude</span>(JsonInclude.Include.NON_NULL)</span><br><span class="line">    <span class="keyword">private</span> String str2;</span><br><span class="line"></span><br><span class="line">    / * </span><br><span class="line">      * 只有不为 <span class="string">"空"</span> 时才参与序列化:</span><br><span class="line">      * <span class="number">1</span>. 满足 NON_NULL 与 NON_ABSENT (guava Optional)</span><br><span class="line">      * <span class="number">2</span>. Collection size 不为 <span class="number">0</span></span><br><span class="line">      * <span class="number">3</span>. String != <span class="string">""</span></span><br><span class="line">      * <span class="number">4</span>. Integer != <span class="number">0</span></span><br><span class="line">      * <span class="number">5</span>. Boolean != <span class="keyword">false</span></span><br><span class="line">      * /</span><br><span class="line">    <span class="meta">@JsonInclude</span>(JsonInclude.Include.NON_EMPTY)</span><br><span class="line">    <span class="keyword">private</span> String str3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="反序列化相关注解"><a href="#反序列化相关注解" class="headerlink" title="反序列化相关注解"></a><strong>反序列化相关注解</strong></h3><p>jackson 在序列化时使用反射, 故而其对目标类的构造器情况完全没有要求; 然而在反序列化时, jackson 默认使用无参构造器创建实例, 如果对象没有无参构造器, 也没有任何注解提示 jackson, 则会反序列化失败:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot construct instance of `xxx` </span><br><span class="line">(no Creators, like <span class="keyword">default</span> construct, exist): <span class="function">cannot deserialize from Object <span class="title">value</span> <span class="params">(no delegate- or property-based Creator)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>如果想提示 jackson 使用有参构造器, 需要注解如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@JsonCreator</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Bean</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.str = str;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不过, 在大部分场景下, 光靠一个 <code>@JsonCreator</code> 注解是不够的, 只要构造器含有多于一个的参数, jackson 便会报如下异常:<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Argument #0 of constructor [constructor for xxx, annotations: &#123;interface com.fasterxml.jackson.annotation.JsonCreator=@com.fasterxml.jackson.annotation.JsonCreator(mode=DEFAULT)&#125;] has no property name annotation; must have name when multiple-parameter constructor annotated as Creator</span><br></pre></td></tr></table></figure></p>
+<p>此时需要另一个注解 <code>@JsonProperty</code> 放置在构造器的每一个参数上:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@JsonCreator</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Bean</span><span class="params">(@JsonProperty(<span class="string">"str1"</span>)</span> String str1,</span></span><br><span class="line"><span class="function">            @<span class="title">JsonProperty</span><span class="params">(<span class="string">"str2"</span>)</span> String str2) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.str1 = str1;</span><br><span class="line">    <span class="keyword">this</span>.str2 = str2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其实, <code>@JsonProperty</code> 的使用是独立于 <code>@JsonCreator</code> 的, 其还可以作用于成员字段或成员方法上, 不过作用却是一致的, 均是用于反序列化时作为 json 字段与类成员字段的映射;<br>当然其中也有一个细微差别, 作用于字段或方法上的 <code>@JsonProperty</code> 的 value 是可以为空的: <code>@JsonProperty</code> 的 value 如果为空, 则 jackson 会寻找 json 字符串中与该字段名一致的 key; 如果 value 非空, 则 jackson 会寻找 json 字符串中与该 value 一致的 key;<br>而对于构造器方法, <code>@JsonProperty</code> 的 value 是不可以为空的, 毕竟构造器方法的参数名是可以与成员字段名不一样的;</p>
+<h3 id="多态反序列化"><a href="#多态反序列化" class="headerlink" title="多态反序列化"></a><strong>多态反序列化</strong></h3><p>有些特殊的场景下, 一串 json 可能对应于继承一个父类的多个子类, 然而究竟对应于哪个子类, 却无法在代码中提前确定下来, 只能以父类型作为 <code>valueType</code> 参与反序列化, 这种时候就需要使用 jackson 的多态反序列化功能:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@JsonTypeInfo</span>(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = <span class="string">"@class"</span>)</span><br><span class="line"><span class="meta">@JsonSubTypes</span>(&#123;<span class="meta">@JsonSubTypes</span>.Type(value = Child1.class, name = <span class="string">"Child1"</span>), <span class="meta">@JsonSubTypes</span>.Type(value = Child2.class, name = <span class="string">"Child2"</span>)&#125;)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">Parent</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child1</span> <span class="keyword">extends</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">double</span> param1;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Child1</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child2</span> <span class="keyword">extends</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span> param1;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> param2;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Child2</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>对于以上配置, 以子类 Child1 为例, 相应的 json 字符串内容如下:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jsonStr = &#123;</span><br><span class="line">    <span class="comment">// 指定子类类型为 Child1.class</span></span><br><span class="line">    <span class="string">"@class"</span>: <span class="string">"Child1"</span>,</span><br><span class="line">    <span class="string">"name"</span>: <span class="string">"child1"</span>,</span><br><span class="line">    <span class="string">"param1"</span>: <span class="number">3.14</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>要让 jackson 识别传入的 json 串究竟表示哪一个子类, json 中就必须要存在父类中定义 <code>@JsonTypeInfo</code> 时约定的 property name, 以上例子中的 property 是 “@class”; 另外, property “@class” 对应的值也必须是父类中定义 <code>@JsonSubTypes</code> 时约定的几个 name, jackson 以此确定究竟反序列化为哪个子类, 以上例子中, “Child1” 对应于 Child1.class, “Child2” 对应于 Child2.class;<br>现在, 使用以下代码便可以让 jackson 将刚才定义的 jsonStr 串反序列化为一个 Child1 实例, 而代码中我们仅仅需要指定 <code>valueType</code> 为 Parent.class:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objectMapper.readValue(jsonStr, Parent.class);</span><br></pre></td></tr></table></figure></p>
+<h3 id="循环依赖的解除-字段的排除"><a href="#循环依赖的解除-字段的排除" class="headerlink" title="循环依赖的解除 (字段的排除)"></a><strong>循环依赖的解除 (字段的排除)</strong></h3><p>有时候会遇到蛋疼的问题: 两个类互相引用, 这时 jackson 会判定其发生循环依赖, 无法序列化; 对这种情况我们就需要手动解开循环依赖, 比较典型的方法是忽略涉及循环依赖的字段, 不过这样可能造成信息丢失:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bean</span> </span>&#123;</span><br><span class="line">    <span class="comment">// str1 序列化时会被忽略, 但反序列化时不会被忽略</span></span><br><span class="line">    <span class="meta">@JsonBackReference</span></span><br><span class="line">    <span class="meta">@JsonManagedReference</span></span><br><span class="line">    <span class="keyword">private</span> String str1;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// str2 序列化与反序列化时都会被忽略, @JsonBackReference 单独使用效果同 @JsonIgnore</span></span><br><span class="line">    <span class="meta">@JsonBackReference</span></span><br><span class="line">    <span class="keyword">private</span> String str2;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// str3 序列化与反序列化时都会被忽略</span></span><br><span class="line">    <span class="meta">@JsonIgnore</span></span><br><span class="line">    <span class="keyword">private</span> String str3;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 对于str4, 只有序列化时会被忽略, 反序列化时不会被忽略(单独作用于 getter, 不作用于 setter)</span></span><br><span class="line">    <span class="keyword">private</span> String str4;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@JsonIgnore</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getStr4</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> str4; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setStr4</span><span class="params">(String str)</span> </span>&#123; <span class="keyword">this</span>.str4 = str; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h3><ul>
+<li><a href="https://zshell.cc/2016/08/11/tools-jackson--JsonUtil类cheat_sheet/">JsonUtil 类 cheat sheet</a></li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h3><ul>
+<li><a href="http://a52071453.iteye.com/blog/2175398" target="_blank" rel="noopener">jackson annotations 注解详解</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2017/02/15/ser_deser-jackson--jackson注解cheat_sheet/" rel="external">http://zshell.cc/2017/02/15/ser_deser-jackson--jackson注解cheat_sheet</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="http://zshell.cc">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshellzhang">
+            zshellzhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cheat-sheet/">cheat sheet</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jackson/">jackson</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/json/">json</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/02/15/ser_deser-jackson--jackson注解cheat_sheet/&title=《jackson 注解 cheat sheet》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/02/15/ser_deser-jackson--jackson注解cheat_sheet/&title=《jackson 注解 cheat sheet》 — 希尔的博客&source=
+本文是 JsonUtil 类 cheat sheet 的姊妹篇;JsonUtil 类 cheat sheet 侧重于代码层面对 jackson API ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/02/15/ser_deser-jackson--jackson注解cheat_sheet/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《jackson 注解 cheat sheet》 — 希尔的博客&url=http://zshell.cc/2017/02/15/ser_deser-jackson--jackson注解cheat_sheet/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/02/15/ser_deser-jackson--jackson注解cheat_sheet/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/03/06/web--http_status_code_典型问题总结/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">http status code 典型问题总结</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/01/21/ser_deser-jackson--jackson_常用配置选项梳理/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">jackson 常用配置选项梳理</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "fMh2JHgkPnDtARiQapOg8Jrk-gzGzoHsz",
+            appKey: "UPNXLDUkngDnuhfC9XQPgF6n",
+            avatar: "mm",
+            placeholder: "您的评论, 吾愿洗耳恭听!",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshellzhang &copy; 2016 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2017/02/15/ser_deser-jackson--jackson注解cheat_sheet/&title=《jackson 注解 cheat sheet》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2017/02/15/ser_deser-jackson--jackson注解cheat_sheet/&title=《jackson 注解 cheat sheet》 — 希尔的博客&source=
+本文是 JsonUtil 类 cheat sheet 的姊妹篇;JsonUtil 类 cheat sheet 侧重于代码层面对 jackson API ..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2017/02/15/ser_deser-jackson--jackson注解cheat_sheet/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《jackson 注解 cheat sheet》 — 希尔的博客&url=http://zshell.cc/2017/02/15/ser_deser-jackson--jackson注解cheat_sheet/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2017/02/15/ser_deser-jackson--jackson注解cheat_sheet/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvElEQVR42u3aQU7lQAwEUO5/aUaaLeRTZXcDo3lZfYWQzssibpX99hYf73+P9vfHI7/zx2ue/nrgwMPDwxs9+usHelpgxnu6z+tVkvt/8grw8PDwrvGST3b+4W6vPFtC8PDw8H4PL9+15pj8heLh4eH9u7wWk8A2gQgeHh7eT/Ha+CD59L9eOHlNbdiBh4eH9z28ew2we79/RX8PDw/vv+S9l8d+dKAdDsjv+ckqeHh4eBd4+Ra2LRLtyFQ7slCsgoeHh3eBN4skknAhGaJqMfk1eHh4eDd4yYY4ejfxJriNFZI4+HEtPDw8vGu85HOfn2nD1v1W/ovCgIeHh3eZl3+C2wGCNqidjR0Uu288PDy8ES+5aRJP5KUlf6yWFDXA8PDw8Na8/WZ6Nkxwr52Gh4eH9528fSdtH9S+Ljzt4BceHh7eDd5s69yOQOXlYTP+9XgeDw8P7ygv+eDOttF70uxKPDw8vNu8NgKYbbVnYwczzGNKjYeHh3eUN4Ml2+58yOBAH++1BQ8PD+8QL3+IWXTbNsY22/HHBhgeHh7eUV4+5NQ2xtoCc7sg4eHh4Z3lzdrzeUyQhLxtbFGMO+Dh4eEd5eXRQD5kkCNn8URefvDw8PBu8No2Uv6hbxtmm9EuPDw8vJ/izUKEWZuq6MvlacosKMHDw8MreXkbKYEl/7UZDqjP4OHh4V3m5XFtEj3Mzr8vjmjoCg8PD2/Ny8OIU4FC8kD5q8xjFDw8PLxTvNnHt80zZuNW7Qb9i7qHh4eHd4g36xPlYwFtSZgNgc2aZ3h4eHgb3j6ivR1JtEUl6p7h4eHhrXnJkvsBrLy0tPHH44p4eHh4P8qbhQjtC8pnxKINPR4eHt4v4222vPlrasvSscKAh4eHdzTn3JSQpGC05eHxDB4eHt4F3r79n49Szbbj7br1gYeHh5fy/gDebLtgv5zHaAAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
