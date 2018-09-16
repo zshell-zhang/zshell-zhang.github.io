@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://zshell.cc/2018/08/26/life-pc--linux重度使用者拿到MacBook后的一系列挣扎/">
+    
+    
+    <title>linux 重度使用者拿到 MacBook 后的一系列挣扎 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="life:pc,MacBook">
+    <meta name="description" content="新东家发的办公笔记本是 MacBook Pro, 来之前我还觉得挺高大上, 然而真正开始用的时候发现, OS X 对于 linux 用户来说实在是太难于上手了, 甚至感觉比 Windows 系统还不习惯, Windows 好歹从前还是使用过的, OS X 简直就和初学者使用 vim 一样不知所措;">
+<meta name="keywords" content="life:pc,MacBook">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux 重度使用者拿到 MacBook 后的一系列挣扎">
+<meta property="og:url" content="http://zshell.cc/2018/08/26/life-pc--linux重度使用者拿到MacBook后的一系列挣扎/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="新东家发的办公笔记本是 MacBook Pro, 来之前我还觉得挺高大上, 然而真正开始用的时候发现, OS X 对于 linux 用户来说实在是太难于上手了, 甚至感觉比 Windows 系统还不习惯, Windows 好歹从前还是使用过的, OS X 简直就和初学者使用 vim 一样不知所措;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-09-16T08:59:49.630Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux 重度使用者拿到 MacBook 后的一系列挣扎">
+<meta name="twitter:description" content="新东家发的办公笔记本是 MacBook Pro, 来之前我还觉得挺高大上, 然而真正开始用的时候发现, OS X 对于 linux 用户来说实在是太难于上手了, 甚至感觉比 Windows 系统还不习惯, Windows 好歹从前还是使用过的, OS X 简直就和初学者使用 vim 一样不知所措;">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <script src="/js/leancloud-revision.js"></script>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshellzhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/zshellzhang1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">linux 重度使用者拿到 MacBook 后的一系列挣扎</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">linux 重度使用者拿到 MacBook 后的一系列挣扎</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-08-26T07:46:05.000Z" itemprop="datePublished" class="page-time">
+  2018-08-26
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/life/">life</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/life/pc/">pc</a></li></ul></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#搞定-sudo-权限"><span class="post-toc-number">1.</span> <span class="post-toc-text">搞定 sudo 权限</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#安装-Homebrew"><span class="post-toc-number">2.</span> <span class="post-toc-text">安装 Homebrew</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#安装-showsocks-client"><span class="post-toc-number">3.</span> <span class="post-toc-text">安装 showsocks client</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#安装-sougoupinyin-代替默认输入法"><span class="post-toc-number">4.</span> <span class="post-toc-text">安装 sougoupinyin 代替默认输入法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置更友好的终端环境"><span class="post-toc-number">5.</span> <span class="post-toc-text">配置更友好的终端环境</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#熟悉-mac-的按键及其标识"><span class="post-toc-number">6.</span> <span class="post-toc-text">熟悉 mac 的按键及其标识</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用总结"><span class="post-toc-number">7.</span> <span class="post-toc-text">使用总结</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">8.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-life-pc--linux重度使用者拿到MacBook后的一系列挣扎"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">linux 重度使用者拿到 MacBook 后的一系列挣扎</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-08-26 15:46:05" datetime="2018-08-26T07:46:05.000Z"  itemprop="datePublished">2018-08-26</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/life/">life</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/life/pc/">pc</a></li></ul></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>新东家发的办公笔记本是 MacBook Pro, 来之前我还觉得挺高大上, 然而真正开始用的时候发现, OS X 对于 linux 用户来说实在是太难于上手了, 甚至感觉比 Windows 系统还不习惯, Windows 好歹从前还是使用过的, OS X 简直就和初学者使用 vim 一样不知所措;</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<p>关于一些常规而必备的软件 (如 chrome, thunderbird, jetbrains 系列, jdk 等等), 本文就不再赘述了;</p>
+<h3 id="搞定-sudo-权限"><a href="#搞定-sudo-权限" class="headerlink" title="搞定 sudo 权限"></a><strong>搞定 sudo 权限</strong></h3><p>说来蛋疼的是, 即便已使用 visudo 命令开启了用户的 sudo 权限, OS X 依然不允许修改系统级的目录, 这是 OS X 在 10.11 中引入的 System Integrity Protection (SIP) 特性; 我观察了一下, 差不多除了 /usr/local 这一原本就该属于用户自己管理的目录下之外, 其余的都无法操纵, 切到 root 也不行, 可以说算是一个阉割版的 admin;<br>所以拿到本子的第一件事就应该是关闭 SIP 特性, 否则后面的操作会显得束手束脚:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开机, command + r 进入 rescue 模式</span></span><br><span class="line">csrutil <span class="built_in">disable</span></span><br></pre></td></tr></table></figure></p>
+<p>这样就可以关闭 SIP 特性, 后面就可以以 sudo 权限操纵系统级的目录了;</p>
+<h3 id="安装-Homebrew"><a href="#安装-Homebrew" class="headerlink" title="安装 Homebrew"></a><strong>安装 Homebrew</strong></h3><p>作为 Mac 生态下主流的包管理软件, 安装 Homebrew 是使用 Mac 的程序员必做的事情之一, 否则后面想在命令行装东西可就费劲了;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -LsSf http://github.com/mxcl/homebrew/tarball/master | sudo tar xvz -C/usr/<span class="built_in">local</span> –strip 1</span><br></pre></td></tr></table></figure></p>
+<p>如果遇到 <code>Error: Unknown command: install</code>, 则需要更新 Homebrew:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew update</span><br></pre></td></tr></table></figure></p>
+<p>这时就体现了完整版 sudo 权限的重要性: <code>brew update</code> 命令需要更新 <code>/usr/local/</code> 下的文件, 如果开启了 SIP 特性, 这个操作就没权限执行了;</p>
+<p>&nbsp;<br>有了 brew 之后, 后面安装与管理各种软件就方便多了; Homebrew 的命令是比较简洁明了的:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装与卸载</span></span><br><span class="line">brew install <span class="variable">$package</span></span><br><span class="line">brew uninstall <span class="variable">$package</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询</span></span><br><span class="line">brew list</span><br><span class="line">brew search <span class="variable">$package</span></span><br><span class="line">brew info <span class="variable">$package</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="安装-showsocks-client"><a href="#安装-showsocks-client" class="headerlink" title="安装 showsocks client"></a><strong>安装 showsocks client</strong></h3><p>借助 brew 命令, Mac 下面部署梯子的操作倒还算方便:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install shadowsocks-libev</span><br></pre></td></tr></table></figure></p>
+<p>自定义一个开机启动脚本, 让 mac 每次开机时自动运行 ss-local:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line">/usr/<span class="built_in">local</span>/opt/shadowsocks-libev/bin/ss-local -c /etc/shadowsocks.json &amp;</span><br></pre></td></tr></table></figure></p>
+<h3 id="安装-sougoupinyin-代替默认输入法"><a href="#安装-sougoupinyin-代替默认输入法" class="headerlink" title="安装 sougoupinyin 代替默认输入法"></a><strong>安装 sougoupinyin 代替默认输入法</strong></h3><p>苹果自带的中文输入法不是很好用, 中英文切换默认使用 ctrl + space 组合, 十分不方便, 具体在哪里修改设置我也懒得看了; 此时需要下载符合国人习惯的 sougoupinyin, 当然由于搜狗对 mac 的支持比较友好, 仅需一键安装即可, 此处就不用多说了;<br>在输入法方面, 不得不承认 mac 是比 linux (至少是 fedora) 要方便不少的: fedora 上的 sougoupinyin 一直停滞更新, 目前最新版本依然有严重 bug, 我不得不去移植 ubuntu 环境下的 deb 包才能满足我在 fedora 下的使用;</p>
+<h3 id="配置更友好的终端环境"><a href="#配置更友好的终端环境" class="headerlink" title="配置更友好的终端环境"></a><strong>配置更友好的终端环境</strong></h3><p>mac 自带的 terminal 也不是很好用, 不过有第三方强大的替代品可以选择, 我这里选择的一个终端环境的组合是 iTerm2 + oh-my-zsh, 以代替原有的 terminal + bash 的默认组合;<br>首先通过菜单栏更改 iTerm2 为 default terminal;<br>iTerm2 支持各种个性化的配置, 包括终端颜色, 快捷键等, 我这里选择的配色方案是 <a href="https://ethanschoonover.com/solarized/" target="_blank" rel="noopener">solarized</a> 中的 Solarized Dark;<br>接下来是安装 zsh 的全能管家 <a href="https://github.com/robbyrussell/oh-my-zsh" target="_blank" rel="noopener">oh-my-zsh</a>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># by curl</span></span><br><span class="line">sh -c <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)</span>"</span></span><br><span class="line"><span class="comment"># by wget</span></span><br><span class="line">sh -c <span class="string">"<span class="variable">$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)</span>"</span></span><br></pre></td></tr></table></figure></p>
+<p>oh-my-zsh 的配置文件默认是 ~/.zshrc, 这个文件里有几个关键配置项:<br><figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 加载 oh-my-zsh 的核心内容</span></span><br><span class="line"><span class="built_in">export</span> ZSH=<span class="string">"/Users/zshell/.oh-my-zsh"</span></span><br><span class="line"><span class="built_in">source</span> <span class="variable">$ZSH</span>/oh-my-zsh.sh</span><br></pre></td></tr></table></figure></p>
+<p>以下为个性化定制:<br><figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定制主题</span></span><br><span class="line">ZSH_THEME=<span class="string">"ys"</span></span><br><span class="line"><span class="comment"># 开启语法高亮插件</span></span><br><span class="line"><span class="built_in">source</span> /usr/<span class="built_in">local</span>/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh</span><br><span class="line"><span class="comment"># 定制插件</span></span><br><span class="line">plugins=(</span><br><span class="line">  git</span><br><span class="line">  osx</span><br><span class="line">  docker</span><br><span class="line">  zsh-autosuggestions</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>一般比较漂亮顺眼的两款主题是 <a href="http://blog.ysmood.org/my-ys-terminal-theme/" target="_blank" rel="noopener">ys</a> 和 <a href="https://github.com/agnoster/agnoster-zsh-theme" target="_blank" rel="noopener">agnoster</a>, 在 ZSH_THEME 中可以更换, 如果使用 agnoster, 需要另外安装 <a href="https://github.com/powerline/fonts/blob/master/Meslo%20Slashed/Meslo%20LG%20M%20Regular%20for%20Powerline.ttf" target="_blank" rel="noopener">Meslo</a> 字体并在 iTerm2 中启用它;<br>关于语法高亮插件, 可以使用 brew 安装:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install zsh-syntax-highlighting</span><br></pre></td></tr></table></figure></p>
+<p>然后在 .zshrc 中 source 下载的 zsh-syntax-highlighting.zsh 脚本即可;<br>&nbsp;<br>与 iTerm2 相关的软件资源我整理到了一个公共目录下, 以方便日后在新的 MacBook 上下载: <a href="https://pan.baidu.com/s/1fQrD1o-jIgkHuvybZEL8AA#list/path=%2Fapps%2Fsoftware%2Fiterm%2B&amp;parentPath=%2Fapps" target="_blank" rel="noopener">software / iterm+</a>;</p>
+<h3 id="熟悉-mac-的按键及其标识"><a href="#熟悉-mac-的按键及其标识" class="headerlink" title="熟悉 mac 的按键及其标识"></a><strong>熟悉 mac 的按键及其标识</strong></h3><p>这其实是个很扯淡的事情: mac 的按键体系与其他传统的笔记本不一致, 它多了一个 command 键, 更改了 delete 键的含义, 少了一些诸如 backspace, page up/down, home/end 等按键, 如此迥异以致很多传统的快捷键在 mac 下都有很大的不同, 有些功能需要依靠按键组合来实现, 让初次接触的人很不习惯;<br>另外 mac 的各个按键有着独特的图像标识, 在一些软件的快捷键设置面板上会频繁出现, 如果不稍作了解, 有很多标识是不太看得懂其象形含义的,  这里我对所有 MacBooK 基础按键的标识作一个整理:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">按键标识</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">⌘</td>
+<td style="text-align:center">Command</td>
+</tr>
+<tr>
+<td style="text-align:center">⇧</td>
+<td style="text-align:center">Shift</td>
+</tr>
+<tr>
+<td style="text-align:center">⌥</td>
+<td style="text-align:center">Option, Alt</td>
+</tr>
+<tr>
+<td style="text-align:center">⌃</td>
+<td style="text-align:center">Control</td>
+</tr>
+<tr>
+<td style="text-align:center">↩</td>
+<td style="text-align:center">Return/Enter</td>
+</tr>
+<tr>
+<td style="text-align:center">⌫</td>
+<td style="text-align:center">Delete</td>
+</tr>
+<tr>
+<td style="text-align:center">⌦</td>
+<td style="text-align:center">向前删除键 (Fn + Delete)</td>
+</tr>
+<tr>
+<td style="text-align:center">↑ / ↓ / ← / →</td>
+<td style="text-align:center">上下左右 箭头</td>
+</tr>
+<tr>
+<td style="text-align:center">⇞ / ⇟</td>
+<td style="text-align:center">Page Up/Down (Fn + ↑/↓)</td>
+</tr>
+<tr>
+<td style="text-align:center">Home / End</td>
+<td style="text-align:center">Fn + ←/→</td>
+</tr>
+<tr>
+<td style="text-align:center">⇥</td>
+<td style="text-align:center">右制表符 (Tab键)</td>
+</tr>
+<tr>
+<td style="text-align:center">⇤</td>
+<td style="text-align:center">左制表符 (Shift+Tab)</td>
+</tr>
+<tr>
+<td style="text-align:center">⎋</td>
+<td style="text-align:center">Escape (Esc)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="使用总结"><a href="#使用总结" class="headerlink" title="使用总结"></a><strong>使用总结</strong></h3><p>我相信从 Windows 迁移到 mac 环境是一件阻力不大的事情, 这也是大部分人的模式, 而且这部分人群的行业分布非常广, 程序员只是其中一小部分而已; 然而对于一个长期使用 linux PC 的程序员来说, 事情就没那么富有吸引力了: mac 所能给予的生产力与效率 linux 也不遑多让, 对于开源软件有信仰的人来说, 这事甚至没有任何商量的余地;<br>但其实我很清楚, 这本质上不过是一个人内心深处的偏见与执念, 长期使用 mac 的人, 让他们转投 linux 阵营也是不可能的事; 即便在 linux 业界之内, 关于 fedora, archlinux 与 ubuntu 的争论也是无休无止; 关于 OS X 其实有大量的优点在本文中完全没有被提及, 因为我觉得不值得花费时间去探索这些东西, 我在工作中所创造的价值完全存在于 linux 主机之上, 所以我亦使用 linux 作为我个人笔记本的操作系统, 借用这种方式以熟悉, 并更好得理解我的产品在生产环境下的工作原理: 这就是我无可救药的执念;<br>我听说阿里巴巴的办公笔记本发放的是 MacBook Pro 15’, 并且强烈不建议使用自己的笔记本办公, 非要使用的话必须安装各种安全监视与审计软件, 毕竟信息安全是上市公司的头等大事; 这么说无论如何, 我都得慢慢得去适应 mac 环境下的办公模式了, 否则将来因为强烈排斥使用公司统一发放的 MacBook Pro 而拒绝了某公司的 offer, 就有点扯淡了;</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h3><ul>
+<li><a href="https://blog.csdn.net/qq_24283329/article/details/77896380" target="_blank" rel="noopener">ios brew安装记录</a></li>
+<li><a href="https://blog.csdn.net/buyueliuying/article/details/74634712" target="_blank" rel="noopener">OS X 执行命令加了sudo还是提示Operation not permitted</a></li>
+<li><a href="https://blog.csdn.net/qq_24283329/article/details/77896380" target="_blank" rel="noopener">MAC 电脑如何启用root用户</a></li>
+<li><a href="https://www.cr173.com/apple/126928_1.html" target="_blank" rel="noopener">mac sip关闭教程 苹果MAC10.11系统关闭SIP教程</a></li>
+<li><a href="http://www.cnblogs.com/weixuqin/p/7029177.html" target="_blank" rel="noopener">Mac下终端配置(item2 + oh-my-zsh + solarized配色方案)</a></li>
+<li><a href="https://blog.csdn.net/HaoDaWang/article/details/78731098" target="_blank" rel="noopener">Mac 按键标识</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2018/08/26/life-pc--linux重度使用者拿到MacBook后的一系列挣扎/" rel="external">http://zshell.cc/2018/08/26/life-pc--linux重度使用者拿到MacBook后的一系列挣扎</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="http://zshell.cc">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshellzhang">
+            zshellzhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MacBook/">MacBook</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/life-pc/">life:pc</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2018/08/26/life-pc--linux重度使用者拿到MacBook后的一系列挣扎/&title=《linux 重度使用者拿到 MacBook 后的一系列挣扎》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2018/08/26/life-pc--linux重度使用者拿到MacBook后的一系列挣扎/&title=《linux 重度使用者拿到 MacBook 后的一系列挣扎》 — 希尔的博客&source=
+新东家发的办公笔记本是 MacBook Pro, 来之前我还觉得挺高大上, 然而真正开始用的时候发现, OS X 对于 linux 用户来说实在是太难于..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2018/08/26/life-pc--linux重度使用者拿到MacBook后的一系列挣扎/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《linux 重度使用者拿到 MacBook 后的一系列挣扎》 — 希尔的博客&url=http://zshell.cc/2018/08/26/life-pc--linux重度使用者拿到MacBook后的一系列挣扎/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2018/08/26/life-pc--linux重度使用者拿到MacBook后的一系列挣扎/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/08/12/linux-other--berkeley_db7.x压力测试报告/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">berkeley db 7.x 压力测试报告</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "fMh2JHgkPnDtARiQapOg8Jrk-gzGzoHsz",
+            appKey: "UPNXLDUkngDnuhfC9XQPgF6n",
+            avatar: "mm",
+            placeholder: "您的评论, 吾愿洗耳恭听!",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshellzhang &copy; 2016 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2018/08/26/life-pc--linux重度使用者拿到MacBook后的一系列挣扎/&title=《linux 重度使用者拿到 MacBook 后的一系列挣扎》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2018/08/26/life-pc--linux重度使用者拿到MacBook后的一系列挣扎/&title=《linux 重度使用者拿到 MacBook 后的一系列挣扎》 — 希尔的博客&source=
+新东家发的办公笔记本是 MacBook Pro, 来之前我还觉得挺高大上, 然而真正开始用的时候发现, OS X 对于 linux 用户来说实在是太难于..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2018/08/26/life-pc--linux重度使用者拿到MacBook后的一系列挣扎/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《linux 重度使用者拿到 MacBook 后的一系列挣扎》 — 希尔的博客&url=http://zshell.cc/2018/08/26/life-pc--linux重度使用者拿到MacBook后的一系列挣扎/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2018/08/26/life-pc--linux重度使用者拿到MacBook后的一系列挣扎/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADMUlEQVR42u3aMXbjMAwFwNz/0t42RSR/APQ+kR5VeYkpcuACAcCfn/h5/Xp+/yb5/NXa/K/3Z7g/yejBxsbG3oT9un0S9tWqqwDdHzfZKwnE/amwsbGxz2NfbZ985hOJ6j5Aydo3RmxsbOwvZvfKkupevUSIjY2NjV09brRBEMR7GDY2NjZ2wk7Khrwp/7n0lifXZb00bGxs7Mezq2npyT9/ZL6NjY2N/WD2q/gkZUCeCPMz9Ha8fBs2Njb2Qew8AeT/3OcFQDUoveHEZfmEjY2NfRA7ac1Mmjv5CKEa4nzV5RuwsbGxN2dXRwL5eKCa2OblyoJ5CDY2Nva27LwMqLKTBlD10k9v5HxZe2FjY2Nvzs4vysyHAauGEJNARL00bGxs7A3Z+QWdasnRu/qTnOq/3kvCxsbGfjx7fkEnHzBUE89kSPAmZNjY2NjHsfOBQW/0mw8M8iTXa2xhY2Njn8ruNdnztasSWLWB1ayZsLGxsbdiV0cCeWgWFw/FVdjY2NjfwO7FZm2JUg1rtaT54/3Y2NjYB7GrpPyqzeToPUwvfWJjY2Ofyl5bePSGvqtSZvT1YGNjY2/LrjZ9kgKjd40yv+4zOW15PoyNjY39ePbkKFVwtanUC3Fe6mBjY2OfwU5qlHlaypNKtVypfgHY2NjY57EnN1iS9DNJink7KR/6Nvtn2NjY2JuwkwW91DIpXda2qLCxsbFPZeeb5UHpXbVJwpQHsTwkwMbGxt6Q3WvrV0e/1eSXf746+sXGxsY+lZ03ZZJmTdTQGRQkvdD8MejFxsbGPoI9WjBIeNWAJoPbamLDxsbGPomdHK43Uu1hqsmsmSCxsbGxj2NPioFqeqte0PlIoLGxsbEPZSfJoNqKqralei2qvCjCxsbGPon9Kj55+6mKzwfJ1YC+mW9jY2Njb85e1UvPQ9YL3H0vqFeWYGNjY5/EzpPWJIFV01je6O8VOdjY2NjnsasXYvLxbfKbVY2kwnuwsbGxv5hdbfQkaSnZKwlWoY2FjY2NjR2v7b1tVaMfGxsb+3vYk+FuctCkJZRfG1pQFGFjY2MfxM7TwLws6YXj0xeAsLGxsbdl/wN9RO05lw1CGAAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
