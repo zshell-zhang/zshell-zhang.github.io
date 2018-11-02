@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://zshell.cc/2018/12/15/life-pc--fedora_折腾经验备忘录/">
+    
+    
+    <title>fedora 折腾经验备忘录 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="life:pc">
+    <meta name="description" content="当我试图注销重新登陆时, 惊悚的一幕发生了: 黑屏! 近乎绝望般得按下电源键强制重启, 等来的居然是字符登陆界面, 讽刺的是我输入账号密码后, 还登陆成功了……字符界面下, 所有的命令都能正常执行, 可是进不了 tty7, 这系统实质上就是废的呀! 我猜测 gnome 的核心组件大概是被我误删了…… 无奈, 思忖着崩溃前我到底做了什么, 也只能重头再来;">
+<meta name="keywords" content="life:pc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fedora 折腾经验备忘录">
+<meta property="og:url" content="http://zshell.cc/2018/12/15/life-pc--fedora_折腾经验备忘录/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="当我试图注销重新登陆时, 惊悚的一幕发生了: 黑屏! 近乎绝望般得按下电源键强制重启, 等来的居然是字符登陆界面, 讽刺的是我输入账号密码后, 还登陆成功了……字符界面下, 所有的命令都能正常执行, 可是进不了 tty7, 这系统实质上就是废的呀! 我猜测 gnome 的核心组件大概是被我误删了…… 无奈, 思忖着崩溃前我到底做了什么, 也只能重头再来;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/life/pc/fedora折腾经验备忘录/fedora_new_PS1.png">
+<meta property="og:updated_time" content="2019-01-22T15:19:30.390Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="fedora 折腾经验备忘录">
+<meta name="twitter:description" content="当我试图注销重新登陆时, 惊悚的一幕发生了: 黑屏! 近乎绝望般得按下电源键强制重启, 等来的居然是字符登陆界面, 讽刺的是我输入账号密码后, 还登陆成功了……字符界面下, 所有的命令都能正常执行, 可是进不了 tty7, 这系统实质上就是废的呀! 我猜测 gnome 的核心组件大概是被我误删了…… 无奈, 思忖着崩溃前我到底做了什么, 也只能重头再来;">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/life/pc/fedora折腾经验备忘录/fedora_new_PS1.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <script src="/js/leancloud-revision.js"></script>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshellzhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/zshellzhang1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">fedora 折腾经验备忘录</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">fedora 折腾经验备忘录</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-12-15T15:13:49.000Z" itemprop="datePublished" class="page-time">
+  2018-12-15
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/life/">life</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/life/pc/">pc</a></li></ul></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#关键软件安装"><span class="post-toc-number">1.</span> <span class="post-toc-text">关键软件安装</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#重要软件源添加"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">重要软件源添加</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#sogoupinyin-输入法"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">sogoupinyin 输入法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#vim"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">vim</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#jdk"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">jdk</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#postman"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">postman</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#shadowsocks-client"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">shadowsocks client</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#atom"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">atom</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#bcloud-客户端"><span class="post-toc-number">1.8.</span> <span class="post-toc-text">bcloud 客户端</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#虚拟化"><span class="post-toc-number">1.9.</span> <span class="post-toc-text">虚拟化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#netease-cloud-music"><span class="post-toc-number">1.10.</span> <span class="post-toc-text">netease-cloud-music</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#桌面主题设置"><span class="post-toc-number">2.</span> <span class="post-toc-text">桌面主题设置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#gnome-shell-extension"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">gnome-shell-extension</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#窗口按钮设置"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">窗口按钮设置</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#系统配置"><span class="post-toc-number">3.</span> <span class="post-toc-text">系统配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#重要的-daemon-service"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">重要的 daemon service</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#快捷键设置"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">快捷键设置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#字体设置"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">字体设置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#定制终端的命令行提示符"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">定制终端的命令行提示符</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ssh-git"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">ssh / git</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#站内相关文章"><span class="post-toc-number">4.</span> <span class="post-toc-text">站内相关文章</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">5.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-life-pc--fedora_折腾经验备忘录"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">fedora 折腾经验备忘录</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-12-15 23:13:49" datetime="2018-12-15T15:13:49.000Z"  itemprop="datePublished">2018-12-15</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/life/">life</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/life/pc/">pc</a></li></ul></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>当我试图注销重新登陆时, 惊悚的一幕发生了: 黑屏! 近乎绝望般得按下电源键强制重启, 等来的居然是字符登陆界面, 讽刺的是我输入账号密码后, 还登陆成功了……<br>字符界面下, 所有的命令都能正常执行, 可是进不了 tty7, 这系统实质上就是废的呀! 我猜测 gnome 的核心组件大概是被我误删了…… 无奈, 思忖着崩溃前我到底做了什么, 也只能重头再来;</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<p>2018 年 10 月 30 日, fedora 发布了新版本: <a href="https://fedoramagazine.org/announcing-fedora-29/" target="_blank" rel="noopener">feodra 29</a>, 令无数 linux 忠实拥趸跃跃欲试;<br>历经各种曲折, 耗费几近半年时间, 我终于赶在 2019 年前折腾出了一个有着勉强模样的 fedora, 装在了我的笔记本上, 甚为欣慰; 这半年间, 我试过了 fedora 26, 27, 28, 以及最新的 29, 一次又一次得蹂躏着我入手没多久的 ssd, 遭遇了各种有厘头, 无厘头的 bug, 缺陷, 宕机, 在 “几乎打算放弃” 的边缘上游走了数月; 可是我心里面总是咽不下这口气, 不把 fedora 搞定我浑身不自在, 就是特想做成这件事, 说是为了装逼也好, 学习也罢, 反正我整个人都豁出去了, 不达目的坚决不罢休, 死不瞑目!<br>于是, 今天终于有了这篇文章, 好好总结一下, 也好好纪念一下;</p>
+<h2 id="关键软件安装"><a href="#关键软件安装" class="headerlink" title="关键软件安装"></a><strong>关键软件安装</strong></h2><h3 id="重要软件源添加"><a href="#重要软件源添加" class="headerlink" title="重要软件源添加"></a><strong>重要软件源添加</strong></h3><p>添加 rpm fusion 与 FZUG 源 (以 fedora 29 为例):<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dnf install https://mirrors.tuna.tsinghua.edu.cn/fzug/free/29/x86_64/fzug-release-29-0.1.noarch.rpm</span><br></pre></td></tr></table></figure></p>
+<p>如果是其他 fedora 版本, 直接参考 <a href="https://github.com/FZUG/repo/wiki/添加-FZUG-源" target="_blank" rel="noopener">官方文档</a> 即可;</p>
+<h3 id="sogoupinyin-输入法"><a href="#sogoupinyin-输入法" class="headerlink" title="sogoupinyin 输入法"></a><strong>sogoupinyin 输入法</strong></h3><p>输入法是万物之源, 没有中文输入法, 一个中国人如何正常使用 fedora?<br>搜狗公司也算是个有情怀的公司, 为我们广大 linux 用户开发了 linux 版本的 sogoupinyin; 但是美中不足的是, 它只提供了 debian 系列才能使用的 deb 包, 而没有提供 redhat 系列的 rpm 包; 为了将其移植到 fedora, 我作了一些尝试与努力, 并专门总结了一篇文章: <a href="https://zshell.cc/2018/11/29/life-pc--fedora_安装_sogoupinyin_输入法/">fedora 安装 sogoupinyin 输入法</a>;</p>
+<h3 id="vim"><a href="#vim" class="headerlink" title="vim"></a><strong>vim</strong></h3><p>fedora 自带的 vim 是功能简化的 vim, 或者说是功能增强型的 vi:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; sudo rpm -qa | grep vim</span><br><span class="line">vim-minimal-8.1.450-1.fc29.x86_64</span><br></pre></td></tr></table></figure></p>
+<p>而在日常脚本编写中, 一个 minimal 的 vim 是不够用的, 我们需要完整版的 vim:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dnf install vim-enhanced</span><br></pre></td></tr></table></figure></p>
+<h3 id="jdk"><a href="#jdk" class="headerlink" title="jdk"></a><strong>jdk</strong></h3><h3 id="postman"><a href="#postman" class="headerlink" title="postman"></a><strong>postman</strong></h3><h3 id="shadowsocks-client"><a href="#shadowsocks-client" class="headerlink" title="shadowsocks client"></a><strong>shadowsocks client</strong></h3><p>一般装 shadowsocks client 不会使用 yum / dnf / apt-get 之类的工具, python-pip 直接上:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install shadowsocks</span><br></pre></td></tr></table></figure></p>
+<p>其运行命令的选项也是十分的简洁:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#  -c CONFIG              path to config file</span></span><br><span class="line"><span class="comment">#  -s SERVER_ADDR         server address</span></span><br><span class="line"><span class="comment">#  -p SERVER_PORT         server port, default: 8388</span></span><br><span class="line"><span class="comment">#  -b LOCAL_ADDR          local binding address, default: 127.0.0.1</span></span><br><span class="line"><span class="comment">#  -l LOCAL_PORT          local port, default: 1080</span></span><br><span class="line"><span class="comment">#  -k PASSWORD            password</span></span><br><span class="line"><span class="comment">#  -m METHOD              encryption method, default: aes-256-cfb</span></span><br><span class="line"><span class="comment">#  -t TIMEOUT             timeout in seconds, default: 300</span></span><br><span class="line">  </span><br><span class="line">sslocal -s xxx.xxx.xxx.xxx -p 8388 -k <span class="string">"*************"</span> -b 127.0.0.1 -l 1080 &amp; 1&gt;/var/<span class="built_in">log</span>/shadowsocks.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure></p>
+<p>重定向一下命令的标准输出流与标准错误流, 方便故障时排查问题;</p>
+<p>不过, 还是不建议直接在命令的选项里配置参数, 更好的方式是加载配置文件, 方便管理也不容易遗忘:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># /usr/local/etc/shadowsocks.json</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"server"</span>: <span class="string">"xxx.xxx.xxx.xxx"</span>,</span><br><span class="line">    <span class="string">"server_port"</span>: 8388,</span><br><span class="line">    <span class="string">"local_address"</span>: <span class="string">"127.0.0.1"</span>,</span><br><span class="line">    <span class="string">"local_port"</span>: 1080,</span><br><span class="line">    <span class="string">"password"</span>: <span class="string">"*************"</span>,</span><br><span class="line">    <span class="string">"timeout"</span>: 3000,</span><br><span class="line">    <span class="string">"method"</span>: <span class="string">"aes-256-cfb"</span>,</span><br><span class="line">    <span class="string">"fast_open"</span>: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sslocal -c /usr/<span class="built_in">local</span>/etc/shadowsocks.json 1&gt;/var/<span class="built_in">log</span>/shadowsocks.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+<p>另外, 这里只是 shadowsocks client, 要真正翻出去还需要 server 端的配合, 我在另一篇文章里有具体介绍: <a href="https://zshell.cc/2018/07/21/life-pc--在裸镜像上搭建shadowsocks_server/">在裸镜像上搭建 shadowsocks server</a>;</p>
+<h3 id="atom"><a href="#atom" class="headerlink" title="atom"></a><strong>atom</strong></h3><h3 id="bcloud-客户端"><a href="#bcloud-客户端" class="headerlink" title="bcloud 客户端"></a><strong>bcloud 客户端</strong></h3><h3 id="虚拟化"><a href="#虚拟化" class="headerlink" title="虚拟化"></a><strong>虚拟化</strong></h3><h3 id="netease-cloud-music"><a href="#netease-cloud-music" class="headerlink" title="netease-cloud-music"></a><strong>netease-cloud-music</strong></h3><p>网易云音乐客户端虽然谈不上是必装的关键软件, 但是毕竟人家是个有情怀的公司, 专门为 linux 用户出了客户端, 而我之前也拿到过云音乐部门的 offer, 无论如何我对 netease-cloud-music 都是有感情的;<br>同 sogoupinyin 输入法一样, netease-cloud-music 客户端美中不足的是它只提供了 deb 包, 故而我就需要做一些移植工作了, 总结文章链接如下: <a href="https://zshell.cc/2018/07/11/life-pc--fedora_安装_netease-cloud-music/">fedora 安装 netease-cloud-music</a>;</p>
+<h2 id="桌面主题设置"><a href="#桌面主题设置" class="headerlink" title="桌面主题设置"></a><strong>桌面主题设置</strong></h2><p>无论是 fedora, 还是如今高版本的 ubuntu (18.04 及以上), 默认使用的桌面环境都是 gnome 这一通用主流的标准了, 而管理 gnome 的最佳工具是 gnome-tweak-tool:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dnf install gnome-tweak-tool</span><br></pre></td></tr></table></figure></p>
+<h3 id="gnome-shell-extension"><a href="#gnome-shell-extension" class="headerlink" title="gnome-shell-extension"></a><strong>gnome-shell-extension</strong></h3><p>桌面主题个性化的精髓就在于 shell 拓展, 各种方便的工具可以帮助我们展示个性, 优化交互等;<br>之前折腾 fedora 28 时, 我下载收集了一些实用的拓展工具, 并统一整理到百度网盘上; 而现在 fedora 29 将 gnome 的版本升级到了 3.30, 这些插件对于 gnome 的版本要求很高, 连中版本都要对上号, 3.28 的插件在 3.30 的 gnome 环境下竟然不能兼容;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; gnome-shell --version</span><br><span class="line">GNOME Shell 3.30.1</span><br></pre></td></tr></table></figure></p>
+<p>现在我打算放弃这种思路, 毕竟以后 fedora 还会继续升级, 就算我现在将百度网盘上的插件都更新为最新的, 也难保以后能兼容更高版本的 fedora; 所以更好的思路是寻找一个稳定的代理, 去帮助自己实时获取最适配的各种插件;<br>这个理想的代理就是 chrome, 让浏览器帮忙下载, 这需要两样东西:</p>
+<ol>
+<li>首先是对应的 chrome 插件: <a href="https://chrome.google.com/webstore/detail/gnome-shell-integration/gphhapmejobijbbhgpjhcjognlahblep" target="_blank" rel="noopener">GNOME Shell integration</a>;</li>
+<li>与 chrome 插件交互的本地 agent:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dnf install chrome-gnome-shell</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这两样东西准备好后, 就可以去 <a href="https://extensions.gnome.org/" target="_blank" rel="noopener">gnome-shell-extension 官方网站</a> 下载插件了; 除了默认带有的, 目前我又安装了如下几个插件:</p>
+<ol>
+<li><a href="https://extensions.gnome.org/extension/307/dash-to-dock/" target="_blank" rel="noopener">Dash to Dock</a>, 类似于 ubuntu 启动器, 方便用于放置常用的应用程序, 快速启动;</li>
+<li><a href="https://extensions.gnome.org/extension/545/hide-top-bar/" target="_blank" rel="noopener">Hide Top Bar</a>, 隐藏最上方的管理栏 top bar, 主要用于没有外接显示器情况下的笔记本, 最大化利用屏幕尺寸;</li>
+</ol>
+<h3 id="窗口按钮设置"><a href="#窗口按钮设置" class="headerlink" title="窗口按钮设置"></a><strong>窗口按钮设置</strong></h3><p>fedora 默认情况下的窗口只展示关闭按钮, 而我们需要同时将 关闭, 最小化, 最大化 三个按钮都展示出来才符合使用习惯; 这个设置十分简单, gnome 的一条命令搞定:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gsettings <span class="built_in">set</span> org.gnome.desktop.wm.preferences button-layout <span class="string">'close,minimize,maximize:appmenu'</span></span><br></pre></td></tr></table></figure></p>
+<p>以上配置会让 关闭, 最小化, 最大 三个按钮从前到后分别出现在窗口的左上角, 十分符合 linux 用户 (以及 Mac 用户) 的使用习惯;</p>
+<h2 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a><strong>系统配置</strong></h2><h3 id="重要的-daemon-service"><a href="#重要的-daemon-service" class="headerlink" title="重要的 daemon service"></a><strong>重要的 daemon service</strong></h3><p>(1) <strong>fcitx</strong><br>输入法守护进程肯定是要在开机时就启动的, 毕竟打字的场景无处不在; 为了让 fcitx 顺利开机启动, 我竟然费了好些波折:<br>fcitx 是一个 XWindow 程序, 使用 dbus 通信; 而 dbus 是一个仅限于普通用户 session 的进程; 我们配置开机启动, 传统的思路都是使用 systemd 生成对应的 service (早期的系统使用 system V init), 但这种方式仅适用于使用 root 用户启动的非 XWindow 程序, 如果碰到一个带图形界面的程序, 例如 fcitx, 会报类似如下的错误:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(WARN-31472 dbusstuff.c:197) Connection Error (/usr/bin/dbus-launch terminated abnormally with the following error: No protocol specified</span><br><span class="line">Autolaunch error: X11 initialization failed.</span><br></pre></td></tr></table></figure></p>
+<p>没法启动 X 进程, 和 dbus 无法通信, connection error;</p>
+<p>查了一下, 对于这种用户级别的 XWindow 程序, fedora 有非常友好的解决方案: 将需要开机启动的应用的 .desktop 启动配置文件复制到如下目录中:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp -a /usr/share/applications/fcitx.desktop ~/.config/autostart/</span><br></pre></td></tr></table></figure></p>
+<p>fedora 会在开机后某一个合适的时间点, 回调 ~/.config/autostart/ 下面的所有应用, 从而做到开机启动;</p>
+<p>(2) shadowsocks client</p>
+<h3 id="快捷键设置"><a href="#快捷键设置" class="headerlink" title="快捷键设置"></a><strong>快捷键设置</strong></h3><h3 id="字体设置"><a href="#字体设置" class="headerlink" title="字体设置"></a><strong>字体设置</strong></h3><h3 id="定制终端的命令行提示符"><a href="#定制终端的命令行提示符" class="headerlink" title="定制终端的命令行提示符"></a><strong>定制终端的命令行提示符</strong></h3><p>fedora 终端的命令行提示符默认是和标准输出一样的普通白色, 没有任何区分, 这会导致一个问题: 当屏幕上有上一条命令的输出时, 无法明显得区分本条命令输出的起始位置, 看起来都是白花花的一片, 很费眼睛, 所以我们需要个性化, 酷炫而显眼的命令行提示符;<br>linux 命令行提示符的样式是通过一个叫 <code>PS1</code> 的环境变量控制的, 默认情况下, 它在 <code>/etc/bashrc</code> 中被初始化; linux 不建议使用者直接修改 <code>/etc/bashrc</code>, 而是建议将定制逻辑放在 <code>/etc/profile.d</code> 目录下, <code>/etc/bashrc</code> 会回调该目录下的脚本;<br>所以这里需要创建一个类似于 <code>/etc/profile.d/PS1_reset.sh</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 重新定义命令行提示符的展示样式</span></span><br><span class="line"><span class="built_in">export</span> PS1=<span class="string">"[\e[m\e[1;32m\u\e[m\e[1;33m@\e[m\e[1;35m\h\e[m \e[1;36m\w\e[m\e[1;36m\e[m] \$"</span></span><br></pre></td></tr></table></figure></p>
+<p>重新定义 <code>PS1</code> 即可;<br>我上面给出了一个具体的样式案例, 关于它的详细含义就不多说了 (这个相比正则表达式有过之而无不及之处), 我就上一个效果图吧:</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://raw.githubusercontent.com/zshell-zhang/static-content/master/life/pc/fedora折腾经验备忘录/fedora_new_PS1.png" alt="terminal_new_PS1" title="">
+                </div>
+                <div class="image-caption">terminal_new_PS1</div>
+            </figure>
+<h3 id="ssh-git"><a href="#ssh-git" class="headerlink" title="ssh / git"></a><strong>ssh / git</strong></h3><h2 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h2><ul>
+<li><a href="https://zshell.cc/2018/11/29/life-pc--fedora_安装_sogoupinyin_输入法/">fedora 安装 sogoupinyin 输入法</a></li>
+<li><a href="https://zshell.cc/2018/07/11/life-pc--fedora_安装_netease-cloud-music/">fedora 安装 netease-cloud-music</a></li>
+<li><a href="https://zshell.cc/2018/07/21/life-pc--在裸镜像上搭建shadowsocks_server/">在裸镜像上搭建 shadowsocks server</a></li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2><ul>
+<li><a href="https://fedoramagazine.org/announcing-fedora-29/" target="_blank" rel="noopener">Announcing the release of Fedora 29</a></li>
+<li><a href="https://linux.cn/article-9447-1.html" target="_blank" rel="noopener">如何使用 GNOME Shell 扩展</a></li>
+<li><a href="http://www.cnblogs.com/menlsh/archive/2012/08/27/2659101.html" target="_blank" rel="noopener">修改linux终端命令行颜色</a></li>
+<li><a href="https://www.jianshu.com/p/902fc5b2fa4d" target="_blank" rel="noopener">fcitx在 sudo 无法输入的问题</a></li>
+<li><a href="https://forums.fedoraforum.org/showthread.php?318140-Fedora-28-startup-application" target="_blank" rel="noopener">Fedora 28 - startup application</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2018/12/15/life-pc--fedora_折腾经验备忘录/" rel="external">http://zshell.cc/2018/12/15/life-pc--fedora_折腾经验备忘录</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="http://zshell.cc">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshellzhang">
+            zshellzhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/life-pc/">life:pc</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2018/12/15/life-pc--fedora_折腾经验备忘录/&title=《fedora 折腾经验备忘录》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2018/12/15/life-pc--fedora_折腾经验备忘录/&title=《fedora 折腾经验备忘录》 — 希尔的博客&source=
+当我试图注销重新登陆时, 惊悚的一幕发生了: 黑屏! 近乎绝望般得按下电源键强制重启, 等来的居然是字符登陆界面, 讽刺的是我输入账号密码后, 还登陆成..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2018/12/15/life-pc--fedora_折腾经验备忘录/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《fedora 折腾经验备忘录》 — 希尔的博客&url=http://zshell.cc/2018/12/15/life-pc--fedora_折腾经验备忘录/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2018/12/15/life-pc--fedora_折腾经验备忘录/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/01/01/life-thought--一个人的社交/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">“一个人” 的社交</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/12/02/life-thought--情感安全绳/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">情感安全绳</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "fMh2JHgkPnDtARiQapOg8Jrk-gzGzoHsz",
+            appKey: "UPNXLDUkngDnuhfC9XQPgF6n",
+            avatar: "mm",
+            placeholder: "您的评论, 吾愿洗耳恭听!",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshellzhang &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2018/12/15/life-pc--fedora_折腾经验备忘录/&title=《fedora 折腾经验备忘录》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2018/12/15/life-pc--fedora_折腾经验备忘录/&title=《fedora 折腾经验备忘录》 — 希尔的博客&source=
+当我试图注销重新登陆时, 惊悚的一幕发生了: 黑屏! 近乎绝望般得按下电源键强制重启, 等来的居然是字符登陆界面, 讽刺的是我输入账号密码后, 还登陆成..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2018/12/15/life-pc--fedora_折腾经验备忘录/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《fedora 折腾经验备忘录》 — 希尔的博客&url=http://zshell.cc/2018/12/15/life-pc--fedora_折腾经验备忘录/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2018/12/15/life-pc--fedora_折腾经验备忘录/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACs0lEQVR42u3aQU7DQAwFUO5/6SKxAqok3/ZMAtLLqipROi8L29j++Iiv19f1/fP7N+/3J/ecf5P/dXTh4eHhtY5+dB0d94idPD9/iecv6/zMeHh4eLt5+Y/lwT0J5ecvNE8zh9/j4eHhPcpLAnRemufJAA8PD++/8+aA/Ml4eHh4f5lXDcTzb5JWQjVt4OHh4d3D6w3Anv28fb6Hh4eH15qqJ1c1xFeTzeSceHh4eDt4ebu2twQwaWfkL+gieeDh4eEt5U1GXHlrYL4c0Gt84OHh4e3j9VYHVpXR1YZyIfHg4eHhbeDlP9ML5fnrS1rGywp3PDw8vDEvx0zSSXUVoLcEFm1G4OHh4Y151QK3N9ZKwn01kTRLajw8PLwBL7cmTd5q0Vxt3ebt3R+bEXh4eHg38qqJISlzJ+sIo/keHh4e3iJe9RG98N0L7tUyuvya8PDw8Jby8lZsjz0p0BenBDw8PLwWb7IkOi+sq6+yPJbDw8PDW8qbtwmSEjZZEcjvKYzB8PDw8Dbw9hXEvYbFqiUtPDw8vN28pDFabfXOMXkb4uI5eHh4eLfwesXxpOzOw/2WjIeHh4fXqjbz8J0E9/zJvfWFKMHg4eHhbeD1RvJrlwl6LdpC6Y+Hh4e3lFc91rwhmzeIqwOzqKTGw8PDG/N6RWo+6EoWquarWuW2Mh4eHt6Alzdhk+PmDdnqk3MkHh4e3m7evMWQ/+S8XB41fPHw8PAW8V7FqzfK6qWHXil/kffw8PDwxrz86gXoScHdK6bx8PDw7uHlyaC3pFVt5q4qzfHw8PB285KgfI5Mkkc+BqtmsIsGLh4eHt6jvElhXV1KSFLUxTnx8PDwHuVVg3uP1BvLXYzB8PDw8Dbw7jlidcBWXWU4TAx4eHh4S3mTf/Xzhmwe9Od3Lpvv4eHh4f0+zyc2qDXK9W2H9AAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
