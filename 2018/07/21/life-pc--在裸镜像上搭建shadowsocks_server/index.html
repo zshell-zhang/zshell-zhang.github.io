@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="什么废话都不用多说, 就一句话: 搭梯子, 程序员的基本功!最近在折腾 fedora, 想着不能老是蹭公司的 “绿色通道”, 遂自己兑了点美刀, 自力更生干了起来, 顺手在这里总结一下;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-22T14:30:41.653Z">
+<meta property="og:updated_time" content="2019-01-22T15:03:33.829Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在裸镜像上搭建 shadowsocks server">
 <meta name="twitter:description" content="什么废话都不用多说, 就一句话: 搭梯子, 程序员的基本功!最近在折腾 fedora, 想着不能老是蹭公司的 “绿色通道”, 遂自己兑了点美刀, 自力更生干了起来, 顺手在这里总结一下;">
@@ -195,6 +195,7 @@
 <p>什么废话都不用多说, 就一句话: 搭梯子, 程序员的基本功!<br>最近在折腾 fedora, 想着不能老是蹭公司的 “绿色通道”, 遂自己兑了点美刀, 自力更生干了起来, 顺手在这里总结一下;</p>
 </blockquote>
 <a id="more"></a>
+<hr>
 <h3 id="国外云主机搭梯子的痛点"><a href="#国外云主机搭梯子的痛点" class="headerlink" title="国外云主机搭梯子的痛点"></a><strong>国外云主机搭梯子的痛点</strong></h3><p>要搭梯子, 得买个国外的云主机服务; 以 DigitalOcean 为例, 选择 centos 系统的 elastic compute service, 如果不使用定制的 cloud-init, DigitalOcean 创建的虚机将配置默认的 yum 源 (附带一个 digitalocean 自己的源):<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CentOS-Base.repo</span><br><span class="line">CentOS-CR.repo</span><br><span class="line">CentOS-Debuginfo.repo</span><br><span class="line">CentOS-fasttrack.repo</span><br><span class="line">CentOS-Media.repo</span><br><span class="line">CentOS-Sources.repo</span><br><span class="line">CentOS-Vault.repo</span><br><span class="line"><span class="comment"># digitalocean 附带的自己的源</span></span><br><span class="line">digitalocean-agent.repo</span><br></pre></td></tr></table></figure></p>
 <p>默认的源里面是没有 shadowsocks 相关的软件包的, 这意味着我们无法使用 yum 安装 shadowsocks server;</p>
 <h3 id="解决问题-shadowsocks-github-仓库"><a href="#解决问题-shadowsocks-github-仓库" class="headerlink" title="解决问题: shadowsocks github 仓库"></a><strong>解决问题: shadowsocks github 仓库</strong></h3><p>在 shadowsocks 的 <a href="https://github.com/shadowsocks" target="_blank" rel="noopener">官方 github</a> 上, 有多种 shadowsocks 版本: python, go, rust, R, nodejs 等; 以 shadowsocks-go 为例, 其 <a href="https://github.com/shadowsocks/shadowsocks-go/releases" target="_blank" rel="noopener">release 页面</a> 提供各种版本的二进制包供下载; 而 GFW 迫于中国 IT 界的压力暂不能封锁 github, 这样我们就可以从 shadowsocks github 官方页面上下载 shadowsocks 了;</p>
@@ -304,9 +305,9 @@
 <nav class="post-nav flex-row flex-justify-between">
   
     <div class="waves-block waves-effect prev">
-      <a href="/2018/08/03/jdk--ThreadLocal相关知识全梳理/" id="post-prev" class="post-nav-link">
+      <a href="/2018/07/29/life-pc--fedora_安装_sogoupinyin_输入法/" id="post-prev" class="post-nav-link">
         <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">ThreadLocal 相关知识全梳理</h4>
+        <h4 class="title">fedora 安装 sogoupinyin 输入法</h4>
       </a>
     </div>
   

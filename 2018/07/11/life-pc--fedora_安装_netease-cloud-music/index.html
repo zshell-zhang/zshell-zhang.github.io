@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="网易是个有情怀的公司, 云音乐客户端推出了 linux 版本, 虽然是个 deb 包, 那也值得尊敬!我现在要做的, 就是把它移植到 fedora 环境中, 以造福更多的 linux 爱好者!">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-22T14:45:09.857Z">
+<meta property="og:updated_time" content="2019-01-22T15:03:20.157Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fedora 安装 netease cloud music">
 <meta name="twitter:description" content="网易是个有情怀的公司, 云音乐客户端推出了 linux 版本, 虽然是个 deb 包, 那也值得尊敬!我现在要做的, 就是把它移植到 fedora 环境中, 以造福更多的 linux 爱好者!">
@@ -195,6 +195,7 @@
 <p>网易是个有情怀的公司, 云音乐客户端推出了 linux 版本, 虽然是个 deb 包, 那也值得尊敬!<br>我现在要做的, 就是把它移植到 fedora 环境中, 以造福更多的 linux 爱好者!</p>
 </blockquote>
 <a id="more"></a>
+<hr>
 <h3 id="安装思路"><a href="#安装思路" class="headerlink" title="安装思路"></a><strong>安装思路</strong></h3><p>网上流传着某些 netease-cloud-music 的 rpm 包, 但是经测试发现这些 rpm 包无法正常使用;<br>所以现在一个经测试验证可行的方案是下载官方的 deb 包, 然后提取关键内容手动移到 fedora 上: 无论是 ubuntu 还是 fedora, 都以同样的本质运行 linux 进程, 软件包只是打包方式而已, 不影响程序的执行过程;</p>
 <h3 id="提取关键内容"><a href="#提取关键内容" class="headerlink" title="提取关键内容"></a><strong>提取关键内容</strong></h3><p>以 netease-cloud-music_1.1.0_amd64_ubuntu.deb 为例, 将其解压后得到如下文件:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">control.tar.gz</span><br><span class="line">data.tar.xz</span><br><span class="line">debian-binary</span><br></pre></td></tr></table></figure></p>
 <p>其中, data.tar.xz 是核心的内容, 其余的都可以删除; data.tar.xz 是 xz 压缩包, 解压后得到如下目录结构:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; xz -d data.tar.xz</span><br><span class="line">&gt; tree -L 2 data</span><br><span class="line"></span><br><span class="line">data</span><br><span class="line">└── usr</span><br><span class="line">    ├── bin</span><br><span class="line">    ├── lib</span><br><span class="line">    └── share</span><br></pre></td></tr></table></figure></p>
