@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://zshell.cc/2019/09/07/zookeeper-curator--curator_使用注意点总结/">
+    
+    
+    <title>curator 使用注意点总结 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="zookeeper,curator">
+    <meta name="description" content="最近做的项目涉及到 server 端的服务注册与 client 端的服务发现, 其中大量使用到了 zookeeper; 在实践过程中不可避免得遇到了很多问题与坑, 历经数月的打磨与沉淀, 总算是步入了一个稳定的阶段, 至此总结一番是十分必要的;">
+<meta name="keywords" content="zookeeper,curator">
+<meta property="og:type" content="article">
+<meta property="og:title" content="curator 使用注意点总结">
+<meta property="og:url" content="http://zshell.cc/2019/09/07/zookeeper-curator--curator_使用注意点总结/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="最近做的项目涉及到 server 端的服务注册与 client 端的服务发现, 其中大量使用到了 zookeeper; 在实践过程中不可避免得遇到了很多问题与坑, 历经数月的打磨与沉淀, 总算是步入了一个稳定的阶段, 至此总结一番是十分必要的;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-07T14:00:20.221Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="curator 使用注意点总结">
+<meta name="twitter:description" content="最近做的项目涉及到 server 端的服务注册与 client 端的服务发现, 其中大量使用到了 zookeeper; 在实践过程中不可避免得遇到了很多问题与坑, 历经数月的打磨与沉淀, 总算是步入了一个稳定的阶段, 至此总结一番是十分必要的;">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <script src="/js/leancloud-revision.js"></script>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshellzhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/zshellzhang1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">curator 使用注意点总结</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">curator 使用注意点总结</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-09-07T13:43:46.000Z" itemprop="datePublished" class="page-time">
+  2019-09-07
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/zookeeper/">zookeeper</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/zookeeper/curator/">curator</a></li></ul></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#系统关闭时-zkclient-一定要同时关闭"><span class="post-toc-number">1.</span> <span class="post-toc-text">系统关闭时, zkclient 一定要同时关闭</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#临时节点第一次创建前要确保其已被删除"><span class="post-toc-number">2.</span> <span class="post-toc-text">临时节点第一次创建前要确保其已被删除</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建节点时-一定要带着初始化数据"><span class="post-toc-number">3.</span> <span class="post-toc-text">创建节点时, 一定要带着初始化数据</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#zk-事件回调里耗时任务要异步执行"><span class="post-toc-number">4.</span> <span class="post-toc-text">zk 事件回调里耗时任务要异步执行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ExponentialBackoffRetry-的重试次数"><span class="post-toc-number">5.</span> <span class="post-toc-text">ExponentialBackoffRetry 的重试次数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#站内相关文章"><span class="post-toc-number">6.</span> <span class="post-toc-text">站内相关文章</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">7.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-zookeeper-curator--curator_使用注意点总结"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">curator 使用注意点总结</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-09-07 21:43:46" datetime="2019-09-07T13:43:46.000Z"  itemprop="datePublished">2019-09-07</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/zookeeper/">zookeeper</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/zookeeper/curator/">curator</a></li></ul></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>最近做的项目涉及到 server 端的服务注册与 client 端的服务发现, 其中大量使用到了 zookeeper; 在实践过程中不可避免得遇到了很多问题与坑, 历经数月的打磨与沉淀, 总算是步入了一个稳定的阶段, 至此总结一番是十分必要的;</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<p>由于我在项目中直接使用了 curator (v4.1.0) 作为 zookeeper 客户端, 所以这篇文章便叫做了 “curator 使用注意点总结”; 然而, curator 对原生 zkclient 的良好封装, 使得很多原生的坑被处理掉了, 面向 curator 编程是感知不到的, 所以出于刨根问底, 我又写了一篇文章分析 curator 对 zookeeper 原生客户端的封装以及坑的处理: <a href="">curator 对 zookeeper 的封装逻辑梳理</a>;</p>
+<h3 id="系统关闭时-zkclient-一定要同时关闭"><a href="#系统关闭时-zkclient-一定要同时关闭" class="headerlink" title="系统关闭时, zkclient 一定要同时关闭"></a><strong>系统关闭时, zkclient 一定要同时关闭</strong></h3><p>无论将 zookeeper 用作什么场景, 在系统关闭时, 都应该调用 zkclient 的 close 接口 (如 curator 的 close() 方法); 或许在部分场景下不调用 close 不会导致业务上的问题, 但这个语义理应被当做规范强制执行;<br>那么什么情况不调用 close 会导致严重问题呢? <strong>当系统需要创建临时节点时!</strong><br>举一个典型的例子, 将 zookeeper 当作服务发布与发现的注册中心, 这种场景需要 service provider 将自身信息以临时节点的方式写入 zk, service consumer 订阅 zk 的节点变更, 以及时发现服务提供者的地址; provider 维护的 zkclient 在 zk server 上维持一个 session, 如果 provider 在系统关闭时没有及时 close zkclient, 这个 session 将一直保持直到设定的 sessionTimeout 过期时间, 而后才会通知 consumer 有 provider 节点下线; <strong>那么从 provider 关闭到 sessionTimeout 这个时间段内, 实际上 provider 已经无法提供服务了, 但 zookeeper 却无法及时通知到 consumer</strong>, 一旦这个时间比较长且 consumer 没有调用失败后的 failover 或熔断, 此场景将导致服务调用大量失败;<br>以上例子虽然杀伤力挺大的, 但毕竟还是一把明枪, 至少我们可以很快发现; 而下面我将举的第二个例子, 虽然杀伤力没有第一个例子这么猛烈, 但却是一支难防的暗箭, 不易察觉!<br>zkclient 与 zk server 的一次正常连接通过一个 session 来维持, 每个 session 都有自己的唯一的 sessionId; 对于 zk 临时节点 (EPHEMERAL) 而言, 有一个重要的特性是排他性: 相同 path 下的节点同一时间只允许有一个 session 占有它, 我们可以通过 zkclient 观察一个临时节点的 stat:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cZxid = 0x2641accf49</span><br><span class="line">ctime = Fri Aug 16 17:08:45 CST 2019</span><br><span class="line">mZxid = 0x2664d0fb75</span><br><span class="line">mtime = Tue Aug 20 14:36:43 CST 2019</span><br><span class="line">pZxid = 0x2641accf49</span><br><span class="line">cversion = 0</span><br><span class="line">dataVersion = 14</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0x96cf2ab2799b53e</span><br><span class="line">dataLength = 46</span><br><span class="line">numChildren = 0</span><br></pre></td></tr></table></figure></p>
+<p>其中有一个属性叫做 <code>ephemeralOwner</code>, 对于临时节点, 这个属性总会被赋值为一个 sessionId, 表示这个节点目前唯一属于这个 session, 若有其他 session 想要设置此节点是不生效的 (删除除外);<br>那么对于服务注册与发现的场景, 会存在一种情况: provider 系统快速重启, 且没有 close zkclient, 在其试图重新注册相同路径下的临时节点时, 由于之前的旧 session 还没有过期, <strong>根据排他性, 新注册的节点是不生效的; 等到旧 session timeout 节点下线之后, 这个 provider 提供的服务就无法被 client 端发现了;</strong> 如果我们只观察业务监控指标, 几乎不会有任何异样, 最多就是 rt 涨了点 (毕竟少了一台机器), 这个问题只有去观察机器指标, 才能发现有一台机器的网络流量和 cpu/load 掉下去了, 而等我们发现时, 可能已经过了很长时间了;<br>以上两个例子, 如果在系统结束的时候正确得关闭 zkclient, 便可以及时关闭 session, 下线节点, 避免问题的发生!</p>
+<h3 id="临时节点第一次创建前要确保其已被删除"><a href="#临时节点第一次创建前要确保其已被删除" class="headerlink" title="临时节点第一次创建前要确保其已被删除"></a><strong>临时节点第一次创建前要确保其已被删除</strong></h3><p>上一小节中指出了及时关闭 zkclient 可以有效避免 “无用临时节点” 与 “节点无故下线” 的问题, 但是这并非是能够完全避免问题的办法, 有的时候会有一些更极端的情况发生, 比如说: 服务假死, 不响应任何请求, 包括 kill -15 信号; <strong>这个时候我们可能要使用 kill -9 强制杀死进程, 这个过程是不会给进程机会去作 zkclient close 的</strong>, 那么就仍然存在可能性导致上一小节提到的第二种情况 “节点无故下线”;<br>所以我们要如何操作才能确保避免类似问题的发生呢? 其实很简单, 我们只需要主动在创建节点的时候检查节点是否已经存在, 如果存在, 先删除之, 然后再创建, 就可以避免了; 临时节点的排他性只针对 set 操作, 对于删除操作是没有限制的;</p>
+<h3 id="创建节点时-一定要带着初始化数据"><a href="#创建节点时-一定要带着初始化数据" class="headerlink" title="创建节点时, 一定要带着初始化数据"></a><strong>创建节点时, 一定要带着初始化数据</strong></h3><p>如果像如下代码, 指定 path 创建一个节点, 而不带任何数据, 会导致什么事情发生呢?<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CuratorFramework zkClient</span></span><br><span class="line">zkClient.create().creatingParentsIfNeeded().withMode(createMode).forPath(nodePath);</span><br></pre></td></tr></table></figure></p>
+<p>v4.x 的 curator 会默认将 zkclient 所在机器的 IP 地址作为内容写入节点中, 且看下方我截出来的关键源码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CreateBuilderImpl, 不给定初始化数据便会使用 CuratorFrameworkImpl 给定的 defaultData</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">forPath</span><span class="params">(String path)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> forPath(path, client.getDefaultData());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CuratorFrameworkImpl, 使用 CuratorFrameworkFactory.Builder 中的 defaultData 作为默认值</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">CuratorFrameworkImpl</span><span class="params">(CuratorFrameworkFactory.Builder builder)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">byte</span>[] builderDefaultData = builder.getDefaultData();</span><br><span class="line">    defaultData = (builderDefaultData != <span class="keyword">null</span>) ? Arrays.copyOf(builderDefaultData, builderDefaultData.length) : <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">0</span>];</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CuratorFrameworkFactory</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">byte</span>[] defaultData = LOCAL_ADDRESS;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果这里使用节点的作用是服务注册, client 端接收到了节点变更并试图解析, <strong>读出了这个硬生生的 IP 地址很可能并不符合 client - server 约定的数据协议格式, 那么就只能解析报错了</strong>; 所以为了不埋坑, 我们在创建节点时一定要带上我们自己控制的初始化数据:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CuratorFramework zkClient</span></span><br><span class="line">zkClient.create().creatingParentsIfNeeded().withMode(createMode).forPath(nodePath, data);</span><br></pre></td></tr></table></figure></p>
+<h3 id="zk-事件回调里耗时任务要异步执行"><a href="#zk-事件回调里耗时任务要异步执行" class="headerlink" title="zk 事件回调里耗时任务要异步执行"></a><strong>zk 事件回调里耗时任务要异步执行</strong></h3><p>zkclient 有两个后台线程: IO 和心跳线程 (SendThread) 与事件处理线程 (EventThread), 均为单线程, 且互相独立; 如果多个事件在短时间内一起到来, 会在 EventThread 中串行执行, <strong>当有耗时的事件回调任务长时间占用线程资源时, 后续的事件便会处于饥饿状态而得不到及时处理, 在一些场景下会发生比较严重的问题 (如节点上下线)</strong>;<br>不过需要指出的是, 由于 SendThread 与 EventThread 互为独立, 当事件饥饿现象发生时, 并不会影响 zkclient 的心跳;</p>
+<h3 id="ExponentialBackoffRetry-的重试次数"><a href="#ExponentialBackoffRetry-的重试次数" class="headerlink" title="ExponentialBackoffRetry 的重试次数"></a><strong>ExponentialBackoffRetry 的重试次数</strong></h3><p>在正常情况下, 每隔一个 server 端配置的 tickTime 时间间隔, zkclient 便会向 server 发送心跳以保持 session; 在遇到环境的波动 (网络抖动, 长时间 FGC, 调试断点等) 时, 发送心跳失败, zkclient 会接收到 state 为 Disconnected 的事件, 接下来 zkclient 会尽可能重试 (当然, 长时间 FGC, 调试断点会导致无法重试) 直到再次连接上 server 并重新接收到 state 为 SyncConnected 的事件; 而如果直到 sessionTimeout 都没有重新连上 server, 便会收到 state 为 Expired 的事件, 此时就算环境波动解除了, 再连 server 也会被拒绝, 当下的 session 已经过期, 什么操作都做不了了, 此刻唯一能做的就剩重建 zkclient 了;<br>curator 提供了重建 zkclient 的逻辑封装, 并使用 <code>RetryPolicy</code> 接口以定制重建的策略; 这个接口有很多实现, 包括:</p>
+<ol>
+<li>重试一次 (RetryOneTime)</li>
+<li>重试 N 次 (RetryNTimes)</li>
+<li>不停重试 (RetryForever)</li>
+<li>重试一段时间 (RetryUntilElapsed)</li>
+<li>指数退避重试 N 次 (ExponentialBackoffRetry)</li>
+</ol>
+<p>其中, 使用最普遍的便是第五个 ExponentialBackoffRetry 了, 因为如果真得走到了需要重建 zkclient 的地步, 可能已经发生了比较严重的问题了 (比如网络故障), 一时半会儿恢复不了, 如果使用其他策略频繁重试, 非但无用, 当重试的机器很多的时候反而还会加重负担; 指数退避算法在局域网网路冲突处理中也有着广泛的应用;<br><a href="http://cms.smartfeng.com/technology/others/zookeeper-qa-ephemeral" target="_blank" rel="noopener">采用zookeeper的EPHEMERAL节点机制实现服务集群的陷阱</a> 这篇文章认为, ExponentialBackoffRetry 有一个坑, <strong>它设置了最大允许重试次数为 29, 当发生机房长时间断网时, 有可能重试次数不够导致 zkclient 永久失效</strong>; 他提出的问题在于以下代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_RETRIES_LIMIT = <span class="number">29</span>;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">validateMaxRetries</span><span class="params">(<span class="keyword">int</span> maxRetries)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ( maxRetries &gt; MAX_RETRIES_LIMIT ) &#123;</span><br><span class="line">        log.warn(String.format(<span class="string">"maxRetries too large (%d). Pinning to %d"</span>, maxRetries, MAX_RETRIES_LIMIT));</span><br><span class="line">        maxRetries = MAX_RETRIES_LIMIT;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> maxRetries;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>那么为什么不是 28, 不是 30, 却偏偏是 29, 我猜可能与下面这段代码有关:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">long</span> <span class="title">getSleepTimeMs</span><span class="params">(<span class="keyword">int</span> retryCount, <span class="keyword">long</span> elapsedTimeMs)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> sleepMs = baseSleepTimeMs * Math.max(<span class="number">1</span>, random.nextInt(<span class="number">1</span> &lt;&lt; (retryCount + <span class="number">1</span>)));</span><br><span class="line">    <span class="keyword">if</span> ( sleepMs &gt; maxSleepMs ) &#123;</span><br><span class="line">        log.warn(String.format(<span class="string">"Sleep extension too large (%d). Pinning to %d"</span>, sleepMs, maxSleepMs));</span><br><span class="line">        sleepMs = maxSleepMs;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sleepMs;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当 retryCount 到了 29, 那么 sleepMs 的取值范围会变成 [1, 1 &lt;&lt; 30], 而有符号整数的取值范围是 [-2^31 + 1, 2^31 - 1], 如果 retryCount 再加到 30, 就要发生数据溢出了! 所以这可能就是 netflix 的工程师将 MAX_RETRIES_LIMIT 设置为 29 的原因吧;<br>从代码逻辑来看, 确实有可能连续 29 次重试的时间间隔都比较短, 导致还没撑到网络故障恢复就彻底死了;<br>在我看来, 这个指数退避算法可能还有一个坑: 默认的 maxSleepMs 被设置为了 <code>Integer.MAX_VALUE</code>;<br>试想一下, 假定 baseSleepTimeMs == 1000, 如果第 N 次重试 sleepMs 的取值正好取到了上限 1 &lt;&lt; N, 当 N 等于 12 时, 对应的 sleepMs 已经超过了 1 小时, 当 N 等于 16 时, 对应的 sleepMs 就快要达到 1 天了! 一天才重试一次, 那和死了也没什么区别了; 我认为, 当发生网络故障久久无法恢复时, 理想的重试时间应该控制在 [30min, 1h] 区间内, 我们其实可以设计一个组合策略: 当刚发生故障时, 前几次重试使用指数退避算法, 当连续数十次重试都无效, 时间区间已经增长到  1h 时, 锁定时间区间, 在 [30min, 1h] 的范围内随机产生下一次重试时间, 无限次重试, 直到故障恢复为止, 这样做的好处如下:</p>
+<ol>
+<li>可以避免由于重试次数有限, 重试时间间隔短引起的短时间内 zkclient 永久失效;</li>
+<li>可以避免由于重试时间间隔太长导致实质上等效于失效, 控制最大重试时间, 当故障恢复时确保 zkclient 也及时恢复;</li>
+<li>可以通过随机产生下一次重试时间, 让大量 zkclient 尽可能错开重试时间, 削去网络拥塞;</li>
+</ol>
+<p>下面是一个简单的示例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> POLICY_SWITCH_THRESHOLD = <span class="number">12</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> BASE_SLEEP_RANGE = <span class="number">30</span> * <span class="number">60</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> baseSleepTimeMs = <span class="number">1000</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Random random = <span class="keyword">new</span> Random(System.currentTimeMillis());</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">long</span> <span class="title">getSleepTimeMs</span><span class="params">(<span class="keyword">int</span> retryCount, <span class="keyword">long</span> elapsedTimeMs)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> sleepMs;</span><br><span class="line">    <span class="keyword">if</span> (retryCount &lt; POLICY_SWITCH_THRESHOLD) &#123;</span><br><span class="line">        <span class="comment">// exponentialBackoff retry</span></span><br><span class="line">        sleepMs = baseSleepTimeMs * Math.max(retryCount, random.nextInt(<span class="number">1</span> &lt;&lt; (retryCount + <span class="number">1</span>)));</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// random retry</span></span><br><span class="line">        sleepMs = baseSleepTimeMs * (BASE_SLEEP_RANGE + random.nextInt(BASE_SLEEP_RANGE));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sleepMs;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><a href="http://cms.smartfeng.com/technology/others/zookeeper-qa-ephemeral" target="_blank" rel="noopener">采用zookeeper的EPHEMERAL节点机制实现服务集群的陷阱</a> 这篇文章最后说自己因为这个诡异的 29 最终放弃了 curator 回到了原生 zk 客户端, 我个人认为这个决定的机会成本实在是太高, 自己实现一个改进策略也就是分分钟的事, 怎能舍得放弃 curator 那么多好处回到原始时代?</p>
+<h3 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h3><ul>
+<li><a href="">curator 对 zookeeper 的封装逻辑梳理</a></li>
+<li><a href="">curator-recipes: cache 使用实践</a></li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h3><ul>
+<li><a href="http://cms.smartfeng.com/technology/others/zookeeper-qa-ephemeral" target="_blank" rel="noopener">采用zookeeper的EPHEMERAL节点机制实现服务集群的陷阱</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2019/09/07/zookeeper-curator--curator_使用注意点总结/" rel="external">http://zshell.cc/2019/09/07/zookeeper-curator--curator_使用注意点总结</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="http://zshell.cc">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshellzhang">
+            zshellzhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/curator/">curator</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zookeeper/">zookeeper</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2019/09/07/zookeeper-curator--curator_使用注意点总结/&title=《curator 使用注意点总结》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2019/09/07/zookeeper-curator--curator_使用注意点总结/&title=《curator 使用注意点总结》 — 希尔的博客&source=
+最近做的项目涉及到 server 端的服务注册与 client 端的服务发现, 其中大量使用到了 zookeeper; 在实践过程中不可避免得遇到了很多..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2019/09/07/zookeeper-curator--curator_使用注意点总结/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《curator 使用注意点总结》 — 希尔的博客&url=http://zshell.cc/2019/09/07/zookeeper-curator--curator_使用注意点总结/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2019/09/07/zookeeper-curator--curator_使用注意点总结/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/01/12/life-thought--家与房子/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">家与房子</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "fMh2JHgkPnDtARiQapOg8Jrk-gzGzoHsz",
+            appKey: "UPNXLDUkngDnuhfC9XQPgF6n",
+            avatar: "mm",
+            placeholder: "您的评论, 吾愿洗耳恭听!",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshellzhang &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2019/09/07/zookeeper-curator--curator_使用注意点总结/&title=《curator 使用注意点总结》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2019/09/07/zookeeper-curator--curator_使用注意点总结/&title=《curator 使用注意点总结》 — 希尔的博客&source=
+最近做的项目涉及到 server 端的服务注册与 client 端的服务发现, 其中大量使用到了 zookeeper; 在实践过程中不可避免得遇到了很多..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2019/09/07/zookeeper-curator--curator_使用注意点总结/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《curator 使用注意点总结》 — 希尔的博客&url=http://zshell.cc/2019/09/07/zookeeper-curator--curator_使用注意点总结/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2019/09/07/zookeeper-curator--curator_使用注意点总结/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACwklEQVR42u3awY7iMBAEUP7/p2elPa20ClR12zNzeDkhSEKekeym2q9XfHz9PZ5e//vO2ft8/Xe8bhx4eHh4o0d/OhLG+y9+IuUD8X44PgwBHh4e3jVe+1jvr8oHKDn/6dNooPHw8PB+lJe/k2CSIju5Cg8PD+/382bITbGOh4eH9zt5bQl7bOIelfVXshY8PDy8mLdvXH3/62/t7+Hh4eHFS0JeCs8ihvchxYHnxMPDw7vAy0OHtpDNNxPk5+dRSJ2p4OHh4U1Sgtds0s/Pryf0xTYFPDw8vHu89q9+Pt23pfNsC8KHO+Ph4eFd4yUF9KYsPhVktPEEHh4e3j1e/kCn2vz55J7cM1r38PDw8A7xZs2nTTFdl8XxHT4EuHh4eHiXeZtHyaf7fZMsKuvx8PDwjvLyzVVJU78tsjcFd/274eHh4R3izcKFTUtsVqCvNoHh4eHhHeXll7X4fBvW7PxouwMeHh7eNd6N4jhfGNpmW/6NeHh4eDd4s9vlkWvb0EriifzAw8PDu8FrA4I20m2D11lI8fgz4OHh4V3mFblvEgQsot5NaPK4dQAPDw/vAq9dGG60zfKFJxp0PDw8vAu8djqetabyJaQt4ovlAQ8PD+8or52y6xZUuaEqb4wVMDw8PLxDvFl0O3uUfEDbJSH6x4CHh4d3iJe3lzbbAjbrVTt8eHh4eLd5yZflW7LyiT5vvLUDF+2MwMPDw1vw2hZXe04bKGwi4A9Dg4eHh3eI91UeOWkWHOyHI+qM4eHh4S14bSO/jTBmLa5NcT+k4uHh4ZW8fDEo9iDExfF++flwLR4eHt41XrtBKn+gpOzel8hRZw8PDw/vh3jJ9qxZs79tlUWLFh4eHt6P8qKJuIwq3g/fgRAZDw8P7xovDyNmLbQ8qN002B4XBjw8PLyjvPavfttbayf9dhlYwfDw8PA63h8slWnOMZEVUAAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
