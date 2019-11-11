@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="http://zshell.cc/2019/10/11/tools--lombok_使用注意点总结/">
+    
+    
+    <title>lombok 使用注意点总结 | 希尔的博客 | 兰之猗猗，扬扬其香。不采而佩，于兰何伤？</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="jackson,lombok">
+    <meta name="description" content="lombok 绝对是开发者的好朋友, 其帮助我们节省了大量枯燥的重复代码量, 节约了开发时间; 使用 lombok 有很多技巧, 同时也会存在一些问题, 本文就着重总结一下;">
+<meta name="keywords" content="jackson,lombok">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lombok 使用注意点总结">
+<meta property="og:url" content="http://zshell.cc/2019/10/11/tools--lombok_使用注意点总结/index.html">
+<meta property="og:site_name" content="希尔的博客">
+<meta property="og:description" content="lombok 绝对是开发者的好朋友, 其帮助我们节省了大量枯燥的重复代码量, 节约了开发时间; 使用 lombok 有很多技巧, 同时也会存在一些问题, 本文就着重总结一下;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-11T14:12:19.792Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="lombok 使用注意点总结">
+<meta name="twitter:description" content="lombok 绝对是开发者的好朋友, 其帮助我们节省了大量枯燥的重复代码量, 节约了开发时间; 使用 lombok 有很多技巧, 同时也会存在一些问题, 本文就着重总结一下;">
+    
+        <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <script src="/js/leancloud-revision.js"></script>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">zshellzhang</h5>
+          <a href="mailto:xaaservice@gmail.com" title="xaaservice@gmail.com" class="mail">xaaservice@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-user"></i>
+                关于
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/zshellzhang1993-2025" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">lombok 使用注意点总结</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">lombok 使用注意点总结</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-10-11T14:10:45.000Z" itemprop="datePublished" class="page-time">
+  2019-10-11
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tools/">tools</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lombok-使用小技巧"><span class="post-toc-number">1.</span> <span class="post-toc-text">lombok 使用小技巧</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Builder-与-Singular-的使用"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">@Builder 与 @Singular 的使用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Getter-的使用技巧"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">@Getter 的使用技巧</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#maven-引入-lombok-的最佳实践"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">maven 引入 lombok 的最佳实践</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用-lombok-maven-plugin"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">使用 lombok-maven-plugin </span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用-lombok-config-全局配置"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">使用 lombok.config 全局配置 </span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lombok-使用问题"><span class="post-toc-number">2.</span> <span class="post-toc-text">lombok 使用问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Data-与-Value-的问题"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">@Data 与 @Value 的问题</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Builder-易踩的坑"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">@Builder 易踩的坑 </span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#maven-compile-plugin-与-lombok-的版本匹配"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">maven-compile-plugin 与 lombok 的版本匹配 </span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解决-lombok-maven-plugin-的后遗症"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">解决 lombok-maven-plugin 的后遗症 </span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#lombok-与-aspectj-的冲突处理"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">lombok 与 aspectj 的冲突处理</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#站内相关文章"><span class="post-toc-number">3.</span> <span class="post-toc-text">站内相关文章</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">4.</span> <span class="post-toc-text">参考链接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-tools--lombok_使用注意点总结"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">lombok 使用注意点总结</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-10-11 22:10:45" datetime="2019-10-11T14:10:45.000Z"  itemprop="datePublished">2019-10-11</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/tools/">tools</a></li></ul>
+
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>lombok 绝对是开发者的好朋友, 其帮助我们节省了大量枯燥的重复代码量, 节约了开发时间; 使用 lombok 有很多技巧, 同时也会存在一些问题, 本文就着重总结一下;</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<h2 id="lombok-使用小技巧"><a href="#lombok-使用小技巧" class="headerlink" title="lombok 使用小技巧"></a><strong>lombok 使用小技巧</strong></h2><h3 id="Builder-与-Singular-的使用"><a href="#Builder-与-Singular-的使用" class="headerlink" title="@Builder 与 @Singular 的使用"></a><strong>@Builder 与 @Singular 的使用</strong></h3><p>在认识 lombok 之前, 我们一直使用 idea 自带的生成工具构建 getter, setter, 甚至还有拓展插件支持构建 builder 代码; 但自从 lombok 出现后, 包括 builder 在内, 所有这些代码自动生成工具都 “失宠” 了, 毕竟工具再方便那也要生成一大堆代码, 这肯定没有简洁的几个注解看着舒服呀!<br>关于 @Builder, 有一些小技巧:</p>
+<ol>
+<li>当使用 @Builder 的类中存在集合类型 (或者 Map 类型) 时, 可以在对应字段上使用 @Singular 实现单个元素的添加逻辑, 同时也保留了 collection 整体赋值的方法, 增强了灵活性;</li>
+<li>@Builder 有一个选项 toBuilder, 如果将其置为 true, 可以生成一个实例方法 toBuilder(), 并以当前实例的字段值初始化该 builder, 在有些场景中大有用处;</li>
+</ol>
+<p>@Builder 还有一个大坑需要注意, 我在下面小节中讨论: <a href="#builder_scam">@Builder 易踩的坑</a>;</p>
+<h3 id="Getter-的使用技巧"><a href="#Getter-的使用技巧" class="headerlink" title="@Getter 的使用技巧"></a><strong>@Getter 的使用技巧</strong></h3><p>一般情况下我们会直接在 @Value / @Data 里打包一众 getter, 不过有的时候我们也可能会对某个字段的 getter 作一些特别定制, 比如以下操作:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Getter</span>(value = lombok.AccessLevel.PRIVATE, lazy = <span class="keyword">true</span>)</span><br></pre></td></tr></table></figure></p>
+<p>这里涉及到了 @Getter 的两个选项, value 用以设置该 getter 的访问属性, lazy 用以设置该 getter 是否需要懒加载; value 选项自不用多说, 而 lazy 选项则需要详细讨论一下, 先看一个例子:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// lombok 增强前</span></span><br><span class="line"><span class="meta">@Getter</span>(lazy = <span class="keyword">true</span>)</span><br><span class="line"><span class="keyword">private</span> String str = lazyGetStr();</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">lazyGetStr</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// heavy cpu compute ignore...</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// lombok 增强后</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> java.util.concurrent.atomic.AtomicReference&lt;Object&gt; str = <span class="keyword">new</span> java.util.concurrent.atomic.AtomicReference&lt;Object&gt;();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">lazyGetStr</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> <span class="string">""</span>;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getStr</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Object value = <span class="keyword">this</span>.str.get();</span><br><span class="line">    <span class="keyword">if</span> (value == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>.str) &#123;</span><br><span class="line">            value = <span class="keyword">this</span>.str.get();</span><br><span class="line">            <span class="keyword">if</span> (value == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">final</span> String actualValue = lazyGetStr();</span><br><span class="line">                value = actualValue == <span class="keyword">null</span> ? <span class="keyword">this</span>.str : actualValue;</span><br><span class="line">                <span class="keyword">this</span>.str.set(value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (String) (value == <span class="keyword">this</span>.str ? <span class="keyword">null</span> : value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看见, 使用 lazy = true 选项之后, lombok 直接将目标字段包装成了一个 AtomicReference, 并在 getter 中使用双重检查确保了并发安全, 并调用加载方法实现了 lazy get;<br>与 guava Supplier 等相比, 虽然其最终生成的代码并不算太简洁, 但毕竟编译之前的源码使用 lombok 注解完全屏蔽了这些逻辑, 考虑到其保证了并发安全, 并且确实实现了懒加载的功能, 所以用 @Getter(lazy = true) 作为懒加载实现方案也是一种不错的选择;</p>
+<h3 id="maven-引入-lombok-的最佳实践"><a href="#maven-引入-lombok-的最佳实践" class="headerlink" title="maven 引入 lombok 的最佳实践"></a><strong>maven 引入 lombok 的最佳实践</strong></h3><p>lombok 理论上是不应该被打包的, 因为它的任务都在编译阶段 annotation-processing 做完了, 运行时跑的是早就生成好的字节码, 所以使用 <code>provided</code> scope 便足矣:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;lombok.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="使用-lombok-maven-plugin"><a href="#使用-lombok-maven-plugin" class="headerlink" title="使用 lombok-maven-plugin "></a><strong>使用 lombok-maven-plugin</strong> <span id="use_lombok-maven-plugin"></span></h3><p>对于一个 client-server 结构的系统来说, 我们需要给调用者暴露我们的 client api; 在 client 端那些被 lombok 注解修饰过的代码, 会在 annotation processing 下生成与本身源码 “不匹配” 的字节码; 当调用者引入了我们的 jar 包在 idea 中打开源码, 便会在第一行看到如下非常刺眼的提示:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Library <span class="built_in">source</span> does not match the bytecode <span class="keyword">for</span> class XXX</span><br></pre></td></tr></table></figure></p>
+<p>正常情况下, 这不会造成什么实质影响, 但是确实给人一种不舒服的感觉, 总想把这个提示消灭掉才好! 也有的情况下, 调用者可能引用了我们的 client 包后直接编译报错, 如下面小节所提及的问题: <a href="#maven-compile-plugin_lombok">maven-compile-plugin 与 lombok 的版本匹配</a>, 这么一看, 把 lombok 暴露给 client 端的问题就有点严重了!<br>那么, lombok-maven-plugin 就提供了这样的一种解决方案: 帮我们输出 annotation-processing 中生成的中间代码, 并移除所有的 lombok 注解, 让 lombok 对调用方透明:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">src.dir</span>&gt;</span>$&#123;project.build.directory&#125;/generated-sources/delombok<span class="tag">&lt;/<span class="name">src.dir</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 让 maven-source-plugin 打包 lombok-maven-plugin 生成的源码 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">sourceDirectory</span>&gt;</span>$&#123;src.dir&#125;<span class="tag">&lt;/<span class="name">sourceDirectory</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;lombok.plugin.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">encoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">encoding</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">executions</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">phase</span>&gt;</span>generate-sources<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">goal</span>&gt;</span>delombok<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">addOutputDirectory</span>&gt;</span>false<span class="tag">&lt;/<span class="name">addOutputDirectory</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">sourceDirectory</span>&gt;</span>src/main/java<span class="tag">&lt;/<span class="name">sourceDirectory</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">formatPreferences</span>&gt;</span></span><br><span class="line">                            <span class="tag">&lt;<span class="name">pretty</span>/&gt;</span></span><br><span class="line">                        <span class="tag">&lt;/<span class="name">formatPreferences</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">executions</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>以上插件配置的核心是 delombok, 其作用是处理 <code>sourceDirectory</code> 标签下的源码, 将 lombok 生成的增强后的源码输出到 <code>${project.build.directory}/generated-sources/delombok</code> 目录下; 所以光有以上配置是不够的, 因为我们需要让 maven-source-plugin 去这个 delombok 目录下, 这样才能真正将其打包到源码 jar 包中; 而 maven-source-plugin 只认 <code>sourceDirectory</code> 标签指定的源文件路径, 这个标签的默认值是 <code>src/main/java</code>, 于是我们需要覆盖它:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">sourceDirectory</span>&gt;</span>$&#123;project.build.directory&#125;/generated-sources/delombok<span class="tag">&lt;/<span class="name">sourceDirectory</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这样打出的 sources.jar 便是被 delombok 加强处理后的代码了;<br>这里需要注意的是, 业内还存在一种说法: 如果不使用 lombok-maven-plugin, 只含有 lombok 注解的代码文件会导致调试的时候断点与实际代码行位置不匹配; 事实上这个说法是不准确的, 虽然 idea 的确告诉了我们源码和字节码不匹配, 但是 idea 只是将 .class 文件反编译后和源码作的对比, 那自然是对不上的; 可我们知道编译 java 源代码生成 .class 文件时, javac 是根据最开始的源文件而不是 annotation-processing 生成的中间代码去生成行号映射表, 所以只要我们确定拿来调试的代码和用来编译的代码是相同的, 就一定可以让断点断到正确的位置上;<br>与此论调恰巧相反的是, 如果我们使用 lombok-maven-plugin 的方式不正确, 反倒是有可能导致断点与源码匹配不上; 在下面的小节 <a href="#lombok-maven-plugin_sourceDirectory">lombok-maven-plugin 灵活指定 sourceDirectory</a> 中我将继续讨论与之相关的 lombok-maven-plugin 引起的 sourceDirectory 混乱的解决方案;</p>
+<h3 id="使用-lombok-config-全局配置"><a href="#使用-lombok-config-全局配置" class="headerlink" title="使用 lombok.config 全局配置 "></a><strong>使用 lombok.config 全局配置</strong> <span id="lombok_config"></span></h3><p>我们可以在工程的根目录下面创建一个 lombok.config 文件, 用作 lombok 的全局配置, 举例如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 在类构造器上自动添加 @java.bean.ConstructorProperties 注解</span><br><span class="line">lombok.anyConstructor.addConstructorProperties = true</span><br><span class="line"># 生成链式 setter, 将 setter 的返回值由 void 改为 this</span><br><span class="line">lombok.accessors.chain = true</span><br><span class="line">lombok.singular.auto = true</span><br><span class="line">lombok.singular.useGuava = true</span><br></pre></td></tr></table></figure></p>
+<p>更多详细的选项可以使用如下命令查询:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar lombok.jar config -g --verbose</span><br></pre></td></tr></table></figure></p>
+<h2 id="lombok-使用问题"><a href="#lombok-使用问题" class="headerlink" title="lombok 使用问题"></a><strong>lombok 使用问题</strong></h2><h3 id="Data-与-Value-的问题"><a href="#Data-与-Value-的问题" class="headerlink" title="@Data 与 @Value 的问题"></a><strong>@Data 与 @Value 的问题</strong></h3><p>@Data 与 @Value 都能够帮助我们生成一个标准 java 类的众多基础方法, 包括:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">toString();</span><br><span class="line">equals(<span class="keyword">final</span> Object o);</span><br><span class="line">hashCode();</span><br><span class="line">getter</span><br></pre></td></tr></table></figure></p>
+<p>那么这两者的区别是什么呢? 宽泛得概括一下: @Data 生成的是可变的 pojo, 而 @Value 生成的是一个不可变的 pojo; 详细得看, 主要有如下区别:<br><strong>区别之一</strong>在于其生成的构造器:</p>
+<ol>
+<li>@Data 采用的构造器策略是 @RequiredArgsConstructor, 其只有 final, @NonNull (lombok) 字段才会加入构造器参数, 否则将生成一个 public 无参构造器 (当存在 final 与 @NonNull 时, 会同时生成 private 无参构造器);</li>
+<li>@Value 采用的构造器策略是 @AllArgsConstructor, 其默认所有字段都加入构造器参数 (final 且已经默认赋值的字段不会加入);</li>
+</ol>
+<p><strong>区别之二</strong>在于 @Value 还打包了一个 @FieldDefaults(makeFinal=true, level=AccessLevel.PRIVATE), 主要是用于自动添加 final / private 关键字, 也就是说 @Value 修饰的类所有的字段默认都会给我们加上 private final, 除非主动在字段上设置属性才会改变:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FieldDefaults</span>(makeFinal=<span class="keyword">false</span>, level=AccessLevel.PUBLIC)</span><br></pre></td></tr></table></figure></p>
+<p>这一细节我们一定要知悉, 正因此 @Value 默认是不生成 setter 的 (全是 final, 常规操作不能改变), 而 @Data 则会为所有非 final 字段生成 setter;<br>另外, 由于 @Value 修饰的字段都是 private final 的, 如果我们需要对 @Value 修饰的类使用 json 反序列化工具, 需要尤其注意:</p>
+<ol>
+<li>jackson: jackson 的反序列化默认是调用无参构造器实例化对象之后再去赋值, 虽然 jackson 的 MapperFeature.ALLOW_FINAL_FIELDS_AS_MUTATORS 默认配置是有能力修改被 final 修饰的字段, 但这毕竟是违背正常语义的;</li>
+<li>fastjson: 研究不多, 但在默认配置下, 无法对 @Value 修饰的对象正常赋值, 字段均被初始化为 null;</li>
+</ol>
+<p>但这并不是说 @Value 就不适用于反序列化, 以 jackson 为例: jackson 有一个注解叫做 <code>@JsonCreator</code>, 其作用是调用指定的有参构造器去初始化对象; 所以针对被 @Value 修饰的类, 可以使用 @JsonCreator 配合 @JsonProperty 实现属性的值注入; 不过, 如果每个类都要自己去实现 @JsonCreator 逻辑未免显得太繁琐, 还好 jackson 还支持 javabean 标准注解 <code>@java.bean.ConstructorProperties</code>, 其功能等效于 @JsonCreator, 那么在 <a href="#lombok_config">上一小节</a> 中已经提到了, 可以在 lombok.config 中添加 <code>lombok.anyConstructor.addConstructorProperties = true</code> 以实现自动为每个类添加 <code>@java.bean.ConstructorProperties</code> 注解;</p>
+<p><strong>区别之三</strong>在于 @Value 生成的类也是被 final 修饰的, 意味着其不可被继承;</p>
+<h3 id="Builder-易踩的坑"><a href="#Builder-易踩的坑" class="headerlink" title="@Builder 易踩的坑 "></a><strong>@Builder 易踩的坑</strong> <span id="builder_scam"></span></h3><p>我们可能有这样的场景: 为一个类使用 lombok 生成 builder 方法, 其中有部分字段我们预设了默认值, 最自然的写法可能如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Builder</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String str = <span class="string">"default"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然而以上代码会被渲染成如下样子:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String str = <span class="string">"default"</span>;</span><br><span class="line">    </span><br><span class="line">    Test(<span class="keyword">final</span> String str) &#123;<span class="keyword">this</span>.str = str;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">TestBuilder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> String str;</span><br><span class="line">        </span><br><span class="line">        TestBuilder() &#123;&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">public</span> TestBuilder <span class="title">str</span><span class="params">(<span class="keyword">final</span> String str)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.str = str;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">public</span> Test <span class="title">build</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> <span class="keyword">new</span> Test(str);&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TestBuilder <span class="title">builder</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> <span class="keyword">new</span> TestBuilder();&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>很显然, 如果在使用 builder 方法构建对象时没有为 str 赋值, str 就是个 null, 而不是给定的默认值, 对此 lombok 给出的解决的办法是, 为需要默认值的字段添加 @Builder.Default 注解:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Builder</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Builder</span>.Default</span><br><span class="line">    <span class="keyword">private</span> String str = <span class="string">"default"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以上代码确实能使默认值在 builder 中生效, 但是又导致另一个坑: 如果不使用 builder 而是自己 new 出对象, 默认值依旧不生效, 这里需要特别注意;</p>
+<h3 id="maven-compile-plugin-与-lombok-的版本匹配"><a href="#maven-compile-plugin-与-lombok-的版本匹配" class="headerlink" title="maven-compile-plugin 与 lombok 的版本匹配 "></a><strong>maven-compile-plugin 与 lombok 的版本匹配</strong> <span id="maven-compile-plugin_lombok"></span></h3><p>有的项目一旦引入了 lombok 或间接引入 lombok 的 jar 包, 使用 maven-compile-plugin 编译时会报如下奇怪的错误:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XXX.java:[xx,yy] error: cannot find symbol</span><br></pre></td></tr></table></figure></p>
+<p>看起来像是编译时没有正常做 annotation-processing, 导致调用本该是 lombok 生成的方法时找不到了; 经过搜索, 发现了 lombok 低版本的一个 bug: <a href="http://stackoverflow.com/questions/34358689" target="_blank" rel="noopener">stackoverflow 地址</a>, 这个 bug 导致 2.3.2 版本以下的 maven-compiler-plugin 与 lombok 1.14 ~ 1.16 版本发生冲突! 这个 stackoverflow 提问引起了 lombok 官方注意, 并于 lombok 1.16.9 版本修复了该问题: <a href="https://github.com/rzwitserloot/lombok/pull/1138" target="_blank" rel="noopener">always return ShadowClassLoader. #1138</a>;<br>所以从当前来看, 解决这个问题的最好办法就是将 lombok 版本升级到 1.16.9+; 当然, 我们在上面的小节中已经提及了该问题: <a href="#use_lombok-maven-plugin">使用 lombok-maven-plugin</a>, 如果我们有办法消除素有的 lombok 注解, 也就不存在这个问题了;</p>
+<h3 id="解决-lombok-maven-plugin-的后遗症"><a href="#解决-lombok-maven-plugin-的后遗症" class="headerlink" title="解决 lombok-maven-plugin 的后遗症 "></a><strong>解决 lombok-maven-plugin 的后遗症</strong> <span id="lombok-maven-plugin_sourceDirectory"></span></h3><p>在上面的小节中已经提到, 如果使用 lombok-maven-plugin 的方式不正确, 就有可能导致断点与源码匹配不上; 具体来说, 就是当我们重新以 delombok 目录覆盖了默认的 sourceDirectory 配置之后, javac 便以新的路径作为源码目录生成对应的行号映射表, 这对于 client 端来说是没问题的, 但是对于 server 端的代码, 我们在调试时用的是 lombok 增强之前我们自己写的代码, 这便与编译使用的代码不一致了, 自然就导致了调试走不到断点里去的问题, 为了能正确调试 server 端的代码, 我们需要配置其在 server 模块不使用 delombok, 从而让 javac 去我们自己的源文件目录编译:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- server 模块覆盖父 pom 的 properties 配置 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">src.dir</span>&gt;</span>src/main/java<span class="tag">&lt;/<span class="name">src.dir</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>另外, 使用 lombok-maven-plugin 还有一个副作用, 其在 <code>${project.build.directory}/generated-sources/delombok</code> 目录中生成了与我们自己源文件相同签名的源代码, idea 会检测到重复类并导致大量红色波浪线错误提示, 本地无法正常构建, 无法单元测试; 要想解决这个问题, 我们只能使用 profile 来区分不同的编译环境, 本地编译我们使用一套特殊 profile, 不作 delombok, 线上打包发布使用另一套 (不指定 profile 即可), 引导其使用 delombok 作代码增强:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">profiles</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- mvn -U clean compile -Dmaven.test.skip=true -Denforce.skip=true -P ide --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 本地环境用以上命令编译, 可以避免 lombok-maven-plugin 导致的 sourceDirectory 混乱 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">profile</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span>&gt;</span>ide<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">src.dir</span>&gt;</span>src/main/java<span class="tag">&lt;/<span class="name">src.dir</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.16.22.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                        <span class="comment">&lt;!-- 本地环境下编译不用 delombok --&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">skip</span>&gt;</span>true<span class="tag">&lt;/<span class="name">skip</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">profile</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">profiles</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="lombok-与-aspectj-的冲突处理"><a href="#lombok-与-aspectj-的冲突处理" class="headerlink" title="lombok 与 aspectj 的冲突处理"></a><strong>lombok 与 aspectj 的冲突处理</strong></h3><p>其实不仅仅是 aspectj, 只要是需要在编译上做手脚的工具, 都可能与 lombok 发生冲突; 毕竟 lombok 的工作时机也是在编译期, 如果不协调出一个执行顺序, 就有可能互相覆盖, 导致编译错误;<br>lombok 与 aspectj 的冲突属于比较典型的场景, 因为这两者都比较常用, stackoverflow 上有很多遇到类似问题的人; 鉴于这个问题的解决主要在于 aspectj 的配置改变, 本文便不过多讨论, 相关内容请见另一篇文章: <a href="">asepctj 使用总结</a>;</p>
+<h2 id="站内相关文章"><a href="#站内相关文章" class="headerlink" title="站内相关文章"></a><strong>站内相关文章</strong></h2><ul>
+<li><a href="">asepctj 使用总结</a></li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2><ul>
+<li><a href="https://blog.csdn.net/weixin_41540822/article/details/86606513" target="_blank" rel="noopener">Lombok 实战 —— @NoArgsConstructor, @RequiredArgsConstructor, @AllArgsConstructor</a></li>
+<li><a href="https://www.jianshu.com/p/5411e9efd577" target="_blank" rel="noopener">lombok-maven-plugin delombok你的源码</a></li>
+<li><a href="http://stackoverflow.com/questions/34358689" target="_blank" rel="noopener">Maven build cannot find symbol when accessing project lombok annotated methods</a></li>
+<li><a href="https://github.com/rzwitserloot/lombok/pull/1138" target="_blank" rel="noopener">always return ShadowClassLoader. #1138</a></li>
+<li><a href="https://www.firegod.cn/2019/07/lombok-builder-default-之坑" target="_blank" rel="noopener">Lombok @Builder.Default 之坑</a></li>
+<li><a href="https://www.projectlombok.org/features/configuration" target="_blank" rel="noopener">Configuration system</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+
+        
+        <strong>本文链接:</strong> <a href="/2019/10/11/tools--lombok_使用注意点总结/" rel="external">http://zshell.cc/2019/10/11/tools--lombok_使用注意点总结</a> <br/> 感谢您的阅读与支持！
+        
+    </div>
+    
+    <footer>
+        <a href="http://zshell.cc">
+            <img src="https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" alt="zshellzhang">
+            zshellzhang
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jackson/">jackson</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lombok/">lombok</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2019/10/11/tools--lombok_使用注意点总结/&title=《lombok 使用注意点总结》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2019/10/11/tools--lombok_使用注意点总结/&title=《lombok 使用注意点总结》 — 希尔的博客&source=
+lombok 绝对是开发者的好朋友, 其帮助我们节省了大量枯燥的重复代码量, 节约了开发时间; 使用 lombok 有很多技巧, 同时也会存在一些问题,..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2019/10/11/tools--lombok_使用注意点总结/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《lombok 使用注意点总结》 — 希尔的博客&url=http://zshell.cc/2019/10/11/tools--lombok_使用注意点总结/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2019/10/11/tools--lombok_使用注意点总结/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/09/07/zookeeper-curator--curator_使用注意点总结/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">curator 使用注意点总结</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "fMh2JHgkPnDtARiQapOg8Jrk-gzGzoHsz",
+            appKey: "UPNXLDUkngDnuhfC9XQPgF6n",
+            avatar: "mm",
+            placeholder: "您的评论, 吾愿洗耳恭听!",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        感谢支持!
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>zshellzhang &copy; 2016 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://zshell.cc/2019/10/11/tools--lombok_使用注意点总结/&title=《lombok 使用注意点总结》 — 希尔的博客&pic=https://avatars0.githubusercontent.com/u/8027247?s=460&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://zshell.cc/2019/10/11/tools--lombok_使用注意点总结/&title=《lombok 使用注意点总结》 — 希尔的博客&source=
+lombok 绝对是开发者的好朋友, 其帮助我们节省了大量枯燥的重复代码量, 节约了开发时间; 使用 lombok 有很多技巧, 同时也会存在一些问题,..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://zshell.cc/2019/10/11/tools--lombok_使用注意点总结/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《lombok 使用注意点总结》 — 希尔的博客&url=http://zshell.cc/2019/10/11/tools--lombok_使用注意点总结/&via=http://zshell.cc" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://zshell.cc/2019/10/11/tools--lombok_使用注意点总结/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsklEQVR42u3a0WrDMAwF0P7/T2+wp0FJeiVZJQ8nT6MNrk8GtnLl1yu+fv6u97//f/J+vX97NebVJ/m3owsPDw+vNfVkivfge8b9aAn7/hevfh0PDw9vj5dvBvf3V3nVLSefMx4eHt4TePn20CuaTz1iPDw8vOfwyuVsTKpuG3h4eHhP4OVRbFI0z8vi6nwOZC14eHh4tdX7tbdwb/z9pf4eHh4eXnEJzhffXsw6CXOjGeLh4eEt8JKCOF9vq8ewqmP2DiLg4eHh7fHyplcSnk6ChiQ4LmwteHh4eAu8vKidBASTNtv8SAEeHh7eBi/5gephgmTzqD7KfHw8PDy8bV51QnmZeyoOTh59tO/h4eHhjXmTAro3xftFPI+Go1cCPDw8vAVedZNIAoLqRPMGWN6cw8PDw9vg5U36akOrd0/eACv8l/Dw8PCO8polaSsCribKk+Nc5aMDeHh4eC1eHo9OFvHqFtI7iICHh4e3x5u0svL2fzUOTu6MHhkeHh7eMu/AcHGTrHdnMg4eHh7eNi9HVqeVl93zkvrDyHh4eHhrvHwqk6W/2njLP7/8BA8PD2+BlzB6UUUv8qhuJAcKazw8PLwWL2nhnwp5E3bUrxscdMDDw8Pr8Xpl6x51pQGGh4eHd5Q3by/NMVVGftgLDw8Pb4+XL/3JC3++YSQhRVJSF94M8PDw8A7xqu2oJBrIH1Y1rs3jEjw8PLxtXq8d1WOMWlbzHQ8PDw9vDKsWu2c7b9UopFDu4+Hh4S3w5lFFHt32wt9JYwwPDw9vj5eHqsnk8po2Dy9GGwMeHh7eGm9+aKAXOuTHC3qRCh4eHt7zeacOH+RtuUIDDA8PD+/rvFOF7+SYQjlWxsPDw1vj5Qt93ipLRqgeUyiX4Hh4eHgLvOqr/nxTqZbdvTgYDw8Pb4H3C4vhc6gxJF9bAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
