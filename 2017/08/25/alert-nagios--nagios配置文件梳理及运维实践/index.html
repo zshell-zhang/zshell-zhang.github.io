@@ -21,9 +21,9 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="alert:nagios,devops 实践,运维自动化">
+    <meta name="keywords" content="运维自动化,alert:nagios,devops 实践">
     <meta name="description" content="nagios 的优点在于其插件拓展式的设计, 不过 nagios 给 ops 映像最深刻的, 是其出离复杂的配置文件; nagios 真的可以说是把配置文件当数据库使了;作为备忘, 本文主要梳理 nagios 配置文件中的各种角色的关系与交互流程, 并就日常工作的经验总结一些 nagios 配置文件的部署及运维实践;">
-<meta name="keywords" content="alert:nagios,devops 实践,运维自动化">
+<meta name="keywords" content="运维自动化,alert:nagios,devops 实践">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nagios 配置文件梳理及运维实践">
 <meta property="og:url" content="http://zshell.cc/2017/08/25/alert-nagios--nagios配置文件梳理及运维实践/index.html">
@@ -433,7 +433,7 @@ nagios 的优点在于其插件拓展式的设计, 不过 nagios 给 ops 映像�
         </p>
     </div>
     <div class="bottom">
-        <p><span>zshellzhang &copy; 2016 - 2019</span>
+        <p><span>zshellzhang &copy; 2016 - 2020</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
@@ -531,6 +531,23 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 
 
 
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 </body>
 </html>

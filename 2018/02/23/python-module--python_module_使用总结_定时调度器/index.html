@@ -21,9 +21,9 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="python,python:module">
+    <meta name="keywords" content="python:module,python">
     <meta name="description" content="在 java 里, 第三方定时调度框架比较常用的是 quartz 和 springframework 提供的 schedule 功能; 不过在各大公司里, 一般都会开发自己能集中管理与灵活调控的调度组件; 这样一来, 第三方的调度框架反而就接触的少了;我相信在以 python 为主要使用语言的公司里, 一定也有自己的调度中间件; 但是对于以 java 为主的公司里, 肯定不可能专为 python">
-<meta name="keywords" content="python,python:module">
+<meta name="keywords" content="python:module,python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python module 使用总结: 定时调度器">
 <meta property="og:url" content="http://zshell.cc/2018/02/23/python-module--python_module_使用总结_定时调度器/index.html">
@@ -429,7 +429,7 @@
         </p>
     </div>
     <div class="bottom">
-        <p><span>zshellzhang &copy; 2016 - 2019</span>
+        <p><span>zshellzhang &copy; 2016 - 2020</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
@@ -527,6 +527,23 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 
 
 
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 </body>
 </html>

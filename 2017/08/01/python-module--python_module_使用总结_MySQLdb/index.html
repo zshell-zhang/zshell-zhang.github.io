@@ -21,9 +21,9 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="python,python:module">
+    <meta name="keywords" content="python:module,python">
     <meta name="description" content="MySQLdb 模块是 python 与 mysql 交互的较为底层的接口, 不过它依然是在更为底层的 _mysql 模块之上又作了一层包装;_mysql 才是真正的直接面向 mysql 原生 C 接口的简单适配层, 而 MySQLdb 则在 _mysql 之上作了更多的关于类型转换等抽象包装;考虑到 MySQLdb 模块与一些 python ORM 框架的关系, MySQLdb 与 pytho">
-<meta name="keywords" content="python,python:module">
+<meta name="keywords" content="python:module,python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python module 使用总结: MySQLdb">
 <meta property="og:url" content="http://zshell.cc/2017/08/01/python-module--python_module_使用总结_MySQLdb/index.html">
@@ -406,7 +406,7 @@ MySQLdb 模块是 python 与 mysql 交互的较为底层的接口, 不过它依�
         </p>
     </div>
     <div class="bottom">
-        <p><span>zshellzhang &copy; 2016 - 2019</span>
+        <p><span>zshellzhang &copy; 2016 - 2020</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
@@ -504,6 +504,23 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 
 
 
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 </body>
 </html>
