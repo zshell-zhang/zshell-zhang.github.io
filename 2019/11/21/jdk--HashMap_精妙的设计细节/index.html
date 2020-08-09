@@ -30,19 +30,19 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="HashMap 可能已经被各大技术博文讲烂了, 在各种面试中也是频繁被问到; 本文不会再把前辈们的话复述一遍, 而是根据我的面试经历和一些使用心得, 总结一下 HashMap 源码中一些极少被注意到 (但仔细研究发现十分精妙) 的设计细节及使用注意事项;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="leanote://file/getImage?fileId=5f1fb716ab64411a9f001637">
-<meta property="og:image" content="leanote://file/getImage?fileId=5f203345ab64411a9f001c61">
-<meta property="og:image" content="leanote://file/getImage?fileId=5f203345ab64411a9f001c5f">
-<meta property="og:image" content="leanote://file/getImage?fileId=5f203345ab64411a9f001c60">
-<meta property="og:image" content="leanote://file/getImage?fileId=5f203345ab64411a9f001c5e">
-<meta property="og:image" content="leanote://file/getImage?fileId=5f0dbd2cab64412cdb00185f">
-<meta property="og:image" content="leanote://file/getImage?fileId=5f0dbd2cab64412cdb001860">
-<meta property="og:image" content="leanote://file/getImage?fileId=5f0ea0c7ab64417993000623">
-<meta property="og:updated_time" content="2020-08-09T06:49:31.464Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jdk/HashMap精妙的设计细节/HashMap初始状态.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jdk/HashMap精妙的设计细节/thread2执行完的状态.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jdk/HashMap精妙的设计细节/thread1执行完第一步.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jdk/HashMap精妙的设计细节/thread1执行完第二步.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jdk/HashMap精妙的设计细节/thread1执行完第三步.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jdk/HashMap精妙的设计细节/0≤n≤12的数学期望函数图像.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jdk/HashMap精妙的设计细节/n>12的数学期望函数图像.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jdk/HashMap精妙的设计细节/完整的数学期望函数图像.png">
+<meta property="og:updated_time" content="2020-08-09T14:12:43.136Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap 精妙的设计细节">
 <meta name="twitter:description" content="HashMap 可能已经被各大技术博文讲烂了, 在各种面试中也是频繁被问到; 本文不会再把前辈们的话复述一遍, 而是根据我的面试经历和一些使用心得, 总结一下 HashMap 源码中一些极少被注意到 (但仔细研究发现十分精妙) 的设计细节及使用注意事项;">
-<meta name="twitter:image" content="leanote://file/getImage?fileId=5f1fb716ab64411a9f001637">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jdk/HashMap精妙的设计细节/HashMap初始状态.png">
     
         <link rel="alternate" type="application/atom+xml" title="希尔的博客" href="/atom.xml">
     
@@ -204,6 +204,7 @@
 <p>HashMap 可能已经被各大技术博文讲烂了, 在各种面试中也是频繁被问到; 本文不会再把前辈们的话复述一遍, 而是根据我的面试经历和一些使用心得, 总结一下 HashMap 源码中一些极少被注意到 (但仔细研究发现十分精妙) 的设计细节及使用注意事项;</p>
 </blockquote>
 <a id="more"></a>
+<hr>
 <p>首先统一申明两个概念:<br>HashMap 维护了一个数组类型的内部成员 table, 其中的每一个元素, 背后都是一个存放 hash 冲突的 KV 键值对的链表, jdk 的开发者将其称作 <code>bin</code> 或 <code>bucket</code>, 中文译作 “桶”, 故本文将统一使用 “桶” 作为相关概念的代称;<br>在 HashMap 中 KV 键值对信息被维护在一个继承自 Map.Entry 的内部封装结构中, jdk 的开发者将其称作 <code>entry</code>, 中文译作 “条目”, 由于中文含义容易引起歧义, 故本文将沿用 “entry” 作为相关概念的代称;</p>
 <h2 id="hash-逻辑的历史变革"><a href="#hash-逻辑的历史变革" class="headerlink" title="hash 逻辑的历史变革 "></a><strong>hash 逻辑的历史变革</strong> <span id="first"></span></h2><p>HashMap 从 1998 年 jdk 1.2 诞生以来, 经历了多次重构, 愈加完善; 不过 jdk 1.6 之前的源码已经很难再找到 (只能在 github 上找到一些非官方的 <a href="https://github.com/fanhongtao/JDK" target="_blank" rel="noopener">民间收藏版本</a>, 想要准确对比 HashMap 在各个 jdk 版本中的实现差异已比较困难, 在网上仔细查阅各种资料文章, 竟发现在很多细节上互相冲突, 却也无从考证; 故本节将尽量总结设计思想方面的演进, 而尽量不陷入代码细节的纠结;</p>
 <h3 id="蛮荒时代"><a href="#蛮荒时代" class="headerlink" title="蛮荒时代"></a><strong>蛮荒时代</strong></h3><p>在 jdk 1.2/1.3 时代, HashMap 更多的是作为一种产品原型而存在, 关键的 hash 定位逻辑设计得比较简略:</p>
@@ -259,32 +260,32 @@
 <h2 id="并发修改触发-resize-的死循环"><a href="#并发修改触发-resize-的死循环" class="headerlink" title="并发修改触发 resize 的死循环 "></a><strong>并发修改触发 resize 的死循环</strong> <span id="third"></span></h2><p>我们都知道 HashMap 是线程不安全的, 而且在以前我们总会被告诫: 如果对一个 HashMap 使用多线程并发操作, 轻则抛 <code>ConcurrentModificationException</code> 异常, 重则 cpu 打满, 请求无响应; 抛 <code>ConcurrentModificationException</code> 是 HashMap  对多线程操作的主动 check, 属于可控情况, 而 cpu 打满请求无响应则是某个桶内的冲突链表形成了死循环链, 程序已失控; 本节重点讨论一下 jdk 1.7 及之前版本死循环链的形成机制以及 jdk 1.8 对于此等情况的避免;<br>简化起见, 设定一个 HashMap 当前的 capacity 为 2, load_factor 为 1.0, 当前已有元素 a 和元素 b 被插入, 分布如下, 显然, 其已处于扩容前的临界状态:<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="leanote://file/getImage?fileId=5f1fb716ab64411a9f001637" alt="HashMap 初始状态" title="">
+                    <img src="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jdk/HashMap精妙的设计细节/HashMap初始状态.png" alt="HashMap 初始状态" title="">
                 </div>
                 <div class="image-caption">HashMap 初始状态</div>
             </figure><br>此时有两个线程 (thread1, thread2) 都想向其中插入新元素, 在插入之前首先它们需要面对的是 resize 方法; jdk 1.7 的 resize 方法中进而调用了一个关键的 transfer 方法:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">transfer</span><span class="params">(Entry[] newTable, <span class="keyword">boolean</span> rehash)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> newCapacity = newTable.length;</span><br><span class="line">    <span class="keyword">for</span> (Entry&lt;K,V&gt; e : table) &#123;</span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">null</span> != e) &#123;</span><br><span class="line">            <span class="comment">// 关键的一行代码</span></span><br><span class="line">            Entry&lt;K,V&gt; next = e.next;</span><br><span class="line">            <span class="keyword">if</span> (rehash) &#123;</span><br><span class="line">                e.hash = <span class="keyword">null</span> == e.key ? <span class="number">0</span> : hash(e.key);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> i = indexFor(e.hash, newCapacity);</span><br><span class="line">            e.next = newTable[i];</span><br><span class="line">            newTable[i] = e;</span><br><span class="line">            e = next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>注意到上方我注释的那行代码 <code>Entry&lt;K,V&gt; next = e.next</code>, 假设 thread1 执行完该行代码, 用完了自己的时间片, 线程对应的内核线程状态切换为 <code>READY</code>, 此时在 thread1 的本地工作内存里, 变量 e 被赋值为 a, 变量 next 被赋值为 b;<br>cpu 将计算资源调度给 thread2, 然后 thread2 很幸运, 在它的时间片内, 它执行完了 resize 方法的所有逻辑, 并将本地工作内存内的执行结果刷回主内存, 借用上一小节的说法, 我们设定 $bin_idx(a, n + 1) = bin_idx(b, n + 1) = 1$, 则此时 HashMap 的状态如下:<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="leanote://file/getImage?fileId=5f203345ab64411a9f001c61" alt="thread2 执行完的状态" title="">
+                    <img src="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jdk/HashMap精妙的设计细节/thread2执行完的状态.png" alt="thread2 执行完的状态" title="">
                 </div>
                 <div class="image-caption">thread2 执行完的状态</div>
             </figure><br>cpu 再次将计算资源调度给 thread1, 下面好戏开场了:<br>第一步: 从它被 cpu 切换前执行完的那行的下一行代码开始, 跑完 while 循环里剩余的逻辑, 此时在 thread1 的本地工作内存里, 变量 e 被赋值为 b, a.next 被赋值为 null, 此时 HashMap 状态如下:<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="leanote://file/getImage?fileId=5f203345ab64411a9f001c5f" alt="thread1 执行完第一步" title="">
+                    <img src="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jdk/HashMap精妙的设计细节/thread1执行完第一步.png" alt="thread1 执行完第一步" title="">
                 </div>
                 <div class="image-caption">thread1 执行完第一步</div>
             </figure><br>第二步: 假设此时 thread1 将主内存中的更新 (b.next 被赋值为 a) 及时刷回自己的本地工作内存, 又因为 <code>e = b != null</code>, 所以 while 循环再次被执行一轮, 此时在 thread1 的本地工作内存里, 变量 e 再次被赋值为 a, 此时 HashMap 状态如下:<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="leanote://file/getImage?fileId=5f203345ab64411a9f001c60" alt="thread1 执行完第二步" title="">
+                    <img src="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jdk/HashMap精妙的设计细节/thread1执行完第二步.png" alt="thread1 执行完第二步" title="">
                 </div>
                 <div class="image-caption">thread1 执行完第二步</div>
             </figure><br>第三步: 因为 <code>e = a != null</code>, while 循环又会被执行一轮, 然而这是异常情况, 本不应该发生; 等跑完此轮 while 循环, 在 thread1 的本地工作内存里, a.next 被赋值为 b, 此时 HashMap 即出现死循环链:<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="leanote://file/getImage?fileId=5f203345ab64411a9f001c5e" alt="thread1 执行完第三步" title="">
+                    <img src="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jdk/HashMap精妙的设计细节/thread1执行完第三步.png" alt="thread1 执行完第三步" title="">
                 </div>
                 <div class="image-caption">thread1 执行完第三步</div>
             </figure></p>
@@ -391,19 +392,19 @@
 <script type="math/tex; mode=display">f(n)=\begin{cases} \frac 1 {16}n & 0 \leq n \leq 12 \\ \frac 3 8 + \frac i {32 \cdot 2^t} & t \in N, 0 \leq i < 12 \cdot 2^t (n>12) \end{cases}</script><p>我们应当注意, 该函数的建立与 HashMap 的负载因子 load_factor 存在密切联系, 如果有使用者自定义了 load_factor, 函数的参数会发生显著变化; 不过极少有情况需要我们去定制 load_factor, 在上一小节我们已经证明了 HashMap 默认的负载因子 0.75 是一个比较合理科学的值, 本着简化问题的目的, 我们暂且将  load_factor = 0.75 作为固定系数;<br>$0 \leq n \leq 12$ 时的图像:<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="leanote://file/getImage?fileId=5f0dbd2cab64412cdb00185f" alt="0≤n≤12的数学期望函数图像" title="">
+                    <img src="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jdk/HashMap精妙的设计细节/0≤n≤12的数学期望函数图像.png" alt="0≤n≤12的数学期望函数图像" title="">
                 </div>
                 <div class="image-caption">0≤n≤12的数学期望函数图像</div>
             </figure><br>显然, $f(n)$ 在定义域上是线性递增的, 且 $0 \leq f(n) \leq \frac 3 4$;<br>$n&gt;12$ 时将 $n$ 由 $i$ 带入的图像:<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="leanote://file/getImage?fileId=5f0dbd2cab64412cdb001860" alt="n>12的数学期望函数图像" title="">
+                    <img src="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jdk/HashMap精妙的设计细节/n>12的数学期望函数图像.png" alt="n>12的数学期望函数图像" title="">
                 </div>
                 <div class="image-caption">n>12的数学期望函数图像</div>
             </figure><br>依托 HashMap 的特性, 我们发现 $n &gt; 12$ 的情况下, 给定参数 $t$, $f(i)$ 在定义域上是线性递增的; 若将 $t$ 拓展到整个定义域, 可以绘制出完整的图像:<br><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="leanote://file/getImage?fileId=5f0ea0c7ab64417993000623" alt="完整的数学期望函数图像" title="">
+                    <img src="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/jdk/HashMap精妙的设计细节/完整的数学期望函数图像.png" alt="完整的数学期望函数图像" title="">
                 </div>
                 <div class="image-caption">完整的数学期望函数图像</div>
             </figure><br>在参数 $t$ 的每一个取值所对应的 $n$ 的取值范围上, $f(n)$ 都分别呈现出线性递增的特性, 且 $\frac 3 8 &lt; f(n) \leq \frac 3 4$;<br>至此, 关于实验次数 $n$ 的数学期望函数 $f(n)$ 的基本特征已经明晰了; 试验次数 $n$ 是随机而不可预测的, 也不存在一个可以估计的概率, 一种可能的处理方法是取平均值: 当 $0 \leq n \leq 12$ 时, $\overline{\lambda}=\frac {0+\frac 3 4}2=0.375$; 当 $n&gt;12$ 时, $\overline{\lambda}=\frac {\frac 3 8 + \frac 3 4}2=0.5625$; 当然, 在不追求精确的场景下, 完全可以取一个范数来代表, 比如 jdk 在 HashMap 的类注释里就说明了, 在默认  load_factor = 0.75 的条件下, 他们将指定泊松分布的数学期望参数 $\lambda$ 设定为了 $0.5$:</p>
@@ -520,7 +521,14 @@ HashMap 可能已经被各大技术博文讲烂了, 在各种面试中也是频�
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/08/09/jdk--java.lang.Thread_类的基础知识整理/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">java.lang.Thread 类基础知识整理</h4>
+      </a>
+    </div>
   
 
   
@@ -708,6 +716,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 
