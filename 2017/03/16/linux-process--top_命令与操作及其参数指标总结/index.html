@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="排查系统性能问题时, 最尴尬的事情莫过于敲下 top 命令后, 看着不断跳动的界面, 愣是不知道接下来要怎么操作, 最后无奈得按下了一个 q;所以我专门写作本文, 系统性得整理一下 top 命令所展示的内容与结构, 常见操作快捷键与技巧; 虽然在 top 界面里按 h 便能进入帮助界面, 但那种操作排版比较密集, 信息量太大, 没有直观性;当然, 即使是这篇文章的内容, 我最好也熟记于心, 否则">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-06-14T14:20:21.164Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.348Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="top 命令与操作及其参数指标总结">
 <meta name="twitter:description" content="排查系统性能问题时, 最尴尬的事情莫过于敲下 top 命令后, 看着不断跳动的界面, 愣是不知道接下来要怎么操作, 最后无奈得按下了一个 q;所以我专门写作本文, 系统性得整理一下 top 命令所展示的内容与结构, 常见操作快捷键与技巧; 虽然在 top 界面里按 h 便能进入帮助界面, 但那种操作排版比较密集, 信息量太大, 没有直观性;当然, 即使是这篇文章的内容, 我最好也熟记于心, 否则">
@@ -521,6 +521,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

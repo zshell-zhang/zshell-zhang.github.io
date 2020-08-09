@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="stream editor: 流式文本编辑器;sed 命令的侧重点在于对文本的编辑;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-01-04T14:58:47.480Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.349Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sed 命令整理">
 <meta name="twitter:description" content="stream editor: 流式文本编辑器;sed 命令的侧重点在于对文本的编辑;">
@@ -487,6 +487,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

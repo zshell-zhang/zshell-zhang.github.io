@@ -21,9 +21,9 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="运维自动化,alert:nagios,devops 实践">
+    <meta name="keywords" content="alert:nagios,devops 实践,运维自动化">
     <meta name="description" content="nagios 的优点在于其插件拓展式的设计, 不过 nagios 给 ops 映像最深刻的, 是其出离复杂的配置文件; nagios 真的可以说是把配置文件当数据库使了;作为备忘, 本文主要梳理 nagios 配置文件中的各种角色的关系与交互流程, 并就日常工作的经验总结一些 nagios 配置文件的部署及运维实践;">
-<meta name="keywords" content="运维自动化,alert:nagios,devops 实践">
+<meta name="keywords" content="alert:nagios,devops 实践,运维自动化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nagios 配置文件梳理及运维实践">
 <meta property="og:url" content="http://zshell.cc/2017/08/25/alert-nagios--nagios配置文件梳理及运维实践/index.html">
@@ -32,7 +32,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/alert/nagios/nagios的配置文件及其实践/nagios角色关系ER图2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/alert/nagios/nagios的配置文件及其实践/nagios角色关系ER图1.png">
-<meta property="og:updated_time" content="2018-06-05T12:23:55.904Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.342Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nagios 配置文件梳理及运维实践">
 <meta name="twitter:description" content="nagios 的优点在于其插件拓展式的设计, 不过 nagios 给 ops 映像最深刻的, 是其出离复杂的配置文件; nagios 真的可以说是把配置文件当数据库使了;作为备忘, 本文主要梳理 nagios 配置文件中的各种角色的关系与交互流程, 并就日常工作的经验总结一些 nagios 配置文件的部署及运维实践;">
@@ -524,6 +524,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

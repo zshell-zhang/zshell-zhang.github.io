@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="最近我的思路有一点悲观，在大量思考着那些 “最坏的打算”。可能是宏观形势所迫吧，在经济周期末期，中美对弈的大背景下，保值，落袋，避险等逐渐走向了聚光灯下，这样的外部语境，再结合我个人经历的内部语境，我心中逐渐酝酿出“情感安全绳”的概念来。如果要用一个词语概括一下它的含义，我想应该是：“对冲”。没错，我觉得非常恰当，就是这两个字。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-13T08:35:10.194Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.346Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="情感安全绳">
 <meta name="twitter:description" content="最近我的思路有一点悲观，在大量思考着那些 “最坏的打算”。可能是宏观形势所迫吧，在经济周期末期，中美对弈的大背景下，保值，落袋，避险等逐渐走向了聚光灯下，这样的外部语境，再结合我个人经历的内部语境，我心中逐渐酝酿出“情感安全绳”的概念来。如果要用一个词语概括一下它的含义，我想应该是：“对冲”。没错，我觉得非常恰当，就是这两个字。">
@@ -505,6 +505,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="每颗心上某一个地方，总有个记忆挥不散；每个深夜某一处微亮，总藏着最切的思量。小时候，家是一叶温暖的襁褓，我在里面，父母在外面，包裹着它，我浸润在爱的海洋；长大后，家是一根思念的脐带，父母在上头，我在下头，剪断了它，我变成了独立的模样；而现在，家是一层薄薄的纸儿，我在左侧，她在右侧，揭开了它，我踏上了幸福的远航。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-24T01:41:15.730Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.346Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="家与房子">
 <meta name="twitter:description" content="每颗心上某一个地方，总有个记忆挥不散；每个深夜某一处微亮，总藏着最切的思量。小时候，家是一叶温暖的襁褓，我在里面，父母在外面，包裹着它，我浸润在爱的海洋；长大后，家是一根思念的脐带，父母在上头，我在下头，剪断了它，我变成了独立的模样；而现在，家是一层薄薄的纸儿，我在左侧，她在右侧，揭开了它，我踏上了幸福的远航。">
@@ -495,6 +495,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

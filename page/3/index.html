@@ -157,6 +157,55 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-linux-disk--chattr_lsattr使用总结"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-04-06 21:23:22" datetime="2018-04-06T13:23:22.000Z"  itemprop="datePublished">2018-04-06</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/disk/">disk</a></li></ul></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/04/06/linux-disk--chattr_lsattr使用总结/">chattr / lsattr 使用总结</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        <blockquote>
+<p>对于在机器上操作的人来说, 如果有 sudo 权限, 那 chattr 根本就不是事, 这也不是 chattr 的意义所在;<br>对 chattr 来说, 其所要阻止的, 是那些有意无意想要修改机器上重要文件的程序, 从而保证机器上重要的文件不会因非人为因素而遭到非预期的操作;</p>
+</blockquote>
+    
+
+       <!-- <a href="/2018/04/06/linux-disk--chattr_lsattr使用总结/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a> -->
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-disk/">linux:disk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/系统安全/">系统安全</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-elasticsearch--elasticsearch6.x升级调研报告"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -540,7 +589,7 @@
 
     
         <blockquote>
-<p>各个公司或多或少都在推出自己的压力测试工具, 形形色色, 种类繁多; 其实, 在开源世界已经有了一个经典成熟的压力测试工具 —- apache benchmark;<br>小巧, 简单, 基于 http 的普适性, 这些都是 apache benchmark 被广泛使用的原因;</p>
+<p>各个公司或多或少都在推出自己的压力测试工具, 形形色色, 种类繁多; 其实, 在开源世界已经有了一个经典成熟的压力测试工具 —— apache benchmark;<br>小巧, 简单, 基于 http 的普适性, 这些都是 apache benchmark 被广泛使用的原因;</p>
 </blockquote>
     
 
@@ -601,55 +650,6 @@
     <div class="post-footer">
         
 	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-init/">linux:init</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/systemd/">systemd</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-linux-shell--bash结束死循环的方法"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2017-11-05 00:00:00" datetime="2017-11-04T16:00:00.000Z"  itemprop="datePublished">2017-11-05</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/">linux</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/linux/shell/">shell</a></li></ul></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2017/11/05/linux-shell--bash结束死循环的方法/">bash 结束死循环的方法</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <blockquote>
-<p>linux 中有很多实用的工具, 采用了这样一种工作方式:<br>定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;<br>类似的工具包括 iostat, dstat, jstat 等;<br>本文整理了实现上述逻辑的一些典型方法;</p>
-</blockquote>
-    
-
-       <!-- <a href="/2017/11/05/linux-shell--bash结束死循环的方法/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a> -->
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-shell/">linux:shell</a></li></ul>
 
     </div>
     
@@ -771,6 +771,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

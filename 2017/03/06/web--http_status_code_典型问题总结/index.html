@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="本人根据自身的工作经历, 以一个 java dev 的视角, 总结了一些 http status code 的常见问题, 原因及解决办法;这些问题涉及到的系统或技术栈包括了 nginx, tomcat, spring(springMVC), elasticsearch 等等;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-06-14T11:16:50.931Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.351Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="http status code 典型问题总结">
 <meta name="twitter:description" content="本人根据自身的工作经历, 以一个 java dev 的视角, 总结了一些 http status code 的常见问题, 原因及解决办法;这些问题涉及到的系统或技术栈包括了 nginx, tomcat, spring(springMVC), elasticsearch 等等;">
@@ -521,6 +521,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

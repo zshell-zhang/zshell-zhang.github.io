@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="第一次接触到 lsof 命令, 是因为偶然间发现 netstat 命令已经落伍了(与此同时, 还发现了 ss 命令, 详见另一篇文章: netstat/ss 使用对比 );使用之后, 发现 lsof 被人称为 神器, 还是有一定道理的; 在任何资源都被抽象为 文件 的 linux 中, 一个面向 文件 的管理工具, 自然辖域辽阔, 神通广大, 再加上与其他命令的巧妙组合, 更如虎添翼, 在工作实">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-01-20T13:26:42.069Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.347Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="lsof 札记">
 <meta name="twitter:description" content="第一次接触到 lsof 命令, 是因为偶然间发现 netstat 命令已经落伍了(与此同时, 还发现了 ss 命令, 详见另一篇文章: netstat/ss 使用对比 );使用之后, 发现 lsof 被人称为 神器, 还是有一定道理的; 在任何资源都被抽象为 文件 的 linux 中, 一个面向 文件 的管理工具, 自然辖域辽阔, 神通广大, 再加上与其他命令的巧妙组合, 更如虎添翼, 在工作实">
@@ -500,6 +500,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

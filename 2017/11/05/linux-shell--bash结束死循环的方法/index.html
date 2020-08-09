@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="linux 中有很多实用的工具, 采用了这样一种工作方式:定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;类似的工具包括 iostat, dstat, jstat 等;本文整理了实现上述逻辑的一些典型方法;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-06-16T05:08:39.512Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.348Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="bash 结束死循环的方法">
 <meta name="twitter:description" content="linux 中有很多实用的工具, 采用了这样一种工作方式:定时执行(1/s, 1/3s 等)一次指定逻辑, 当用户按下 ctrl + c 发出 SIGINT 信号时, 结束进程; 如果接收不到 SIGINT/SIGTERM 等信号, 进程则会一直执行下去;类似的工具包括 iostat, dstat, jstat 等;本文整理了实现上述逻辑的一些典型方法;">
@@ -493,6 +493,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

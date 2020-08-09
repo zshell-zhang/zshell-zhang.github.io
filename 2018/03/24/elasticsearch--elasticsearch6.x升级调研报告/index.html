@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/elasticsearch/elasticsearch_6.2_升级调研纪实/x-pack-fee.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/elasticsearch/elasticsearch_6.2_升级调研纪实/x-pack-monitor.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/cs/elasticsearch/elasticsearch_6.2_升级调研纪实/x-pack-search-profiler.png">
-<meta property="og:updated_time" content="2018-09-06T12:02:34.803Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.342Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="elasticsearch 6.x 升级调研报告">
 <meta name="twitter:description" content="关于 elasticsearch, 吐槽最多的就是其前后版本的兼容性问题; 在任何一个上规模的系统体系里, 要将部署在生产环境中的 elasticsearch 提升一个 major 版本是一件非常有挑战性的事情; 为了迎接这一挑战, 作者所在部门专门抽调人力资源作前期调研, 故为此文以记之;在这篇文章中, 我将从 client 端, 索引创建, query dsl, search api, pl">
@@ -612,6 +612,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

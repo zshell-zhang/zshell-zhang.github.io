@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="本文是 JsonUtil 类 cheat sheet 的姊妹篇;JsonUtil 类 cheat sheet 侧重于代码层面对 jackson API 的使用, 是一个 “宏观” 的行为: 其设置对全局皆有效; 而本文则着重讨论 javabean 各成员上 jackson 注解的使用, 是一个 “微观” 的行为: 通过注解的约定, 可以精细化控制具体的类, 字段及方法 的序列化 / 反序列化行为">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-09-09T12:35:05.396Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.350Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jackson 注解 cheat sheet">
 <meta name="twitter:description" content="本文是 JsonUtil 类 cheat sheet 的姊妹篇;JsonUtil 类 cheat sheet 侧重于代码层面对 jackson API 的使用, 是一个 “宏观” 的行为: 其设置对全局皆有效; 而本文则着重讨论 javabean 各成员上 jackson 注解的使用, 是一个 “微观” 的行为: 通过注解的约定, 可以精细化控制具体的类, 字段及方法 的序列化 / 反序列化行为">
@@ -493,6 +493,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

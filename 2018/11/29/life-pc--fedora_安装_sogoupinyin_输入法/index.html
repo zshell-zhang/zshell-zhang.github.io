@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="搜狗公司也是一个有情怀的公司, 不过除了情怀之外, 我觉得还有责任在里面; 试想: 如果 sogoupinyin 不推出 linux 版本, 那 linux workstation 在中国的发展会增添多少阻力? 连输入法这一最频繁使用的工具都搞不定, 纵使我们这些拥趸再忠诚, 也只能算是痛苦郁闷的拥趸, 而不是真心诚意, 心甘情愿得使用 linux, 享受 linux;所以, 我觉得搜狗公司的程">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-22T15:16:07.902Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.344Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fedora 安装 sogoupinyin 输入法">
 <meta name="twitter:description" content="搜狗公司也是一个有情怀的公司, 不过除了情怀之外, 我觉得还有责任在里面; 试想: 如果 sogoupinyin 不推出 linux 版本, 那 linux workstation 在中国的发展会增添多少阻力? 连输入法这一最频繁使用的工具都搞不定, 纵使我们这些拥趸再忠诚, 也只能算是痛苦郁闷的拥趸, 而不是真心诚意, 心甘情愿得使用 linux, 享受 linux;所以, 我觉得搜狗公司的程">
@@ -496,6 +496,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="网易是个有情怀的公司, 云音乐客户端推出了 linux 版本, 虽然是个 deb 包, 那也值得尊敬!我现在要做的, 就是把它移植到 fedora 环境中, 以造福更多的 linux 爱好者!">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-22T15:03:20.157Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.344Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fedora 安装 netease cloud music">
 <meta name="twitter:description" content="网易是个有情怀的公司, 云音乐客户端推出了 linux 版本, 虽然是个 deb 包, 那也值得尊敬!我现在要做的, 就是把它移植到 fedora 环境中, 以造福更多的 linux 爱好者!">
@@ -488,6 +488,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

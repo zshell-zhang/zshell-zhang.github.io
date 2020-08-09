@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="对于在机器上操作的人来说, 如果有 sudo 权限, 那 chattr 根本就不是事, 这也不是 chattr 的意义所在;对 chattr 来说, 其所要阻止的, 是那些有意无意想要修改机器上重要文件的程序, 从而保证机器上重要的文件不会因非人为因素而遭到非预期的操作;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-07T10:08:56.222Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.346Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="chattr &#x2F; lsattr 使用总结">
 <meta name="twitter:description" content="对于在机器上操作的人来说, 如果有 sudo 权限, 那 chattr 根本就不是事, 这也不是 chattr 的意义所在;对 chattr 来说, 其所要阻止的, 是那些有意无意想要修改机器上重要文件的程序, 从而保证机器上重要的文件不会因非人为因素而遭到非预期的操作;">
@@ -491,6 +491,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="在处理与 ip 地址相关的 nginx 逻辑上, ngx_http_geo_module 往往能发挥一些有力的作用; 其封装了大量与 ip 地址相关的匹配逻辑, 使得处理问题更加便捷高效;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-13T08:05:13.962Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.349Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx module 使用总结: ngx_http_geo_module">
 <meta name="twitter:description" content="在处理与 ip 地址相关的 nginx 逻辑上, ngx_http_geo_module 往往能发挥一些有力的作用; 其封装了大量与 ip 地址相关的匹配逻辑, 使得处理问题更加便捷高效;">
@@ -200,7 +200,7 @@
 <h3 id="geo-模块的安装"><a href="#geo-模块的安装" class="headerlink" title="geo 模块的安装"></a><strong>geo 模块的安装</strong></h3><p>ngx_http_geo_module 编译默认安装, 无需额外操作;</p>
 <h3 id="geo-模块的配置"><a href="#geo-模块的配置" class="headerlink" title="geo 模块的配置"></a><strong>geo 模块的配置</strong></h3><p>geo 模块的配置只能在 nginx.conf 中的 http 指令下, 这与 ngx_http_map_module 模块是一致的:<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">ngx_command_t</span>  ngx_http_geo_commands[] = &#123;</span><br><span class="line"></span><br><span class="line">    &#123; ngx_string(<span class="string">"geo"</span>),</span><br><span class="line">      NGX_HTTP_MAIN_CONF|NGX_CONF_BLOCK|NGX_CONF_TAKE12,</span><br><span class="line">      ngx_http_geo_block,</span><br><span class="line">      NGX_HTTP_MAIN_CONF_OFFSET,</span><br><span class="line">      <span class="number">0</span>,</span><br><span class="line">      <span class="literal">NULL</span> &#125;,</span><br><span class="line"></span><br><span class="line">      ngx_null_command</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 <p>geo 模块的配置模式如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">geo [<span class="variable">$address</span>] <span class="variable">$variable</span> &#123;</span><br><span class="line">    default     0;</span><br><span class="line">    127.0.0.1   1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>其中, \$address 可选, 默认从 <code>$remote_addr</code> 变量中获取目标 client ip address; 如果使用其他变量作为 ip 地址, 该变量须要是一个合法的 ip 地址, 否则将以 “255.255.255.255” 作为代替;<br>以下是一个典型的 geo 模块配置, \$address 已缺省默认为 <code>$remote_addr</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">geo <span class="variable">$flag</span> &#123;</span><br><span class="line">    <span class="comment"># 以下是一些设置项</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 定义可信地址, 若 $remote_addr 匹配了其中之一, 将从 request header X-Forwarded-For 获得目标 client ip address</span></span><br><span class="line">    proxy           192.168.100.0/24;</span><br><span class="line">    delete          127.0.0.0/16;</span><br><span class="line">    <span class="comment"># 默认兜底逻辑</span></span><br><span class="line">    default         -1;</span><br><span class="line">    <span class="comment"># 定义外部的映射内容</span></span><br><span class="line">    include         conf/geo.conf;</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 以下是具体的映射内容</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 可以使用 CIDR 匹配</span></span><br><span class="line">    192.168.1.0/24  0;</span><br><span class="line">    <span class="comment"># 精确匹配</span></span><br><span class="line">    10.64.0.5       1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中, $address 可选, 默认从 <code>$remote_addr</code> 变量中获取目标 client ip address; 如果使用其他变量作为 ip 地址, 该变量须要是一个合法的 ip 地址, 否则将以 “255.255.255.255” 作为代替;<br>以下是一个典型的 geo 模块配置, $address 已缺省默认为 <code>$remote_addr</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">geo <span class="variable">$flag</span> &#123;</span><br><span class="line">    <span class="comment"># 以下是一些设置项</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 定义可信地址, 若 $remote_addr 匹配了其中之一, 将从 request header X-Forwarded-For 获得目标 client ip address</span></span><br><span class="line">    proxy           192.168.100.0/24;</span><br><span class="line">    delete          127.0.0.0/16;</span><br><span class="line">    <span class="comment"># 默认兜底逻辑</span></span><br><span class="line">    default         -1;</span><br><span class="line">    <span class="comment"># 定义外部的映射内容</span></span><br><span class="line">    include         conf/geo.conf;</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 以下是具体的映射内容</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 可以使用 CIDR 匹配</span></span><br><span class="line">    192.168.1.0/24  0;</span><br><span class="line">    <span class="comment"># 精确匹配</span></span><br><span class="line">    10.64.0.5       1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>除了以上的典型用法之外, geo 模块还有一种地址段范围的匹配模式:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">geo <span class="variable">$flag</span> &#123;</span><br><span class="line">    <span class="comment"># 需放在第一行</span></span><br><span class="line">    ranges;</span><br><span class="line">    192.168.1.0-192.168.1.100       0;</span><br><span class="line">    192.168.1.100-192.168.1.200     1;</span><br><span class="line">    192.168.1.201-192.168.1.255     2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h3><ul>
 <li><a href="http://nginx.org/en/docs/http/ngx_http_geo_module.html" target="_blank" rel="noopener">Module ngx_http_geo_module</a></li>
@@ -487,6 +487,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

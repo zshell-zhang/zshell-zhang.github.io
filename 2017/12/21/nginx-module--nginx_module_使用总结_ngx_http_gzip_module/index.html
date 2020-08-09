@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="ngx_http_gzip_module 是十分有用的 nginx 模块, 其有效压缩了 http 请求大小, 节省了流量, 加快了传输速度, 提升了用户体验;当然, 其在使用上也有一些坑, 本文将具体讨论一下相关内容;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-13T06:36:48.762Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.349Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx module 使用总结: ngx_http_gzip_module">
 <meta name="twitter:description" content="ngx_http_gzip_module 是十分有用的 nginx 模块, 其有效压缩了 http 请求大小, 节省了流量, 加快了传输速度, 提升了用户体验;当然, 其在使用上也有一些坑, 本文将具体讨论一下相关内容;">
@@ -498,6 +498,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

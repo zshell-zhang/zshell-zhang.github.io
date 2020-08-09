@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="本文基于 GNU bash, version 4.1.2(1)-release (x86_64-redhat-linux-gnu)">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-11T10:09:10.657Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.348Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="bash 条件判断全梳理">
 <meta name="twitter:description" content="本文基于 GNU bash, version 4.1.2(1)-release (x86_64-redhat-linux-gnu)">
@@ -259,7 +259,8 @@
 <h3 id="的使用场景"><a href="#的使用场景" class="headerlink" title="(( ))的使用场景"></a><strong>(( ))的使用场景</strong></h3><p>无论是<code>test</code>, <code>[]</code>还是<code>[[ ]]</code>, 都不能很好地使用<code>&lt;</code>和<code>&gt;</code>处理整数的比较运算;<br>所以通常使用<code>(())</code>来处理整数的比较运算;<br><code>(())</code>可以使用<code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>,<code>==</code>,<code>!=</code>运算符;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (( 1 + 1 == 2 )); <span class="keyword">then</span> ... ; <span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
 <p>使用<code>(())</code>的时候, 如果使用到了变量, 可以不需要加上<code>$</code>符号;</p>
 <p>&nbsp;</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><table>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><div class="table-container">
+<table>
 <thead>
 <tr>
 <th style="text-align:center">-</th>
@@ -295,6 +296,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>&nbsp;</p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h2>
         </div>
@@ -579,6 +581,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

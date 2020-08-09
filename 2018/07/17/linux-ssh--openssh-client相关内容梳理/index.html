@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="ssh 相关的命令是日常开发中基础中的基础, 乃是登陆机器操作必不可少的过程; 但是越是寻常, 可能越容易疏于整理总结; 本文就从 openssh-client 着手, 总结一下 .ssh 目录, ssh 相关命令, 以及相关配置文件的使用;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-05T11:58:39.542Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.348Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="openssh-client 相关内容梳理">
 <meta name="twitter:description" content="ssh 相关的命令是日常开发中基础中的基础, 乃是登陆机器操作必不可少的过程; 但是越是寻常, 可能越容易疏于整理总结; 本文就从 openssh-client 着手, 总结一下 .ssh 目录, ssh 相关命令, 以及相关配置文件的使用;">
@@ -517,6 +517,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

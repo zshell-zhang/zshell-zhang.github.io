@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;本文正是想对 linux 世界中林林总总的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-01-20T12:10:14.216Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.348Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux signals 总体认识">
 <meta name="twitter:description" content="linux 的信号系统其实是一个非常重要的概念, 进程间通信的常用方法之一;不过长期以来, 我们对 linux 信号的直观认识, 只有 kill (SIGTERM), ctrl + c (SIGINT) 和 kill -9 等进程终止信号; 而 linux 的信号系统中存在 64 种各司其职的信号, 适用于各种各样的场景; 很多信号在实际工作中有着妙用;本文正是想对 linux 世界中林林总总的">
@@ -507,6 +507,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

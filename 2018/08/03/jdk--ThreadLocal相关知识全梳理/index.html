@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="两年前在老东家, 我于 InheritableThreadLocal 上踩过一次坑, 可惜当时坑不算深, 就没有把相关的知识点总结下来; 结果两年后的今天我在新东家又遇到了类似问题, 似曾相识却又记不太清楚具体的情况了; 所以这一次一定要认真总结一下 (本文代码基于 jdk 1.8);">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-05T09:32:13.208Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.343Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ThreadLocal 相关知识全梳理">
 <meta name="twitter:description" content="两年前在老东家, 我于 InheritableThreadLocal 上踩过一次坑, 可惜当时坑不算深, 就没有把相关的知识点总结下来; 结果两年后的今天我在新东家又遇到了类似问题, 似曾相识却又记不太清楚具体的情况了; 所以这一次一定要认真总结一下 (本文代码基于 jdk 1.8);">
@@ -513,6 +513,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

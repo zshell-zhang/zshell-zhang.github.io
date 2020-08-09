@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="cli 控制字符是终端操作中非常实用, 也极其频繁使用的快捷键; 使用得好可以加快敲命令的速度, 提升敲命令的准确性, 为工作带来极大便利; 同时, 这也是我们对 linux 爱不释手, 难以回到 windows 的原因之一;另外, 很多 cli 控制字符本质上是向 linux 或进程发送特定的信号, 关于 linux 信号的介绍, 本站有另外一篇文章: linux signals 总体认识;本">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-01-07T13:13:21.679Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.347Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cli 控制字符">
 <meta name="twitter:description" content="cli 控制字符是终端操作中非常实用, 也极其频繁使用的快捷键; 使用得好可以加快敲命令的速度, 提升敲命令的准确性, 为工作带来极大便利; 同时, 这也是我们对 linux 爱不释手, 难以回到 windows 的原因之一;另外, 很多 cli 控制字符本质上是向 linux 或进程发送特定的信号, 关于 linux 信号的介绍, 本站有另外一篇文章: linux signals 总体认识;本">
@@ -487,6 +487,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

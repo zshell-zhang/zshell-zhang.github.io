@@ -29,7 +29,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="日月忽其不淹兮，春与秋其代序。路漫漫其修远兮，吾将上下而求索。乘骐骥以驰骋兮，来吾道夫先路!  建站的初心前辈的指引Donald Knuth记得上大学的时候，我的数据结构课老师曾对我们讲过一个故事：斯坦福大学计算机教授 Donald Knuth 年轻时曾立下一个豪迈的目标，要将计算机世界的一切知识全部写进书里。今天，我们欣慰得看到，《The Art of Computer Programming">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-20T06:24:52.723Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.352Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="about me">
 <meta name="twitter:description" content="日月忽其不淹兮，春与秋其代序。路漫漫其修远兮，吾将上下而求索。乘骐骥以驰骋兮，来吾道夫先路!  建站的初心前辈的指引Donald Knuth记得上大学的时候，我的数据结构课老师曾对我们讲过一个故事：斯坦福大学计算机教授 Donald Knuth 年轻时曾立下一个豪迈的目标，要将计算机世界的一切知识全部写进书里。今天，我们欣慰得看到，《The Art of Computer Programming">
@@ -432,6 +432,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

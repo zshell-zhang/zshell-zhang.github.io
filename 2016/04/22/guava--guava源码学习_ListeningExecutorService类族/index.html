@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="带有 listenable 回调功能的 guava 线程池是 com.google.common.util.concurrent 包里十分重要的概念, 它们实现了任务执行完异步回调指定逻辑的功能, 在很大程度上解决了 java 原生组件 Future / FutureTask 阻塞获取结果的尴尬, 在生产实践中有着广泛的应用;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-06-19T13:13:47.759Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.343Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="guava 源码学习: ListeningExecutorService 类族">
 <meta name="twitter:description" content="带有 listenable 回调功能的 guava 线程池是 com.google.common.util.concurrent 包里十分重要的概念, 它们实现了任务执行完异步回调指定逻辑的功能, 在很大程度上解决了 java 原生组件 Future / FutureTask 阻塞获取结果的尴尬, 在生产实践中有着广泛的应用;">
@@ -495,6 +495,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

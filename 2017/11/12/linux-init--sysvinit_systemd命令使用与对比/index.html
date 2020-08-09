@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="当用户空间引导程序 systemV init 被 systemd 所取代, centos 7 下操纵与查看 daemon service 的命令也随之而改变;不过, 由于 systemd 的庞大复杂, 命令选项繁多, 本文对 systemd 的整理主要集中于与 sysvinit 所提供的功能重合度最高的 systemctl 命令;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-23T15:34:44.269Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.347Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sysvinit &#x2F; systemd 命令使用与对比">
 <meta name="twitter:description" content="当用户空间引导程序 systemV init 被 systemd 所取代, centos 7 下操纵与查看 daemon service 的命令也随之而改变;不过, 由于 systemd 的庞大复杂, 命令选项繁多, 本文对 systemd 的整理主要集中于与 sysvinit 所提供的功能重合度最高的 systemctl 命令;">
@@ -513,6 +513,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="最近做的项目涉及到 server 端的服务注册与 client 端的服务发现, 其中大量使用到了 zookeeper; 在实践过程中不可避免得遇到了很多问题与坑, 历经数月的打磨与沉淀, 总算是步入了一个稳定的阶段, 至此总结一番是十分必要的;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-07T14:00:20.221Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.351Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="curator 使用注意点总结">
 <meta name="twitter:description" content="最近做的项目涉及到 server 端的服务注册与 client 端的服务发现, 其中大量使用到了 zookeeper; 在实践过程中不可避免得遇到了很多问题与坑, 历经数月的打磨与沉淀, 总算是步入了一个稳定的阶段, 至此总结一番是十分必要的;">
@@ -512,6 +512,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="从传统的刷新提交到 ajax 提交, 从间接的 iframe 刷新 ajax 提交到真正意义上的 ajax 提交, 关于前端文件上传的方法, 伴随着 web 技术与标准的演进, 不断推陈出新;本文整理了从传统方式到 ajax 方式上传文件的各种方法;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-02-07T15:43:29.215Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.351Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一个 dev 的拙劣前端笔记: 使用 jQuery ajax 上传文件">
 <meta name="twitter:description" content="从传统的刷新提交到 ajax 提交, 从间接的 iframe 刷新 ajax 提交到真正意义上的 ajax 提交, 关于前端文件上传的方法, 伴随着 web 技术与标准的演进, 不断推陈出新;本文整理了从传统方式到 ajax 方式上传文件的各种方法;">
@@ -219,7 +219,7 @@
 <li><a href="http://blog.csdn.net/qq_33556185/article/details/51086114" target="_blank" rel="noopener">jquery Ajax提交表单(使用jquery Ajax上传附件)</a></li>
 <li><a href="https://www.cnblogs.com/zhanghaoliang/p/6513964.html" target="_blank" rel="noopener">JQuery的ajaxFileUpload的使用</a></li>
 <li><a href="https://github.com/carlcarl/AjaxFileUpload/blob/master/ajaxfileupload.js" target="_blank" rel="noopener">carlcarl/AjaxFileUpload/ajaxfileupload.js</a></li>
-<li><a href="http://blog.csdn.net/it_man/article/details/43800957" target="_blank" rel="noopener">jquery插件–ajaxfileupload.js上传文件原理分析</a></li>
+<li><a href="http://blog.csdn.net/it_man/article/details/43800957" target="_blank" rel="noopener">jquery插件—ajaxfileupload.js上传文件原理分析</a></li>
 </ul>
 
         </div>
@@ -502,6 +502,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

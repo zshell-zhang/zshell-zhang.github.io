@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="本文主要是整理 磁盘使用量 相关的命令, 如 du, df 等;接着, 一般性得总结这两个命令在实际工作中的应用;然后再以 du, df 命令的区别为例, 讨论命令背后的逻辑, 工作中存在的问题, 最后引申出问题解决的工具: lsof;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-06T13:22:05.098Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.346Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="du &#x2F; df 使用及其区别">
 <meta name="twitter:description" content="本文主要是整理 磁盘使用量 相关的命令, 如 du, df 等;接着, 一般性得总结这两个命令在实际工作中的应用;然后再以 du, df 命令的区别为例, 讨论命令背后的逻辑, 工作中存在的问题, 最后引申出问题解决的工具: lsof;">
@@ -197,11 +197,11 @@
 <a id="more"></a>
 <hr>
 <h2 id="du命令"><a href="#du命令" class="headerlink" title="du命令"></a><strong>du命令</strong></h2><blockquote>
-<p>estimate disk file space usage. — man du</p>
+<p>estimate disk file space usage. —- man du</p>
 </blockquote>
 <h3 id="du-的常用选项"><a href="#du-的常用选项" class="headerlink" title="du 的常用选项"></a><strong>du 的常用选项</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不加任何选项, 默认是 列举指定路径下, 每一个目录(递归所有的子目录)的大小</span></span><br><span class="line">sudo du /target_path</span><br><span class="line"><span class="comment"># 列举指定路径下所有的文件(包括目录与文件)的大小</span></span><br><span class="line">sudo du -a /target_path</span><br><span class="line"><span class="comment"># 以 human-readable 的形式, 列举目标路径的文件磁盘占用总大小(将该路径下所有子文件大小求和)</span></span><br><span class="line">sudo du -s /target_path</span><br><span class="line"><span class="comment"># 以指定路径下所有的子一级路径为 target, 以 human-readable 的方式列举其中每一个下的所有子文件大小之和</span></span><br><span class="line"><span class="comment"># (诊断 磁盘满问题 最常用的方式)</span></span><br><span class="line">sudo du -sh /target_path/*</span><br><span class="line"><span class="comment"># 除了其余选项该有的输出之外, 最后一行另附一个给定 target_path 下的 total 总和</span></span><br><span class="line"><span class="comment"># 理论上这与目标路径不含通配符的 -sh 输出结果是相同的</span></span><br><span class="line">sudo du -c /target_path</span><br></pre></td></tr></table></figure>
 <h2 id="df-命令"><a href="#df-命令" class="headerlink" title="df 命令"></a><strong>df 命令</strong></h2><blockquote>
-<p>file system disk space usage. — man df</p>
+<p>file system disk space usage. —- man df</p>
 </blockquote>
 <h3 id="df-的常用选项"><a href="#df-的常用选项" class="headerlink" title="df 的常用选项"></a><strong>df 的常用选项</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示给定的路径所挂载的磁盘分区的大小及使用量等</span></span><br><span class="line">df /target_path</span><br><span class="line"><span class="comment"># 以 MB 最小单位显示大小及使用量</span></span><br><span class="line">df --block-size=1m /target_path</span><br><span class="line">df -B 1m /target_path</span><br><span class="line"><span class="comment"># 以 human-readable 的方式显示 当前挂载的所有可用健康的文件系统 的大小, 使用量等情况</span></span><br><span class="line">df -h <span class="comment"># 1024</span></span><br><span class="line">df -H <span class="comment"># 1000</span></span><br><span class="line"><span class="comment"># 显示所有的文件系统, 包括 伪文件系统, 重复的, 不可访问的文件系统 (pseudo, duplicate, inaccessible)</span></span><br><span class="line">df -a</span><br><span class="line"><span class="comment"># 过滤 nfs 远程文件系统后的本地文件系统</span></span><br><span class="line">df -l</span><br></pre></td></tr></table></figure>
 <p>&nbsp;<br><strong>一般性总结:</strong><br>df 命令主要关心的是磁盘分区的 size, 而不是具体某文件的占用大小;<br>所以 df 命令的主要运用场景是: <code>df -h</code>, 判断所挂载的每个分区的使用率, 是不是满了;<br>作为先决判断依据, 如果发现磁盘满了, 再接着使用 <code>du -sh</code> 等命令进一步排查;<br>&nbsp;</p>
@@ -501,6 +501,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

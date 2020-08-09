@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="MySQLdb 模块是 python 与 mysql 交互的较为底层的接口, 不过它依然是在更为底层的 _mysql 模块之上又作了一层包装;_mysql 才是真正的直接面向 mysql 原生 C 接口的简单适配层, 而 MySQLdb 则在 _mysql 之上作了更多的关于类型转换等抽象包装;考虑到 MySQLdb 模块与一些 python ORM 框架的关系, MySQLdb 与 pytho">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-24T07:08:03.418Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.349Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python module 使用总结: MySQLdb">
 <meta name="twitter:description" content="MySQLdb 模块是 python 与 mysql 交互的较为底层的接口, 不过它依然是在更为底层的 _mysql 模块之上又作了一层包装;_mysql 才是真正的直接面向 mysql 原生 C 接口的简单适配层, 而 MySQLdb 则在 _mysql 之上作了更多的关于类型转换等抽象包装;考虑到 MySQLdb 模块与一些 python ORM 框架的关系, MySQLdb 与 pytho">
@@ -497,6 +497,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

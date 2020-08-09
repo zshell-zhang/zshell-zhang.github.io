@@ -31,7 +31,7 @@
 <meta property="og:description" content="当我试图注销重新登陆时, 惊悚的一幕发生了: 黑屏! 近乎绝望般得按下电源键强制重启, 等来的居然是字符登陆界面, 讽刺的是我输入账号密码后, 还登陆成功了……字符界面下, 所有的命令都能正常执行, 可是进不了 tty7, 这系统实质上就是废的呀! 我猜测 gnome 的核心组件大概是被我误删了…… 无奈, 思忖着崩溃前我到底做了什么, 也只能重头再来;">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/life/pc/fedora折腾经验备忘录/fedora_new_PS1.png">
-<meta property="og:updated_time" content="2019-01-22T15:19:30.390Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.344Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fedora 折腾经验备忘录">
 <meta name="twitter:description" content="当我试图注销重新登陆时, 惊悚的一幕发生了: 黑屏! 近乎绝望般得按下电源键强制重启, 等来的居然是字符登陆界面, 讽刺的是我输入账号密码后, 还登陆成功了……字符界面下, 所有的命令都能正常执行, 可是进不了 tty7, 这系统实质上就是废的呀! 我猜测 gnome 的核心组件大概是被我误删了…… 无奈, 思忖着崩溃前我到底做了什么, 也只能重头再来;">
@@ -533,6 +533,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

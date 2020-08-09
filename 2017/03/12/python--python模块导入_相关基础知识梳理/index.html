@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="python 有一个关键字和 java 一样: import, 其功能也类似: 在代码中引入其他的依赖(模块)以使用;不过, 不像 java 那么单纯, python 还要区分为 import module 和 import names 两大类; 作为一个 python 新手, 这些使用上的区别有时会令人感到迷惑;python 包和 java 包在概念上也有类似之处, 不过 python 的 _">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-02-25T01:47:57.445Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.349Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python 模块导入: 相关基础知识梳理">
 <meta name="twitter:description" content="python 有一个关键字和 java 一样: import, 其功能也类似: 在代码中引入其他的依赖(模块)以使用;不过, 不像 java 那么单纯, python 还要区分为 import module 和 import names 两大类; 作为一个 python 新手, 这些使用上的区别有时会令人感到迷惑;python 包和 java 包在概念上也有类似之处, 不过 python 的 _">
@@ -539,6 +539,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

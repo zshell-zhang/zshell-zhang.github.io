@@ -31,7 +31,7 @@
 <meta property="og:description" content="开年第一天，我想写篇文章纪念一下我与我的博客之间的故事。这个博客，它为何而来？它正在表达什么？它将向何处去？这些问题的答案，于我而言，是认真而虔诚的。社交，并非总是在固定时间维度下的空间活动。常言道，读一本书便是在与作者对话，无论是如雨果这样的文豪大家，还是如我一般渺小的普通作者，阅读他们的文字，即是倾听对方的声音，即是探入对方的心灵。这何尝不是另一种形式的社交呢？这样的社交，虽不曾面对面把酒当">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/zshell-zhang/static-content/master/life/thought/一个人的社交/wechat_startup.jpg">
-<meta property="og:updated_time" content="2019-01-23T03:48:18.277Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.345Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="“一个人” 的社交">
 <meta name="twitter:description" content="开年第一天，我想写篇文章纪念一下我与我的博客之间的故事。这个博客，它为何而来？它正在表达什么？它将向何处去？这些问题的答案，于我而言，是认真而虔诚的。社交，并非总是在固定时间维度下的空间活动。常言道，读一本书便是在与作者对话，无论是如雨果这样的文豪大家，还是如我一般渺小的普通作者，阅读他们的文字，即是倾听对方的声音，即是探入对方的心灵。这何尝不是另一种形式的社交呢？这样的社交，虽不曾面对面把酒当">
@@ -505,6 +505,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

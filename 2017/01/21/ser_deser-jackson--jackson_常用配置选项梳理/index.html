@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="jackson 有各种各样的配置选项 (Feature), 涵盖了包括 json 语法解析, 语句生成, 序列化 / 反序列化特征, 字段类型处理 等不同层面, 对初学者而言, 很容易造成困惑;本文基于 jackson 2.8.x, 着手整理常用的 jackson 配置选项, 并给出一个便捷的工具类, 以友好的方式整合 jackson 的常用配置项;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-01T08:05:10.186Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.350Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jackson 常用配置选项梳理">
 <meta name="twitter:description" content="jackson 有各种各样的配置选项 (Feature), 涵盖了包括 json 语法解析, 语句生成, 序列化 / 反序列化特征, 字段类型处理 等不同层面, 对初学者而言, 很容易造成困惑;本文基于 jackson 2.8.x, 着手整理常用的 jackson 配置选项, 并给出一个便捷的工具类, 以友好的方式整合 jackson 的常用配置项;">
@@ -515,6 +515,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

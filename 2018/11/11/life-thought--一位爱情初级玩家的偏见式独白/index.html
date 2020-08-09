@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="2018.10.27 ~ 2018.11.05，一周多一点儿的时间，却如同历经了一岁枯荣。在爱情这场人生游戏里，我刚迈出第一步，却又将脚缩了回来。技能的缺失，经验的空白，让我这么一位初来乍到者感到了前所未有的迷茫。但我没有选择，逝者如斯夫，犹豫不前将导向不可逆转的败局。我只能不断摸索，凭借着本能的反应，以及单身这么多年来建立的固有认知，以自己 “独特” 的方式闯入 “这场游戏的主战场”，开启 “">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-20T08:39:33.397Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.345Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一位爱情初级玩家的偏见式独白">
 <meta name="twitter:description" content="2018.10.27 ~ 2018.11.05，一周多一点儿的时间，却如同历经了一岁枯荣。在爱情这场人生游戏里，我刚迈出第一步，却又将脚缩了回来。技能的缺失，经验的空白，让我这么一位初来乍到者感到了前所未有的迷茫。但我没有选择，逝者如斯夫，犹豫不前将导向不可逆转的败局。我只能不断摸索，凭借着本能的反应，以及单身这么多年来建立的固有认知，以自己 “独特” 的方式闯入 “这场游戏的主战场”，开启 “">
@@ -567,6 +567,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

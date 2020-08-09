@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="教堂内沧桑墙壁上深深刻着的 “命运” 一词，令雨果读出了人性的真善美与假恶丑；实验室中模拟地球演化的系统，一个是否包含生命的参数选项，令刘慈欣窥探到了整个宇宙的游戏规则；这一次轮到了我，当一只流浪猫与南师邂逅，当它的目光与我的目光交织在一块，我将会悟出什么？">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-22T15:28:58.450Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.345Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一只猫与南师的邂逅">
 <meta name="twitter:description" content="教堂内沧桑墙壁上深深刻着的 “命运” 一词，令雨果读出了人性的真善美与假恶丑；实验室中模拟地球演化的系统，一个是否包含生命的参数选项，令刘慈欣窥探到了整个宇宙的游戏规则；这一次轮到了我，当一只流浪猫与南师邂逅，当它的目光与我的目光交织在一块，我将会悟出什么？">
@@ -518,6 +518,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="希尔的博客">
 <meta property="og:description" content="ulimit 未正确设置是很多线上故障的根源:Too many open files;java.lang.OutOfMemoryError: unable to create new native thread;对于生产环境来说, ulimit 的调参优化至关重要;本文详细介绍并梳理一下与 ulimit 相关的林林总总;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-06-16T12:13:31.522Z">
+<meta property="og:updated_time" content="2020-08-09T07:01:58.346Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ulimit 调参与优化">
 <meta name="twitter:description" content="ulimit 未正确设置是很多线上故障的根源:Too many open files;java.lang.OutOfMemoryError: unable to create new native thread;对于生产环境来说, ulimit 的调参优化至关重要;本文详细介绍并梳理一下与 ulimit 相关的林林总总;">
@@ -514,6 +514,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
 <script src="/js/search.min.js?v=1.7.2" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 
